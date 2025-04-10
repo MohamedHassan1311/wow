@@ -22,42 +22,35 @@ class Login extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginBloc(repo: sl<LoginRepo>())..add(Remember()),
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(Images.authBG),
-          )),
-          child: SafeArea(
-            child: Column(
-              children: [
-                ///Body
-                Expanded(
-                  child: ListAnimator(
-                    customPadding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                    data: [
-                      LoginHeader(),
-                      LoginBody(),
-                    ],
-                  ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              ///Body
+              Expanded(
+                child: ListAnimator(
+                  customPadding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                  data: [
+                    LoginHeader(),
+                    LoginBody(),
+                  ],
                 ),
+              ),
 
-                ///Guest Mode
-                BlocBuilder<LoginBloc, AppState>(
-                  builder: (context, state) {
-                    return GestureDetector(
-                      onTap: () => context.read<LoginBloc>().add(Add()),
-                      child: Text(
-                        getTranslated("continue_as_a_guest"),
-                        style: AppTextStyles.w600.copyWith(
-                            fontSize: 14, color: Styles.PRIMARY_COLOR),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+              ///Guest Mode
+              BlocBuilder<LoginBloc, AppState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () => context.read<LoginBloc>().add(Add()),
+                    child: Text(
+                      getTranslated("continue_as_a_guest"),
+                      style: AppTextStyles.w600.copyWith(
+                          fontSize: 14, color: Styles.PRIMARY_COLOR),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

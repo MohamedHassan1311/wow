@@ -26,7 +26,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: const MainAppBar(),
+      // appBar: const MainAppBar(),
       body: BlocBuilder<UserBloc, AppState>(
         builder: (context, state) {
           return Column(
@@ -34,9 +34,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
               Expanded(
                 child: ListAnimator(
                   data: [
-                    const MainServices(),
-                    CategoriesSection(title: getTranslated("shop_by_pets")),
-                    const SizedBox(height: 24)
+                    // const MainServices(),
+                    // CategoriesSection(title: getTranslated("shop_by_pets")),
+                    // const SizedBox(height: 24)
                   ],
                 ),
               )

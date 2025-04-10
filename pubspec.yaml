@@ -159,5 +159,5 @@ flutter:
           weight: 500
         - asset: assets/fonts/ar/w600.ttf
           weight: 600
-        - asset: assets/fonts/ar/w700.ttf
+        - asset: assets/fonts/ar/w600.ttf
           weight: 700

@@ -31,88 +31,81 @@ class Verification extends StatelessWidget {
       child: BlocBuilder<VerificationBloc, AppState>(
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(Images.authBG),
-              )),
-              child: SafeArea(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: ListAnimator(
-                            customPadding: EdgeInsets.symmetric(
-                                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                            data: [
-                              VerificationHeader(email: model.email ?? ""),
-                              Form(
-                                  key: context.read<VerificationBloc>().formKey,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 6.h),
-                                        child: Directionality(
-                                            textDirection: TextDirection.ltr,
-                                            child: CustomPinCodeField(
-                                                validation: Validations.code,
-                                                controller: context
-                                                    .read<VerificationBloc>()
-                                                    .codeTEC)),
-                                      ),
-                                      CountDown(
-                                        onCount: () => context
-                                            .read<VerificationBloc>()
-                                            .add(Resend(arguments: model)),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
+            body: SafeArea(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: ListAnimator(
+                          customPadding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                              vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                          data: [
+                            VerificationHeader(email: model.email ?? ""),
+                            Form(
+                                key: context.read<VerificationBloc>().formKey,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 6.h),
+                                      child: Directionality(
+                                          textDirection: TextDirection.ltr,
+                                          child: CustomPinCodeField(
+                                              validation: Validations.code,
+                                              controller: context
+                                                  .read<VerificationBloc>()
+                                                  .codeTEC)),
+                                    ),
+                                    CountDown(
+                                      onCount: () => context
+                                          .read<VerificationBloc>()
+                                          .add(Resend(arguments: model)),
+                                    ),
+                                  ],
+                                )),
+                          ],
                         ),
+                      ),
 
-                        ///Action
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                            vertical: Dimensions.paddingSizeMini.h,
-                          ),
-                          child: CustomButton(
-                              text: getTranslated("verify"),
-                              onTap: () {
-                                if (context
-                                    .read<VerificationBloc>()
-                                    .formKey
-                                    .currentState!
-                                    .validate()) {
-                                  CustomNavigator.push(Routes.resetPassword,
-                                      arguments: model);
-                                  // context
-                                  //     .read<VerificationBloc>()
-                                  //     .add(Click(arguments: model));
-                                }
-                              },
-                              isLoading: state is Loading),
+                      ///Action
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                          vertical: Dimensions.paddingSizeMini.h,
                         ),
+                        child: CustomButton(
+                            text: getTranslated("verify"),
+                            onTap: () {
+                              if (context
+                                  .read<VerificationBloc>()
+                                  .formKey
+                                  .currentState!
+                                  .validate()) {
+                                CustomNavigator.push(Routes.resetPassword,
+                                    arguments: model);
+                                // context
+                                //     .read<VerificationBloc>()
+                                //     .add(Click(arguments: model));
+                              }
+                            },
+                            isLoading: state is Loading),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                        vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FilteredBackIcon(),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                          vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FilteredBackIcon(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

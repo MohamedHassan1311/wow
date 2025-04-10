@@ -21,7 +21,7 @@ class VerificationHeader extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
               child: customImageIcon(
-                  imageName: Images.authLogo, width: 230.w, height: 130.h)),
+                  imageName: Images.authLogo, width: 130.w, height: 130.h)),
         ),
         Text(
           getTranslated("verify_header"),

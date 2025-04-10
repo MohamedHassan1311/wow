@@ -28,74 +28,67 @@ class ResetPassword extends StatelessWidget {
       child: BlocBuilder<ResetPasswordBloc, AppState>(
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(Images.authBG),
-              )),
-              child: SafeArea(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: ListAnimator(
-                            customPadding: EdgeInsets.symmetric(
-                                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                            data: [
-                              ///Header
-                              ResetPasswordHeader(),
+            body: SafeArea(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: ListAnimator(
+                          customPadding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                              vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                          data: [
+                            ///Header
+                            ResetPasswordHeader(),
 
-                              ///Body
-                              ResetPasswordBody(),
+                            ///Body
+                            ResetPasswordBody(),
 
-                              ///Confirm
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical:
-                                        Dimensions.PADDING_SIZE_DEFAULT.h),
-                                child: CustomButton(
-                                    text: getTranslated("confirm_password"),
-                                    onTap: () {
-                                      context
-                                          .read<ResetPasswordBloc>()
-                                          .formKey
-                                          .currentState!
-                                          .validate();
-                                      if (context
-                                          .read<ResetPasswordBloc>()
-                                          .isBodyValid()) {
-                                        CustomNavigator.push(Routes.login,
-                                            clean: true);
-                                      }
-                                      // context
-                                      //     .read<ResetPasswordBloc>()
-                                      //     .add(Click(
-                                      //         arguments: data));
-                                    },
-                                    isLoading: state is Loading),
-                              ),
-                            ],
-                          ),
+                            ///Confirm
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                  Dimensions.PADDING_SIZE_DEFAULT.h),
+                              child: CustomButton(
+                                  text: getTranslated("confirm_password"),
+                                  onTap: () {
+                                    context
+                                        .read<ResetPasswordBloc>()
+                                        .formKey
+                                        .currentState!
+                                        .validate();
+                                    // if (context
+                                    //     .read<ResetPasswordBloc>()
+                                    //     .isBodyValid()) {
+                                    //   CustomNavigator.push(Routes.login,
+                                    //       clean: true);
+                                    // }
+                                    context
+                                        .read<ResetPasswordBloc>()
+                                        .add(Click(
+                                            arguments: data));
+                                  },
+                                  isLoading: state is Loading),
+                            ),
+                          ],
                         ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                        vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FilteredBackIcon(),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                          vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FilteredBackIcon(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

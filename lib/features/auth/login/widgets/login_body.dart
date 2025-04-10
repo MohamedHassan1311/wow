@@ -67,7 +67,7 @@ class LoginBody extends StatelessWidget {
                       CustomTextField(
                         controller: snapshot.data?.password,
                         label: getTranslated("password"),
-                        hint: getTranslated("enter_your_password"),
+                        hint: "*********",
                         focusNode: context.read<LoginBloc>().passwordNode,
                         inputType: TextInputType.visiblePassword,
                         isPassword: true,
@@ -139,11 +139,11 @@ class LoginBody extends StatelessWidget {
                                   .validate();
                               if (context.read<LoginBloc>().isBodyValid()) {
                                 TextInput.finishAutofillContext();
-                                CustomNavigator.push(Routes.dashboard,
-                                    clean: true, arguments: 0);
-                                // CustomNavigator.push(
-                                //     Routes.changePassword);
-                                // context.read<LoginBloc>().add(Click());
+                                // CustomNavigator.push(Routes.dashboard,
+                                //     clean: true, arguments: 0);
+                                // // CustomNavigator.push(
+                                // //     Routes.changePassword);
+                                context.read<LoginBloc>().add(Click());
                               }
                             },
                             rIconWidget: RotatedBox(
@@ -249,25 +249,7 @@ class LoginBody extends StatelessWidget {
                             ),
                           ),
 
-                          ///Login With Facebook
-                          BlocProvider(
-                            create: (context) =>
-                                SocialMediaBloc(repo: sl<SocialMediaRepo>()),
-                            child: BlocBuilder<SocialMediaBloc, AppState>(
-                              builder: (context, state) {
-                                return customImageIconSVG(
-                                  imageName: SvgImages.faceBook,
-                                  width: 40.w,
-                                  height: 40.w,
-                                  onTap: () {
-                                    context.read<SocialMediaBloc>().add(Click(
-                                        arguments:
-                                            SocialMediaProvider.facebook));
-                                  },
-                                );
-                              },
-                            ),
-                          ),
+
 
                           if (Platform.isIOS)
                             BlocProvider(

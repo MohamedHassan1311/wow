@@ -156,7 +156,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 border: Border.all(
                   color: activationBorderColor(),
                 ),
-                borderRadius: BorderRadius.circular(15.0)),
+                borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)),
             // height: widget.height ?? 65,
             child: Center(
               child: TextFormField(

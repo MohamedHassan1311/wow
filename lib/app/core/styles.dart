@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class Styles {
-  static const Color ACCENT_COLOR = Color(0xFF127CB5);
-  static const Color PRIMARY_COLOR = Color(0xFFFD7014);
-  static const Color SECONDRY_COLOR = Color(0xFFFD7014);
+  static const Color ACCENT_COLOR = Color(0xFFD2A776);
+  static const Color PRIMARY_COLOR = Color(0xFFd2a776);
+  static const Color SECONDRY_COLOR = Color(0xFFE9BE8E);
   static const Color APP_BAR_BACKGROUND_COLOR = Color(0xffFFF9F9);
-  static const Color BACKGROUND_COLOR = Color(0xFFf9fafe);
+  static const Color BACKGROUND_COLOR = Color(0xFFffffff);
   static const Color CONTAINER_BACKGROUND_COLOR = Color(0xffF3F3F3);
   static const Color BLUE_COLOR = Color(0xff3A5ACD);
   static const Color SYSTEM_COLOR = Color(0xff007AFF);

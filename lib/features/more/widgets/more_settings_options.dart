@@ -54,11 +54,11 @@ class MoreSettingsOptions extends StatelessWidget {
           ),
 
           ///Contact With Us
-          MoreButton(
-            title: getTranslated("contact_with_us", context: context),
-            icon: SvgImages.contactWithUs,
-            onTap: () => CustomNavigator.push(Routes.contactWithUs),
-          ),
+          // MoreButton(
+          //   title: getTranslated("contact_with_us", context: context),
+          //   icon: SvgImages.contactWithUs,
+          //   onTap: () => CustomNavigator.push(Routes.contactWithUs),
+          // ),
 
           ///Delete Account
           // if (UserBloc.instance.isLogin)

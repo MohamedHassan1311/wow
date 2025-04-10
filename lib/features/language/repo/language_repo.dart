@@ -24,7 +24,7 @@ class LocalizationRepo extends BaseRepo {
 
   loadLanguage() async {
     return Locale(
-        sharedPreferences.getString(AppStorageKey.languageCode) ?? 'en',
-        sharedPreferences.getString(AppStorageKey.countryCode) ?? 'US');
+        sharedPreferences.getString(AppStorageKey.languageCode) ?? 'ar',
+        sharedPreferences.getString(AppStorageKey.countryCode) ?? 'SA');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/app/core/images.dart';
 import 'package:wow/app/localization/language_constant.dart';
 import '../../app/core/styles.dart';
 import '../../app/core/svg_images.dart';
@@ -42,8 +43,8 @@ class NavBar extends StatelessWidget {
                 children: [
                   Expanded(
                     child: BottomNavBarItem(
-                        label: getTranslated("home", context: context),
-                        svgIcon: SvgImages.homeIcon,
+                        label: getTranslated("Compatibility", context: context),
+                        svgIcon: SvgImages.users,
                         isSelected: (snapshot.data ?? 0) == 0,
                         onTap: () {
                           DashboardBloc.instance.updateSelectIndex(0);
@@ -51,8 +52,8 @@ class NavBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: BottomNavBarItem(
-                        label: getTranslated("orders", context: context),
-                        svgIcon: SvgImages.orders,
+                        label: getTranslated("favourites", context: context),
+                        svgIcon: SvgImages.fav,
                         isSelected: (snapshot.data ?? 0) == 1,
                         onTap: () {
                           DashboardBloc.instance.updateSelectIndex(1);
@@ -60,11 +61,28 @@ class NavBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: BottomNavBarItem(
+                        label: getTranslated("Marriage requests", context: context),
+                        imageIcon: Images.logoWord,
+                        isSelected: (snapshot.data ?? 0) == 2,
+                        onTap: () {
+                          DashboardBloc.instance.updateSelectIndex(2);
+                        }),
+                  ),  Expanded(
+                    child: BottomNavBarItem(
+                        label: getTranslated("messages", context: context),
+                        svgIcon: SvgImages.chats,
+                        isSelected: (snapshot.data ?? 0) == 3,
+                        onTap: () {
+                          DashboardBloc.instance.updateSelectIndex(3);
+                        }),
+                  ),
+                  Expanded(
+                    child: BottomNavBarItem(
                       label: getTranslated("more", context: context),
                       svgIcon: SvgImages.settings,
-                      isSelected: (snapshot.data ?? 0) == 2,
+                      isSelected: (snapshot.data ?? 0) == 4,
                       onTap: () {
-                        DashboardBloc.instance.updateSelectIndex(2);
+                        DashboardBloc.instance.updateSelectIndex(4);
                       },
                     ),
                   ),

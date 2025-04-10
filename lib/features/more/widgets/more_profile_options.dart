@@ -53,11 +53,11 @@ class MoreProfileOptions extends StatelessWidget {
           ),
 
           ///Addresses
-          MoreButton(
-            title: getTranslated("addresses", context: context),
-            icon: SvgImages.addresses,
-            onTap: () => CustomNavigator.push(Routes.addresses),
-          ),
+          // MoreButton(
+          //   title: getTranslated("addresses", context: context),
+          //   icon: SvgImages.addresses,
+          //   onTap: () => CustomNavigator.push(Routes.addresses),
+          // ),
 
 
           ///Push Notification

@@ -19,33 +19,27 @@ class Register extends StatelessWidget {
     return BlocProvider(
       create: (context) => RegisterBloc(repo: sl<RegisterRepo>()),
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(Images.authBG),
-          )),
-          child: SafeArea(
-            child: BlocBuilder<RegisterBloc, AppState>(
-              builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: ListAnimator(
-                        customPadding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                        data: [
-                          RegisterHeader(),
-                          RegisterBody(),
-                          RegisterActions(),
-                        ],
-                      ),
+        appBar: AppBar(),
+        body: SafeArea(
+          child: BlocBuilder<RegisterBloc, AppState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ListAnimator(
+                      customPadding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                      data: [
+                        RegisterHeader(),
+                        RegisterBody(),
+                        RegisterActions(),
+                      ],
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

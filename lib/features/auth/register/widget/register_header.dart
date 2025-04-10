@@ -15,13 +15,7 @@ class RegisterHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-              child: customImageIcon(
-                  imageName: Images.authLogo, width: 230.w, height: 130.h)),
-        ),
+
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -35,14 +29,24 @@ class RegisterHeader extends StatelessWidget {
             customImageIcon(
                 imageName: Images.logoWord,
                 height: 24.h,
-                width: 115.w,
-                fit: BoxFit.fitWidth)
+                width:24.h,
+                fit: BoxFit.contain)
           ],
         ),
         SizedBox(height: 4.h),
-        Text(
-          getTranslated("signup_description"),
-          style: AppTextStyles.w600.copyWith(fontSize: 20, color: Styles.TITLE),
+        Row(
+          children: [
+            Text(
+              getTranslated("signup_description"),
+              style: AppTextStyles.w600.copyWith(fontSize: 20, color: Styles.TITLE),
+            ),
+            SizedBox(width: 6.w),
+            customImageIcon(
+                imageName: Images.logoWord,
+                height: 24.h,
+                width:24.h,
+                fit: BoxFit.contain)
+          ],
         ),
         SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
       ],

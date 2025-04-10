@@ -111,28 +111,28 @@ class RegisterBody extends StatelessWidget {
                       ),
 
                       ///Country
-                      CountrySelection(
-                        initialSelection: snapshot.data?.country,
-                        onSelect: (v) {
-                          context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(country: v));
-                        },
-                        focusNode: context.read<RegisterBloc>().countryNode,
-                        nextFocus: context.read<RegisterBloc>().passwordNode,
-                        validate: (v) {
-                          context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
-                                  countryError: Validations.field(
-                                          snapshot.data?.country?.name,
-                                          fieldName:
-                                              getTranslated("country")) ??
-                                      ""));
-                          return null;
-                        },
-                        error: snapshot.data?.countryError,
-                        haseError: snapshot.data?.countryError != null &&
-                            snapshot.data?.countryError != "",
-                      ),
+                      // CountrySelection(
+                      //   initialSelection: snapshot.data?.country,
+                      //   onSelect: (v) {
+                      //     context.read<RegisterBloc>().updateRegisterEntity(
+                      //         snapshot.data?.copyWith(country: v));
+                      //   },
+                      //   focusNode: context.read<RegisterBloc>().countryNode,
+                      //   nextFocus: context.read<RegisterBloc>().passwordNode,
+                      //   validate: (v) {
+                      //     context.read<RegisterBloc>().updateRegisterEntity(
+                      //         snapshot.data?.copyWith(
+                      //             countryError: Validations.field(
+                      //                     snapshot.data?.country?.name,
+                      //                     fieldName:
+                      //                         getTranslated("country")) ??
+                      //                 ""));
+                      //     return null;
+                      //   },
+                      //   error: snapshot.data?.countryError,
+                      //   haseError: snapshot.data?.countryError != null &&
+                      //       snapshot.data?.countryError != "",
+                      // ),
 
                       ///Password
                       CustomTextField(

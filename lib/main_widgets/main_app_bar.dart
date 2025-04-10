@@ -109,59 +109,59 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
 
                 ///Current Location
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                  child: BlocProvider(
-                    create: (context) =>
-                        MapBloc(repo: sl<MapsRepo>())..add(Init()),
-                    child: BlocBuilder<MapBloc, AppState>(
-                      builder: (context, state) {
-                        if (state is Done) {
-                          LocationModel model = state.model as LocationModel;
-                          return Row(
-                            children: [
-                              customImageIconSVG(
-                                  width: 24.w,
-                                  height: 18.h,
-                                  imageName: SvgImages.address),
-                              SizedBox(width: 8.w),
-                              Expanded(
-                                child: Text(
-                                  model.address ?? "",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppTextStyles.w400.copyWith(
-                                      fontSize: 14, color: Styles.TITLE),
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Row(
-                            children: [
-                              customImageIconSVG(
-                                  width: 20,
-                                  height: 20,
-                                  color: Styles.PRIMARY_COLOR,
-                                  imageName: SvgImages.location),
-                              SizedBox(width: 8.w),
-                              CustomShimmerText(width: 120.w),
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-
-                ///Search
-                CustomTextField(
-                  pSvgIcon: SvgImages.search,
-                  height: 40.h,
-                  hint: "${getTranslated("search")}...",
-                  readOnly: true,
-                  onTap: () => CustomNavigator.push(Routes.search),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 12.h),
+                //   child: BlocProvider(
+                //     create: (context) =>
+                //         MapBloc(repo: sl<MapsRepo>())..add(Init()),
+                //     child: BlocBuilder<MapBloc, AppState>(
+                //       builder: (context, state) {
+                //         if (state is Done) {
+                //           LocationModel model = state.model as LocationModel;
+                //           return Row(
+                //             children: [
+                //               customImageIconSVG(
+                //                   width: 24.w,
+                //                   height: 18.h,
+                //                   imageName: SvgImages.address),
+                //               SizedBox(width: 8.w),
+                //               Expanded(
+                //                 child: Text(
+                //                   model.address ?? "",
+                //                   maxLines: 1,
+                //                   overflow: TextOverflow.ellipsis,
+                //                   style: AppTextStyles.w400.copyWith(
+                //                       fontSize: 14, color: Styles.TITLE),
+                //                 ),
+                //               ),
+                //             ],
+                //           );
+                //         } else {
+                //           return Row(
+                //             children: [
+                //               customImageIconSVG(
+                //                   width: 20,
+                //                   height: 20,
+                //                   color: Styles.PRIMARY_COLOR,
+                //                   imageName: SvgImages.location),
+                //               SizedBox(width: 8.w),
+                //               CustomShimmerText(width: 120.w),
+                //             ],
+                //           );
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
+                //
+                // ///Search
+                // CustomTextField(
+                //   pSvgIcon: SvgImages.search,
+                //   height: 40.h,
+                //   hint: "${getTranslated("search")}...",
+                //   readOnly: true,
+                //   onTap: () => CustomNavigator.push(Routes.search),
+                // ),
               ],
             ),
           ),

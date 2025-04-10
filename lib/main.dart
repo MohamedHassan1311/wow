@@ -101,13 +101,12 @@ class _MyAppState extends State<MyApp> {
           title: AppStrings.appName,
           scaffoldMessengerKey: CustomNavigator.scaffoldState,
           debugShowCheckedModeBanner: false,
-          theme: light(LanguageBloc.instance.isLtr
-              ? AppStrings.enFontFamily
-              : AppStrings.arFontFamily),
+          theme: light( AppStrings.enFontFamily
+        ),
           supportedLocales: locals,
           locale: LanguageBloc.instance.selectLocale != null
               ? LanguageBloc.instance.selectLocale!
-              : const Locale('en', 'US'),
+              : const Locale('ar', 'SA'),
           localizationsDelegates: const [
             AppLocalization.delegate,
             GlobalMaterialLocalizations.delegate,

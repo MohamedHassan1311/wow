@@ -47,9 +47,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                 horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
                 vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
               ),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(Images.splash), fit: BoxFit.cover)),
+
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -57,9 +55,9 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                   children: [
                     customImageIcon(
                       imageName: Images.logo,
-                      height: 80.h,
-                      width: context.width * 0.7,
-                      fit: BoxFit.contain,
+                      height: 180.h,
+                      width: 180.h,
+                      fit: BoxFit.fill,
                     )
                         .animate()
                         .scale(
