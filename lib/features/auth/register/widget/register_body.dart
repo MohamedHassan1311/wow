@@ -1,11 +1,19 @@
+import 'package:country_codes/country_codes.dart';
+import 'package:country_flags/country_flags.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
+import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/features/auth/register/enitity/register_entity.dart';
+import '../../../../app/core/styles.dart';
+import '../../../../app/core/text_styles.dart';
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
+import '../../../../components/custom_app_bar.dart';
 import '../../../../components/custom_text_form_field.dart';
+import '../../../../main_models/custom_field_model.dart';
 import '../../../countries/view/country_selection.dart';
 import '../bloc/register_bloc.dart';
 
@@ -23,9 +31,10 @@ class RegisterBody extends StatelessWidget {
               email: TextEditingController(),
               phone: TextEditingController(),
               password: TextEditingController(),
+              country: "+966",
               confirmPassword: TextEditingController(),
             ),
-            builder: (context, snapshot) {
+            builder: (context, snapshotReg) {
               return Form(
                   key: context.read<RegisterBloc>().formKey,
                   child: Column(
@@ -33,29 +42,11 @@ class RegisterBody extends StatelessWidget {
                     children: [
 
 
-                      // ///Name
-                      // CustomTextField(
-                      //   controller: snapshot.data?.name,
-                      //   label: getTranslated("name"),
-                      //   hint: getTranslated("enter_your_name"),
-                      //   inputType: TextInputType.name,
-                      //   pSvgIcon: SvgImages.user,
-                      //   nextFocus: context.read<RegisterBloc>().emailNode,
-                      //   focusNode: context.read<RegisterBloc>().nameNode,
-                      //   validate: (v) {
-                      //     context.read<RegisterBloc>().updateRegisterEntity(
-                      //         snapshot.data?.copyWith(
-                      //             nameError: Validations.name(v) ?? ""));
-                      //     return null;
-                      //   },
-                      //   errorText: snapshot.data?.nameError,
-                      //   customError: snapshot.data?.nameError != null &&
-                      //       snapshot.data?.nameError != "",
-                      // ),
+
 
                       ///Mail
                       CustomTextField(
-                        controller: snapshot.data?.email,
+                        controller: snapshotReg.data?.email,
                         focusNode: context.read<RegisterBloc>().emailNode,
                         nextFocus: context.read<RegisterBloc>().phoneNode,
                         label: getTranslated("mail"),
@@ -64,33 +55,98 @@ class RegisterBody extends StatelessWidget {
                         pSvgIcon: SvgImages.mail,
                         validate: (v) {
                           context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
+                              snapshotReg.data?.copyWith(
                                   emailError: Validations.mail(v) ?? ""));
                           return null;
                         },
-                        errorText: snapshot.data?.emailError,
-                        customError: snapshot.data?.emailError != null &&
-                            snapshot.data?.emailError != "",
+                        errorText: snapshotReg.data?.emailError,
+                        customError: snapshotReg.data?.emailError != null &&
+                            snapshotReg.data?.emailError != "",
                       ),
 
                       ///Phone
                       CustomTextField(
-                        controller: snapshot.data?.phone,
+                        controller: snapshotReg.data?.phone,
                         label: getTranslated("phone"),
                         hint: getTranslated("enter_your_phone"),
                         inputType: TextInputType.phone,
+                        align: Alignment.centerLeft,
                         pSvgIcon: SvgImages.phone,
+                        prefixWidget: StreamBuilder<String?>(
+                            stream: context
+                                .read<RegisterBloc>()
+                                .phoneCodeStream,
+                            builder: (context, snapshot) {
+                              return CountryListPick(
+
+                                  appBar: CustomAppBar(
+                                      title:
+                                      getTranslated("select_your_country")),
+                                  pickerBuilder:
+                                      (context, CountryCode? countryCode) {
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        CountryFlag.fromCountryCode(
+                                          snapshot.data ??
+                                              countryCode?.code ??
+                                              "",
+                                          height: 25,
+                                          width: 25,
+                                          shape: const RoundedRectangle(100),
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Text(
+                                          CountryCodes.detailsForLocale(
+                                            Locale.fromSubtags(
+                                                countryCode:
+                                                snapshot.data ??
+                                                    countryCode?.code ??
+                                                    "SA"),
+                                          ).dialCode ??
+                                              "+966",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: AppTextStyles.w400.copyWith(
+                                              fontSize: 14,
+                                              height: 1,
+                                              color: Styles.HEADER),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  theme: CountryTheme(
+                                    labelColor: Styles.ACCENT_COLOR,
+                                    alphabetSelectedBackgroundColor:
+                                    Styles.ACCENT_COLOR,
+                                    isShowFlag: true,
+                                    isShowTitle: true,
+                                    isShowCode: false,
+                                    isDownIcon: true,
+                                    showEnglishName: true,
+                                  ),
+                                  initialSelection: snapshot.data ?? "SA",
+                                  onChanged: (CountryCode? code) {
+                                    snapshotReg.data?.country=code!.code;
+                                    context
+                                        .read<RegisterBloc>()
+                                        .updatePhoneCode(code!.code);
+                                  },
+                                  useUiOverlay: false,
+                                  useSafeArea: false);
+                            }),
                         focusNode: context.read<RegisterBloc>().phoneNode,
                         nextFocus: context.read<RegisterBloc>().countryNode,
                         validate: (v) {
                           context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
+                              snapshotReg.data?.copyWith(
                                   phoneError: Validations.phone(v) ?? ""));
                           return null;
                         },
-                        errorText: snapshot.data?.phoneError,
-                        customError: snapshot.data?.phoneError != null &&
-                            snapshot.data?.phoneError != "",
+                        errorText: snapshotReg.data?.phoneError,
+                        customError: snapshotReg.data?.phoneError != null &&
+                            snapshotReg.data?.phoneError != "",
                       ),
 
                       ///Country
@@ -119,7 +175,7 @@ class RegisterBody extends StatelessWidget {
 
                       ///Password
                       CustomTextField(
-                        controller: snapshot.data?.password,
+                        controller: snapshotReg.data?.password,
                         label: getTranslated("password"),
                         hint: getTranslated("enter_your_password"),
                         focusNode: context.read<RegisterBloc>().passwordNode,
@@ -130,19 +186,19 @@ class RegisterBody extends StatelessWidget {
                         pSvgIcon: SvgImages.lockIcon,
                         validate: (v) {
                           context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
+                              snapshotReg.data?.copyWith(
                                   passwordError:
                                       Validations.firstPassword(v) ?? ""));
                           return null;
                         },
-                        errorText: snapshot.data?.passwordError,
-                        customError: snapshot.data?.passwordError != null &&
-                            snapshot.data?.passwordError != "",
+                        errorText: snapshotReg.data?.passwordError,
+                        customError: snapshotReg.data?.passwordError != null &&
+                            snapshotReg.data?.passwordError != "",
                       ),
 
                       ///Confirm Password
                       CustomTextField(
-                        controller: snapshot.data?.confirmPassword,
+                        controller: snapshotReg.data?.confirmPassword,
                         label: getTranslated("confirm_password"),
                         hint: getTranslated("enter_confirm_password"),
                         focusNode: context.read<RegisterBloc>().confirmPasswordNode,
@@ -151,15 +207,15 @@ class RegisterBody extends StatelessWidget {
                         pSvgIcon: SvgImages.lockIcon,
                         validate: (v) {
                           context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
+                              snapshotReg.data?.copyWith(
                                   confirmPasswordError:
                                       Validations.confirmNewPassword(
-                                              snapshot.data?.password?.text.trim(), v) ??
+                                          snapshotReg.data?.password?.text.trim(), v) ??
                                           ""));
                           return null;
                         },
-                        errorText: snapshot.data?.confirmPasswordError,
-                        customError: snapshot.data?.confirmPasswordError != null && snapshot.data?.confirmPasswordError != "",
+                        errorText: snapshotReg.data?.confirmPasswordError,
+                        customError: snapshotReg.data?.confirmPasswordError != null && snapshotReg.data?.confirmPasswordError != "",
                         keyboardAction: TextInputAction.done,
                       ),
                     ],

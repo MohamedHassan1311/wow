@@ -14,15 +14,10 @@ class VerificationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-              child: customImageIcon(
-                  imageName: Images.authLogo, width: 130.w, height: 130.h)),
-        ),
+     SizedBox(width: 130.w, height: 130.h),
         Text(
           getTranslated("verify_header"),
           style: AppTextStyles.w700.copyWith(
@@ -30,28 +25,24 @@ class VerificationHeader extends StatelessWidget {
             color: Styles.HEADER,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.h),
-          child: Text(
-            getTranslated("verify_title"),
-            style:
-                AppTextStyles.w600.copyWith(fontSize: 20, color: Styles.TITLE),
-          ),
-        ),
-        RichText(
-          text: TextSpan(
-              text: getTranslated("verify_description"),
-              style: AppTextStyles.w500
-                  .copyWith(fontSize: 16, color: Styles.SUBTITLE),
-              children: [
-                TextSpan(
-                  text: " $email ",
-                  style: AppTextStyles.w500.copyWith(
-                    fontSize: 16,
-                    color: Styles.SUBTITLE,
+
+        Center(
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: getTranslated("verify_description"),
+                style: AppTextStyles.w500
+                    .copyWith(fontSize: 16, color: Styles.SUBTITLE),
+                children: [
+                  TextSpan(
+                    text: " $email ",
+                    style: AppTextStyles.w500.copyWith(
+                      fontSize: 16,
+                      color: Styles.SUBTITLE,
+                    ),
                   ),
-                ),
-              ]),
+                ]),
+          ),
         ),
         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT.h),
       ],

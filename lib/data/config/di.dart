@@ -20,6 +20,8 @@ import '../../features/categories/repo/categories_repo.dart';
 import '../../features/chat/repo/chat_repo.dart';
 import '../../features/chats/repo/chats_repo.dart';
 import '../../features/change_password/repo/change_password_repo.dart';
+import '../../features/complete_profile/repo/complete_profile_repo.dart'
+    show CompleteProfileRepo;
 import '../../features/edit_profile/repo/edit_profile_repo.dart';
 import '../../features/faqs/repo/faqs_repo.dart';
 import '../../features/countries/repo/countries_repo.dart';
@@ -34,6 +36,7 @@ import '../../features/profile/repo/profile_repo.dart';
 import '../../features/setting/bloc/setting_bloc.dart';
 import '../../features/setting/repo/setting_repo.dart';
 import '../../features/contact_with_us/repo/contact_with_us_repo.dart';
+import '../../features/setting_option/repo/setting_option_repo.dart';
 import '../../features/transactions/repo/transactions_repo.dart';
 import '../../helpers/pickers/repo/picker_helper_repo.dart';
 import '../../helpers/social_media_login_helper.dart';
@@ -96,6 +99,10 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
       () => RegisterRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => CompleteProfileRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => SettingOptionRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(
       () => VerificationRepo(sharedPreferences: sl(), dioClient: sl()));
@@ -133,7 +140,6 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => CategoriesRepo(sharedPreferences: sl(), dioClient: sl()));
 
-
   sl.registerLazySingleton(
       () => NotificationsRepo(sharedPreferences: sl(), dioClient: sl()));
 
@@ -155,7 +161,6 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => ContactWithUsRepo(sharedPreferences: sl(), dioClient: sl()));
 
-
   sl.registerLazySingleton(
       () => TransactionsRepo(sharedPreferences: sl(), dioClient: sl()));
 
@@ -166,8 +171,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DashboardBloc(repo: sl()));
   sl.registerLazySingleton(() => ProfileBloc(repo: sl()));
   sl.registerLazySingleton(() => UserBloc(repo: sl()));
-  sl.registerLazySingleton(() => HomeAdsBloc(repo: sl(), internetConnection: sl()));
-
+  sl.registerLazySingleton(
+      () => HomeAdsBloc(repo: sl(), internetConnection: sl()));
 
   ///Log out
   sl.registerLazySingleton(() => LogoutBloc(repo: sl()));

@@ -45,7 +45,8 @@ class CustomFieldsModel extends SingleMapper {
 }
 
 class CustomFieldModel extends SingleMapper {
-  int? id;
+  var id;
+  var value;
   String? name;
   String? description;
   String? image;
@@ -54,6 +55,7 @@ class CustomFieldModel extends SingleMapper {
 
   CustomFieldModel({
     this.id,
+    this.value,
     this.name,
     this.description,
     this.image,
@@ -62,8 +64,9 @@ class CustomFieldModel extends SingleMapper {
   });
 
   CustomFieldModel.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    name = json["name"] ?? json["title"] ?? "";
+    id = json["id"]??json["value"];
+    value = json["value"];
+    name = json["name"] ?? json["label"] ?? "";
     description = json["desc"];
     code = json["code"];
     image = json["image"];

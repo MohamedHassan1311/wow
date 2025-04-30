@@ -13,6 +13,7 @@ import '../../../../app/core/app_state.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../data/error/failures.dart';
+import '../../../../main_models/custom_field_model.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 import '../../verification/model/verification_model.dart';
@@ -23,6 +24,7 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
   final RegisterRepo repo;
   RegisterBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
+    updateAgreeToTerms(null);
   }
 
   final FocusNode nameNode = FocusNode();
@@ -44,6 +46,9 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
   Stream<RegisterEntity?> get registerEntityStream =>
       registerEntity.stream.asBroadcastStream();
 
+  final phoneCode = BehaviorSubject<String?>();
+  Function(String?) get updatePhoneCode => phoneCode.sink.add;
+  Stream<String?> get phoneCodeStream => phoneCode.stream.asBroadcastStream();
 
   final agreeToTerms = BehaviorSubject<bool?>();
   Function(bool?) get updateAgreeToTerms => agreeToTerms.sink.add;
@@ -55,15 +60,32 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
       name: TextEditingController(),
       email: TextEditingController(),
       phone: TextEditingController(),
+      country:"+966" ,
       password: TextEditingController(),
       confirmPassword: TextEditingController(),
     ));
     updateAgreeToTerms(null);
     // updateProfileImage(null);
   }
+  bool isBodyValid() {
+    log("==>Body${registerEntity.valueOrNull?.toJson()}");
+    for (var entry in (registerEntity.valueOrNull?.toJson())!.entries) {
+      final value = entry.value;
+      if (value == null || (value is String && value.trim().isEmpty)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
+      CustomNavigator.push(Routes.CompleteProfile,
+     );
+      if(isBodyValid()==false)
+      {
+        return;
+      }
       if (agreeToTerms.valueOrNull != true) {
         return AppCore.showToast(
           getTranslated("oops_you_must_agree_to_terms_and_conditions"),
@@ -71,7 +93,9 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
       }
 
 
+
       emit(Loading());
+      print(phoneCode);
 
       Either<ServerFailure, Response> response =
           await repo.register(registerEntity.valueOrNull?.toJson());
@@ -97,7 +121,7 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
             arguments: VerificationModel(
                 email: registerEntity.valueOrNull?.email?.text.trim(),
                 phone: registerEntity.valueOrNull?.phone?.text.trim(),
-                countryCode: registerEntity.valueOrNull?.country?.code,
+                countryCode: registerEntity.valueOrNull?.country,
                 fromRegister: true));
         clear();
         emit(Done());

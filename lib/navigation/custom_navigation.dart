@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../features/add_address/page/add_address_page.dart';
 import '../features/chat/page/chat_page.dart';
 import '../components/video_preview_page.dart';
+import '../features/complete_profile/page/CompleteProfile.dart';
 import '../features/contact_with_us/page/contact_with_us_page.dart';
 import '../features/faqs/page/faqs_page.dart';
 import '../features/maps/page/pick_map_page.dart';
@@ -53,6 +54,8 @@ abstract class CustomNavigator {
 
       case Routes.register:
         return _pageRoute(const Register());
+        case Routes.CompleteProfile:
+        return _pageRoute(const CompleteProfile());
 
       case Routes.forgetPassword:
         return _pageRoute(const ForgetPassword());

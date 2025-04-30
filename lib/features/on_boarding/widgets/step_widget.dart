@@ -26,7 +26,7 @@ class StepPointWidget extends StatelessWidget {
                       shape: BoxShape.circle,
                         color: currentIndex == index
                             ? color ?? Styles.PRIMARY_COLOR
-                            : Styles.WHITE_COLOR,
+                            : Styles.GREY_BORDER,
                        ),
                     duration: const Duration(milliseconds: 400),
                     curve: Curves.easeIn,

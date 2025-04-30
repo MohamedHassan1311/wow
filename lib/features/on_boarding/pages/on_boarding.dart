@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/components/custom_button.dart';
 
 import '../../../app/core/dimensions.dart';
 import '../../../app/core/images.dart';
@@ -49,7 +50,6 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black45,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -62,58 +62,56 @@ class _OnBoardingState extends State<OnBoarding> {
                   onPageChanged: ((index) => setState(() {
                         currentIndex = index;
                       })),
-                  itemBuilder: (_, i) => Stack(
-                    alignment: Alignment.bottomCenter,
+                  itemBuilder: (_, i) => Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        height: context.height,
+                      Image.asset(
+                        images[i],
+                        height: context.height * .60,
                         width: context.width,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: AssetImage(images[i]),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: context.toPadding,
-                            ),
-                          ],
+                        fit: BoxFit.fill,
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+
+                      ///title
+                      Text(
+                        getTranslated(titles[i], context: context),
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.w900.copyWith(
+                          fontSize: 24,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ///title
-                            Text(
-                              getTranslated(titles[i], context: context),
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.w900.copyWith(
-                                  fontSize: 24, color: Styles.WHITE_COLOR),
-                            ),
-                            SizedBox(height: 12.h),
+                      SizedBox(height: 12.h),
 
-                            ///description
-                            Text(
-                              getTranslated(descriptions[i], context: context),
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.w600.copyWith(
-                                  fontSize: 14, color: Styles.WHITE_COLOR),
-                            ),
-                            SizedBox(height: 30.h),
-                            StepPointWidget(
-                                currentIndex: currentIndex,
-                                length: titles.length),
-                            SizedBox(height: 120.h + context.bottom),
-                          ],
+                      ///description
+                      Text(
+                        getTranslated(descriptions[i], context: context),
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.w600.copyWith(
+                          fontSize: 14,
                         ),
-                      )
+                      ),
+                      SizedBox(height: 30.h),
+                      StepPointWidget(
+                          currentIndex: currentIndex, length: titles.length),
+                      SafeArea(
+                        bottom: true,
+                        child: CustomButton(
+                          width: 200.w,
+                          text: getTranslated("continue"),  onTap: () {
+                          if (currentIndex < 2) {
+                            setState(() {
+                              nextPage();
+                            });
+                          } else {
+                            CustomNavigator.push(Routes.login, clean: true);
+                          }
+                        },),
+                      ),
                     ],
                   ),
                 ),
@@ -145,7 +143,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               ),
                           ],
                         ),
-                        const Spacer(),
+                  /*      const Spacer(),
                         Center(
                           child: GestureDetector(
                             onTap: () {
@@ -167,7 +165,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT.h),
                       ],
                     ),

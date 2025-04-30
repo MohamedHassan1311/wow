@@ -1,0 +1,259 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/app/core/app_state.dart';
+import 'package:wow/app/core/extensions.dart';
+import 'package:wow/app/core/svg_images.dart';
+import '../../../../app/core/styles.dart';
+import '../../../../app/core/validation.dart';
+import '../../../../app/localization/language_constant.dart';
+import '../../../../components/custom_text_form_field.dart';
+import '../../../app/core/app_event.dart';
+import '../../../app/core/dimensions.dart';
+import '../../../components/custom_drop_down_button.dart';
+import '../../../components/shimmer/custom_shimmer.dart';
+import '../../../data/config/di.dart';
+import '../../../main_models/custom_field_model.dart';
+import '../../setting_option/bloc/setting_option_bloc.dart';
+import '../../setting_option/repo/setting_option_repo.dart';
+import '../bloc/complete_profile_bloc.dart';
+
+class CompleteProfileBodyStep2 extends StatefulWidget {
+  const CompleteProfileBodyStep2({super.key});
+
+  @override
+  State<CompleteProfileBodyStep2> createState() =>
+      _CompleteProfileBodyStep2State();
+}
+
+class _CompleteProfileBodyStep2State extends State<CompleteProfileBodyStep2>
+    with AutomaticKeepAliveClientMixin {
+  BuildContext ?cityBlocContext;
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocBuilder<CompleteProfileBloc, AppState>(
+      builder: (context, state) {
+        return Form(
+          key: context.read<CompleteProfileBloc>().formKey2 ,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              /// nationality
+              BlocProvider(
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
+                child: BlocBuilder<SettingOptionBloc, AppState>(
+                    builder: (context, state) {
+                  if (state is Done) {
+                    CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                    return StreamBuilder<CustomFieldModel?>(
+                        stream:
+                            context.read<CompleteProfileBloc>().nationalityStream,
+                        builder: (context, snapshot) {
+                          return CustomDropDownButton(
+                            label: getTranslated("nationality"),
+                            validation: (v) =>
+                                Validations.field(snapshot.data?.name),
+                            value: null,
+                            onChange: (v) {
+                              context
+                                  .read<CompleteProfileBloc>()
+                                  .updateNationality(v as CustomFieldModel);
+                            },
+                            items: model.data ?? [],
+                            name: context
+                                    .read<CompleteProfileBloc>()
+                                    .nationality
+                                    .valueOrNull
+                                    ?.name ??
+                                getTranslated("nationality"),
+                          );
+                        });
+                  }
+                  if (state is Loading) {
+                    return CustomShimmerContainer(
+                      height: 60.h,
+                      width: context.width,
+                      radius: 30,
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+              ),
+
+              /// other nationality
+              BlocProvider(
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
+                child: BlocBuilder<SettingOptionBloc, AppState>(
+                    builder: (context, state) {
+                  if (state is Done) {
+                    CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                    return StreamBuilder<CustomFieldModel?>(
+                        stream: context
+                            .read<CompleteProfileBloc>()
+                            .otherNationalityStream,
+                        builder: (context, snapshot) {
+                          return CustomDropDownButton(
+                            label: getTranslated("other_nationality"),
+
+                            value: null,
+                            onChange: (v) {
+                              context
+                                  .read<CompleteProfileBloc>()
+                                  .updateOtherNationality(v as CustomFieldModel);
+                            },
+                            items: model.data ?? [],
+                            name: context
+                                    .read<CompleteProfileBloc>()
+                                    .otherNationality
+                                    .valueOrNull
+                                    ?.name ??
+                                getTranslated("other_nationality"),
+                          );
+                        });
+                  }
+                  if (state is Loading) {
+                    return CustomShimmerContainer(
+                      height: 60.h,
+                      width: context.width,
+                      radius: 30,
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+              ),
+
+              /// other nationality
+              BlocProvider(
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
+                child: BlocBuilder<SettingOptionBloc, AppState>(
+                    builder: (context, state) {
+                  if (state is Done) {
+                    CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                    return StreamBuilder<CustomFieldModel?>(
+                        stream: context
+                            .read<CompleteProfileBloc>()
+                            .countryOfResidence,
+                        builder: (context, snapshot) {
+                          return Column(
+                            spacing: 12,
+                            children: [
+                              CustomDropDownButton(
+                                label: getTranslated("Country_of_Residence"),
+                                validation: (v) =>
+                                    Validations.field(snapshot.data?.name),
+                                value: null,
+                                onChange: (v) {
+                                  context
+                                      .read<CompleteProfileBloc>()
+                                      .updateCountryOfResidence(
+                                          v as CustomFieldModel);
+                                  cityBlocContext?.read<SettingOptionBloc>()  .add(Get(arguments: {'field_name': "city","country_id":context
+                                      .read<CompleteProfileBloc>()
+                                      .countryOfResidence
+                                      .valueOrNull!.id}));
+                                },
+                                items: model.data ?? [],
+                                name: context
+                                        .read<CompleteProfileBloc>()
+                                        .countryOfResidence
+                                        .valueOrNull
+                                        ?.name ??
+                                    getTranslated("Country_of_Residence"),
+                              ),
+                              /// City
+                              Visibility(
+                                visible: context
+                                    .read<CompleteProfileBloc>()
+                                    .countryOfResidence
+                                    .valueOrNull!=null,
+                                child: BlocProvider(
+                                  create: (context) =>
+                                  SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                                    ..add(Get(arguments: {'field_name': "city","country_id":context
+                                        .read<CompleteProfileBloc>()
+                                        .countryOfResidence
+                                        .valueOrNull!.id})),
+                                  child: BlocBuilder<SettingOptionBloc, AppState>(
+                                      builder: (context, state) {
+                                        cityBlocContext=context;
+                                        if (state is Done) {
+                                          CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                                          return StreamBuilder<CustomFieldModel?>(
+                                              stream: context
+                                                  .read<CompleteProfileBloc>()
+                                                  .cityStream,
+                                              builder: (context, snapshot) {
+                                                return CustomDropDownButton(
+                                                  label: getTranslated("city"),
+                                                  validation: (v) =>
+                                                      Validations.field(snapshot.data?.name),
+                                                  value: null,
+                                                  onChange: (v) {
+                                                    context
+                                                        .read<CompleteProfileBloc>()
+                                                        .updateCity(
+                                                        v as CustomFieldModel);
+                                                  },
+                                                  items: model.data ?? [],
+                                                  name: context
+                                                      .read<CompleteProfileBloc>()
+                                                      .city
+                                                      .valueOrNull
+                                                      ?.name ??
+                                                      getTranslated("Country_of_Residence"),
+                                                );
+                                              });
+                                        }
+                                        if (state is Loading) {
+                                           return CustomShimmerContainer(
+                                            height: 60.h,
+                                            width: context.width,
+                                            radius: 30,
+                                          );
+                                        } else {
+                                          return SizedBox();
+                                        }
+                                      }),
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                  if (state is Loading) {
+                     return CustomShimmerContainer(
+                      height: 60.h,
+                      width: context.width,
+                      radius: 30,
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+              ),
+
+
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}

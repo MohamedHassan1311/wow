@@ -52,15 +52,9 @@ class LoginBody extends StatelessWidget {
                         hint: getTranslated("enter_your_mail"),
                         inputType: TextInputType.emailAddress,
                         pSvgIcon: SvgImages.mail,
-                        validate: (v) {
-                          context.read<LoginBloc>().updateLoginEntity(
-                              snapshot.data?.copyWith(
-                                  emailError: Validations.mail(v) ?? ""));
-                          return null;
-                        },
-                        errorText: snapshot.data?.emailError,
-                        customError: snapshot.data?.emailError != null &&
-                            snapshot.data?.emailError != "",
+                        validate: Validations.mail,
+
+
                       ),
 
                       ///Password
@@ -73,16 +67,9 @@ class LoginBody extends StatelessWidget {
                         isPassword: true,
                         pSvgIcon: SvgImages.lockIcon,
                         keyboardAction: TextInputAction.done,
-                        validate: (v) {
-                          context.read<LoginBloc>().updateLoginEntity(
-                              snapshot.data?.copyWith(
-                                  passwordError:
-                                      Validations.firstPassword(v) ?? ""));
-                          return null;
-                        },
-                        errorText: snapshot.data?.passwordError,
-                        customError: snapshot.data?.passwordError != null &&
-                            snapshot.data?.passwordError != "",
+                        validate: Validations.firstPassword,
+
+
                       ),
 
                       ///Forget Password && Remember me
@@ -132,17 +119,14 @@ class LoginBody extends StatelessWidget {
                         child: CustomButton(
                             text: getTranslated("sign_in"),
                             onTap: () {
-                              context
+                              ;
+                              if (context
                                   .read<LoginBloc>()
                                   .formKey
                                   .currentState!
-                                  .validate();
-                              if (context.read<LoginBloc>().isBodyValid()) {
+                                  .validate()) {
                                 TextInput.finishAutofillContext();
-                                // CustomNavigator.push(Routes.dashboard,
-                                //     clean: true, arguments: 0);
-                                // // CustomNavigator.push(
-                                // //     Routes.changePassword);
+
                                 context.read<LoginBloc>().add(Click());
                               }
                             },

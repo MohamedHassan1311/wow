@@ -14,7 +14,7 @@ class EditProfileRepo extends BaseRepo {
   Future<Either<ServerFailure, Response>> editProfile(data) async {
     try {
       Response response = await dioClient.post(
-          uri: EndPoints.editProfile, data: FormData.fromMap(data));
+          uri: EndPoints.editProfile(userId), data: FormData.fromMap(data));
 
       if (response.statusCode == 200) {
         setUserData(response.data["data"]);

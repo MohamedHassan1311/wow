@@ -22,7 +22,7 @@ class EndPoints {
   static const String reactivateAccount = 'reactivate-account';
 
   ///User Profile
-  static const String editProfile = 'update-profile';
+  static  String editProfile(id) => 'client/$id';
   static const String profile = 'me';
   static const String bankInfo = 'bank_info';
 
@@ -118,6 +118,7 @@ class EndPoints {
 
   ///Setting
   static const String settings = 'settings';
+  static const String optionsSettings = 'options/setting';
   static const String faqs = 'faqs';
   static const String whoUs = 'who-us';
   static const String contactUs = 'contact-us';

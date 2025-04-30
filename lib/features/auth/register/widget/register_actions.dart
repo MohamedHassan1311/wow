@@ -33,7 +33,7 @@ class RegisterActions extends StatelessWidget {
                 stream: context.read<RegisterBloc>().agreeToTermsStream,
                 builder: (context, snapshot) {
                   return _AgreeToTerms(
-                    check: snapshot.data ?? true,
+                    check: snapshot.data ?? false,
                     onChange: context.read<RegisterBloc>().updateAgreeToTerms,
                   );
                 }),
@@ -49,12 +49,19 @@ class RegisterActions extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
+                    print(context
+                        .read<RegisterBloc>()
+                        .formKey
+                        .currentState!
+                        .validate());
 
-if(  context.read<RegisterBloc>().formKey.currentState!.validate()) {
-  context.read<RegisterBloc>().add(Click());
-}
-
-
+                    if (context
+                        .read<RegisterBloc>()
+                        .formKey
+                        .currentState!
+                        .validate()) {
+                      context.read<RegisterBloc>().add(Click());
+                    }
                   },
                   isLoading: state is Loading),
             ),

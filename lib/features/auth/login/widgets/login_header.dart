@@ -18,8 +18,8 @@ class LoginHeader extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.symmetric(
                   vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-              child: customImageIcon(
-                  imageName: Images.logo, width: 130.h, height: 130.h)),
+              child: Image.asset(
+                  Images.logoWord,  fit:BoxFit.contain,width: 80.h, height: 100.h)),
         ),
         // Row(
         //   crossAxisAlignment: CrossAxisAlignment.center,

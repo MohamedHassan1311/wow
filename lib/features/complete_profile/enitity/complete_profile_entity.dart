@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../../main_models/custom_field_model.dart';
 
-class RegisterEntity {
+class CompleteProfileEntity {
   TextEditingController? name, email, phone, password, confirmPassword;
-  String? country;
+  CustomFieldModel? country;
 
   String? nameError, emailError, phoneError, countryError;
   String? passwordError, confirmPasswordError;
 
-  RegisterEntity({
+  CompleteProfileEntity({
     this.name,
     this.email,
     this.phone,
@@ -24,11 +24,11 @@ class RegisterEntity {
     this.confirmPasswordError,
   });
 
-  RegisterEntity copyWith({
+  CompleteProfileEntity copyWith({
     String? name,
     String? email,
     String? phone,
-    String? country,
+    CustomFieldModel? country,
     String? password,
     String? confirmPassword,
     String? nameError,
@@ -51,11 +51,11 @@ class RegisterEntity {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['fname'] = nameError == "" ? name?.text.trim() : "fname";
-    data['lname'] = nameError == "" ? name?.text.trim() : "lname";
+    data['fname'] = nameError == "" ? name?.text.trim() : "";
+    data['lname'] = nameError == "" ? name?.text.trim() : "";
     data['email'] = emailError == "" ? email?.text.trim() : null;
     data['phone'] = phoneError == "" ? phone?.text.trim() : null;
-    data['country_id'] = country ;
+    data['country_id'] = countryError == "" ? country?.id : null;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
     data['confirm_password'] = confirmPasswordError == "" ? confirmPassword?.text.trim() : "";
     return data;
