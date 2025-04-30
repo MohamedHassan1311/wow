@@ -51,7 +51,8 @@ class RegisterEntity {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = nameError == "" ? name?.text.trim() : null;
+    data['fname'] = nameError == "" ? name?.text.trim() : "";
+    data['lname'] = nameError == "" ? name?.text.trim() : "";
     data['email'] = emailError == "" ? email?.text.trim() : null;
     data['phone'] = phoneError == "" ? phone?.text.trim() : null;
     data['country_id'] = countryError == "" ? country?.id : null;

@@ -49,13 +49,11 @@ class RegisterActions extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    context.read<RegisterBloc>().formKey.currentState!.validate();
-                    if (context.read<RegisterBloc>().isBodyValid()) {
-                      context.read<RegisterBloc>().clear();
-                      CustomNavigator.push(Routes.verification,
-                          arguments: VerificationModel(email: "", fromRegister: true));
-                      // context.read<RegisterBloc>().add(Click());
-                    }
+
+if(  context.read<RegisterBloc>().formKey.currentState!.validate()) {
+  context.read<RegisterBloc>().add(Click());
+}
+
 
                   },
                   isLoading: state is Loading),

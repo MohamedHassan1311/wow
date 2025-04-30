@@ -44,16 +44,6 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
   Stream<RegisterEntity?> get registerEntityStream =>
       registerEntity.stream.asBroadcastStream();
 
-  bool isBodyValid() {
-    log("==>Body${registerEntity.valueOrNull?.toJson()}");
-    for (var entry in (registerEntity.valueOrNull?.toJson())!.entries) {
-      final value = entry.value;
-      if (value == null || (value is String && value.trim().isEmpty)) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   final agreeToTerms = BehaviorSubject<bool?>();
   Function(bool?) get updateAgreeToTerms => agreeToTerms.sink.add;
@@ -80,15 +70,7 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
         );
       }
 
-      // if (profileImage.valueOrNull == null) {
-      //   return AppCore.showToast(
-      //     getTranslated("oops_you_have_to_select_profile_image"),
-      //   );
-      // } else {
-      //   data.addAll({
-      //     "profile_image": MultipartFile.fromFileSync(profileImage.value!.path)
-      //   });
-      // }
+
       emit(Loading());
 
       Either<ServerFailure, Response> response =

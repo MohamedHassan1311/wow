@@ -12,8 +12,8 @@ class Validations {
   static String? mail(String? email) {
     if (email == null ||
         email.length < 8 ||
-        !email.contains("@") ||
-        !email.contains(".com")) {
+        !email.contains("@")
+        ) {
       return getTranslated("please_enter_valid_email");
     } else {
       return null;

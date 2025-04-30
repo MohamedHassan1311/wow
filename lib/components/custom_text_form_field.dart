@@ -249,13 +249,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                               ? Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 12.w),
-                                  child: customImageIconSVG(
-                                    imageName: widget.pSvgIcon!,
-                                    color:
-                                        widget.pIconColor ?? activationColor(),
-                                    height: 20.h,
-                                    width: 20.w,
-                                  ),
+                                  child: SizedBox()
+
+                                  // customImageIconSVG(
+                                  //   imageName: widget.pSvgIcon!,
+                                  //   color:
+                                  //       widget.pIconColor ?? activationColor(),
+                                  //   height: 20.h,
+                                  //   width: 20.w,
+                                  // ),
                                 )
                               : const SizedBox()),
                   suffixIcon: widget.sufWidget != null

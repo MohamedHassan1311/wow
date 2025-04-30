@@ -15,39 +15,45 @@ class RegisterHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              getTranslated("signup_header"),
-              style: AppTextStyles.w700
-                  .copyWith(fontSize: 24, color: Styles.HEADER),
-            ),
-            SizedBox(width: 6.w),
-            customImageIcon(
-                imageName: Images.logoWord,
-                height: 24.h,
-                width:24.h,
-                fit: BoxFit.contain)
-          ],
+        Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h/2),
+              child: customImageIcon(
+                  imageName: Images.logo, width: 130.h, height: 130.h)),
         ),
-        SizedBox(height: 4.h),
-        Row(
-          children: [
-            Text(
-              getTranslated("signup_description"),
-              style: AppTextStyles.w600.copyWith(fontSize: 20, color: Styles.TITLE),
-            ),
-            SizedBox(width: 6.w),
-            customImageIcon(
-                imageName: Images.logoWord,
-                height: 24.h,
-                width:24.h,
-                fit: BoxFit.contain)
-          ],
-        ),
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Text(
+        //       getTranslated("signup_header"),
+        //       style: AppTextStyles.w700
+        //           .copyWith(fontSize: 24, color: Styles.HEADER),
+        //     ),
+        //     SizedBox(width: 6.w),
+        //     customImageIcon(
+        //         imageName: Images.logoWord,
+        //         height: 24.h,
+        //         width:24.h,
+        //         fit: BoxFit.contain)
+        //   ],
+        // ),
+        // SizedBox(height: 4.h),
+        // Row(
+        //   children: [
+        //     Text(
+        //       getTranslated("signup_description"),
+        //       style: AppTextStyles.w600.copyWith(fontSize: 20, color: Styles.TITLE),
+        //     ),
+        //     SizedBox(width: 6.w),
+        //     customImageIcon(
+        //         imageName: Images.logoWord,
+        //         height: 24.h,
+        //         width:24.h,
+        //         fit: BoxFit.contain)
+        //   ],
+        // ),
         SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
       ],
     );

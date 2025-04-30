@@ -31,44 +31,27 @@ class RegisterBody extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ///Image Profile
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(
-                      //     vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
-                      //     horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                      //   ),
-                      //   child: StreamBuilder<File?>(
-                      //       stream:
-                      //           context.read<RegisterBloc>().profileImageStream,
-                      //       builder: (context, snapshot) {
-                      //         return ProfileImageWidget(
-                      //             withEdit: true,
-                      //             imageFile: snapshot.data,
-                      //             onGet: context
-                      //                 .read<RegisterBloc>()
-                      //                 .updateProfileImage);
-                      //       }),
-                      // ),
 
-                      ///Name
-                      CustomTextField(
-                        controller: snapshot.data?.name,
-                        label: getTranslated("name"),
-                        hint: getTranslated("enter_your_name"),
-                        inputType: TextInputType.name,
-                        pSvgIcon: SvgImages.user,
-                        nextFocus: context.read<RegisterBloc>().emailNode,
-                        focusNode: context.read<RegisterBloc>().nameNode,
-                        validate: (v) {
-                          context.read<RegisterBloc>().updateRegisterEntity(
-                              snapshot.data?.copyWith(
-                                  nameError: Validations.name(v) ?? ""));
-                          return null;
-                        },
-                        errorText: snapshot.data?.nameError,
-                        customError: snapshot.data?.nameError != null &&
-                            snapshot.data?.nameError != "",
-                      ),
+
+                      // ///Name
+                      // CustomTextField(
+                      //   controller: snapshot.data?.name,
+                      //   label: getTranslated("name"),
+                      //   hint: getTranslated("enter_your_name"),
+                      //   inputType: TextInputType.name,
+                      //   pSvgIcon: SvgImages.user,
+                      //   nextFocus: context.read<RegisterBloc>().emailNode,
+                      //   focusNode: context.read<RegisterBloc>().nameNode,
+                      //   validate: (v) {
+                      //     context.read<RegisterBloc>().updateRegisterEntity(
+                      //         snapshot.data?.copyWith(
+                      //             nameError: Validations.name(v) ?? ""));
+                      //     return null;
+                      //   },
+                      //   errorText: snapshot.data?.nameError,
+                      //   customError: snapshot.data?.nameError != null &&
+                      //       snapshot.data?.nameError != "",
+                      // ),
 
                       ///Mail
                       CustomTextField(
