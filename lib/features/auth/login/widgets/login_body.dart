@@ -52,7 +52,12 @@ class LoginBody extends StatelessWidget {
                         hint: getTranslated("enter_your_mail"),
                         inputType: TextInputType.emailAddress,
                         pSvgIcon: SvgImages.mail,
-                        validate: Validations.mail,
+                        validate: (v) {
+                          context.read<LoginBloc>().updateLoginEntity(
+                              snapshot.data?.copyWith(
+                                  emailError: Validations.mail(v) ?? ""));
+                          return null;
+                        },
 
 
                       ),
@@ -67,7 +72,13 @@ class LoginBody extends StatelessWidget {
                         isPassword: true,
                         pSvgIcon: SvgImages.lockIcon,
                         keyboardAction: TextInputAction.done,
-                        validate: Validations.firstPassword,
+                        validate: (v) {
+                          context.read<LoginBloc>().updateLoginEntity(
+                              snapshot.data?.copyWith(
+                                  passwordError:
+                                  Validations.firstPassword(v) ?? ""));
+                          return null;
+                        },
 
 
                       ),

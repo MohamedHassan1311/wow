@@ -28,6 +28,7 @@ class LoginEntity {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['email'] = emailError == "" ? email?.text.trim() : null;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
+    data['fcm_token'] = passwordError == "" ? password?.text.trim() : null;
     return data;
   }
 }

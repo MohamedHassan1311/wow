@@ -19,10 +19,10 @@ class LogoutRepo extends BaseRepo {
 
   Future<bool> logOut() async {
     try {
-      await unSubscribeToTopic();
-      await FirebaseAuth.instance.signOut();
-      await _logeOutFromGoogle();
-      await _logeOutFromFaceBook();
+      // await unSubscribeToTopic();
+      // await FirebaseAuth.instance.signOut();
+      // await _logeOutFromGoogle();
+      // await _logeOutFromFaceBook();
 
       if (sharedPreferences.containsKey(AppStorageKey.isSubscribe)) {
         return false;

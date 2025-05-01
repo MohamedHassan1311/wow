@@ -83,11 +83,10 @@ class Verification extends StatelessWidget {
                                   .formKey
                                   .currentState!
                                   .validate()) {
-                                CustomNavigator.push(Routes.resetPassword,
-                                    arguments: model);
-                                // context
-                                //     .read<VerificationBloc>()
-                                //     .add(Click(arguments: model));
+
+                                context
+                                    .read<VerificationBloc>()
+                                    .add(Click(arguments: model));
                               }
                             },
                             isLoading: state is Loading),

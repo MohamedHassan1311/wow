@@ -21,7 +21,7 @@ class UserModel extends SingleMapper {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    name = json['fname']+json['lname'];
     balance = json['balance'] != null
         ? double.parse(json["balance"]?.toString() ?? "0")
         : null;

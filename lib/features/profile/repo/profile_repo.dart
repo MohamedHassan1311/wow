@@ -14,7 +14,7 @@ class ProfileRepo extends BaseRepo {
   Future<Either<ServerFailure, Response>> getProfile() async {
     try {
       Response response = await dioClient.get(
-        uri: EndPoints.profile,
+        uri: EndPoints.profile(userId),
       );
       if (response.statusCode == 200) {
         setUserData(response.data["data"]);

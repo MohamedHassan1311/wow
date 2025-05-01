@@ -17,13 +17,13 @@ class EndPoints {
   static const String register = 'register';
   static const String logIn = 'login';
   static const String resend = 'resend-otp';
-  static const String verifyOtp = 'reset-password-check-code';
+  static const String verifyOtp = 'check-verification-code';
   static const String suspendAccount = 'suspend-account';
   static const String reactivateAccount = 'reactivate-account';
 
   ///User Profile
   static  String editProfile(id) => 'client/$id';
-  static const String profile = 'me';
+  static  String profile(id) => 'client/$id';
   static const String bankInfo = 'bank_info';
 
   ///Home
@@ -117,7 +117,7 @@ class EndPoints {
   static const applyProductCoupon = 'check-coupon';
 
   ///Setting
-  static const String settings = 'settings';
+  static const String settings = 'setting';
   static const String optionsSettings = 'options/setting';
   static const String faqs = 'faqs';
   static const String whoUs = 'who-us';
