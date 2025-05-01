@@ -18,14 +18,14 @@ import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
-class CompleteProfileBodyStep3 extends StatefulWidget {
-  const CompleteProfileBodyStep3({super.key});
+class CompleteProfileMaritalStatus extends StatefulWidget {
+  const CompleteProfileMaritalStatus({super.key});
 
   @override
-  State<CompleteProfileBodyStep3> createState() => _CompleteProfileBodyStep3State();
+  State<CompleteProfileMaritalStatus> createState() => _CompleteProfileMaritalStatusState();
 }
 
-class _CompleteProfileBodyStep3State extends State<CompleteProfileBodyStep3>with AutomaticKeepAliveClientMixin {
+class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalStatus>with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteProfileBloc, AppState>(

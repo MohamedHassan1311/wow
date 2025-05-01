@@ -63,6 +63,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           items: widget.items.map((item) {
             return DropdownMenuItem(
               value: item,
+
               child: Text(
                 item.name,
                 style:
@@ -70,7 +71,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
               ),
             );
           }).toList(),
-
+          style: AppTextStyles.w500  .copyWith(color: Styles.PRIMARY_COLOR, fontSize: 14),
           onChanged: widget.onChange,
           menuMaxHeight: context.height * 0.4,
           initialValue: widget.value,
@@ -183,8 +184,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
             labelStyle:
                 AppTextStyles.w400.copyWith(color: Styles.DISABLED, fontSize: 14),
           ),
-          style: AppTextStyles.w500
-              .copyWith(color: Styles.PRIMARY_COLOR, fontSize: 14),
+
           name: widget.name,
           elevation: 1,
         ),

@@ -24,7 +24,7 @@ class CompleteProfileHeader extends StatelessWidget {
           builder: (context, snapshot) {
             return Column(
               children: [
-                LinearProgressIndicator(value: (snapshot.data??1)/4,backgroundColor: Styles.GREY_BORDER,),
+                LinearProgressIndicator(value: (snapshot.data??1)/5,backgroundColor: Styles.GREY_BORDER,),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

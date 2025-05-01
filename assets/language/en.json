@@ -441,6 +441,14 @@
     "Guardian's data": "Guardian's data",
     "Guardian": "Guardian",
     "otherGuardian": "Other Guardian",
+    "verification":"Verification",
+
+    "verification_des":"Attach a photo of your profile from the Tawakkalna app",
+    "Are_you_sure_the_data_is_correct?" :"Are you sure the data is correct?",
+    "Submit_sucess_msg" :"Thank you. Your account is being verified. We are currently reviewing your profile.",
+    "Submit_sucess_note" :"Your file will be reviewed within the next 72 hours at most. Upon approval, you will receive an email so you can start your journey with us. ",
+
+    "verification_note": "Make sure all information shown in the photo is correct. If there are errors, you may incur fees to correct them later.",
     "kinship": "kinship",
 "kinship_note": "The 'WOW' platform management does not communicate with the guardian in any way. It only communicates with the person whose marriage proposal you subsequently accept.",
     "saudi": "Saudi",

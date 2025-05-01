@@ -8,6 +8,7 @@ class Images {
   static const String onBoarding3 = 'assets/images/on_boarding_3.png';
   static const String onBoarding4 = 'assets/images/on_boarding_4.png';
   static const String authBG = 'assets/images/auth_bg.png';
+  static const String verfi = 'assets/images/verfi.png';
   static const String female = 'assets/images/woman.png';
   static const String male = 'assets/images/male.png';
   static const String authLogo = 'assets/images/logo.png';

@@ -9,11 +9,12 @@ import '../../../app/core/styles.dart';
 import '../bloc/complete_profile_bloc.dart';
 import '../repo/complete_profile_repo.dart';
 import '../widget/complete_profile_actions.dart';
-import '../widget/complete_profile_body_step1.dart';
-import '../widget/complete_profile_body_step2.dart';
-import '../widget/complete_profile_body_step3.dart';
-import '../widget/complete_profile_body_step4.dart';
+import '../widget/complete_profile_guardian_data.dart';
+import '../widget/complete_profile_name_and_gender.dart';
+import '../widget/complete_profile_nationality_and_country.dart';
+import '../widget/complete_profile_marital_status.dart';
 import '../widget/complete_profile_header.dart';
+import '../widget/complete_profile_verification.dart';
 
 class CompleteProfile extends StatelessWidget {
   const CompleteProfile({super.key});
@@ -42,10 +43,11 @@ class CompleteProfile extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         pageSnapping: true,
                         children: [
-                          CompleteProfileBodyStpe1(),
-                          CompleteProfileBodyStep2(),
-                          CompleteProfileBodyStep3(),
-                          CompleteProfileBodyStpe4()
+                          CompleteProfileNameAndGender(),
+                          CompleteProfileNationalityAndCountry(),
+                          CompleteProfileMaritalStatus(),
+                          CompleteProfileGuardiandata(),
+                          CompleteProfileVerification()
                         ],
                       ),
                     ),

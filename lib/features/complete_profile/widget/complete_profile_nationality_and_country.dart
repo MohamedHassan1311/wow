@@ -17,15 +17,15 @@ import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
-class CompleteProfileBodyStep2 extends StatefulWidget {
-  const CompleteProfileBodyStep2({super.key});
+class CompleteProfileNationalityAndCountry extends StatefulWidget {
+  const CompleteProfileNationalityAndCountry({super.key});
 
   @override
-  State<CompleteProfileBodyStep2> createState() =>
-      _CompleteProfileBodyStep2State();
+  State<CompleteProfileNationalityAndCountry> createState() =>
+      _CompleteProfileNationalityAndCountryState();
 }
 
-class _CompleteProfileBodyStep2State extends State<CompleteProfileBodyStep2>
+class _CompleteProfileNationalityAndCountryState extends State<CompleteProfileNationalityAndCountry>
     with AutomaticKeepAliveClientMixin {
   BuildContext ?cityBlocContext;
   @override

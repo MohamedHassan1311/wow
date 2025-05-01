@@ -16,6 +16,7 @@ import '../../../../components/custom_text_form_field.dart';
 
 import '../../../app/core/app_event.dart';
 import '../../../app/core/text_styles.dart';
+import '../../../components/animated_widget.dart';
 import '../../../components/custom_app_bar.dart';
 import '../../../components/custom_drop_down_button.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
@@ -25,15 +26,15 @@ import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
-class CompleteProfileBodyStpe4 extends StatefulWidget {
-  const CompleteProfileBodyStpe4({super.key});
+class CompleteProfileGuardiandata extends StatefulWidget {
+  const CompleteProfileGuardiandata({super.key});
 
   @override
-  State<CompleteProfileBodyStpe4> createState() =>
+  State<CompleteProfileGuardiandata> createState() =>
       _CompleteProfileBodyStpe1State();
 }
 
-class _CompleteProfileBodyStpe1State extends State<CompleteProfileBodyStpe4>
+class _CompleteProfileBodyStpe1State extends State<CompleteProfileGuardiandata>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,8 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileBodyStpe4>
       builder: (context, state) {
         return Form(
           key: context.read<CompleteProfileBloc>().formKey4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          child: ListAnimator(
+            data: [
               ///Name
               CustomTextField(
                 controller: context.read<CompleteProfileBloc>().gfName,

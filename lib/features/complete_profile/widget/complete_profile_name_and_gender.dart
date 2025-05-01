@@ -12,14 +12,14 @@ import '../../../../components/custom_text_form_field.dart';
 
 import '../bloc/complete_profile_bloc.dart';
 
-class CompleteProfileBodyStpe1 extends StatefulWidget {
-  const CompleteProfileBodyStpe1({super.key});
+class CompleteProfileNameAndGender extends StatefulWidget {
+  const CompleteProfileNameAndGender({super.key});
 
   @override
-  State<CompleteProfileBodyStpe1> createState() => _CompleteProfileBodyStpe1State();
+  State<CompleteProfileNameAndGender> createState() => _CompleteProfileNameAndGenderState();
 }
 
-class _CompleteProfileBodyStpe1State extends State<CompleteProfileBodyStpe1> with AutomaticKeepAliveClientMixin {
+class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGender> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);

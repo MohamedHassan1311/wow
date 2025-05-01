@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -16,15 +17,19 @@ import '../../../../app/core/styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../data/error/failures.dart';
 
+import '../../../app/core/dimensions.dart';
+import '../../../components/custom_alert_dialog.dart';
 import '../../../main_models/custom_field_model.dart';
 import '../enitity/complete_profile_entity.dart';
 import '../repo/complete_profile_repo.dart';
+import '../widget/submit_success_dialog.dart';
 
 class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   final CompleteProfileRepo repo;
   CompleteProfileBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
     updateCurrentStep(1);
+    updateDOP(DateTime(1999));
   }
 
   final TextEditingController fName = TextEditingController();
@@ -36,14 +41,11 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   final TextEditingController gPhoneNumber = TextEditingController();
   final TextEditingController otherGuardian = TextEditingController();
 
-
-
-
   final formKey1 = GlobalKey<FormState>();
   final formKey2 = GlobalKey<FormState>();
   final formKey3 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
-
+  final formKey5 = GlobalKey<FormState>();
 
   final nationality = BehaviorSubject<CustomFieldModel?>();
   Function(CustomFieldModel?) get updateNationality => nationality.sink.add;
@@ -51,24 +53,23 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
       nationality.stream.asBroadcastStream();
 
   final otherNationality = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateOtherNationality => otherNationality.sink.add;
+  Function(CustomFieldModel?) get updateOtherNationality =>
+      otherNationality.sink.add;
   Stream<CustomFieldModel?> get otherNationalityStream =>
       otherNationality.stream.asBroadcastStream();
 
   final countryOfResidence = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateCountryOfResidence=> countryOfResidence.sink.add;
+  Function(CustomFieldModel?) get updateCountryOfResidence =>
+      countryOfResidence.sink.add;
   Stream<CustomFieldModel?> get countryOfResidenceStream =>
       countryOfResidence.stream.asBroadcastStream();
 
   final city = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateCity=> city.sink.add;
-  Stream<CustomFieldModel?> get cityStream =>
-      city.stream.asBroadcastStream();
-
-
+  Function(CustomFieldModel?) get updateCity => city.sink.add;
+  Stream<CustomFieldModel?> get cityStream => city.stream.asBroadcastStream();
 
   final socialStatus = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateSocialStatus=> socialStatus.sink.add;
+  Function(CustomFieldModel?) get updateSocialStatus => socialStatus.sink.add;
   Stream<CustomFieldModel?> get socialStatusStream =>
       socialStatus.stream.asBroadcastStream();
 
@@ -78,11 +79,11 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
 
   final grelation = BehaviorSubject<CustomFieldModel?>();
   Function(CustomFieldModel?) get updateGrelation => grelation.sink.add;
-  Stream<CustomFieldModel?> get GrelationStream => grelation.stream.asBroadcastStream();
-
+  Stream<CustomFieldModel?> get GrelationStream =>
+      grelation.stream.asBroadcastStream();
 
   final dop = BehaviorSubject<DateTime?>();
-  Function(DateTime?) get updateDOP=> dop.sink.add;
+  Function(DateTime?) get updateDOP => dop.sink.add;
   Stream<DateTime?> get dopStream => dop.stream.asBroadcastStream();
 
   final registerEntity = BehaviorSubject<CompleteProfileEntity?>();
@@ -95,46 +96,55 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
   Stream<String?> get phoneCodeStream => phoneCode.stream.asBroadcastStream();
 
+
+  final identityImage = BehaviorSubject<File?>();
+  Function(File?) get updateIdentityImage => identityImage.sink.add;
+  Stream<File?> get identityImageeStream =>
+      identityImage.stream.asBroadcastStream();
+
+
   final currentStep = BehaviorSubject<int?>();
   Function(int?) get updateCurrentStep => currentStep.sink.add;
   Stream<int?> get currentStepStream => currentStep.stream.asBroadcastStream();
-  PageController pageController =PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage: 0);
   String stepTitle(step) {
-
-      if (step == 1) {
-        return "Name_and_gender";
-      }
-      if (step == 2) {
-        return "Nationality_and_country";
-      }
-      if (step == 3) {
-        return "Marital status";
-      }  if (step == 4) {
-        return "Guardian's data";
-      }
-else return "";
-
+    if (step == 1) {
+      return "Name_and_gender";
+    }
+    if (step == 2) {
+      return "Nationality_and_country";
+    }
+    if (step == 3) {
+      return "Marital status";
+    }
+    if (step == 4) {
+      return "Guardian's data";
+    }
+    if (step == 5) {
+      return "verification";
+    } else
+      return "";
   }
 
   clear() {
-
     // updateProfileImage(null);
   }
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
+
       emit(Loading());
-      var data = json.encode({
+      var data =  FormData.fromMap({
         "fname": fName.text.trim(),
         "lname": lName.text.trim(),
-        "email": "ahmeedhassanali@outlook.com",
-        "phone": "123456789",
-        "country_id":nationality.valueOrNull?.id,
+        // "email": "ahmeedhassanali@outlook.com",
+        // "phone": "123456789",
+        "country_id": nationality.valueOrNull?.id,
         "city_id": city.valueOrNull?.id,
-        "dob": dop.valueOrNull!.defaultFormat2(),
+        "dob": dop.valueOrNull?.defaultFormat2(),
         "social_status": socialStatus.valueOrNull?.id,
         "gender": gender.valueOrNull,
-        "nickname":nickname.text.trim(),
+        "nickname": nickname.text.trim(),
         "gfname": gfName.text.trim(),
         "glname": lName.text.trim(),
         "gphone": gPhoneNumber.text.trim(),
@@ -156,7 +166,7 @@ else return "";
         // "religion": 1,
         // "about_me": "sssssssss",
         //
-        // "identity_file": "dd"
+        "identity_file": MultipartFile.fromFileSync(identityImage.value!.path)
       });
       print(data);
       Either<ServerFailure, Response> response =
@@ -171,20 +181,27 @@ else return "";
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        AppCore.showSnackBar(
-          notification: AppNotification(
-            message: getTranslated("register_success_description"),
-            backgroundColor: Styles.ACTIVE,
-            borderColor: Styles.ACTIVE,
-          ),
-        );
+        CustomAlertDialog.show(
+            dailog: AlertDialog(
+                contentPadding: EdgeInsets.symmetric(
+                    vertical:
+                    Dimensions.PADDING_SIZE_DEFAULT.w,
+                    horizontal:
+                    Dimensions.PADDING_SIZE_DEFAULT.w),
+                insetPadding: EdgeInsets.symmetric(
+                    vertical:
+                    Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                    horizontal: 20),
+                shape: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Colors.transparent),
+                    borderRadius:
+                    BorderRadius.circular(20.0)),
+                content:SubmitSuccessDialog()
+            ));
 
-        // CustomNavigator.push(Routes.verification,
-        //     arguments: VerificationModel(
-        //         email: registerEntity.valueOrNull?.email?.text.trim(),
-        //         phone: registerEntity.valueOrNull?.phone?.text.trim(),
-        //         countryCode: registerEntity.valueOrNull?.country?.code,
-        //         fromRegister: true));
+
+
         clear();
         emit(Done());
       });
@@ -199,5 +216,4 @@ else return "";
       emit(Error());
     }
   }
-
 }

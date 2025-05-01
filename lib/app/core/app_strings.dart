@@ -5,7 +5,7 @@ class AppStrings {
   static const String defaultAddress = 'البحرين ، المنامة';
   static const double defaultLat = 26.225513;
   static const double defaultLong = 50.589816;
-  static const String arFontFamily = 'ar';
+  static const String arFontFamily = 'en';
   static const String enFontFamily = 'en';
   static const String noRouteFound = 'No Route Found';
   static const String cachedRandomQuote = 'CACHED_RANDOM_QUOTE';

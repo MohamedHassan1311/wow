@@ -5,6 +5,7 @@ import 'package:wow/app/core/dimensions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/app/core/extensions.dart';
 
 import '../../../../app/core/app_event.dart';
 import '../../../../app/core/styles.dart';
@@ -17,8 +18,11 @@ import '../../../../data/config/di.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 
+import '../../../app/core/images.dart';
+import '../../../components/custom_alert_dialog.dart';
 import '../../language/bloc/language_bloc.dart';
 import '../bloc/complete_profile_bloc.dart';
+import 'submit_confirmation_dialog.dart';
 
 class CompleteProfileActions extends StatefulWidget {
   const CompleteProfileActions({super.key});
@@ -27,7 +31,8 @@ class CompleteProfileActions extends StatefulWidget {
   State<CompleteProfileActions> createState() => _CompleteProfileActionsState();
 }
 
-class _CompleteProfileActionsState extends State<CompleteProfileActions>with AutomaticKeepAliveClientMixin {
+class _CompleteProfileActionsState extends State<CompleteProfileActions>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteProfileBloc, AppState>(
@@ -63,65 +68,87 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>with Aut
                                         .jumpToPage(snapshot.data! - 2);
                                   }
                                 },
-                                isLoading: state is Loading),
+                                ),
                           ),
                         Expanded(
-                          child: CustomButton(
-                              text: getTranslated("next"),
-                              onTap: () {
-                                if (snapshot.data! < 4) {
-                                  if(snapshot.data! ==1)
+                          child: Center(
+                            child: CustomButton(
+                                text: getTranslated("next"),
+                                onTap: () async {
+                            print(snapshot.data!);
+                                  if (snapshot.data! < 6) {
+                                    if (snapshot.data! == 1) {
+                                      if (!context
+                                          .read<CompleteProfileBloc>()
+                                          .formKey1
+                                          .currentState!
+                                          .validate()) return;
+                                    }
 
-                                  {
-                                    if(!context
-                                        .read<CompleteProfileBloc>().formKey1. currentState!
-                                        .validate())
+                                    if (snapshot.data! == 2) {
+                                      if (!context
+                                          .read<CompleteProfileBloc>()
+                                          .formKey2
+                                          .currentState!
+                                          .validate()) return;
+                                    }
+                                    if (snapshot.data! == 3) {
+                                      if (!context
+                                          .read<CompleteProfileBloc>()
+                                          .formKey3
+                                          .currentState!
+                                          .validate()) return;
+                                    }
+                                    if (snapshot.data! == 4) {
+                                      if (!context
+                                          .read<CompleteProfileBloc>()
+                                          .formKey4
+                                          .currentState!
+                                          .validate()) return;
+                                    }
+
+                                    print(snapshot.data!);
+                                    if (snapshot.data! == 5) {
+
+                                      final result=await    CustomAlertDialog.show(
+                                          dailog: AlertDialog(
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                  Dimensions.PADDING_SIZE_DEFAULT.w,
+                                                  horizontal:
+                                                  Dimensions.PADDING_SIZE_DEFAULT.w),
+                                              insetPadding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                  Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                                  horizontal: context.width * 0.1),
+                                              shape: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.transparent),
+                                                  borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                              content:SubmitConfirmationDialog()
+                                          ));
+                                      if(result) {
+                                        context.read<CompleteProfileBloc>().add(
+                                        Click(),
+                                      );
+                                      }
                                       return;
+                                    }
+
+                                    context
+                                        .read<CompleteProfileBloc>()
+                                        .updateCurrentStep(snapshot.data! + 1);
+                                    context
+                                        .read<CompleteProfileBloc>()
+                                        .pageController
+                                        .jumpToPage(snapshot.data!);
+                                  } else {
+
                                   }
-
-                                  if(snapshot.data! ==2)
-
-                                  {
-                                    if(!context
-                                        .read<CompleteProfileBloc>().formKey2. currentState!
-                                        .validate())
-                                      return;
-                                  }
-                                  if(snapshot.data! ==3)
-
-                                  {
-                                    if(!context
-                                        .read<CompleteProfileBloc>().formKey3. currentState!
-                                        .validate())
-                                      return;
-                                  }
-  if(snapshot.data! ==4)
-
-                                  {
-                                    if(!context
-                                        .read<CompleteProfileBloc>().formKey4. currentState!
-                                        .validate())
-                                      return;
-                                  }
-
-                                  context
-                                      .read<CompleteProfileBloc>()
-                                      .updateCurrentStep(snapshot.data! + 1);
-                                  context
-                                      .read<CompleteProfileBloc>()
-                                      .pageController
-                                      .jumpToPage(snapshot.data! );
-                                }
-
-                                else{
-                                  context.read<CompleteProfileBloc>().add(
-                                    Click(
-
-                                    ),
-                                  );
-                                }
-                              },
-                              isLoading: state is Loading),
+                                },
+                                isLoading: state is Loading),
+                          ),
                         ),
                       ],
                     ),
