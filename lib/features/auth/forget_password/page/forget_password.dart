@@ -51,8 +51,8 @@ class ForgetPassword extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(
                                       vertical:
                                       Dimensions.PADDING_SIZE_DEFAULT.h),
-                                  child: customImageIcon(
-                                      imageName: Images.logo,
+                                  child: Image.asset(
+                                       Images.logoWord,
                                       width: 130.w,
                                       height: 130.h)),
                             ),

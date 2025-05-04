@@ -9,6 +9,7 @@ import 'package:wow/components/custom_images.dart';
 import 'package:wow/features/splash/repo/splash_repo.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/images.dart';
+import '../../../app/core/text_styles.dart';
 import '../../../data/config/di.dart';
 import '../bloc/splash_bloc.dart';
 
@@ -52,23 +53,32 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    customImageIcon(
-                      imageName: Images.logo,
-                      height: 180.h,
-                      width: 180.h,
-                      fit: BoxFit.fill,
-                    )
-                        .animate()
-                        .scale(
-                          begin: const Offset(0.5, 0.5),
-                          end: const Offset(1.0, 1.0),
-                          duration: 1000.ms,
-                          delay: 0.ms,
-                          curve: Curves.easeInOut,
-                        )
-                        .then(delay: 200.ms)
-                        .shimmer(duration: 1000.ms, curve: Curves.easeInOut),
+                    children: [
+                    Spacer(),
+                    Center(
+                      child: Image.asset(
+                        Images.splash ,
+                        height: 180.h,
+                        width: 180.h,
+                        fit: BoxFit.contain,
+                      )
+                          .animate()
+                          .scale(
+                            begin: const Offset(0.5, 0.5),
+                            end: const Offset(1.0, 1.0),
+                            duration: 1000.ms,
+                            delay: 0.ms,
+                            curve: Curves.easeInOut,
+                          )
+                          .then(delay: 200.ms)
+                          .shimmer(duration: 1000.ms, curve: Curves.easeInOut),
+                    ),
+
+                    Spacer(),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text("By Software Cloud 2 ",style: AppTextStyles.w600.copyWith(fontSize: 18),)),
+                      SizedBox(height: 18,)
                   ],
                 ),
               ),

@@ -20,13 +20,11 @@ import '../../../../data/error/failures.dart';
 import '../../../app/core/dimensions.dart';
 import '../../../components/custom_alert_dialog.dart';
 import '../../../main_models/custom_field_model.dart';
-import '../enitity/complete_profile_entity.dart';
-import '../repo/complete_profile_repo.dart';
-import '../widget/submit_success_dialog.dart';
+import '../repo/perosnal_info_repo.dart';
 
-class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
-  final CompleteProfileRepo repo;
-  CompleteProfileBloc({required this.repo}) : super(Start()) {
+class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
+  final PersonalInfoRepo repo;
+  PersonalInfoBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
     updateCurrentStep(1);
     updateDOP(DateTime(1999));
@@ -86,11 +84,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   Function(DateTime?) get updateDOP => dop.sink.add;
   Stream<DateTime?> get dopStream => dop.stream.asBroadcastStream();
 
-  final registerEntity = BehaviorSubject<CompleteProfileEntity?>();
-  Function(CompleteProfileEntity?) get updateRegisterEntity =>
-      registerEntity.sink.add;
-  Stream<CompleteProfileEntity?> get registerEntityStream =>
-      registerEntity.stream.asBroadcastStream();
+
 
   final phoneCode = BehaviorSubject<String?>();
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
@@ -140,10 +134,10 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         // "email": "ahmeedhassanali@outlook.com",
         // "phone": "123456789",
         "country_id": nationality.valueOrNull?.id,
-        "city_id": city.valueOrNull?.id??1,
+        "city_id": city.valueOrNull?.id,
         "dob": dop.valueOrNull?.defaultFormat2(),
         "social_status": socialStatus.valueOrNull?.id,
-        "gender": gender.valueOrNull ==1?"M":"F",
+        "gender": gender.valueOrNull,
         "nickname": nickname.text.trim(),
         "gfname": gfName.text.trim(),
         "glname": lName.text.trim(),
@@ -166,8 +160,9 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         // "religion": 1,
         // "about_me": "sssssssss",
         //
-        "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
+        "identity_file": MultipartFile.fromFileSync(identityImage.value!.path)
       });
+      print(data);
       Either<ServerFailure, Response> response =
           await repo.completeProfile(data);
 
@@ -180,24 +175,24 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        CustomAlertDialog.show(
-            dailog: AlertDialog(
-                contentPadding: EdgeInsets.symmetric(
-                    vertical:
-                    Dimensions.PADDING_SIZE_DEFAULT.w,
-                    horizontal:
-                    Dimensions.PADDING_SIZE_DEFAULT.w),
-                insetPadding: EdgeInsets.symmetric(
-                    vertical:
-                    Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                    horizontal: 20),
-                shape: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Colors.transparent),
-                    borderRadius:
-                    BorderRadius.circular(20.0)),
-                content:SubmitSuccessDialog()
-            ));
+        // CustomAlertDialog.show(
+        //     dailog: AlertDialog(
+        //         contentPadding: EdgeInsets.symmetric(
+        //             vertical:
+        //             Dimensions.PADDING_SIZE_DEFAULT.w,
+        //             horizontal:
+        //             Dimensions.PADDING_SIZE_DEFAULT.w),
+        //         insetPadding: EdgeInsets.symmetric(
+        //             vertical:
+        //             Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+        //             horizontal: 20),
+        //         shape: OutlineInputBorder(
+        //             borderSide: const BorderSide(
+        //                 color: Colors.transparent),
+        //             borderRadius:
+        //             BorderRadius.circular(20.0)),
+        //         content:SubmitSuccessDialog()
+        //     ));
 
 
 

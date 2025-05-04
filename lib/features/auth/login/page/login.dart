@@ -33,6 +33,7 @@ class Login extends StatelessWidget {
                   data: [
                     LoginHeader(),
                     LoginBody(),
+                    SizedBox(height: 18,)
                   ],
                 ),
               ),

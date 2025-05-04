@@ -44,33 +44,35 @@ class ResetPassword extends StatelessWidget {
                             ResetPasswordHeader(),
 
                             ///Body
-                            ResetPasswordBody(),
+                            ResetPasswordBody(data:data),
 
                             ///Confirm
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical:
                                   Dimensions.PADDING_SIZE_DEFAULT.h),
-                              child: CustomButton(
-                                  text: getTranslated("confirm_password"),
-                                  onTap: () {
-                                    context
-                                        .read<ResetPasswordBloc>()
-                                        .formKey
-                                        .currentState!
-                                        .validate();
-                                    // if (context
-                                    //     .read<ResetPasswordBloc>()
-                                    //     .isBodyValid()) {
-                                    //   CustomNavigator.push(Routes.login,
-                                    //       clean: true);
-                                    // }
-                                    context
-                                        .read<ResetPasswordBloc>()
-                                        .add(Click(
-                                            arguments: data));
-                                  },
-                                  isLoading: state is Loading),
+                              child: Center(
+                                child: CustomButton(
+                                    text: getTranslated("confirm_password"),
+                                    onTap: () {
+                                      context
+                                          .read<ResetPasswordBloc>()
+                                          .formKey
+                                          .currentState!
+                                          .validate();
+                                      // if (context
+                                      //     .read<ResetPasswordBloc>()
+                                      //     .isBodyValid()) {
+                                      //   CustomNavigator.push(Routes.login,
+                                      //       clean: true);
+                                      // }
+                                      context
+                                          .read<ResetPasswordBloc>()
+                                          .add(Click(
+                                              arguments: data));
+                                    },
+                                    isLoading: state is Loading),
+                              ),
                             ),
                           ],
                         ),

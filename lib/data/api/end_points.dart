@@ -12,13 +12,13 @@ class EndPoints {
   ///Auth
   static const String socialMediaAuth = 'social-login';
   static const String forgetPassword = 'reset-password-email';
-  static const String resetPassword = 'reset-password-email';
+  static const String resetPassword = 'new-password';
   static const String changePassword = 'change-password';
   static const String register = 'register';
   static const String logIn = 'login';
   static const String resend = 'resend-otp';
   static const String verifyOtp = 'check-verification-code';
-  static const String verifyOtpResetPass = 'reset-password-check-codee';
+  static const String verifyOtpResetPass = 'reset-password-check-code';
   static const String suspendAccount = 'suspend-account';
   static const String reactivateAccount = 'reactivate-account';
 

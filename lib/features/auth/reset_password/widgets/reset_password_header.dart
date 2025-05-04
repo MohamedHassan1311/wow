@@ -20,10 +20,11 @@ class ResetPasswordHeader extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 vertical:
                 Dimensions.PADDING_SIZE_DEFAULT.h),
-            child: customImageIcon(
-                imageName: Images.authLogo,
+            child: Image.asset(
+          Images.logoWord,
+                fit: BoxFit.contain,
                 width: 230.w,
-                height: 130.h)),
+                height: 130.w,)),
       ),
       Text(
         getTranslated("reset_password_header"),

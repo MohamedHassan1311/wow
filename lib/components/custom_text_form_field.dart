@@ -144,12 +144,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
             : Styles.BORDER_COLOR);
   }
 
- final OutlineInputBorder border= OutlineInputBorder(
-  borderRadius: BorderRadius.circular(25),
-  borderSide: BorderSide(
-  color: Colors.grey,
-  width: 1,
-  ),
+  final OutlineInputBorder border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(25),
+    borderSide: BorderSide(
+      color: Colors.grey,
+      width: 1,
+    ),
   );
   @override
   Widget build(BuildContext context) {
@@ -175,7 +175,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
             child: TextFormField(
               autofillHints: widget.autofillHints,
               focusNode: widget.focusNode,
-
               onFieldSubmitted: (v) {
                 widget.onSubmit?.call(v);
                 setState(() {
@@ -219,18 +218,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 overflow: TextOverflow.ellipsis,
                 color: Styles.HEADER,
               ),
-
               scrollPhysics: const BouncingScrollPhysics(),
               scrollPadding: EdgeInsets.only(
                   bottom: widget.keyboardPadding ? context.bottom : 0.0),
               decoration: InputDecoration(
                 enabled: widget.isEnabled,
-filled: true,
+                filled: true,
                 fillColor: Styles.GREY_BORDER,
                 // labelText: widget.label,
                 hintText: widget.hint ?? '',
                 errorText: null,
-                contentPadding:  EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 18.h, horizontal: 16.w),
                 errorStyle: TextStyle(
                   color: Colors.red,
                   fontSize: 12,
@@ -240,7 +239,7 @@ filled: true,
                     widget.alignLabelWithHint ?? widget.alignLabel,
                 disabledBorder: border,
                 focusedBorder: border,
-                enabledBorder:border,
+                enabledBorder: border,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25), // لتدوير الزوايا
                 ),
@@ -259,6 +258,7 @@ filled: true,
                     color: Styles.HINT_COLOR,
                     fontSize: 14,
                     fontWeight: FontWeight.w400),
+
                 prefixIcon: widget.prefixWidget ??
                     (widget.pAssetIcon != null
                         ? Padding(
@@ -272,8 +272,7 @@ filled: true,
                           )
                         : widget.pSvgIcon != null
                             ? Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 12.w),
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 child: SizedBox()
 
                                 // customImageIconSVG(
@@ -326,7 +325,6 @@ filled: true,
                 ),
                 prefixIconConstraints: BoxConstraints(maxHeight: 25.h),
                 suffixIconConstraints: BoxConstraints(maxHeight: 25.h),
-
               ),
             ),
           ),

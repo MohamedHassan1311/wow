@@ -5,11 +5,14 @@ import '../../../../app/core/svg_images.dart';
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_text_form_field.dart';
+import '../../verification/model/verification_model.dart';
 import '../bloc/reset_password_bloc.dart';
 import '../entity/reset_password_entity.dart';
 
 class ResetPasswordBody extends StatelessWidget {
-  const ResetPasswordBody({super.key});
+  final VerificationModel data;
+
+  const ResetPasswordBody({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class ResetPasswordBody extends StatelessWidget {
       child: StreamBuilder<ResetPasswordEntity?>(
         stream: context.read<ResetPasswordBloc>().resetPasswordEntityStream,
         initialData: ResetPasswordEntity(
+          email: TextEditingController(text: data.email),
           password: TextEditingController(),
           confirmPassword: TextEditingController(),
         ),

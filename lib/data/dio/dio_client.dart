@@ -50,7 +50,7 @@ class DioClient extends ApiClient {
       "Accept": " application/json",
       'x-api-key': EndPoints.apiKey,
       "Accept-Language":
-          sharedPreferences.getString(AppStorageKey.languageCode) ?? "en",
+          sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
       if (token != null) 'Authorization': "Bearer $token"
     };
   }
@@ -60,7 +60,7 @@ class DioClient extends ApiClient {
       'Content-Type': 'application/json; charset=UTF-8',
       "Accept": " application/json",
       'x-api-key': EndPoints.apiKey,
-      "Accept-Language": sharedPreferences.getString(AppStorageKey.languageCode) ?? "en",
+      "Accept-Language": sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
       if (sharedPreferences.getString(AppStorageKey.token) != null)
         'Authorization': "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
     };

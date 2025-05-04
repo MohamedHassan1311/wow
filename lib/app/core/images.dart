@@ -2,7 +2,7 @@ class Images {
   static const String appLogo = 'assets/logo.png';
   static const String logo = 'assets/images/logo.png';
   static const String logoWord = 'assets/images/wow.png';
-  static const String splash = 'assets/splash.png';
+  static const String splash = 'assets/images/splachLogo.png';
   static const String onBoarding1 = 'assets/images/on_boarding_1.png';
   static const String onBoarding2 = 'assets/images/on_boarding_2.png';
   static const String onBoarding3 = 'assets/images/on_boarding_3.png';

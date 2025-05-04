@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 class ResetPasswordEntity {
   TextEditingController? password;
   TextEditingController? confirmPassword;
+  TextEditingController? email;
 
   String? passwordError;
   String? confirmPasswordError;
 
   ResetPasswordEntity({
     this.password,
+    this.email,
     this.confirmPassword,
     this.passwordError,
     this.confirmPasswordError,
@@ -27,8 +29,9 @@ class ResetPasswordEntity {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = passwordError == "" ? email?.text.trim() : null;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
-    data['confirm_password'] = confirmPasswordError == "" ? confirmPassword?.text.trim() : "";
+    data['newPassword'] = confirmPasswordError == "" ? confirmPassword?.text.trim() : "";
     return data;
   }
 }

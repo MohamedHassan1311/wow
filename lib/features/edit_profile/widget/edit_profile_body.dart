@@ -85,7 +85,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                         validate: Validations.phone,
                         // pSvgIcon: SvgImages.phoneCallIcon,
                         isEnabled: false,
-                        prefixWidget: Container(
+                        sufWidget: Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 4.w, vertical: 4.h),
                           decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                               CountryFlag.fromCountryCode(
                                 "SA",
                                 height: 18,
-                                width: 24,
+                                width: 18,
                                 shape: const RoundedRectangle(5),
                               ),
                               SizedBox(width: 4.w),

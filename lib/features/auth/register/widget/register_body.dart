@@ -72,7 +72,8 @@ class RegisterBody extends StatelessWidget {
                         inputType: TextInputType.phone,
                         align: Alignment.centerLeft,
                         pSvgIcon: SvgImages.phone,
-                        prefixWidget: StreamBuilder<String?>(
+
+                        sufWidget:StreamBuilder<String?>(
                             stream: context
                                 .read<RegisterBloc>()
                                 .phoneCodeStream,
@@ -89,12 +90,10 @@ class RegisterBody extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         CountryFlag.fromCountryCode(
-                                          snapshot.data ??
-                                              countryCode?.code ??
-                                              "",
-                                          height: 25,
-                                          width: 25,
-                                          shape: const RoundedRectangle(100),
+                                          "SA",
+                                          height: 18,
+                                          width: 18,
+                                          shape: const RoundedRectangle(1),
                                         ),
                                         SizedBox(width: 6.w),
                                         Text(
