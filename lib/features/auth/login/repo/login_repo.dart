@@ -20,8 +20,6 @@ class LoginRepo extends BaseRepo {
     sharedPreferences.setString(AppStorageKey.userId, json["id"].toString());
     sharedPreferences.setString(AppStorageKey.userData, jsonEncode(json));
     sharedPreferences.setBool(AppStorageKey.isLogin, true);
-    sharedPreferences.setString(AppStorageKey.token, json["token"]);
-    dioClient.updateHeader(json["token"]);
   }
 
   saveUserToken(token) {
@@ -62,9 +60,9 @@ class LoginRepo extends BaseRepo {
       Response response =
           await dioClient.post(uri: EndPoints.logIn, data: data);
       if (response.statusCode == 200) {
-        if (response.data['data']["email_verified_at"] != null) {
-          saveUserToken(response.data["data"]["token"]);
-          saveUserData(response.data["data"]["user"]);
+        if (response.data['data']["client"]["is_verified"] ==1) {
+          saveUserToken(response.data["data"]["access_token"]);
+          saveUserData(response.data["data"]["client"]);
         }
         return Right(response);
       } else {

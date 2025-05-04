@@ -31,27 +31,25 @@ class _MoreState extends State<More> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(),
       body: BlocBuilder<LanguageBloc, AppState>(
         builder: (context, state) {
-          return SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: BlocBuilder<UserBloc, AppState>(
-                    builder: (context, state) {
-                      return ListAnimator(
-                        data: [
-                          // if (sl<UserBloc>().isLogin)
-                            MoreProfileOptions(),
-                          MoreSettingsOptions(),
-                        ],
-                      );
-                    },
-                  ),
+          return Column(
+            children: [
+              MainAppBar(),
+              Expanded(
+                child: BlocBuilder<UserBloc, AppState>(
+                  builder: (context, state) {
+                    return ListAnimator(
+                      data: [
+                        // if (sl<UserBloc>().isLogin)
+                          MoreProfileOptions(),
+                        MoreSettingsOptions(),
+                      ],
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

@@ -26,7 +26,7 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
       Geolocator.requestPermission();
 
       ///Get Setting
-      // sl<SettingBloc>().add(Get());
+      sl<SettingBloc>().add(Get());
       if (repo.isLogin) {
         UserBloc.instance.add(Click());
       } else {
@@ -35,7 +35,7 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
         }
       }
 
-      if (!repo.isFirstTime) {
+      if (repo.isFirstTime) {
         CustomNavigator.push(Routes.onBoarding, clean: true);
       } else
       if (!repo.isLogin) {

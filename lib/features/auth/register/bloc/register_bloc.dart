@@ -80,8 +80,8 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
-      CustomNavigator.push(Routes.CompleteProfile,
-     );
+     //  CustomNavigator.push(Routes.CompleteProfile,
+     // );
       if(isBodyValid()==false)
       {
         return;

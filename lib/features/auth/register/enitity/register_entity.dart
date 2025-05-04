@@ -55,7 +55,7 @@ class RegisterEntity {
     data['lname'] = nameError == "" ? name?.text.trim() : "lname";
     data['email'] = emailError == "" ? email?.text.trim() : null;
     data['phone'] = phoneError == "" ? phone?.text.trim() : null;
-    data['country_id'] = country ;
+    data['country_code'] = country!.replaceAll("+", "") ;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
     data['confirm_password'] = confirmPasswordError == "" ? confirmPassword?.text.trim() : "";
     return data;

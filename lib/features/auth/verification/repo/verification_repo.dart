@@ -65,8 +65,8 @@ class VerificationRepo extends BaseRepo {
 
       if (response.statusCode == 200) {
         if (model.fromRegister && response.data['data'] != null) {
-          saveUserToken(response.data["data"]["token"]);
-          saveUserData(response.data["data"]["user"]);
+          saveUserToken(response.data["data"]["accessToken"]);
+          saveUserData(response.data["data"]);
         }
         return Right(response);
       } else {

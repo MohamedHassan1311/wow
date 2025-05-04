@@ -63,26 +63,17 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
       emit(Loading());
-
       Either<ServerFailure, Response> response =
           await repo.logIn(loginEntity.valueOrNull!.toJson());
 
       response.fold((fail) {
-        if (fail.statusCode == 406) {
-          CustomSimpleDialog.parentSimpleDialog(
-            canDismiss: false,
-            withContentPadding: false,
-            customWidget: ActivationDialog(
-                email: loginEntity.valueOrNull?.email?.text.trim() ?? ""),
-          );
-        } else {
           AppCore.showSnackBar(
               notification: AppNotification(
                   message: getTranslated("invalid_credentials"),
                   isFloating: true,
                   backgroundColor: Styles.IN_ACTIVE,
                   borderColor: Colors.transparent));
-        }
+
         emit(Error());
       }, (success) {
         if (rememberMe.valueOrNull == true) {
@@ -90,7 +81,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
         }
 
         if (success.data['data'] != null &&
-            success.data['data']["email_verified_at"] == null) {
+            success.data['data']["client"]["is_verified"] == 0) {
           CustomNavigator.push(
             Routes.verification,
             arguments: VerificationModel(
@@ -98,7 +89,12 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
                 fromRegister: true),
           );
         } else {
-          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+          if (success.data['data'] != null &&
+              success.data['data']["client"]["social_status"] == null) {
+            CustomNavigator.push(Routes.CompleteProfile, clean: true);
+          }else {
+            CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+          }
         }
 
         clear();
