@@ -213,10 +213,10 @@ packages:
     dependency: "direct main"
     description:
       name: country_codes
-      sha256: "395f14c4d1ccd3b5f2f298add0c536411d80089067e4b633d50e42dafffd737e"
+      sha256: "80e441b8a4bec1e7a24d58955fe769e7c6199ffd025f4509d4172d8d0195dfc4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.3+1"
+    version: "3.3.0"
   country_flags:
     dependency: "direct main"
     description:
@@ -373,10 +373,10 @@ packages:
     dependency: "direct main"
     description:
       name: external_path
-      sha256: "272d067c719c2421ff40c202ac32ccddcb689f3b0c839ec370942666dae589db"
+      sha256: "68a18a2aa51ec012d7013ea2a80305dc5372f3577a2bbcc7dcc5550b25a5a73b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.2.0"
   facebook_auth_desktop:
     dependency: transitive
     description:
@@ -1277,14 +1277,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
-  huawei_push:
-    dependency: "direct main"
-    description:
-      name: huawei_push
-      sha256: "6783d65050a6d4b93478c059a63f1341048cbedd1a7971803a934f4d26dc4873"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.12.0+303"
   hydrated_bloc:
     dependency: "direct main"
     description:
@@ -1601,10 +1593,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_filex
-      sha256: dcb7bd3d32db8db5260253a62f1564c02c2c8df64bc0187cd213f65f827519bd
+      sha256: "9976da61b6a72302cf3b1efbce259200cd40232643a467aac7370addf94d6900"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.0"
+    version: "4.7.0"
   os_detect:
     dependency: transitive
     description:

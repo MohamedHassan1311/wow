@@ -8,6 +8,7 @@ import '../../../app/localization/language_constant.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/custom_images.dart';
 import '../../../navigation/custom_navigation.dart';
+import '../../../navigation/routes.dart';
 
 class SubmitSuccessDialog extends StatelessWidget {
   const SubmitSuccessDialog({super.key});
@@ -49,7 +50,7 @@ class SubmitSuccessDialog extends StatelessWidget {
                   getTranslated("next"),
                   onTap: () {
 
-                    CustomNavigator.pop(result: true);
+                    CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
 
                   },
                 ),

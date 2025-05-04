@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBiKDN2kdPKWHHBbB7XC7onFkpEPwJCQDM',
-    appId: '1:1073922732520:ios:44c122ba62c4000cf5b45d',
+    appId: '1:1073922732520:ios:64906cb7ca44a8fef5b45d',
     messagingSenderId: '1073922732520',
     projectId: 'wowo-f635b',
     storageBucket: 'wowo-f635b.firebasestorage.app',
-    iosBundleId: 'com.com.wow.app.app',
+    iosBundleId: 'com.wowww.app',
   );
+
 }

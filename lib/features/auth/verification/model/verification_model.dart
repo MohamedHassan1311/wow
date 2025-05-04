@@ -4,12 +4,14 @@ class VerificationModel {
   String? phone;
   String? countryCode;
   bool fromRegister;
+  bool fromForgetPass;
   VerificationModel({
     this.email,
     this.code,
     this.phone,
     this.countryCode,
     this.fromRegister = true,
+    this.fromForgetPass = true,
   });
   bool isEmpty() => email == "";
 

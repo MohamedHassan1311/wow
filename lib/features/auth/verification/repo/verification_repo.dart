@@ -61,7 +61,7 @@ class VerificationRepo extends BaseRepo {
       VerificationModel model) async {
     try {
       Response response =
-          await dioClient.post(uri: EndPoints.verifyOtp, data: model.toJson());
+          await dioClient.post(uri:model.fromForgetPass?EndPoints.verifyOtpResetPass: EndPoints.verifyOtp, data: model.toJson());
 
       if (response.statusCode == 200) {
         if (model.fromRegister && response.data['data'] != null) {

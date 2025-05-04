@@ -18,6 +18,7 @@ class EndPoints {
   static const String logIn = 'login';
   static const String resend = 'resend-otp';
   static const String verifyOtp = 'check-verification-code';
+  static const String verifyOtpResetPass = 'reset-password-check-codee';
   static const String suspendAccount = 'suspend-account';
   static const String reactivateAccount = 'reactivate-account';
 

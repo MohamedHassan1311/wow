@@ -54,7 +54,7 @@ class ForgetPasswordBloc extends Bloc<AppEvent, AppState> {
       }, (success) {
         CustomNavigator.push(Routes.verification,
             arguments: VerificationModel(
-                email: email.valueOrNull, fromRegister: false));
+                email: email.valueOrNull, fromRegister: false,fromForgetPass: true));
         clear();
         emit(Done());
       });

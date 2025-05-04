@@ -22,8 +22,8 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
       ///Ask Notification Permission
       PermissionHandler.checkNotificationsPermission();
 
-      ///Ask Location Permission
-      Geolocator.requestPermission();
+      // ///Ask Location Permission
+      // Geolocator.requestPermission();
 
       ///Get Setting
       sl<SettingBloc>().add(Get());

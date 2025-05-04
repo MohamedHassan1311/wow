@@ -40,15 +40,7 @@ class Terms extends StatelessWidget {
                         horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
                       ),
                       data: [
-                        Center(
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                              child: customImageIcon(
-                                  imageName: Images.authLogo,
-                                  width: 230.w,
-                                  height: 130.h)),
-                        ),
+
                         HtmlWidget((state.model as SettingModel)
                                 .appRules
                                 ?.termsAndConditions ??

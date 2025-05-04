@@ -145,7 +145,7 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
 }

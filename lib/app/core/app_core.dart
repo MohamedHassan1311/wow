@@ -68,7 +68,7 @@ class AppCore {
     String? path;
     if (Platform.isAndroid) {
       path =
-          '${await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS)}/wow';
+          '${await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOAD)}/wow';
     } else {
       Directory documents = await getApplicationDocumentsDirectory();
       path = '${documents.path}/wow';

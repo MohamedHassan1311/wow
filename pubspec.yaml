@@ -69,13 +69,13 @@ dependencies:
   share_plus: ^10.1.4
   lottie: ^3.3.1
   flutter_native_splash: ^2.4.4
-  huawei_push: ^6.12.0+303
+#  huawei_push: ^6.12.0+303
   device_info_plus: ^11.3.0
   flutter_bloc: ^9.0.0
   hydrated_bloc: ^10.0.0
   country_code_picker: ^3.2.0
-  external_path: ^2.0.1
-  open_filex: ^4.6.0
+  external_path: ^2.2.0
+  open_filex: ^4.7.0
   intro_screen_onboarding_flutter: ^1.0.0
   sqflite: ^2.4.1
   path: ^1.9.0
@@ -92,7 +92,7 @@ dependencies:
   just_audio: ^0.9.46
   country_list_pick: ^1.0.1+6
   country_flags: ^3.2.0
-  country_codes: ^3.2.3+1
+  country_codes: ^3.3.0
   google_maps_flutter: ^2.10.0
   geocoding: ^3.0.0
   flutter_dotenv: ^5.2.1

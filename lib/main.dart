@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,6 +15,7 @@ import 'package:wow/features/language/bloc/language_bloc.dart';
 import 'app/core/app_storage_keys.dart';
 import 'app/core/un_focus.dart';
 import 'app/localization/app_localization.dart';
+import 'app/notifications/notification_helper.dart';
 import 'app/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,7 @@ import 'app/core/app_strings.dart';
 import 'data/config/di.dart' as di;
 import 'data/config/di.dart';
 import 'data/config/provider.dart';
+import 'firebase_options.dart';
 import 'navigation/custom_navigation.dart';
 
 import 'navigation/routes.dart';
@@ -41,11 +44,11 @@ Future<void> main() async {
   //   daysToExpire: 12098,
   // );
 
-  // if (!kDebugMode) {
-  //   await Firebase.initializeApp(
-  //       options: DefaultFirebaseOptions.currentPlatform);
-  //   await FirebaseNotifications.setUpFirebase();
-  // }
+  if (!kDebugMode) {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    await FirebaseNotifications.setUpFirebase();
+  }
 
   await dotenv.load(fileName: ".env");
   await di.init();
