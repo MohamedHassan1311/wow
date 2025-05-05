@@ -27,7 +27,7 @@ class EditProfileBloc extends Bloc<AppEvent, AppState> {
   final formKey = GlobalKey<FormState>();
 
   Map<String, dynamic> body = {
-    "name": "${UserBloc.instance.user?.name}",
+    "name": "${UserBloc.instance.user?.fname}",
     "email": "${UserBloc.instance.user?.email}",
     "phone_number": "${UserBloc.instance.user?.phone}",
   };
