@@ -50,7 +50,7 @@ class VerificationBloc extends Bloc<AppEvent, AppState> {
       }, (success) {
         print(data.fromRegister);
         if (data.fromRegister) {
-          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+          CustomNavigator.push(Routes.login, clean: true, arguments: 0);
         } else {
           CustomNavigator.push(Routes.resetPassword, arguments: data);
         }

@@ -166,24 +166,6 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        // CustomAlertDialog.show(
-        //     dailog: AlertDialog(
-        //         contentPadding: EdgeInsets.symmetric(
-        //             vertical:
-        //             Dimensions.PADDING_SIZE_DEFAULT.w,
-        //             horizontal:
-        //             Dimensions.PADDING_SIZE_DEFAULT.w),
-        //         insetPadding: EdgeInsets.symmetric(
-        //             vertical:
-        //             Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-        //             horizontal: 20),
-        //         shape: OutlineInputBorder(
-        //             borderSide: const BorderSide(
-        //                 color: Colors.transparent),
-        //             borderRadius:
-        //             BorderRadius.circular(20.0)),
-        //         content:SubmitSuccessDialog()
-        //     ));
 
 
 

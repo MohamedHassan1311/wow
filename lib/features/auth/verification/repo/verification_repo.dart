@@ -64,10 +64,10 @@ class VerificationRepo extends BaseRepo {
           await dioClient.post(uri:model.fromForgetPass?EndPoints.verifyOtpResetPass: EndPoints.verifyOtp, data: model.toJson());
 
       if (response.statusCode == 200) {
-        if (model.fromRegister && response.data['data'] != null) {
-          saveUserToken(response.data["data"]["accessToken"]);
-          saveUserData(response.data["data"]);
-        }
+        // if (model.fromRegister && response.data['data'] != null) {
+        //   saveUserToken(response.data["data"]["accessToken"]);
+        //   saveUserData(response.data["data"]);
+        // }
         return Right(response);
       } else {
         return left(ApiErrorHandler.getServerFailure(response.data['message']));

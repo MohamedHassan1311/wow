@@ -80,15 +80,16 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
           repo.saveCredentials(loginEntity.valueOrNull!.toJson());
         }
 
-        if (success.data['data'] != null &&
-            success.data['data']["client"]["is_verified"] == 0) {
-          CustomNavigator.push(
-            Routes.verification,
-            arguments: VerificationModel(
-                email: loginEntity.valueOrNull?.email?.text.trim() ?? "",
-                fromRegister: true),
-          );
-        } else {
+        // if (success.data['data'] != null &&
+        //     success.data['data']["client"]["is_verified"] == 0) {
+        //   CustomNavigator.push(
+        //     Routes.verification,
+        //     arguments: VerificationModel(
+        //         email: loginEntity.valueOrNull?.email?.text.trim() ?? "",
+        //         fromRegister: true),
+        //   );
+        // } else
+        {
           if (success.data['data'] != null &&
               success.data['data']["client"]["social_status"] == null) {
             CustomNavigator.push(Routes.CompleteProfile, clean: true);
