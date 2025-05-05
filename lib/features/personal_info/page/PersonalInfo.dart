@@ -7,6 +7,11 @@ import '../../../../data/config/di.dart';
 import '../bloc/personal_profile_bloc.dart';
 import '../repo/perosnal_info_repo.dart';
 
+import '../widget/personal_info_inteoduaction.dart';
+import '../widget/personal_info_sect_and_tribe.dart';
+import '../widget/personal_info_shape.dart';
+import '../widget/persona_info_education.dart';
+import '../widget/personal_info_job.dart';
 import '../widget/personal_info_actions.dart';
 import '../widget/personal_info_header.dart';
 
@@ -37,11 +42,12 @@ class PersonalInfo extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         pageSnapping: true,
                         children: [
-                          // CompleteProfileNameAndGender(),
-                          // CompleteProfileNationalityAndCountry(),
-                          // CompleteProfileMaritalStatus(),
-                          // CompleteProfileGuardiandata(),
-                          // CompleteProfileVerification()
+                          PersonalInfoEducation(),
+                          PersonalInfoJob(),
+                          PersonalInfoShape(),
+                          PersonalInfoSectAndTribe(),
+                          PersonalProfileIntroduction()
+
                         ],
                       ),
                     ),

@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/app/core/app_state.dart';
+import 'package:wow/app/core/extensions.dart';
+
+import '../../../../app/core/validation.dart';
+import '../../../../app/localization/language_constant.dart';
+import '../../../app/core/app_event.dart';
+import '../../../app/core/dimensions.dart';
+import '../../../app/core/svg_images.dart';
+import '../../../components/custom_drop_down_button.dart';
+import '../../../components/custom_text_form_field.dart';
+import '../../../components/shimmer/custom_shimmer.dart';
+import '../../../data/config/di.dart';
+import '../../../main_models/custom_field_model.dart';
+import '../../setting_option/bloc/setting_option_bloc.dart';
+import '../../setting_option/repo/setting_option_repo.dart';
+import '../bloc/personal_profile_bloc.dart';
+
+class PersonalInfoJob extends StatefulWidget {
+  const PersonalInfoJob({super.key});
+
+  @override
+  State<PersonalInfoJob> createState() =>
+      _PersonalInfoJobState();
+}
+
+class _PersonalInfoJobState extends State<PersonalInfoJob>
+    with AutomaticKeepAliveClientMixin {
+  BuildContext? cityBlocContext;
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocBuilder<PersonalInfoBloc, AppState>(
+      builder: (context, state) {
+        return Form(
+          key: context.read<PersonalInfoBloc>().formKey2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              /// nationality
+              BlocProvider(
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "job_title"})),
+                child: BlocBuilder<SettingOptionBloc, AppState>(
+                    builder: (context, state) {
+                  if (state is Done) {
+                    CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                    return StreamBuilder<CustomFieldModel?>(
+                        stream:
+                            context.read<PersonalInfoBloc>().jobStream,
+                        builder: (context, snapshot) {
+                          return CustomDropDownButton(
+                            label: getTranslated("job"),
+
+                            value: null,
+                            onChange: (v) {
+                              context
+                                  .read<PersonalInfoBloc>()
+                                  .updateJob(v as CustomFieldModel);
+                            },
+                            items: model.data ?? [],
+                            name: context
+                                    .read<PersonalInfoBloc>()
+                                    .job
+                                    .valueOrNull
+                                    ?.name ??
+                                getTranslated("job"),
+                          );
+                        });
+                  }
+                  if (state is Loading) {
+                    return CustomShimmerContainer(
+                      height: 60.h,
+                      width: context.width,
+                      radius: 30,
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+              ),
+
+              // ///Name
+              CustomTextField(
+                controller:
+                context.read<PersonalInfoBloc>().otherJob,
+                label: getTranslated("anther_job"),
+                hint:
+                "${getTranslated("enter")} ${getTranslated("job")}",
+                inputType: TextInputType.name,
+                pSvgIcon: SvgImages.user,
+                validate: Validations.name,
+              ),
+
+              CustomTextField(
+                controller:
+                context.read<PersonalInfoBloc>().salery,
+                label: getTranslated("salary"),
+                hint:
+                "${getTranslated("enter")} ${getTranslated("salary")}",
+                inputType: TextInputType.name,
+                pSvgIcon: SvgImages.user,
+                validate: Validations.name,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}

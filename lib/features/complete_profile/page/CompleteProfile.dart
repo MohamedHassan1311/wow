@@ -2,10 +2,8 @@ import 'package:wow/app/core/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../app/core/dimensions.dart';
-import '../../../../app/core/images.dart';
-import '../../../../components/animated_widget.dart';
+
 import '../../../../data/config/di.dart';
-import '../../../app/core/styles.dart';
 import '../bloc/complete_profile_bloc.dart';
 import '../repo/complete_profile_repo.dart';
 import '../widget/complete_profile_actions.dart';

@@ -17,6 +17,8 @@ import '../features/contact_with_us/page/contact_with_us_page.dart';
 import '../features/faqs/page/faqs_page.dart';
 import '../features/maps/page/pick_map_page.dart';
 import '../features/notifications/page/notifications_page.dart';
+import '../features/personal_info/page/PersonalInfo.dart';
+import '../features/personal_info/repo/perosnal_info_repo.dart';
 import '../main.dart';
 import 'routes.dart';
 import '../main_page/page/dashboard.dart';
@@ -56,6 +58,8 @@ abstract class CustomNavigator {
         return _pageRoute(const Register());
         case Routes.CompleteProfile:
         return _pageRoute(const CompleteProfile());
+        case Routes.personalInfo:
+        return _pageRoute(const PersonalInfo());
 
       case Routes.forgetPassword:
         return _pageRoute(const ForgetPassword());

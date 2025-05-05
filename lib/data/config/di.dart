@@ -31,6 +31,7 @@ import '../../features/language/bloc/language_bloc.dart';
 import '../../features/language/repo/language_repo.dart';
 import '../../features/maps/repo/maps_repo.dart';
 import '../../features/notifications/repo/notifications_repo.dart';
+import '../../features/personal_info/repo/perosnal_info_repo.dart';
 import '../../features/profile/bloc/profile_bloc.dart';
 import '../../features/profile/repo/profile_repo.dart';
 import '../../features/setting/bloc/setting_bloc.dart';
@@ -101,6 +102,8 @@ Future<void> init() async {
       () => RegisterRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => CompleteProfileRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => PersonalInfoRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => SettingOptionRepo(sharedPreferences: sl(), dioClient: sl()));
 

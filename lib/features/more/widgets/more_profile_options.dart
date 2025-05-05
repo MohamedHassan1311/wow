@@ -10,6 +10,7 @@ import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
 import '../../notifications/bloc/turn_notification_bloc.dart';
 import '../../notifications/repo/notifications_repo.dart';
+import '../../personal_info/page/PersonalInfo.dart';
 import 'more_button.dart';
 
 class MoreProfileOptions extends StatelessWidget {
@@ -41,7 +42,8 @@ class MoreProfileOptions extends StatelessWidget {
           MoreButton(
             title: getTranslated("profile", context: context),
             icon: SvgImages.profileIcon,
-            onTap: () => CustomNavigator.push(Routes.editProfile),
+            // onTap: () => CustomNavigator.push(Routes.editProfile),
+            onTap: () => CustomNavigator.push(Routes.personalInfo),
           ),
 
 

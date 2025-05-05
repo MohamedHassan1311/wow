@@ -30,13 +30,13 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
     updateDOP(DateTime(1999));
   }
 
-  final TextEditingController fName = TextEditingController();
-  final TextEditingController lName = TextEditingController();
-  final TextEditingController nickname = TextEditingController();
-  final TextEditingController numberOfChildren = TextEditingController();
-  final TextEditingController gfName = TextEditingController();
-  final TextEditingController glName = TextEditingController();
-  final TextEditingController gPhoneNumber = TextEditingController();
+  final TextEditingController otherJob = TextEditingController();
+  final TextEditingController salery = TextEditingController();
+  final TextEditingController weight = TextEditingController();
+  final TextEditingController height = TextEditingController();
+  final TextEditingController otherTribe = TextEditingController();
+  final TextEditingController personalInfo = TextEditingController();
+  final TextEditingController partenrInfo = TextEditingController();
   final TextEditingController otherGuardian = TextEditingController();
 
   final formKey1 = GlobalKey<FormState>();
@@ -45,40 +45,47 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
 
-  final nationality = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateNationality => nationality.sink.add;
-  Stream<CustomFieldModel?> get nationalityStream =>
-      nationality.stream.asBroadcastStream();
+  final job = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateJob => job.sink.add;
+  Stream<CustomFieldModel?> get jobStream =>
+      job.stream.asBroadcastStream();
 
-  final otherNationality = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateOtherNationality =>
-      otherNationality.sink.add;
-  Stream<CustomFieldModel?> get otherNationalityStream =>
-      otherNationality.stream.asBroadcastStream();
+  final education = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateEducation =>
+      education.sink.add;
+  Stream<CustomFieldModel?> get educationStream =>
+      education.stream.asBroadcastStream();
 
-  final countryOfResidence = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateCountryOfResidence =>
-      countryOfResidence.sink.add;
-  Stream<CustomFieldModel?> get countryOfResidenceStream =>
-      countryOfResidence.stream.asBroadcastStream();
+  final education2 = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateEducation2 =>
+      education2.sink.add;
+  Stream<CustomFieldModel?> get education2Stream =>
+      education2.stream.asBroadcastStream();
 
-  final city = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateCity => city.sink.add;
-  Stream<CustomFieldModel?> get cityStream => city.stream.asBroadcastStream();
 
-  final socialStatus = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateSocialStatus => socialStatus.sink.add;
-  Stream<CustomFieldModel?> get socialStatusStream =>
-      socialStatus.stream.asBroadcastStream();
+  final languages = BehaviorSubject<List<int>?>();
+  Function(List<int>?) get updateLanguages=>
+      languages.sink.add;
+  Stream<List<int>?> get languagesStream =>
+      languages.stream.asBroadcastStream();
 
-  final gender = BehaviorSubject<int?>();
-  Function(int?) get updateGender => gender.sink.add;
-  Stream<int?> get genderStream => gender.stream.asBroadcastStream();
+  final skinColor = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateSkinColor => skinColor.sink.add;
+  Stream<CustomFieldModel?> get skinColorStream => skinColor.stream.asBroadcastStream();
 
-  final grelation = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateGrelation => grelation.sink.add;
-  Stream<CustomFieldModel?> get GrelationStream =>
-      grelation.stream.asBroadcastStream();
+  final bodyType = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateBodyType => bodyType.sink.add;
+  Stream<CustomFieldModel?> get bodyTypeStream =>
+      bodyType.stream.asBroadcastStream();
+
+  final Sect = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateSect => Sect.sink.add;
+  Stream<CustomFieldModel?> get SectStream => Sect.stream.asBroadcastStream();
+
+  final tribe = BehaviorSubject<CustomFieldModel?>();
+  Function(CustomFieldModel?) get updateTribe=> tribe.sink.add;
+  Stream<CustomFieldModel?> get tribeStream =>
+      tribe.stream.asBroadcastStream();
 
   final dop = BehaviorSubject<DateTime?>();
   Function(DateTime?) get updateDOP => dop.sink.add;
@@ -103,19 +110,19 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   PageController pageController = PageController(initialPage: 0);
   String stepTitle(step) {
     if (step == 1) {
-      return "Name_and_gender";
+      return "education";
     }
     if (step == 2) {
-      return "Nationality_and_country";
+      return "job";
     }
     if (step == 3) {
-      return "Marital status";
+      return "shape";
     }
     if (step == 4) {
-      return "Guardian's data";
+      return "Sect and tribe";
     }
     if (step == 5) {
-      return "verification";
+      return "introduction";
     } else
       return "";
   }
@@ -129,38 +136,22 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
 
       emit(Loading());
       var data =  FormData.fromMap({
-        "fname": fName.text.trim(),
-        "lname": lName.text.trim(),
-        // "email": "ahmeedhassanali@outlook.com",
-        // "phone": "123456789",
-        "country_id": nationality.valueOrNull?.id,
-        "city_id": city.valueOrNull?.id,
-        "dob": dop.valueOrNull?.defaultFormat2(),
-        "social_status": socialStatus.valueOrNull?.id,
-        "gender": gender.valueOrNull,
-        "nickname": nickname.text.trim(),
-        "gfname": gfName.text.trim(),
-        "glname": lName.text.trim(),
-        "gphone": gPhoneNumber.text.trim(),
-        "grelation": grelation.valueOrNull?.id,
-        "grelation_other": otherGuardian.text.trim(),
-        "num_of_sons": numberOfChildren.text.trim(),
-        "nationality_id": nationality.valueOrNull?.id,
-        "other_nationality_id": otherNationality.valueOrNull?.id,
-        // "education": "test",
-        // "education_2": "test",
+
+        "education": education.valueOrNull?.id,
+        "education_2": education2.valueOrNull?.id,
+
+        "job_title": job.valueOrNull?.id,
+        "salary": salery.text.trim(),
+        "height": height.text.trim(),
+        "weight": weight.text.trim(),
+        "body_type": bodyType.valueOrNull?.id,
+        "complexion": skinColor.valueOrNull?.id,
+        "tribe": tribe.valueOrNull?.id,
+        "religion": Sect.valueOrNull?.id,
+        "about_me": personalInfo.text,
+        "about_partner": partenrInfo.text,
         //
-        // "job_title": "test",
-        // "salary": "10000",
-        // "height": 170,
-        // "weight": 90,
-        // "body_type": 2,
-        // "complexion": 1,
-        // "tribe": 1,
-        // "religion": 1,
-        // "about_me": "sssssssss",
-        //
-        "identity_file": MultipartFile.fromFileSync(identityImage.value!.path)
+        "image": MultipartFile.fromFileSync(identityImage.value!.path)
       });
       print(data);
       Either<ServerFailure, Response> response =
