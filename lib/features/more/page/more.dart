@@ -41,7 +41,7 @@ class _MoreState extends State<More> {
                   builder: (context, state) {
                     return ListAnimator(
                       data: [
-                        // if (sl<UserBloc>().isLogin)
+                        if (sl<UserBloc>().isLogin)
                           MoreProfileOptions(),
                         MoreSettingsOptions(),
                       ],
