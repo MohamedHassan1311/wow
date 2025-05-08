@@ -24,6 +24,7 @@ class EndPoints {
 
   ///User Profile
   static  String editProfile(id) => 'client/$id';
+  static  String storeProfile(id) => 'store/client/$id';
   static  String profile(id) => 'client/$id';
   static const String bankInfo = 'bank_info';
 

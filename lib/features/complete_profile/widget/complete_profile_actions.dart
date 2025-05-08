@@ -21,7 +21,9 @@ import '../bloc/complete_profile_bloc.dart';
 import 'submit_confirmation_dialog.dart';
 
 class CompleteProfileActions extends StatefulWidget {
-  const CompleteProfileActions({super.key});
+  final bool isEdit;
+
+   const CompleteProfileActions({super.key, required this.isEdit});
 
   @override
   State<CompleteProfileActions> createState() => _CompleteProfileActionsState();
@@ -149,7 +151,7 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                               content: SubmitConfirmationDialog()));
                                       if (result) {
                                         context.read<CompleteProfileBloc>().add(
-                                          Click(),
+                                          Click(arguments: widget.isEdit),
                                         );
                                         return;
                                       }
@@ -183,7 +185,7 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                               content: SubmitConfirmationDialog()));
                                       if (result) {
                                         context.read<CompleteProfileBloc>().add(
-                                              Click(),
+                                              Click(arguments: widget.isEdit),
                                             );
                                       }
                                       return;

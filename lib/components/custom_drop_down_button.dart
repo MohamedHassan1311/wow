@@ -77,6 +77,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           style: AppTextStyles.w500  .copyWith(color: Styles.PRIMARY_COLOR, fontSize: 14),
           onChanged: widget.onChange,
           menuMaxHeight: context.height * 0.4,
+
           initialValue: widget.value,
           isDense: true,
           validator: widget.validation,

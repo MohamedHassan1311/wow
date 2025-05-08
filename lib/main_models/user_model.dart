@@ -19,12 +19,22 @@ class UserModel extends SingleMapper {
   DateTime? dob;
   String? gender;
   int? subscription;
+  int? height;
+  int? weight;
   CustomFieldModel? socialStatus;
   CustomFieldModel? regionId;
   CustomFieldModel? nationalityId;
   CustomFieldModel? cityId;
   CustomFieldModel? countryId;
+  CustomFieldModel? education;
+  CustomFieldModel? job;
+  CustomFieldModel? bodyType;
+  CustomFieldModel? skinColor;
+  CustomFieldModel? tribe;
+  CustomFieldModel? sect;
 
+  String? personalInfo;
+  String? partenrInfo;
   String? identityFile;
   String? accountType;
   String? notes;
@@ -56,58 +66,67 @@ class UserModel extends SingleMapper {
   int? numOfSons;
   DateTime? dop;
 
-  UserModel({
-    this.id,
-    this.name,
-    this.image,
-    this.fname,
-    this.lname,
-    this.nickname,
-    this.email,
-    this.profileImage,
-    this.balance,
-    this.countryCode,
-    this.phone,
-    this.phoneCode,
-    this.dob,
-    this.gender,
-    this.dop,
-    this.subscription,
-    this.socialStatus,
-    this.regionId,
-    this.cityId,
-    this.identityFile,
-    this.accountType,
-    this.notes,
-    this.verified,
-    this.blocked,
-    this.online,
-    this.pausedOn,
-    this.expiryDate,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.status,
-    this.isVerified,
-    this.verifyPayment,
-    this.deletionDate,
-    this.deletionReason,
-    this.emailVerified,
-    this.verificationCode,
-    this.invitationCode,
-    this.fcmToken,
-    this.countryId,
-    this.wallet,
-    this.points,
-    this.type,
-    this.gfName,
-    this.glName,
-    this.gPhoneNumber,
-    this.otherGuardian,
-    this.nationalityId,
-    this.otherNationalityId,
-    this.numOfSons,
-  });
+  UserModel(
+      {this.id,
+      this.name,
+      this.image,
+      this.fname,
+      this.lname,
+      this.nickname,
+      this.email,
+      this.profileImage,
+      this.balance,
+      this.countryCode,
+      this.phone,
+      this.phoneCode,
+      this.dob,
+      this.gender,
+      this.dop,
+      this.subscription,
+      this.socialStatus,
+      this.regionId,
+      this.cityId,
+      this.identityFile,
+      this.accountType,
+      this.notes,
+      this.verified,
+      this.blocked,
+      this.online,
+      this.pausedOn,
+      this.expiryDate,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.status,
+      this.isVerified,
+      this.verifyPayment,
+      this.deletionDate,
+      this.deletionReason,
+      this.emailVerified,
+      this.verificationCode,
+      this.invitationCode,
+      this.fcmToken,
+      this.countryId,
+      this.wallet,
+      this.points,
+      this.type,
+      this.gfName,
+      this.glName,
+      this.gPhoneNumber,
+      this.otherGuardian,
+      this.nationalityId,
+      this.otherNationalityId,
+      this.numOfSons,
+      this.partenrInfo,
+      this.weight,
+      this.height,
+      this.education,
+      this.tribe,
+      this.skinColor,
+      this.bodyType,
+      this.job,
+      this.personalInfo,
+      this.sect});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     print(json['dop']);
@@ -132,13 +151,43 @@ class UserModel extends SingleMapper {
         ? DateFormat('d/M/yyyy').parse(json['dob'])
         : DateTime.now();
     subscription = json['subscription'];
-    socialStatus = (json['social_status'] != null&&json['social_status'] != 1)
+    socialStatus = (json['social_status'] != null && json['social_status'] != 1)
         ? CustomFieldModel.fromJson(json['social_status'])
         : CustomFieldModel(name: "no Data");
-    regionId =json['region']!=null? CustomFieldModel.fromJson(json['region']) : CustomFieldModel(name: "no Data");
+    regionId = json['region'] != null
+        ? CustomFieldModel.fromJson(json['region'])
+        : CustomFieldModel(name: "no Data");
     cityId = json['city'] != null
         ? CustomFieldModel.fromJson(json['city'])
         : CustomFieldModel(name: "no Data");
+
+
+   partenrInfo=json['about_partner'];
+    personalInfo=json['about_me'];
+
+    weight=json['weight'];
+    height=json['height'];
+    education=json['education'];
+    tribe=json['tribe'] != null
+        ? CustomFieldModel.fromJson(json['tribe'])
+        : CustomFieldModel(name: "no Data");
+
+    skinColor=json['complexion'] != null
+        ? CustomFieldModel.fromJson(json['complexion'])
+        : CustomFieldModel(name: "no Data");
+
+    bodyType=json['body_type'] != null
+        ? CustomFieldModel.fromJson(json['body_type'])
+        : CustomFieldModel(name: "no Data");
+
+    job=json['job'] != null
+        ? CustomFieldModel.fromJson(json['job'])
+        : CustomFieldModel(name: "no Data");
+
+    sect=json['religion'] != null
+        ? CustomFieldModel.fromJson(json['religion'])
+        : CustomFieldModel(name: "no Data");
+
     identityFile = json['identity_file'];
     accountType = json['account_type'];
     notes = json['notes'];
@@ -226,6 +275,17 @@ class UserModel extends SingleMapper {
     data['nationality'] = nationalityId?.toJson();
     data['other_nationality'] = otherNationalityId?.toJson();
     data['num_of_sons'] = numOfSons;
+    data['balance'] = balance;
+    data['about_me'] = personalInfo;
+    data['about_partner'] = partenrInfo;
+    data['weight'] = weight;
+    data['height'] = height;
+    data['education'] = education?.toJson();
+    data['job'] = job?.toJson();
+    data['body_type'] = bodyType?.toJson();
+    data['complexion'] = skinColor?.toJson();
+    data['tribe'] = tribe?.toJson();
+    data['religion'] = sect?.toJson();
 
     return data;
   }

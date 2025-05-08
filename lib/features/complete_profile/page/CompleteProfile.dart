@@ -15,19 +15,24 @@ import '../widget/complete_profile_header.dart';
 import '../widget/complete_profile_verification.dart';
 
 class CompleteProfile extends StatelessWidget {
-  const CompleteProfile({super.key});
+  final bool isEdit;
+  const CompleteProfile({super.key, this.isEdit = false});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CompleteProfileBloc(repo: sl<CompleteProfileRepo>()),
+      create: isEdit
+          ? (c) {
+              return CompleteProfileBloc(repo: sl<CompleteProfileRepo>())
+                ..onInit();
+            }
+          : (c) => CompleteProfileBloc(repo: sl<CompleteProfileRepo>()),
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(
           child: BlocBuilder<CompleteProfileBloc, AppState>(
             builder: (context, state) {
               return Column(
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 10,
                 children: [
@@ -51,8 +56,7 @@ class CompleteProfile extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  CompleteProfileActions(),
+                  CompleteProfileActions(isEdit:isEdit ,),
                 ],
               );
             },

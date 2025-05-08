@@ -100,7 +100,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
 
                                 InkWell(
                                     onTap: (){
-                                      CustomNavigator.push(Routes.CompleteProfile);
+                                      CustomNavigator.push(Routes.CompleteProfile,arguments: true);
                                     },
                                     child: Text(getTranslated("edit"))),
 
@@ -122,7 +122,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                 children: [
                                   CompleteProfileHeader(),
                                   CompleteProfileNameAndGender(scroll: false,),
-                                  CompleteProfileNationalityAndCountry(isAdd: false,isView: true,),
+                                  CompleteProfileNationalityAndCountry(isScroll: false,isView: true,),
                                   CompleteProfileMaritalStatus(isAdd: false,isView: true,),
                                  if( UserBloc.instance.user!.gender!="M")
                                   CompleteProfileGuardiandata(scroll: false,),
@@ -155,7 +155,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                           ),
                           title: getTranslated("Secondary data"), children: [
                         BlocProvider(
-                          create: (context) => PersonalInfoBloc(repo: sl<PersonalInfoRepo>()),
+                          create: (context) => PersonalInfoBloc(repo: sl<PersonalInfoRepo>())..onInit(),
                           child: BlocBuilder<PersonalInfoBloc, AppState>(
                             builder: (context, state) {
                               return Column(

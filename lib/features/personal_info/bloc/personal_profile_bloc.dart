@@ -29,7 +29,6 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   PersonalInfoBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
     updateCurrentStep(1);
-    updateDOP(DateTime(1999));
   }
 
   final TextEditingController otherJob = TextEditingController();
@@ -47,64 +46,52 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
 
-  final job = BehaviorSubject<CustomFieldModel?>();
+  final job = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateJob => job.sink.add;
-  Stream<CustomFieldModel?> get jobStream =>
-      job.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get jobStream => job.stream.asBroadcastStream();
 
-  final education = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateEducation =>
-      education.sink.add;
+  final education = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateEducation => education.sink.add;
   Stream<CustomFieldModel?> get educationStream =>
       education.stream.asBroadcastStream();
 
-  final education2 = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateEducation2 =>
-      education2.sink.add;
+  final education2 = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateEducation2 => education2.sink.add;
   Stream<CustomFieldModel?> get education2Stream =>
       education2.stream.asBroadcastStream();
 
-
   final languages = BehaviorSubject<List<int>?>();
-  Function(List<int>?) get updateLanguages=>
-      languages.sink.add;
+  Function(List<int>?) get updateLanguages => languages.sink.add;
   Stream<List<int>?> get languagesStream =>
       languages.stream.asBroadcastStream();
 
-  final skinColor = BehaviorSubject<CustomFieldModel?>();
+  final skinColor = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateSkinColor => skinColor.sink.add;
-  Stream<CustomFieldModel?> get skinColorStream => skinColor.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get skinColorStream =>
+      skinColor.stream.asBroadcastStream();
 
-  final bodyType = BehaviorSubject<CustomFieldModel?>();
+  final bodyType = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateBodyType => bodyType.sink.add;
   Stream<CustomFieldModel?> get bodyTypeStream =>
       bodyType.stream.asBroadcastStream();
 
-  final Sect = BehaviorSubject<CustomFieldModel?>();
+  final Sect = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateSect => Sect.sink.add;
   Stream<CustomFieldModel?> get SectStream => Sect.stream.asBroadcastStream();
 
-  final tribe = BehaviorSubject<CustomFieldModel?>();
-  Function(CustomFieldModel?) get updateTribe=> tribe.sink.add;
-  Stream<CustomFieldModel?> get tribeStream =>
-      tribe.stream.asBroadcastStream();
-
-  final dop = BehaviorSubject<DateTime?>();
-  Function(DateTime?) get updateDOP => dop.sink.add;
-  Stream<DateTime?> get dopStream => dop.stream.asBroadcastStream();
-
+  final tribe = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateTribe => tribe.sink.add;
+  Stream<CustomFieldModel?> get tribeStream => tribe.stream.asBroadcastStream();
 
 
   final phoneCode = BehaviorSubject<String?>();
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
   Stream<String?> get phoneCodeStream => phoneCode.stream.asBroadcastStream();
 
-
   final identityImage = BehaviorSubject<File?>();
   Function(File?) get updateIdentityImage => identityImage.sink.add;
   Stream<File?> get identityImageeStream =>
       identityImage.stream.asBroadcastStream();
-
 
   final currentStep = BehaviorSubject<int?>();
   Function(int?) get updateCurrentStep => currentStep.sink.add;
@@ -129,20 +116,34 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
       return "";
   }
 
+  Future<void> onInit() async {
+    print("aaa${UserBloc.instance.user?.cityId!.toJson()!.toString()}");
+
+    updateEducation(UserBloc.instance.user?.education??CustomFieldModel());
+    updateEducation2(UserBloc.instance.user?.education);
+    updateEducation2(UserBloc.instance.user?.job);
+    updateBodyType(UserBloc.instance.user?.bodyType);
+    updateSkinColor(UserBloc.instance.user?.skinColor);
+    updateTribe(UserBloc.instance.user?.tribe);
+    updateSect(UserBloc.instance.user?.sect);
+    height.text = UserBloc.instance.user!.height.toString();
+    weight.text = UserBloc.instance.user!.weight.toString();
+    personalInfo.text = UserBloc.instance.user?.personalInfo ?? "";
+    partenrInfo.text = UserBloc.instance.user?.partenrInfo ?? "";
+  }
+
   clear() {
     // updateProfileImage(null);
   }
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
-
       emit(Loading());
-      var data =  FormData.fromMap({
-
+      var data = FormData.fromMap({
         "education": education.valueOrNull?.id,
         "education_2": education2.valueOrNull?.id,
 
-        "job_title": job.valueOrNull?.name??otherJob.text.trim(),
+        "job_title": job.valueOrNull?.name ?? otherJob.text.trim(),
         "salary": salery.text.trim(),
         "height": height.text.trim(),
         "weight": weight.text.trim(),
@@ -168,7 +169,6 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-
         AppCore.showSnackBar(
             notification: AppNotification(
                 message: getTranslated("your_profile_successfully_updated"),
@@ -179,7 +179,6 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         UserBloc.instance.add(Click());
         emit(Done());
         CustomNavigator.pop();
-
       });
     } catch (e) {
       AppCore.showSnackBar(

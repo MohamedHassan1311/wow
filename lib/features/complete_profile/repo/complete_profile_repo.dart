@@ -8,11 +8,11 @@ import '../../../../main_repos/base_repo.dart';
 class CompleteProfileRepo extends BaseRepo {
   CompleteProfileRepo({required super.sharedPreferences, required super.dioClient});
 
-  Future<Either<ServerFailure, Response>> completeProfile(data) async {
+  Future<Either<ServerFailure, Response>> completeProfile(data,{required bool isEdit}) async {
     try {
-      print(userId);
+      print(isEdit);
       Response response = await dioClient.post(
-          uri: EndPoints.editProfile(userId), data: data);
+          uri:isEdit? EndPoints.editProfile(userId):EndPoints.storeProfile(userId), data: data);
 
       if (response.statusCode == 200) {
         return Right(response);

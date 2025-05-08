@@ -17,7 +17,10 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoEducation extends StatefulWidget {
-  const PersonalInfoEducation({super.key});
+  final bool isScroll;
+  final bool isView;
+  const PersonalInfoEducation(
+      {super.key, this.isScroll = true, this.isView = false});
 
   @override
   State<PersonalInfoEducation> createState() => _PersonalInfoEducationState();
@@ -51,9 +54,15 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                         stream:
                             context.read<PersonalInfoBloc>().educationStream,
                         builder: (context, snapshot) {
-                          return CustomDropDownButton(
+                          if (snapshot.data != null) {
+                            return CustomDropDownButton(
                             label: getTranslated("education_level"),
-                            value: null,
+                            value: model.data?.firstWhere(
+                              (v) => v.id == snapshot.data?.id,
+                              orElse: () => CustomFieldModel(),
+                            ),
+                            isEnabled: !widget.isView,
+
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -67,6 +76,8 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                                     ?.name ??
                                 getTranslated("education_level"),
                           );
+                          }
+                          else return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -94,29 +105,31 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                     return StreamBuilder<CustomFieldModel?>(
                         stream: context.read<PersonalInfoBloc>().education2,
                         builder: (context, snapshot) {
-                          return Column(
-                            spacing: 12,
-                            children: [
-                              CustomDropDownButton(
-                                label: getTranslated("education_level_2"),
-                                validation: (v) =>
-                                    Validations.field(snapshot.data?.name),
-                                value: null,
-                                onChange: (v) {
-                                  context
-                                      .read<PersonalInfoBloc>()
-                                      .updateEducation2(v as CustomFieldModel);
-                                },
-                                items: model.data ?? [],
-                                name: context
-                                        .read<PersonalInfoBloc>()
-                                        .education2
-                                        .valueOrNull
-                                        ?.name ??
-                                    getTranslated("education_level_2"),
+                          if (snapshot.data != null) {
+                            return CustomDropDownButton(
+                            label: getTranslated("education_level_2"),
+                            validation: (v) =>
+                                Validations.field(snapshot.data?.name),
+                              value: model.data?.firstWhere(
+                                    (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
                               ),
-                            ],
+                              isEnabled: !widget.isView,
+                            onChange: (v) {
+                              context
+                                  .read<PersonalInfoBloc>()
+                                  .updateEducation2(v as CustomFieldModel);
+                            },
+                            items: model.data ?? [],
+                            name: context
+                                    .read<PersonalInfoBloc>()
+                                    .education2
+                                    .valueOrNull
+                                    ?.name ??
+                                getTranslated("education_level_2"),
                           );
+                          }
+                          else return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -149,7 +162,7 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                               spacing: 12,
                               children: [
                                 Text(
-                                getTranslated("Languages you speak")?? "",
+                                  getTranslated("Languages you speak") ?? "",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
@@ -180,20 +193,22 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                                           value: snapshot.data?.contains(
                                                   model.data?[index].id) ??
                                               false,
-                                          controlAffinity: ListTileControlAffinity.leading,
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
                                           title: Text(
                                               model.data?[index].name ?? ""),
                                           onChanged: (bool? value) {
                                             if (snapshot.data != null) {
-                                            {
+                                              {
                                                 final updateList =
                                                     snapshot.data;
-                                                if(snapshot.data?.contains(
-                                                    model.data?[index].id)==false ) {
+                                                if (snapshot.data?.contains(
+                                                        model
+                                                            .data?[index].id) ==
+                                                    false) {
                                                   updateList?.add(
-                                                    model.data?[index].id);
-                                                }
-                                                else{
+                                                      model.data?[index].id);
+                                                } else {
                                                   updateList?.remove(
                                                       model.data?[index].id);
                                                 }
@@ -202,8 +217,6 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                                                     .updateLanguages(
                                                         updateList);
                                               }
-
-
                                             } else {
                                               context
                                                   .read<PersonalInfoBloc>()

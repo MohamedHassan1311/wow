@@ -20,11 +20,11 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileNationalityAndCountry extends StatefulWidget {
-  final bool isAdd;
+  final bool isScroll;
   final bool isView;
 
   const CompleteProfileNationalityAndCountry(
-      {super.key, this.isAdd = true, this.isView = false});
+      {super.key, this.isScroll = true, this.isView = false});
 
   @override
   State<CompleteProfileNationalityAndCountry> createState() =>
@@ -43,14 +43,13 @@ class _CompleteProfileNationalityAndCountryState
         return Form(
           key: context.read<CompleteProfileBloc>().formKey2,
           child: ListAnimator(
-            scroll: widget.isAdd,
+            scroll: widget.isScroll,
             data: [
               /// nationality
               BlocProvider(
-                create: (context) => !widget.isAdd
-                    ? SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                    : SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                  ..add(Get(arguments: {'field_name': "country"})),
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -61,28 +60,31 @@ class _CompleteProfileNationalityAndCountryState
                             .read<CompleteProfileBloc>()
                             .nationalityStream,
                         builder: (context, snapshot) {
-                          return CustomDropDownButton(
-                            label: getTranslated("nationality"),
-                            validation: (v) =>
-                                Validations.field(snapshot.data?.name),
-                            value: snapshot.data,
-                            isEnabled: !widget.isView,
-                            items: !widget.isAdd
-                                ? [snapshot.data]
-                                : model.data ?? [],
-                            onChange: (v) {
-                              context
-                                  .read<CompleteProfileBloc>()
-                                  .updateNationality(v as CustomFieldModel);
-                            },
-
-                            name: context
+                          if (snapshot.data != null) {
+                            return CustomDropDownButton(
+                              label: getTranslated("nationality"),
+                              validation: (v) =>
+                                  Validations.field(snapshot.data?.name),
+                              value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
+                              ),
+                              isEnabled: !widget.isView,
+                              items: model.data ?? [],
+                              onChange: (v) {
+                                context
                                     .read<CompleteProfileBloc>()
-                                    .nationality
-                                    .valueOrNull
-                                    ?.name ??
-                                getTranslated("nationality"),
-                          );
+                                    .updateNationality(v as CustomFieldModel);
+                              },
+                              name: context
+                                      .read<CompleteProfileBloc>()
+                                      .nationality
+                                      .valueOrNull
+                                      ?.name ??
+                                  getTranslated("nationality"),
+                            );
+                          } else
+                            return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -102,10 +104,9 @@ class _CompleteProfileNationalityAndCountryState
 
               /// other nationality
               BlocProvider(
-                create: (context) => !widget.isAdd
-                    ? SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                    : SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                  ..add(Get(arguments: {'field_name': "country"})),
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -116,19 +117,21 @@ class _CompleteProfileNationalityAndCountryState
                             .read<CompleteProfileBloc>()
                             .otherNationalityStream,
                         builder: (context, snapshot) {
+                          if (snapshot.data != null)
                           return CustomDropDownButton(
                             isEnabled: !widget.isView,
                             label: getTranslated("other_nationality"),
-                            value: snapshot.data,
+                            value: model.data?.firstWhere(
+                              (v) => v.id == snapshot.data?.id,
+                              orElse: () => CustomFieldModel(name: "no_data"),
+                            ),
                             onChange: (v) {
                               context
                                   .read<CompleteProfileBloc>()
                                   .updateOtherNationality(
                                       v as CustomFieldModel);
                             },
-                            items: !widget.isAdd
-                                ? [snapshot.data]
-                                : model.data ?? [],
+                            items: model.data ?? [],
                             name: context
                                     .read<CompleteProfileBloc>()
                                     .otherNationality
@@ -136,6 +139,8 @@ class _CompleteProfileNationalityAndCountryState
                                     ?.name ??
                                 getTranslated("other_nationality"),
                           );
+
+                          return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -155,10 +160,9 @@ class _CompleteProfileNationalityAndCountryState
 
               /// other nationality
               BlocProvider(
-                create: (context) => !widget.isAdd
-                    ? SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                    : SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                  ..add(Get(arguments: {'field_name': "country"})),
+                create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "country"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -169,15 +173,21 @@ class _CompleteProfileNationalityAndCountryState
                             .read<CompleteProfileBloc>()
                             .countryOfResidence,
                         builder: (context, snapshot) {
-                          return Column(
+                          if (snapshot.data != null) {
+                            return Column(
                             spacing: 12,
                             children: [
+
                               CustomDropDownButton(
                                 label: getTranslated("Country_of_Residence"),
                                 isEnabled: !widget.isView,
                                 validation: (v) =>
                                     Validations.field(snapshot.data?.name),
-                                value: snapshot.data,
+                                value: model.data?.firstWhere(
+                                  (v) => v.id == snapshot.data?.id,
+                                  orElse: () =>
+                                      CustomFieldModel(name: "no_data"),
+                                ),
                                 onChange: (v) {
                                   context
                                       .read<CompleteProfileBloc>()
@@ -194,9 +204,7 @@ class _CompleteProfileNationalityAndCountryState
                                             .id
                                       }));
                                 },
-                                items: !widget.isAdd
-                                    ? [snapshot.data]
-                                    : model.data ?? [],
+                                items: model.data ?? [],
                                 name: context
                                         .read<CompleteProfileBloc>()
                                         .countryOfResidence
@@ -213,11 +221,8 @@ class _CompleteProfileNationalityAndCountryState
                                         .valueOrNull !=
                                     null,
                                 child: BlocProvider(
-                                  create: (context) => !widget.isAdd
-                                      ? SettingOptionBloc(
-                                          repo: sl<SettingOptionRepo>())
-                                      : SettingOptionBloc(
-                                          repo: sl<SettingOptionRepo>())
+                                  create: (context) => SettingOptionBloc(
+                                      repo: sl<SettingOptionRepo>())
                                     ..add(Get(arguments: {
                                       'field_name': "city",
                                       "country_id": context
@@ -239,22 +244,26 @@ class _CompleteProfileNationalityAndCountryState
                                               .read<CompleteProfileBloc>()
                                               .cityStream,
                                           builder: (context, snapshot) {
-                                            return CustomDropDownButton(
+                                            if(snapshot.data!=null) {
+                                              return CustomDropDownButton(
                                               label: getTranslated("city"),
                                               validation: (v) =>
                                                   Validations.field(
                                                       snapshot.data?.name),
-                                              value: snapshot.data,
-                                              isEnabled: widget.isAdd,
+                                              value: model.data?.firstWhere(
+                                                (v) =>
+                                                    v.id == snapshot.data?.id,
+                                                orElse: () => CustomFieldModel(
+                                                    name: "no_data"),
+                                              ),
+                                              isEnabled: widget.isScroll,
                                               onChange: (v) {
                                                 context
                                                     .read<CompleteProfileBloc>()
                                                     .updateCity(
                                                         v as CustomFieldModel);
                                               },
-                                              items: !widget.isAdd
-                                                  ? [snapshot.data]
-                                                  : model.data ?? [],
+                                              items: model.data ?? [],
                                               name: context
                                                       .read<
                                                           CompleteProfileBloc>()
@@ -264,6 +273,7 @@ class _CompleteProfileNationalityAndCountryState
                                                   getTranslated(
                                                       "Country_of_Residence"),
                                             );
+                                            }else return SizedBox();
                                           });
                                     }
                                     if (state is Loading) {
@@ -280,6 +290,7 @@ class _CompleteProfileNationalityAndCountryState
                               ),
                             ],
                           );
+                          } else return SizedBox();
                         });
                   }
                   if (state is Loading) {

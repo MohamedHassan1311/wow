@@ -50,37 +50,38 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
 
-  final nationality = BehaviorSubject<CustomFieldModel?>();
+  final nationality = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+
   Function(CustomFieldModel?) get updateNationality => nationality.sink.add;
   Stream<CustomFieldModel?> get nationalityStream =>
       nationality.stream.asBroadcastStream();
 
-  final otherNationality = BehaviorSubject<CustomFieldModel?>();
+  final otherNationality = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateOtherNationality =>
       otherNationality.sink.add;
   Stream<CustomFieldModel?> get otherNationalityStream =>
       otherNationality.stream.asBroadcastStream();
 
-  final countryOfResidence = BehaviorSubject<CustomFieldModel?>();
+  final countryOfResidence = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateCountryOfResidence =>
       countryOfResidence.sink.add;
   Stream<CustomFieldModel?> get countryOfResidenceStream =>
       countryOfResidence.stream.asBroadcastStream();
 
-  final city = BehaviorSubject<CustomFieldModel?>();
+  final city = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateCity => city.sink.add;
   Stream<CustomFieldModel?> get cityStream => city.stream.asBroadcastStream();
 
-  final socialStatus = BehaviorSubject<CustomFieldModel?>();
+  final socialStatus = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateSocialStatus => socialStatus.sink.add;
   Stream<CustomFieldModel?> get socialStatusStream =>
       socialStatus.stream.asBroadcastStream();
 
-  final gender = BehaviorSubject<int?>();
+  final gender = BehaviorSubject<int?>()..add(1);
   Function(int?) get updateGender => gender.sink.add;
   Stream<int?> get genderStream => gender.stream.asBroadcastStream();
 
-  final grelation = BehaviorSubject<CustomFieldModel?>();
+  final grelation = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateGrelation => grelation.sink.add;
   Stream<CustomFieldModel?> get GrelationStream =>
       grelation.stream.asBroadcastStream();
@@ -193,7 +194,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
           "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
       });
       Either<ServerFailure, Response> response =
-          await repo.completeProfile(data);
+          await repo.completeProfile(data, isEdit: event.arguments as bool);
 
       response.fold((fail) {
         AppCore.showSnackBar(
