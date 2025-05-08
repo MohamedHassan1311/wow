@@ -151,7 +151,7 @@ class UserModel extends SingleMapper {
         ? DateFormat('d/M/yyyy').parse(json['dob'])
         : DateTime.now();
     subscription = json['subscription'];
-    socialStatus = (json['social_status'] != null && json['social_status'] != 1)
+    socialStatus = (json['social_status'] != null && json['social_status'] is! int)
         ? CustomFieldModel.fromJson(json['social_status'])
         : CustomFieldModel(name: "no Data");
     regionId = json['region'] != null
