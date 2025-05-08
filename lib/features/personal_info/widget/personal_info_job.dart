@@ -39,7 +39,7 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 12,
             children: [
-              /// nationality
+              /// job_title
               BlocProvider(
                 create: (context) =>
                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
@@ -102,9 +102,9 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
                 label: getTranslated("salary"),
                 hint:
                 "${getTranslated("enter")} ${getTranslated("salary")}",
-                inputType: TextInputType.name,
+                inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
+                validate: Validations.field,
               ),
             ],
           ),

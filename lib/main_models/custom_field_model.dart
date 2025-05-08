@@ -66,7 +66,7 @@ class CustomFieldModel extends SingleMapper {
   CustomFieldModel.fromJson(Map<String, dynamic> json) {
     id = json["id"]??json["value"];
     value = json["value"];
-    name = json["name"] ?? json["label"] ?? "";
+    name = json["name"] ?? json["label"] ?? "name";
     description = json["desc"];
     code = json["code"];
     image = json["image"];

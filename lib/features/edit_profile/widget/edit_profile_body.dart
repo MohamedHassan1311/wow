@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/dimensions.dart';
+import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/components/animated_widget.dart';
 import '../../../../app/core/styles.dart';
@@ -13,6 +14,27 @@ import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_text_form_field.dart';
 import '../../../../main_widgets/profile_image_widget.dart';
+import '../../../components/custom_expansion_tile.dart';
+import '../../../data/config/di.dart';
+import '../../../main_blocs/user_bloc.dart';
+import '../../../navigation/custom_navigation.dart';
+import '../../../navigation/routes.dart';
+import '../../complete_profile/bloc/complete_profile_bloc.dart';
+import '../../complete_profile/repo/complete_profile_repo.dart';
+import '../../complete_profile/widget/complete_profile_guardian_data.dart';
+import '../../complete_profile/widget/complete_profile_header.dart';
+import '../../complete_profile/widget/complete_profile_marital_status.dart';
+import '../../complete_profile/widget/complete_profile_name_and_gender.dart';
+import '../../complete_profile/widget/complete_profile_nationality_and_country.dart';
+import '../../complete_profile/widget/complete_profile_verification.dart';
+import '../../personal_info/bloc/personal_profile_bloc.dart';
+import '../../personal_info/repo/perosnal_info_repo.dart';
+import '../../personal_info/widget/persona_info_education.dart';
+import '../../personal_info/widget/personal_info_header.dart';
+import '../../personal_info/widget/personal_info_inteoduaction.dart';
+import '../../personal_info/widget/personal_info_job.dart';
+import '../../personal_info/widget/personal_info_sect_and_tribe.dart';
+import '../../personal_info/widget/personal_info_shape.dart';
 import '../bloc/edit_profile_bloc.dart';
 
 class EditProfileBody extends StatefulWidget {
@@ -40,7 +62,9 @@ class _RegisterBodyState extends State<EditProfileBody> {
               Form(
                   key: context.read<EditProfileBloc>().formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 15,
                     children: [
                       ///Image Profile
                       Padding(
@@ -54,82 +78,103 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                 .profileImageStream,
                             builder: (context, snapshot) {
                               return ProfileImageWidget(
-                                  withEdit: true,
+                                  withEdit: false,
                                   imageFile: snapshot.data,
                                   onGet: context
                                       .read<EditProfileBloc>()
                                       .updateProfileImage);
                             }),
                       ),
-
-                      ///Name
-                      CustomTextField(
-                        controller: context.read<EditProfileBloc>().nameTEC,
-                        focusNode: nameNode,
-                        nextFocus: emailNode,
-                        label: getTranslated("name"),
-                        hint: getTranslated("enter_your_name"),
-                        inputType: TextInputType.name,
-                        validate: Validations.name,
-                        pSvgIcon: SvgImages.user,
+                      Text(
+                        UserBloc.instance.user?.name??"",
+                        style: AppTextStyles.w800
+                            .copyWith(fontSize: 16, color:  Styles.HEADER),
                       ),
 
-                      ///Phone
-                      // if (!widget.fromComplete)
-                      CustomTextField(
-                        controller: context.read<EditProfileBloc>().phoneTEC,
-                        focusNode: phoneNode,
-                        label: getTranslated("phone"),
-                        hint: getTranslated("enter_your_phone"),
-                        inputType: TextInputType.phone,
-                        validate: Validations.phone,
-                        // pSvgIcon: SvgImages.phoneCallIcon,
-                        isEnabled: false,
-                        sufWidget: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 4.w, vertical: 4.h),
-                          decoration: BoxDecoration(
-                              color: Styles.FILL_COLOR,
-                              borderRadius: BorderRadius.circular(4)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CountryFlag.fromCountryCode(
-                                "SA",
-                                height: 18,
-                                width: 18,
-                                shape: const RoundedRectangle(5),
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                CountryCodes.detailsForLocale(
-                                      Locale.fromSubtags(countryCode: "SA"),
-                                    ).dialCode ??
-                                    "+966",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: AppTextStyles.w400.copyWith(
-                                    fontSize: 14,
-                                    height: 1,
-                                    color: Styles.HEADER),
-                              ),
-                            ],
+                      CustomExpansionTile(
+                          trailing: SizedBox(
+                            width: 150,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                InkWell(
+                                    onTap: (){
+                                      CustomNavigator.push(Routes.CompleteProfile);
+                                    },
+                                    child: Text(getTranslated("edit"))),
+
+                                Icon(Icons.arrow_drop_down_rounded),
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
+                          title: getTranslated("Basic data"), children: [
+                        BlocProvider(
+                          create: (context) => CompleteProfileBloc(
+                              repo: sl<CompleteProfileRepo>())..onInit(),
+                          child: BlocBuilder<CompleteProfileBloc, AppState>(
+                            builder: (context, state) {
 
-                      ///Mail
-                      CustomTextField(
-                        controller: context.read<EditProfileBloc>().mailTEC,
-                        focusNode: emailNode,
-                        nextFocus: phoneNode,
-                        label: getTranslated("mail"),
-                        hint: getTranslated("enter_your_mail"),
-                        inputType: TextInputType.emailAddress,
-                        validate: Validations.mail,
-                        pSvgIcon: SvgImages.mail,
-                      ),
+                                return Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                spacing: 10,
+                                children: [
+                                  CompleteProfileHeader(),
+                                  CompleteProfileNameAndGender(scroll: false,),
+                                  CompleteProfileNationalityAndCountry(isAdd: false,isView: true,),
+                                  CompleteProfileMaritalStatus(isAdd: false,isView: true,),
+                                 if( UserBloc.instance.user!.gender!="M")
+                                  CompleteProfileGuardiandata(scroll: false,),
+                                  CompleteProfileVerification(isAdd: false,isView: true,)
+                                ],
+                              );
+
+
+                            },
+                          ),
+                        )
+                      ]),
+
+                      CustomExpansionTile(
+                          trailing: SizedBox(
+                            width: 150,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                InkWell(
+                                    onTap: (){
+                                      CustomNavigator.push(Routes.personalInfo);
+                                    },
+                                    child: Text(getTranslated("edit"))),
+
+                                Icon(Icons.arrow_drop_down_rounded),
+                              ],
+                            ),
+                          ),
+                          title: getTranslated("Secondary data"), children: [
+                        BlocProvider(
+                          create: (context) => PersonalInfoBloc(repo: sl<PersonalInfoRepo>()),
+                          child: BlocBuilder<PersonalInfoBloc, AppState>(
+                            builder: (context, state) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 10,
+                                children: [
+                                  PersonalInfoHeader(),
+                                  PersonalInfoEducation(),
+                                  PersonalInfoJob(),
+                                  PersonalInfoShape(),
+                                  PersonalInfoSectAndTribe(),
+                                  PersonalProfileIntroduction(scroll: false,)
+
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      ]),
                     ],
                   )),
             ],

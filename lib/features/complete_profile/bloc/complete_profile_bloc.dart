@@ -19,7 +19,10 @@ import '../../../../data/error/failures.dart';
 
 import '../../../app/core/dimensions.dart';
 import '../../../components/custom_alert_dialog.dart';
+import '../../../main_blocs/user_bloc.dart';
 import '../../../main_models/custom_field_model.dart';
+import '../../../navigation/custom_navigation.dart';
+import '../../../navigation/routes.dart';
 import '../enitity/complete_profile_entity.dart';
 import '../repo/complete_profile_repo.dart';
 import '../widget/submit_success_dialog.dart';
@@ -96,12 +99,10 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
   Stream<String?> get phoneCodeStream => phoneCode.stream.asBroadcastStream();
 
-
   final identityImage = BehaviorSubject<File?>();
   Function(File?) get updateIdentityImage => identityImage.sink.add;
   Stream<File?> get identityImageeStream =>
       identityImage.stream.asBroadcastStream();
-
 
   final currentStep = BehaviorSubject<int?>();
   Function(int?) get updateCurrentStep => currentStep.sink.add;
@@ -130,27 +131,49 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
     // updateProfileImage(null);
   }
 
+  ///To init Profile Data
+  Future<void> onInit() async {
+    print("aaa${UserBloc.instance.user?.cityId!.toJson()!.toString()}");
+    fName.text = UserBloc.instance.user?.fname ?? "";
+    lName.text = UserBloc.instance.user?.lname ?? "";
+    nickname.text = UserBloc.instance.user?.nickname ?? "";
+    numberOfChildren.text = UserBloc.instance.user?.numOfSons.toString() ?? "";
+    gfName.text = UserBloc.instance.user?.gfName.toString() ?? "";
+    gfName.text = UserBloc.instance.user?.glName.toString() ?? "";
+    gPhoneNumber.text = UserBloc.instance.user?.gPhoneNumber.toString() ?? "";
+    otherGuardian.text = UserBloc.instance.user?.otherGuardian.toString() ?? "";
+    updateGender(UserBloc.instance.user?.gender == "M" ? 1 : 2);
+
+      updateNationality(UserBloc.instance.user?.countryId);
+      updateOtherNationality(UserBloc.instance.user?.otherNationalityId);
+      updateSocialStatus(UserBloc.instance.user?.socialStatus);
+      updateCity(UserBloc.instance.user?.cityId);
+      updateCountryOfResidence(UserBloc.instance.user?.countryId);
+
+  }
+
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
-
       emit(Loading());
-      var data =  FormData.fromMap({
+      var data = FormData.fromMap({
         "fname": fName.text.trim(),
         "lname": lName.text.trim(),
         // "email": "ahmeedhassanali@outlook.com",
         // "phone": "123456789",
         "country_id": nationality.valueOrNull?.id,
-        "city_id": city.valueOrNull?.id??1,
+        "city_id": city.valueOrNull?.id ?? 1,
         "dob": dop.valueOrNull?.defaultFormat2(),
         "social_status": socialStatus.valueOrNull?.id,
-        "gender": gender.valueOrNull ==1?"M":"F",
+        "gender": gender.valueOrNull == 1 ? "M" : "F",
         "nickname": nickname.text.trim(),
         "gfname": gfName.text.trim(),
-        "glname": lName.text.trim(),
+        "glname": glName.text.trim(),
         "gphone": gPhoneNumber.text.trim(),
         "grelation": grelation.valueOrNull?.id,
         "grelation_other": otherGuardian.text.trim(),
-        "num_of_sons": numberOfChildren.text.trim(),
+        "num_of_sons": numberOfChildren.text.trim() == ""
+            ? 0
+            : numberOfChildren.text.trim(),
         "nationality_id": nationality.valueOrNull?.id,
         "other_nationality_id": otherNationality.valueOrNull?.id,
         // "education": "test",
@@ -166,7 +189,8 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         // "religion": 1,
         // "about_me": "sssssssss",
         //
-        "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
+        if (identityImage.hasValue)
+          "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
       });
       Either<ServerFailure, Response> response =
           await repo.completeProfile(data);
@@ -180,26 +204,22 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        CustomAlertDialog.show(
-            dailog: AlertDialog(
-                contentPadding: EdgeInsets.symmetric(
-                    vertical:
-                    Dimensions.PADDING_SIZE_DEFAULT.w,
-                    horizontal:
-                    Dimensions.PADDING_SIZE_DEFAULT.w),
-                insetPadding: EdgeInsets.symmetric(
-                    vertical:
-                    Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                    horizontal: 20),
-                shape: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Colors.transparent),
-                    borderRadius:
-                    BorderRadius.circular(20.0)),
-                content:SubmitSuccessDialog()
-            ));
-
-
+        if (nationality.valueOrNull?.code == "SA") {
+          CustomAlertDialog.show(
+              dailog: AlertDialog(
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                  insetPadding: EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                      horizontal: 20),
+                  shape: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  content: SubmitSuccessDialog()));
+        } else {
+          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+        }
 
         clear();
         emit(Done());

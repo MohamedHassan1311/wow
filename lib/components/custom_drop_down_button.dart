@@ -13,6 +13,7 @@ class CustomDropDownButton extends StatefulWidget {
   final String? pSvgIcon;
   final Color? pIconColor;
   final double iconSize;
+  final bool isEnabled;
   final String? label;
   final String name;
   final Object? value;
@@ -28,6 +29,7 @@ class CustomDropDownButton extends StatefulWidget {
     this.pIconColor,
     this.onChange,
     this.validation,
+    this.isEnabled=true,
     this.icon,
     this.label,
     this.dataType,
@@ -60,6 +62,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           height: 10,
         ),
         FormBuilderDropdown(
+          enabled:widget.isEnabled ,
           items: widget.items.map((item) {
             return DropdownMenuItem(
               value: item,

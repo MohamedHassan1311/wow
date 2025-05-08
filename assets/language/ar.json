@@ -33,7 +33,10 @@
   "travels": "الرحلات",
   "guidance": "الإرشاد",
   "orders": "الطلبات",
-  "forget_password_header": "نسيت كلمة المرور؟",
+    "Basic data": "البيانات الاساسية",
+    "Secondary data":  "البيانات الثانوية",
+
+    "forget_password_header": "نسيت كلمة المرور؟",
   "forget_password_title": "لا تقلق، سنساعدك",
   "forget_password_description": "يرجى إدخال بريدك الإلكتروني حتى نتمكن من إرسال رمز التحقق",
   "forget_password_helper": "يرجى التحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين",

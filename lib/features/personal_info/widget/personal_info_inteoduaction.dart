@@ -25,7 +25,9 @@ import '../../../main_widgets/profile_image_widget.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalProfileIntroduction extends StatefulWidget {
-  const PersonalProfileIntroduction({super.key});
+  final bool  scroll;
+
+  const PersonalProfileIntroduction({super.key,  this.scroll=true});
 
   @override
   State<PersonalProfileIntroduction> createState() =>
@@ -42,7 +44,9 @@ class _CompleteProfileBodyStpe1State extends State<PersonalProfileIntroduction>
         return Form(
             key: context.read<PersonalInfoBloc>().formKey5,
             child:  ListAnimator(
+              scroll: widget.scroll,
               data: [
+                if(widget.scroll)
                 Center(
                   child: Text(getTranslated("profile_image"),
                     maxLines: 3,
@@ -54,6 +58,7 @@ class _CompleteProfileBodyStpe1State extends State<PersonalProfileIntroduction>
                       color: Styles.HEADER,
                     ),),
                 ),
+                if(widget.scroll)
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -74,6 +79,7 @@ class _CompleteProfileBodyStpe1State extends State<PersonalProfileIntroduction>
                         }),
                   ),
                 ),
+                if(widget.scroll)
                 Text(getTranslated("profile_image_note"),
 
                   maxLines: 3,

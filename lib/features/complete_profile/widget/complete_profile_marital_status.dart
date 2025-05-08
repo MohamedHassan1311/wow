@@ -10,6 +10,7 @@ import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_text_form_field.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/dimensions.dart';
+import '../../../components/animated_widget.dart';
 import '../../../components/custom_drop_down_button.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
@@ -19,7 +20,9 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileMaritalStatus extends StatefulWidget {
-  const CompleteProfileMaritalStatus({super.key});
+  final bool isAdd;
+  final bool isView;
+  const CompleteProfileMaritalStatus({super.key,  this.isAdd=true,  this.isView=false});
 
   @override
   State<CompleteProfileMaritalStatus> createState() => _CompleteProfileMaritalStatusState();
@@ -32,9 +35,9 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
       builder: (context, state) {
         return Form(
             key: context.read<CompleteProfileBloc>().formKey3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+            child: ListAnimator(
+              scroll:widget. isAdd,
+              data: [
                 Center(
                   child: Text(
                    getTranslated("select_your_birth") ?? "",
@@ -62,7 +65,8 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                   ),
                 ),
                 BlocProvider(
-                  create: (context) =>
+                  create: (context) =>!widget.isAdd
+                      ? SettingOptionBloc(repo: sl<SettingOptionRepo>()):
                       SettingOptionBloc(repo: sl<SettingOptionRepo>())
                         ..add(Get(arguments:{'field_name': "social_status"} )),
                   child: BlocBuilder<SettingOptionBloc, AppState>(
@@ -76,23 +80,44 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                               .read<CompleteProfileBloc>()
                               .socialStatusStream,
                           builder: (context, snapshot) {
-                            return CustomDropDownButton(
-                              label: getTranslated( "Marital status"),
-                              validation: (v) =>
-                                  Validations.field(snapshot.data?.name),
-                              value: null,
-                              onChange: (v) {
-                                context
-                                    .read<CompleteProfileBloc>()
-                                    .updateSocialStatus(v as CustomFieldModel);
-                              },
-                              items: model.data ?? [],
-                              name: context
-                                      .read<CompleteProfileBloc>()
-                                      .nationality
-                                      .valueOrNull
-                                      ?.name ??
-                                  getTranslated("nationality"),
+
+                            return Column(
+                              children: [
+                                CustomDropDownButton(
+                                  label: getTranslated( "Marital status"),
+                                  validation: (v) =>
+                                      Validations.field(snapshot.data?.name),
+                                  value: snapshot.data != null
+                                      ? model.data?.where((v) {
+
+                                    return v.id == snapshot.data!.id;
+                                  }).firstOrNull
+                                      : null,
+                                  isEnabled: !widget.isView,
+                                  items: model.data ?? [],
+                                  onChange: (v) {
+                                    context
+                                        .read<CompleteProfileBloc>()
+                                        .updateSocialStatus(v as CustomFieldModel);
+                                  },
+                                  name: context
+                                          .read<CompleteProfileBloc>()
+                                          .nationality
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("nationality"),
+                                ),
+                                if(snapshot.data?.id!=3)
+                                  CustomTextField(
+                                    controller:
+                                    context.read<CompleteProfileBloc>().numberOfChildren,
+                                    label: getTranslated("number_of_children"),
+                                    hint:
+                                    "${getTranslated("enter")} ${getTranslated("number_of_children")}",
+                                    inputType: TextInputType.number,
+                                    pSvgIcon: SvgImages.user,
+                                  ),
+                              ],
                             );
                           });
                     }
@@ -108,16 +133,6 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                   }),
                 ),
 
-                CustomTextField(
-                  controller:
-                  context.read<CompleteProfileBloc>().numberOfChildren,
-                  label: getTranslated("number_of_children"),
-                  hint:
-                  "${getTranslated("enter")} ${getTranslated("number_of_children")}",
-                  inputType: TextInputType.number,
-                  pSvgIcon: SvgImages.user,
-                  validate: Validations.field,
-                ),
               ],
             ));
       },

@@ -12,7 +12,7 @@ class ProfileRepo extends BaseRepo {
   ProfileRepo({required super.dioClient, required super.sharedPreferences});
 
   Future<Either<ServerFailure, Response>> getProfile() async {
-    try {
+    // try {
       Response response = await dioClient.get(
         uri: EndPoints.profile(userId),
       );
@@ -22,9 +22,9 @@ class ProfileRepo extends BaseRepo {
       } else {
         return left(ApiErrorHandler.getServerFailure(response.data['message']));
       }
-    } catch (error) {
-      return left(ApiErrorHandler.getServerFailure(error));
-    }
+    // } catch (error) {
+    //   return left(ApiErrorHandler.getServerFailure(error));
+    // }
   }
 
   setUserData(json) {

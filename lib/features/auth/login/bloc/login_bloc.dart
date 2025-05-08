@@ -54,8 +54,8 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
 
   clear() {
     updateLoginEntity(LoginEntity(
-      email: TextEditingController(),
-      password: TextEditingController(),
+      email: TextEditingController(text: "mmedh4805@gmail.com"),
+      password: TextEditingController(text: "Mm100200300@"),
     ));
     updateRememberMe(false);
   }
@@ -69,7 +69,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
       response.fold((fail) {
           AppCore.showSnackBar(
               notification: AppNotification(
-                  message: getTranslated("invalid_credentials"),
+                  message: fail.error,
                   isFloating: true,
                   backgroundColor: Styles.IN_ACTIVE,
                   borderColor: Colors.transparent));
@@ -81,7 +81,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
         }
 
         // if (success.data['data'] != null &&
-        //     success.data['data']["client"]["is_verified"] == 0) {
+        //     success.data['data']["client"]["is_verified"] != 0) {
         //   CustomNavigator.push(
         //     Routes.verification,
         //     arguments: VerificationModel(

@@ -12,13 +12,16 @@ class CustomExpansionTile extends StatelessWidget {
       this.iconColor,
       this.titleColor,
       super.key,
-      this.leading});
+      this.leading,
+      this.trailing
+      });
   final String title;
   final List<Widget> children;
   final double? childrenPadding;
   final Color? iconColor;
   final Color? titleColor;
   final Widget? leading;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,8 @@ class CustomExpansionTile extends StatelessWidget {
             .copyWith(fontSize: 16, color: titleColor ?? Styles.HEADER),
       ),
       leading: leading,
+      trailing: trailing,
+      showTrailingIcon: true,
       minTileHeight: 0,
       tilePadding: EdgeInsets.symmetric(
           horizontal: Dimensions.paddingSizeExtraSmall.w,

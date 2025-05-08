@@ -73,10 +73,10 @@ class ProfileImageWidget extends StatelessWidget {
                         ),
                       ),
                     )
-                  : image != null
+                  : (context.read<UserBloc>().user?.image!=null ||image != null)
                       ? CustomNetworkImage.circleNewWorkImage(
                           color: Styles.HINT_COLOR,
-                          image: image,
+                          image:context.read<UserBloc>().user?.image?? image,
                           radius: radius)
                       : customCircleSvgIcon(
                           imageName: SvgImages.profileIcon,

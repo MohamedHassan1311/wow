@@ -48,11 +48,11 @@ class VerificationBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.red));
         emit(Error());
       }, (success) {
-        print(data.fromRegister);
         if (data.fromRegister) {
           CustomNavigator.push(Routes.login, clean: true, arguments: 0);
         } else {
           CustomNavigator.push(Routes.resetPassword, arguments: data);
+          return;
         }
         AppCore.showSnackBar(
           notification: AppNotification(
@@ -61,7 +61,7 @@ class VerificationBloc extends Bloc<AppEvent, AppState> {
             borderColor: Styles.ACTIVE,
           ),
         );
-        UserBloc.instance.add(Click());
+        // UserBloc.instance.add(Click());
 
         clear();
         emit(Done());

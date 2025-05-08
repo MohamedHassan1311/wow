@@ -42,7 +42,7 @@ class MoreProfileOptions extends StatelessWidget {
           MoreButton(
             title: getTranslated("profile", context: context),
             icon: SvgImages.profileIcon,
-            onTap: () => CustomNavigator.push(Routes.personalInfo),
+            onTap: () => CustomNavigator.push(Routes.editProfile),
           ),
 
 

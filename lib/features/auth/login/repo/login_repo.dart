@@ -14,9 +14,9 @@ class LoginRepo extends BaseRepo {
   LoginRepo({required super.sharedPreferences, required super.dioClient});
 
   saveUserData(json) {
-    if (!kDebugMode) {
-      subscribeToTopic(id: "${json["id"]}", userType: json["user_type"]);
-    }
+    // if (!kDebugMode) {
+    //   subscribeToTopic(id: "${json["id"]}", userType: json["user_type"]);
+    // }
     sharedPreferences.setString(AppStorageKey.userId, json["id"].toString());
     sharedPreferences.setString(AppStorageKey.userData, jsonEncode(json));
     sharedPreferences.setBool(AppStorageKey.isLogin, true);
@@ -60,7 +60,8 @@ class LoginRepo extends BaseRepo {
       Response response =
           await dioClient.post(uri: EndPoints.logIn, data: data);
       if (response.statusCode == 200) {
-        if (response.data['data']["client"]["is_verified"] ==1) {
+        // if (response.data['data']["client"]["is_verified"] ==1)
+        {
           saveUserToken(response.data["data"]["access_token"]);
           saveUserData(response.data["data"]["client"]);
         }

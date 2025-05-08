@@ -82,10 +82,16 @@ class IdentityVerificationWidget extends StatelessWidget {
                               ImagePickerHelper.showOptionDialog(onGet: onGet);
                             }
                           },
-                          child: Image.network(
-                            image!,
+                          child: SizedBox(
                             height: context.width,
                             width: context.width,
+                            child: Image.network(
+                              image!,
+                              fit: BoxFit.cover,
+
+                              height: context.width,
+                              width: context.width,
+                            ),
                           ),
                         )
                       : GestureDetector(

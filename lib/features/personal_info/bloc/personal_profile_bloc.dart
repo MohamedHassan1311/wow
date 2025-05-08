@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/navigation/custom_navigation.dart';
 
 import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';
@@ -19,6 +20,7 @@ import '../../../../data/error/failures.dart';
 
 import '../../../app/core/dimensions.dart';
 import '../../../components/custom_alert_dialog.dart';
+import '../../../main_blocs/user_bloc.dart';
 import '../../../main_models/custom_field_model.dart';
 import '../repo/perosnal_info_repo.dart';
 
@@ -140,7 +142,7 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         "education": education.valueOrNull?.id,
         "education_2": education2.valueOrNull?.id,
 
-        "job_title": job.valueOrNull?.id,
+        "job_title": job.valueOrNull?.name??otherJob.text.trim(),
         "salary": salery.text.trim(),
         "height": height.text.trim(),
         "weight": weight.text.trim(),
@@ -167,10 +169,17 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         emit(Error());
       }, (success) {
 
+        AppCore.showSnackBar(
+            notification: AppNotification(
+                message: getTranslated("your_profile_successfully_updated"),
+                isFloating: true,
+                backgroundColor: Styles.ACTIVE,
+                borderColor: Colors.transparent));
 
-
-        clear();
+        UserBloc.instance.add(Click());
         emit(Done());
+        CustomNavigator.pop();
+
       });
     } catch (e) {
       AppCore.showSnackBar(

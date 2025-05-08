@@ -13,18 +13,18 @@ class UserRepo extends BaseRepo {
   bool get isLogIn => sharedPreferences.containsKey(AppStorageKey.isLogin);
 
   Either<ServerFailure, UserModel> getUser() {
-    try {
-      final String? userObject =
-          sharedPreferences.getString(AppStorageKey.userData);
-      if (userObject != null) {
-        final json = jsonDecode(userObject);
-        return Right(UserModel.fromJson(json));
-      } else {
-        return Left(ServerFailure("There is no data in SharedPreference"));
-      }
-    } catch (error) {
-      return left(ApiErrorHandler.getServerFailure(error));
+    // try {
+    final String? userObject =
+        sharedPreferences.getString(AppStorageKey.userData);
+    if (userObject != null) {
+      final json = jsonDecode(userObject);
+      return Right(UserModel.fromJson(json));
+    } else {
+      return Left(ServerFailure("There is no data in SharedPreference"));
     }
+    // } catch (error) {
+    //   return left(ApiErrorHandler.getServerFailure(error));
+    // }
   }
 
   setUserData(json) {

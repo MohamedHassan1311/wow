@@ -27,7 +27,7 @@ class UserBloc extends Bloc<AppEvent, AppState> {
   UserModel? user;
 
   onClick(Click event, Emitter<AppState> emit) async {
-    try {
+    // try {
       emit(Loading());
 
       Either<ServerFailure, UserModel> response = repo.getUser();
@@ -45,16 +45,16 @@ class UserBloc extends Bloc<AppEvent, AppState> {
         log("${success.toJson()}");
         emit(Done(model: user));
       });
-    } catch (e) {
-      AppCore.showSnackBar(
-        notification: AppNotification(
-          message: e.toString(),
-          backgroundColor: Styles.IN_ACTIVE,
-          borderColor: Styles.RED_COLOR,
-        ),
-      );
-      emit(Error());
-    }
+    // } catch (e) {
+    //   AppCore.showSnackBar(
+    //     notification: AppNotification(
+    //       message: e.toString(),
+    //       backgroundColor: Styles.IN_ACTIVE,
+    //       borderColor: Styles.RED_COLOR,
+    //     ),
+    //   );
+    //   emit(Error());
+    // }
   }
 
   onUpdate(Update event, Emitter<AppState> emit) async {

@@ -22,8 +22,8 @@ class Validations {
 
   static String? password(String? password) {
     RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-    if (!regex.hasMatch(password ?? "")) {
-      // if (password?.trim() == null || password!.isEmpty) {
+    // if (!regex.hasMatch(password ?? "")) {
+      if (password?.trim() == null || password!.isEmpty) {
       return getTranslated("please_enter_valid_password");
     } else {
       return null;
@@ -32,8 +32,8 @@ class Validations {
 
   static String? firstPassword(String? password) {
     RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
-    if (!regex.hasMatch(password ?? "")) {
-      // if (password?.trim() == null || password!.isEmpty) {
+    // if (!regex.hasMatch(password ?? "")) {
+      if (password?.trim() == null || password!.isEmpty) {
       return getTranslated("please_enter_valid_password");
     } else {
       return null;

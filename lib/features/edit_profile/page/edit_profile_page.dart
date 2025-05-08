@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/components/custom_app_bar.dart';
 import '../../../../data/config/di.dart';
 import '../../../app/core/app_event.dart';
+import '../../../app/localization/language_constant.dart';
 import '../bloc/edit_profile_bloc.dart';
 import '../repo/edit_profile_repo.dart';
 import '../widget/edit_profile_actions.dart';
@@ -20,16 +21,17 @@ class EditProfilePage extends StatelessWidget {
       create: (context) =>
           EditProfileBloc(repo: sl<EditProfileRepo>())..add(Init()),
       child: Scaffold(
-        appBar: const CustomAppBar(),
+        appBar:  CustomAppBar(title: getTranslated("profile", context: context),),
         body: SafeArea(
           child: BlocBuilder<EditProfileBloc, AppState>(
             builder: (context, state) {
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  EditProfileHeader(fromComplete: fromComplete),
+                  // EditProfileHeader(fromComplete: fromComplete),
                   EditProfileBody(fromComplete: fromComplete),
-                  EditProfileActions(fromComplete: fromComplete),
+                  // EditProfileActions(fromComplete: fromComplete),
                 ],
               );
             },

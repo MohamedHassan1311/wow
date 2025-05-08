@@ -27,7 +27,9 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileGuardiandata extends StatefulWidget {
-  const CompleteProfileGuardiandata({super.key});
+  final bool  scroll;
+
+  const CompleteProfileGuardiandata({super.key,  this.scroll =true});
 
   @override
   State<CompleteProfileGuardiandata> createState() =>
@@ -44,6 +46,7 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileGuardiandata>
         return Form(
           key: context.read<CompleteProfileBloc>().formKey4,
           child: ListAnimator(
+            scroll:widget. scroll,
             data: [
               ///Name
               CustomTextField(

@@ -142,7 +142,6 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                 "${getTranslated("enter")} ${getTranslated("other_tribe")}",
                 inputType: TextInputType.name,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
               ),
 
 

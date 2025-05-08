@@ -1,21 +1,30 @@
 import 'package:wow/data/config/mapper.dart';
+import 'package:intl/intl.dart';
+
+import 'custom_field_model.dart';
 
 class UserModel extends SingleMapper {
   int? id;
   String? name;
+  String? image;
   String? fname;
   String? lname;
+  String? nickname;
   String? profileImage;
   String? email;
   String? balance;
   String? countryCode;
   String? phone;
-  String? dob;
+  String? phoneCode;
+  DateTime? dob;
   String? gender;
   int? subscription;
-  int? socialStatus;
-  int? regionId;
-  int? cityId;
+  CustomFieldModel? socialStatus;
+  CustomFieldModel? regionId;
+  CustomFieldModel? nationalityId;
+  CustomFieldModel? cityId;
+  CustomFieldModel? countryId;
+
   String? identityFile;
   String? accountType;
   String? notes;
@@ -36,26 +45,33 @@ class UserModel extends SingleMapper {
   String? verificationCode;
   String? invitationCode;
   String? fcmToken;
-  int? countryId;
   double? wallet;
   int? points;
   String? type;
-  int? nationalityId;
-  int? otherNationalityId;
+  String? gfName;
+  String? glName;
+  String? gPhoneNumber;
+  String? otherGuardian;
+  CustomFieldModel? otherNationalityId;
   int? numOfSons;
+  DateTime? dop;
 
   UserModel({
     this.id,
     this.name,
+    this.image,
     this.fname,
     this.lname,
+    this.nickname,
     this.email,
     this.profileImage,
     this.balance,
     this.countryCode,
     this.phone,
+    this.phoneCode,
     this.dob,
     this.gender,
+    this.dop,
     this.subscription,
     this.socialStatus,
     this.regionId,
@@ -84,27 +100,45 @@ class UserModel extends SingleMapper {
     this.wallet,
     this.points,
     this.type,
+    this.gfName,
+    this.glName,
+    this.gPhoneNumber,
+    this.otherGuardian,
     this.nationalityId,
     this.otherNationalityId,
     this.numOfSons,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
+    print(json['dop']);
     id = json['id'];
-    name = json['fname']+" "+json['lname'];
+    name = json['fname'] + " " + json['lname'];
     fname = json['fname'];
     lname = json['lname'];
+    image = json['image'];
+    glName = json['glName'];
+    gfName = json['gfName'];
+    gPhoneNumber = json['gPhoneNumber'];
+    otherGuardian = json['otherGuardian'];
+    nickname = json['nickname'];
     balance = json['balance'];
-    profileImage = json['profileImage'];
+    profileImage = json['image'];
     email = json['email'];
     countryCode = json['country_code'];
     phone = json['phone'];
-    dob = json['dob'];
+    phoneCode = json['phone_code'];
     gender = json['gender'];
+    dop = json['dob'] != null
+        ? DateFormat('d/M/yyyy').parse(json['dob'])
+        : DateTime.now();
     subscription = json['subscription'];
-    socialStatus = json['social_status'];
-    regionId = json['region_id'];
-    cityId = json['city_id'];
+    socialStatus = (json['social_status'] != null&&json['social_status'] != 1)
+        ? CustomFieldModel.fromJson(json['social_status'])
+        : CustomFieldModel(name: "no Data");
+    regionId =json['region']!=null? CustomFieldModel.fromJson(json['region']) : CustomFieldModel(name: "no Data");
+    cityId = json['city'] != null
+        ? CustomFieldModel.fromJson(json['city'])
+        : CustomFieldModel(name: "no Data");
     identityFile = json['identity_file'];
     accountType = json['account_type'];
     notes = json['notes'];
@@ -125,12 +159,19 @@ class UserModel extends SingleMapper {
     verificationCode = json['verification_code'];
     invitationCode = json['invitation_code'];
     fcmToken = json['fcm_token'];
-    countryId = json['country_id'];
     wallet = double.tryParse(json['wallet']?.toString() ?? '0.0');
     points = json['points'];
     type = json['type'];
-    nationalityId = json['nationality_id'];
-    otherNationalityId = json['other_nationality_id'];
+    countryId = json['country'] != null
+        ? CustomFieldModel.fromJson(json['country'])
+        : CustomFieldModel(name: "no Data");
+
+    nationalityId = json['country'] != null
+        ? CustomFieldModel.fromJson(json['nationality'])
+        : CustomFieldModel(name: "no Data");
+    otherNationalityId = json['other_nationality'] != null
+        ? CustomFieldModel.fromJson(json['other_nationality'])
+        : CustomFieldModel(name: "no Data");
     numOfSons = json['num_of_sons'];
   }
 
@@ -140,15 +181,24 @@ class UserModel extends SingleMapper {
     data['id'] = id;
     data['fname'] = fname;
     data['lname'] = lname;
+    data['gfName'] = gfName;
+    data['image'] = profileImage;
+    data['glName'] = glName;
+    data['gPhoneNumber'] = gPhoneNumber;
+    data['otherGuardian'] = otherGuardian;
+    data['nickname'] = nickname;
     data['email'] = email;
+    data['phone_code'] = phoneCode;
     data['country_code'] = countryCode;
     data['phone'] = phone;
-    data['dob'] = dob;
     data['gender'] = gender;
+    data['dob'] = dop;
+    data['image'] = image;
+
     data['subscription'] = subscription;
-    data['social_status'] = socialStatus;
-    data['region_id'] = regionId;
-    data['city_id'] = cityId;
+    data['social_status'] = socialStatus?.toJson();
+    data['region_id'] = regionId?.toJson();
+    data['city'] = cityId?.toJson();
     data['identity_file'] = identityFile;
     data['account_type'] = accountType;
     data['notes'] = notes;
@@ -169,12 +219,12 @@ class UserModel extends SingleMapper {
     data['verification_code'] = verificationCode;
     data['invitation_code'] = invitationCode;
     data['fcm_token'] = fcmToken;
-    data['country_id'] = countryId;
+    data['country'] = countryId?.toJson();
     data['wallet'] = wallet;
     data['points'] = points;
     data['type'] = type;
-    data['nationality_id'] = nationalityId;
-    data['other_nationality_id'] = otherNationalityId;
+    data['nationality'] = nationalityId?.toJson();
+    data['other_nationality'] = otherNationalityId?.toJson();
     data['num_of_sons'] = numOfSons;
 
     return data;

@@ -47,9 +47,9 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 label: getTranslated("height"),
                 hint:
                 "${getTranslated("enter")} ${getTranslated("height")}",
-                inputType: TextInputType.name,
+                inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
+                validate: Validations.field,
               ),
 
               CustomTextField(
@@ -58,9 +58,9 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 label: getTranslated("weight"),
                 hint:
                 "${getTranslated("enter")} ${getTranslated("weight")}",
-                inputType: TextInputType.name,
+                inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
+                validate: Validations.field,
               ),
               /// Shape
               BlocProvider(

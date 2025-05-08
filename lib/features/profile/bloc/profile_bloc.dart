@@ -21,7 +21,7 @@ class ProfileBloc extends Bloc<AppEvent, AppState> {
   bool get isLogin => repo.isLogin;
 
   Future<void> onGetData(Get event, Emitter<AppState> emit) async {
-    try {
+    // try {
       emit(Loading());
       Either<ServerFailure, Response> response = await repo.getProfile();
 
@@ -37,15 +37,15 @@ class ProfileBloc extends Bloc<AppEvent, AppState> {
         UserBloc.instance.add(Click());
         emit(Done());
       });
-    } catch (e) {
-      AppCore.showSnackBar(
-        notification: AppNotification(
-          message: e.toString(),
-          backgroundColor: Styles.IN_ACTIVE,
-          borderColor: Styles.RED_COLOR,
-        ),
-      );
-      emit(Error());
-    }
+    // } catch (e) {
+    //   AppCore.showSnackBar(
+    //     notification: AppNotification(
+    //       message: e.toString(),
+    //       backgroundColor: Styles.IN_ACTIVE,
+    //       borderColor: Styles.RED_COLOR,
+    //     ),
+    //   );
+    //   emit(Error());
+    // }
   }
 }

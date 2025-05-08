@@ -27,6 +27,7 @@ class CompleteProfile extends StatelessWidget {
           child: BlocBuilder<CompleteProfileBloc, AppState>(
             builder: (context, state) {
               return Column(
+
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 10,
                 children: [

@@ -10,6 +10,7 @@ class CompleteProfileRepo extends BaseRepo {
 
   Future<Either<ServerFailure, Response>> completeProfile(data) async {
     try {
+      print(userId);
       Response response = await dioClient.post(
           uri: EndPoints.editProfile(userId), data: data);
 

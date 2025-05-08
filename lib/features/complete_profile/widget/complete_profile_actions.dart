@@ -9,18 +9,14 @@ import 'package:wow/app/core/extensions.dart';
 
 import '../../../../app/core/app_event.dart';
 import '../../../../app/core/styles.dart';
-import '../../../../app/core/svg_images.dart';
 import '../../../../app/core/text_styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_button.dart';
-import '../../../../components/custom_images.dart';
-import '../../../../data/config/di.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 
-import '../../../app/core/images.dart';
+import '../../../app/core/app_core.dart';
 import '../../../components/custom_alert_dialog.dart';
-import '../../language/bloc/language_bloc.dart';
 import '../bloc/complete_profile_bloc.dart';
 import 'submit_confirmation_dialog.dart';
 
@@ -51,12 +47,29 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                         if (snapshot.data != 1)
                           Expanded(
                             child: CustomButton(
-                                text: getTranslated("previous"),
-                                backgroundColor: Colors.transparent,
-                                textColor: Styles.PRIMARY_COLOR,
-                                borderColor: Styles.PRIMARY_COLOR,
-                                withBorderColor: true,
-                                onTap: () {
+                              text: getTranslated("previous"),
+                              backgroundColor: Colors.transparent,
+                              textColor: Styles.PRIMARY_COLOR,
+                              borderColor: Styles.PRIMARY_COLOR,
+                              withBorderColor: true,
+                              onTap: () {
+                                /// check if gender is male remove Guardian's data page from steps
+
+                                if (context
+                                            .read<CompleteProfileBloc>()
+                                            .gender
+                                            .valueOrNull ==
+                                        1 &&
+                                    snapshot.data == 5) {
+                                  context
+                                      .read<CompleteProfileBloc>()
+                                      .updateCurrentStep(3);
+
+                                  context
+                                      .read<CompleteProfileBloc>()
+                                      .pageController
+                                      .jumpToPage(2);
+                                } else {
                                   if (snapshot.data! > 1) {
                                     context
                                         .read<CompleteProfileBloc>()
@@ -67,22 +80,34 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                         .pageController
                                         .jumpToPage(snapshot.data! - 2);
                                   }
-                                },
-                                ),
+                                }
+                              },
+                            ),
                           ),
                         Expanded(
                           child: Center(
                             child: CustomButton(
                                 text: getTranslated("next"),
                                 onTap: () async {
-                            print(snapshot.data!);
+                                  print(snapshot.data!);
                                   if (snapshot.data! < 6) {
                                     if (snapshot.data! == 1) {
                                       if (!context
                                           .read<CompleteProfileBloc>()
                                           .formKey1
                                           .currentState!
-                                          .validate()) return;
+                                          .validate()) {
+                                        if (context
+                                                .read<CompleteProfileBloc>()
+                                                .gender
+                                                .hasValue !=
+                                            true) {
+                                          return AppCore.showToast(
+                                            "${getTranslated("enter")} ${getTranslated("gender")}",
+                                          );
+                                        }
+                                        return;
+                                      }
                                     }
 
                                     if (snapshot.data! == 2) {
@@ -92,12 +117,42 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                           .currentState!
                                           .validate()) return;
                                     }
-                                    if (snapshot.data! == 3) {
+                                    if (snapshot.data! == 3 &&
+                                        context
+                                                .read<CompleteProfileBloc>()
+                                                .nationality
+                                                .value!
+                                                .code !=
+                                            "SA") {
                                       if (!context
                                           .read<CompleteProfileBloc>()
                                           .formKey3
                                           .currentState!
                                           .validate()) return;
+                                      final result = await CustomAlertDialog.show(
+                                          dailog: AlertDialog(
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical: Dimensions
+                                                      .PADDING_SIZE_DEFAULT.w,
+                                                  horizontal: Dimensions
+                                                      .PADDING_SIZE_DEFAULT.w),
+                                              insetPadding: EdgeInsets.symmetric(
+                                                  vertical: Dimensions
+                                                      .PADDING_SIZE_EXTRA_LARGE
+                                                      .w,
+                                                  horizontal:
+                                                  context.width * 0.1),
+                                              shape: OutlineInputBorder(
+                                                  borderSide:
+                                                  const BorderSide(color: Colors.transparent),
+                                                  borderRadius: BorderRadius.circular(20.0)),
+                                              content: SubmitConfirmationDialog()));
+                                      if (result) {
+                                        context.read<CompleteProfileBloc>().add(
+                                          Click(),
+                                        );
+                                        return;
+                                      }
                                     }
                                     if (snapshot.data! == 4) {
                                       if (!context
@@ -107,45 +162,58 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                           .validate()) return;
                                     }
 
-                                    print(snapshot.data!);
                                     if (snapshot.data! == 5) {
-
-                                      final result=await    CustomAlertDialog.show(
+                                      final result = await CustomAlertDialog.show(
                                           dailog: AlertDialog(
                                               contentPadding: EdgeInsets.symmetric(
-                                                  vertical:
-                                                  Dimensions.PADDING_SIZE_DEFAULT.w,
-                                                  horizontal:
-                                                  Dimensions.PADDING_SIZE_DEFAULT.w),
+                                                  vertical: Dimensions
+                                                      .PADDING_SIZE_DEFAULT.w,
+                                                  horizontal: Dimensions
+                                                      .PADDING_SIZE_DEFAULT.w),
                                               insetPadding: EdgeInsets.symmetric(
-                                                  vertical:
-                                                  Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                                                  horizontal: context.width * 0.1),
+                                                  vertical: Dimensions
+                                                      .PADDING_SIZE_EXTRA_LARGE
+                                                      .w,
+                                                  horizontal:
+                                                      context.width * 0.1),
                                               shape: OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.transparent),
-                                                  borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                              content:SubmitConfirmationDialog()
-                                          ));
-                                      if(result) {
+                                                  borderSide:
+                                                      const BorderSide(color: Colors.transparent),
+                                                  borderRadius: BorderRadius.circular(20.0)),
+                                              content: SubmitConfirmationDialog()));
+                                      if (result) {
                                         context.read<CompleteProfileBloc>().add(
-                                        Click(),
-                                      );
+                                              Click(),
+                                            );
                                       }
                                       return;
                                     }
 
-                                    context
-                                        .read<CompleteProfileBloc>()
-                                        .updateCurrentStep(snapshot.data! + 1);
-                                    context
-                                        .read<CompleteProfileBloc>()
-                                        .pageController
-                                        .jumpToPage(snapshot.data!);
-                                  } else {
-
-                                  }
+                                    /// check if gender is male remove Guardian's data page from steps
+                                    if (context
+                                                .read<CompleteProfileBloc>()
+                                                .gender
+                                                .valueOrNull ==
+                                            1 &&
+                                        snapshot.data == 3) {
+                                      context
+                                          .read<CompleteProfileBloc>()
+                                          .updateCurrentStep(5);
+                                      context
+                                          .read<CompleteProfileBloc>()
+                                          .pageController
+                                          .jumpToPage(4);
+                                    } else {
+                                      context
+                                          .read<CompleteProfileBloc>()
+                                          .updateCurrentStep(
+                                              snapshot.data! + 1);
+                                      context
+                                          .read<CompleteProfileBloc>()
+                                          .pageController
+                                          .jumpToPage(snapshot.data!);
+                                    }
+                                  } else {}
                                 },
                                 isLoading: state is Loading),
                           ),

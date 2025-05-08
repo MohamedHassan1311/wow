@@ -11,27 +11,21 @@ import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/svg_images.dart';
 
 import 'package:wow/features/complete_profile/widget/select_gender.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
-import '../../../../components/custom_text_form_field.dart';
 
-import '../../../app/core/app_event.dart';
-import '../../../app/core/text_styles.dart';
 import '../../../components/animated_widget.dart';
-import '../../../components/custom_app_bar.dart';
-import '../../../components/custom_drop_down_button.dart';
-import '../../../components/shimmer/custom_shimmer.dart';
-import '../../../data/config/di.dart';
-import '../../../main_models/custom_field_model.dart';
+
 import '../../../main_widgets/identity_verification_image_widget.dart';
-import '../../../main_widgets/profile_image_widget.dart';
-import '../../setting_option/bloc/setting_option_bloc.dart';
-import '../../setting_option/repo/setting_option_repo.dart';
+
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileVerification extends StatefulWidget {
-  const CompleteProfileVerification({super.key});
+  final bool isAdd;
+  final bool isView;
+  const CompleteProfileVerification({super.key,  this.isAdd=true,this.isView = false});
 
   @override
   State<CompleteProfileVerification> createState() =>
@@ -48,6 +42,7 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileVerification>
         return Form(
             key: context.read<CompleteProfileBloc>().formKey5,
             child:  ListAnimator(
+              scroll:widget. isAdd,
               data: [
                 Center(
                   child: Text(getTranslated("verification_des"),
@@ -73,6 +68,7 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileVerification>
                       builder: (context, snapshot) {
                         return IdentityVerificationWidget(
                             withEdit: true,
+                            image:widget.isAdd?null: UserBloc.instance.user?.identityFile,
                             imageFile: snapshot.data,
                             onGet: context
                                 .read<CompleteProfileBloc>()
