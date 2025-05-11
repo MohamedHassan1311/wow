@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -18,7 +19,8 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoShape extends StatefulWidget {
-  const PersonalInfoShape({super.key});
+  final bool isEdit;
+  const PersonalInfoShape({super.key,this.isEdit=false});
 
   @override
   State<PersonalInfoShape> createState() =>
@@ -50,6 +52,7 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
                 validate: Validations.field,
+                // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().height.text.isNotEmpty&& UserBloc.instance.user?.validation?.height!=null:true,
               ),
 
               CustomTextField(
@@ -61,6 +64,7 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
                 validate: Validations.field,
+                // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().weight.text.isNotEmpty&& UserBloc.instance.user?.validation?.weight!=null:true,
               ),
               /// Shape
               BlocProvider(
@@ -76,11 +80,16 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                         stream:
                             context.read<PersonalInfoBloc>().bodyTypeStream,
                         builder: (context, snapshot) {
+                          if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("body_type"),
                             validation: (v) =>
                                 Validations.field(snapshot.data?.name),
-                            value: null,
+                            value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
+                              ),
+                            // isEnabled :widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.bodyType!=null:true,
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -94,6 +103,8 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                                     ?.name ??
                                 getTranslated("body_type"),
                           );
+                        }
+                        return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -123,9 +134,14 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                             .read<PersonalInfoBloc>()
                             .skinColorStream,
                         builder: (context, snapshot) {
+                          if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("skin_color"),
-                            value: null,
+                            value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
+                              ),
+                            // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.skinColor!=null:true,
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -140,9 +156,11 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                                     ?.name ??
                                 getTranslated("skin_color"),
                           );
+                        }
+                        return SizedBox();
                         });
-                  }
-                  if (state is Loading) {
+                    }
+                    if (state is Loading) {
                     return CustomShimmerContainer(
                       height: 60.h,
                       width: context.width,

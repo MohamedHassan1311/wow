@@ -25,7 +25,8 @@ import '../bloc/complete_profile_bloc.dart';
 class CompleteProfileVerification extends StatefulWidget {
   final bool isAdd;
   final bool isView;
-  const CompleteProfileVerification({super.key,  this.isAdd=true,this.isView = false});
+  final bool isEdit;
+  const CompleteProfileVerification({super.key,  this.isAdd=true,this.isView = false,this.isEdit=false});
 
   @override
   State<CompleteProfileVerification> createState() =>
@@ -45,16 +46,40 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileVerification>
               scroll:widget. isAdd,
               data: [
                 Center(
-                  child: Text(getTranslated("verification_des"),
+                  child: Column(
+                    children: [
+                      Text(getTranslated("verification_des"),
 
-                    maxLines: 3,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w300,
+                        maxLines: 3,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w300,
 
-                      fontSize: 14,
-                      overflow: TextOverflow.ellipsis,
-                      color: Styles.HEADER,
-                    ),),
+                          fontSize: 14,
+                          overflow: TextOverflow.ellipsis,
+                          color: Styles.HEADER,
+                        ),),
+                      if(UserBloc.instance.user?.validation?.identityFile!=null)
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Styles.ERORR_COLOR.withOpacity(.10),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              UserBloc.instance.user?.validation?.identityFile?? "",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                overflow: TextOverflow.ellipsis,
+                                color: Styles.ERORR_COLOR,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -68,7 +93,7 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileVerification>
                       builder: (context, snapshot) {
                         return IdentityVerificationWidget(
                             withEdit: true,
-                            image:widget.isAdd?null: UserBloc.instance.user?.identityFile,
+                            image: UserBloc.instance.user?.identityFile,
                             imageFile: snapshot.data,
                             onGet: context
                                 .read<CompleteProfileBloc>()

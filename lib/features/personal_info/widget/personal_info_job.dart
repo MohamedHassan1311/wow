@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -18,11 +19,11 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoJob extends StatefulWidget {
-  const PersonalInfoJob({super.key});
+  final bool isEdit;
+  const PersonalInfoJob({super.key, this.isEdit = false});
 
   @override
-  State<PersonalInfoJob> createState() =>
-      _PersonalInfoJobState();
+  State<PersonalInfoJob> createState() => _PersonalInfoJobState();
 }
 
 class _PersonalInfoJobState extends State<PersonalInfoJob>
@@ -50,13 +51,17 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
                     CustomFieldsModel model = state.model as CustomFieldsModel;
 
                     return StreamBuilder<CustomFieldModel?>(
-                        stream:
-                            context.read<PersonalInfoBloc>().jobStream,
+                        stream: context.read<PersonalInfoBloc>().jobStream,
                         builder: (context, snapshot) {
+                          if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("job"),
-
-                            value: null,
+                            value: model.data?.firstWhere(
+                              (v) => v.name == snapshot.data?.name,
+                              orElse: () => CustomFieldModel(name: "no_data"),
+                            ),
+                            isEnabled:widget.isEdit? snapshot.data != null &&
+                                UserBloc.instance.user?.validation?.job != null:true,
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -70,6 +75,8 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
                                     ?.name ??
                                 getTranslated("job"),
                           );
+                        }
+                        return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -86,22 +93,19 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
 
               // ///Name
               CustomTextField(
-                controller:
-                context.read<PersonalInfoBloc>().otherJob,
+                controller: context.read<PersonalInfoBloc>().otherJob,
                 label: getTranslated("anther_job"),
-                hint:
-                "${getTranslated("enter")} ${getTranslated("job")}",
+                hint: "${getTranslated("enter")} ${getTranslated("job")}",
                 inputType: TextInputType.name,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
+                isEnabled: widget.isEdit? context.read<PersonalInfoBloc>().otherJob.text.isNotEmpty&& UserBloc.instance.user?.validation?.job != null:true,
               ),
 
               CustomTextField(
-                controller:
-                context.read<PersonalInfoBloc>().salery,
+                controller: context.read<PersonalInfoBloc>().salery,
                 label: getTranslated("salary"),
-                hint:
-                "${getTranslated("enter")} ${getTranslated("salary")}",
+                isEnabled: widget.isEdit? context.read<PersonalInfoBloc>().salery.text.isNotEmpty&& UserBloc.instance.user?.validation?.salary != null:true,
+                hint: "${getTranslated("enter")} ${getTranslated("salary")}",
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
                 validate: Validations.field,

@@ -27,9 +27,10 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileGuardiandata extends StatefulWidget {
+  final bool isEdit;
   final bool  scroll;
 
-  const CompleteProfileGuardiandata({super.key,  this.scroll =true});
+  const CompleteProfileGuardiandata({super.key,  this.scroll =true,this.isEdit=false});
 
   @override
   State<CompleteProfileGuardiandata> createState() =>

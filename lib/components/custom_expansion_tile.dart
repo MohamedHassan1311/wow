@@ -13,9 +13,11 @@ class CustomExpansionTile extends StatelessWidget {
       this.titleColor,
       super.key,
       this.leading,
-      this.trailing
+      this.trailing,
+      this.initiallyExpanded = false,
       });
   final String title;
+  final bool initiallyExpanded;
   final List<Widget> children;
   final double? childrenPadding;
   final Color? iconColor;
@@ -26,6 +28,7 @@ class CustomExpansionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+
       title: Text(
         title,
         style: AppTextStyles.w600
@@ -42,7 +45,7 @@ class CustomExpansionTile extends StatelessWidget {
           horizontal: Dimensions.paddingSizeExtraSmall.w,
           vertical: Dimensions.paddingSizeMini.h),
       collapsedIconColor: iconColor ?? Styles.HEADER,
-      initiallyExpanded: true,
+      initiallyExpanded: initiallyExpanded,
       iconColor: iconColor ?? Styles.HEADER,
       backgroundColor: Styles.SMOKED_WHITE_COLOR,
       collapsedBackgroundColor: Styles.SMOKED_WHITE_COLOR,

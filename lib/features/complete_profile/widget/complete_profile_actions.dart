@@ -22,8 +22,9 @@ import 'submit_confirmation_dialog.dart';
 
 class CompleteProfileActions extends StatefulWidget {
   final bool isEdit;
+  final bool isView;
 
-   const CompleteProfileActions({super.key, required this.isEdit});
+   const CompleteProfileActions({super.key, required this.isEdit,this.isView=false});
 
   @override
   State<CompleteProfileActions> createState() => _CompleteProfileActionsState();
@@ -46,7 +47,7 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                     child: Row(
                       spacing: 25,
                       children: [
-                        if (snapshot.data != 1)
+                        if (snapshot.data != 1&&!widget.isView)
                           Expanded(
                             child: CustomButton(
                               text: getTranslated("previous"),
@@ -91,6 +92,12 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                             child: CustomButton(
                                 text: getTranslated("next"),
                                 onTap: () async {
+                                  if(widget.isView){
+                                    context.read<CompleteProfileBloc>().add(
+                                          Click(arguments: widget.isEdit),
+                                        );
+                                    return;
+                                  }
                                   print(snapshot.data!);
                                   if (snapshot.data! < 6) {
                                     if (snapshot.data! == 1) {

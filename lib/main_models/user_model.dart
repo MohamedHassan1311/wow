@@ -1,5 +1,6 @@
 import 'package:wow/data/config/mapper.dart';
 import 'package:intl/intl.dart';
+import 'package:wow/main_models/user_model_validation.dart';
 
 import 'custom_field_model.dart';
 
@@ -27,7 +28,8 @@ class UserModel extends SingleMapper {
   CustomFieldModel? cityId;
   CustomFieldModel? countryId;
   CustomFieldModel? education;
-  CustomFieldModel? job;
+  CustomFieldModel? education2;
+  String? job;
   CustomFieldModel? bodyType;
   CustomFieldModel? skinColor;
   CustomFieldModel? tribe;
@@ -35,6 +37,7 @@ class UserModel extends SingleMapper {
 
   String? personalInfo;
   String? partenrInfo;
+  String? salary;
   String? identityFile;
   String? accountType;
   String? notes;
@@ -49,6 +52,7 @@ class UserModel extends SingleMapper {
   int? status;
   int? isVerified;
   int? verifyPayment;
+  List<int>? languages;
   String? deletionDate;
   String? deletionReason;
   int? emailVerified;
@@ -65,6 +69,8 @@ class UserModel extends SingleMapper {
   CustomFieldModel? otherNationalityId;
   int? numOfSons;
   DateTime? dop;
+  UserModelValidation? validation;
+
 
   UserModel(
       {this.id,
@@ -84,6 +90,7 @@ class UserModel extends SingleMapper {
       this.dop,
       this.subscription,
       this.socialStatus,
+      this.languages,
       this.regionId,
       this.cityId,
       this.identityFile,
@@ -114,6 +121,7 @@ class UserModel extends SingleMapper {
       this.glName,
       this.gPhoneNumber,
       this.otherGuardian,
+      this.salary,
       this.nationalityId,
       this.otherNationalityId,
       this.numOfSons,
@@ -121,11 +129,13 @@ class UserModel extends SingleMapper {
       this.weight,
       this.height,
       this.education,
+      this.education2,
       this.tribe,
       this.skinColor,
       this.bodyType,
       this.job,
       this.personalInfo,
+      this.validation,
       this.sect});
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -164,10 +174,25 @@ class UserModel extends SingleMapper {
 
    partenrInfo=json['about_partner'];
     personalInfo=json['about_me'];
+    salary=json['salary'];
+   //[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: type 'String' is not a subtype of type 'int' in type cast
 
-    weight=json['weight'];
-    height=json['height'];
-    education=json['education'];
+
+languages = json['language'] != null
+    ? List<int>.from(json['language'].map((e) => int.parse(e)))
+    : [];
+
+
+   
+
+    weight=int.tryParse(json['weight']?.toString() ?? '0');
+    height=int.tryParse(json['height']?.toString() ?? '0');
+    education=json['education'] != null
+        ? CustomFieldModel.fromJson(json['education'])
+        : CustomFieldModel(name: "no Data");
+    education2=json['education_2'] != null
+        ? CustomFieldModel.fromJson(json['education_2'])
+        : CustomFieldModel(name: "no Data");
     tribe=json['tribe'] != null
         ? CustomFieldModel.fromJson(json['tribe'])
         : CustomFieldModel(name: "no Data");
@@ -180,9 +205,7 @@ class UserModel extends SingleMapper {
         ? CustomFieldModel.fromJson(json['body_type'])
         : CustomFieldModel(name: "no Data");
 
-    job=json['job'] != null
-        ? CustomFieldModel.fromJson(json['job'])
-        : CustomFieldModel(name: "no Data");
+    job=json['job_title'] ;
 
     sect=json['religion'] != null
         ? CustomFieldModel.fromJson(json['religion'])
@@ -222,7 +245,10 @@ class UserModel extends SingleMapper {
         ? CustomFieldModel.fromJson(json['other_nationality'])
         : CustomFieldModel(name: "no Data");
     numOfSons = json['num_of_sons'];
-  }
+    if (json['client_data_validation'] != null) {
+      validation = UserModelValidation();
+      validation!.assignFromValidationList(json['client_data_validation']);
+    }  }
 
   @override
   Map<String, dynamic> toJson() {
@@ -243,7 +269,8 @@ class UserModel extends SingleMapper {
     data['gender'] = gender;
     data['dob'] = dop;
     data['image'] = image;
-
+    data['language'] = languages;
+    data['salary'] = salary;
     data['subscription'] = subscription;
     data['social_status'] = socialStatus?.toJson();
     data['region_id'] = regionId?.toJson();
@@ -281,7 +308,7 @@ class UserModel extends SingleMapper {
     data['weight'] = weight;
     data['height'] = height;
     data['education'] = education?.toJson();
-    data['job'] = job?.toJson();
+    data['job_title'] = job;
     data['body_type'] = bodyType?.toJson();
     data['complexion'] = skinColor?.toJson();
     data['tribe'] = tribe?.toJson();

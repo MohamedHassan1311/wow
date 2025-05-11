@@ -5,6 +5,7 @@ import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/svg_images.dart';
 
 import 'package:wow/features/complete_profile/widget/select_gender.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -15,8 +16,9 @@ import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileNameAndGender extends StatefulWidget {
   final bool  scroll;
+  final bool isEdit;
 
-  const CompleteProfileNameAndGender({super.key,  this.scroll=true});
+  const CompleteProfileNameAndGender({super.key,  this.scroll=true,this.isEdit=false});
 
   @override
   State<CompleteProfileNameAndGender> createState() => _CompleteProfileNameAndGenderState();
@@ -37,7 +39,10 @@ class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGen
                     CustomTextField(
                       controller:
                       context.read<CompleteProfileBloc>().fName,
+                   isEnabled: widget.isEdit? context.read<CompleteProfileBloc>().fName.text.isNotEmpty&& UserBloc.instance.user?.validation?.fname!=null:true,
+
                       label: getTranslated("First_name"),
+                      labelError: UserBloc.instance.user?.validation?.fname,
                       hint:
                       "${getTranslated("enter")} ${getTranslated("First_name")}",
                       inputType: TextInputType.name,
@@ -50,7 +55,9 @@ class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGen
                     CustomTextField(
                       controller:
                       context.read<CompleteProfileBloc>().lName,
+                      isEnabled: widget.isEdit? context.read<CompleteProfileBloc>().lName.text.isNotEmpty&& UserBloc.instance.user?.validation?.lname!=null:true,
                       label: getTranslated("Second_name"),
+                      labelError: UserBloc.instance.user?.validation?.lname,
                       hint:
                       "${getTranslated("enter")} ${getTranslated("Second_name")}",
                       inputType: TextInputType.name,
@@ -60,7 +67,10 @@ class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGen
                     CustomTextField(
                       controller:
                       context.read<CompleteProfileBloc>().nickname,
+                      isEnabled: widget.isEdit? context.read<CompleteProfileBloc>().nickname.text.isNotEmpty&& UserBloc.instance.user?.validation?.nickname!=null:true,
                       label: getTranslated("user_name"),
+                      labelError: UserBloc.instance.user?.validation?.nickname,
+
                       hint:
                       "${getTranslated("enter")} ${getTranslated("user_name")}",
                       inputType: TextInputType.name,

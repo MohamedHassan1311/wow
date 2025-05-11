@@ -59,7 +59,7 @@ abstract class CustomNavigator {
         case Routes.CompleteProfile:
         return _pageRoute( CompleteProfile(isEdit:settings.arguments!=null?settings.arguments as bool:false ,));
         case Routes.personalInfo:
-        return _pageRoute(const PersonalInfo());
+          return _pageRoute( PersonalInfo(isEdit:settings.arguments!=null?settings.arguments as bool:false ,));
 
       case Routes.forgetPassword:
         return _pageRoute(const ForgetPassword());

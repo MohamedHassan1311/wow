@@ -8,6 +8,7 @@ import '../../../app/localization/language_constant.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class SelectGender extends StatelessWidget {
+  
   const SelectGender({super.key});
 
   @override

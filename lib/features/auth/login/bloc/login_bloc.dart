@@ -94,6 +94,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
               success.data['data']["client"]["social_status"] == null) {
             CustomNavigator.push(Routes.CompleteProfile, clean: true);
           }else {
+            
             CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
           }
         }

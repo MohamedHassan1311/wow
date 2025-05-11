@@ -15,6 +15,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputType? inputType;
   final String? hint;
   final String? label;
+  final String? labelError;
   final void Function(String)? onChanged;
   final bool isPassword;
   final FocusNode? focusNode, nextFocus;
@@ -68,6 +69,7 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.autofillHints,
     this.validate,
+    this.labelError,
     this.obscureText = false,
     this.isPassword = false,
     this.withWidth = false,
@@ -159,14 +161,43 @@ class _CustomTextFieldState extends State<CustomTextField> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.label ?? "",
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-              overflow: TextOverflow.ellipsis,
-              color: Styles.HEADER,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.label ?? "",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    overflow: TextOverflow.ellipsis,
+                    color: Styles.HEADER,
+                  ),
+                ),
+              ),
+              Spacer(),
+              if(widget.labelError !=null)
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Styles.ERORR_COLOR.withOpacity(.10),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.labelError ?? "",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                            color: Styles.ERORR_COLOR,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
           SizedBox(
             height: 10,

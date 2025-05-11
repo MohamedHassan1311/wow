@@ -11,10 +11,10 @@ import '../../../app/core/app_storage_keys.dart';
 class PersonalInfoRepo extends BaseRepo {
   PersonalInfoRepo({required super.sharedPreferences, required super.dioClient});
 
-  Future<Either<ServerFailure, Response>> completeProfile(data) async {
+  Future<Either<ServerFailure, Response>> completeProfile(data, {bool isEdit = false}) async {
     try {
       Response response = await dioClient.post(
-          uri: EndPoints.editProfile(userId), data: data);
+          uri: isEdit ? EndPoints.editProfile(userId) : EndPoints.storeProfile(userId), data: data);
 
       if (response.statusCode == 200) {
         setUserData(response.data["data"]);

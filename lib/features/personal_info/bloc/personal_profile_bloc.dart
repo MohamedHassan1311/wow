@@ -117,19 +117,22 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<void> onInit() async {
-    print("aaa${UserBloc.instance.user?.cityId!.toJson()!.toString()}");
 
-    updateEducation(UserBloc.instance.user?.education??CustomFieldModel());
-    updateEducation2(UserBloc.instance.user?.education);
-    updateEducation2(UserBloc.instance.user?.job);
+print(UserBloc.instance.user!.languages.toString()+"languagess") ;
+    updateEducation(UserBloc.instance.user?.education);
+    updateEducation2(UserBloc.instance.user?.education2);
+    updateJob(CustomFieldModel(name: UserBloc.instance.user?.job));
     updateBodyType(UserBloc.instance.user?.bodyType);
     updateSkinColor(UserBloc.instance.user?.skinColor);
     updateTribe(UserBloc.instance.user?.tribe);
     updateSect(UserBloc.instance.user?.sect);
+    updateLanguages(UserBloc.instance.user?.languages);
     height.text = UserBloc.instance.user!.height.toString();
     weight.text = UserBloc.instance.user!.weight.toString();
     personalInfo.text = UserBloc.instance.user?.personalInfo ?? "";
     partenrInfo.text = UserBloc.instance.user?.partenrInfo ?? "";
+        salery.text = UserBloc.instance.user?.salary ?? "";
+
   }
 
   clear() {
@@ -153,12 +156,14 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         "religion": Sect.valueOrNull?.id,
         "about_me": personalInfo.text,
         "about_partner": partenrInfo.text,
+        "languages[]":languages.valueOrNull,
         //
-        "image": MultipartFile.fromFileSync(identityImage.value!.path)
+        if(identityImage.hasValue)
+        "image":identityImage.hasValue? MultipartFile.fromFileSync(identityImage.value?.path ?? ""):null
       });
       print(data);
       Either<ServerFailure, Response> response =
-          await repo.completeProfile(data);
+          await repo.completeProfile(data, isEdit: event.arguments as bool);
 
       response.fold((fail) {
         AppCore.showSnackBar(

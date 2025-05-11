@@ -14,15 +14,17 @@ import '../../../components/animated_widget.dart';
 import '../../../components/custom_drop_down_button.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
+import '../../../main_blocs/user_bloc.dart';
 import '../../../main_models/custom_field_model.dart';
 import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class CompleteProfileMaritalStatus extends StatefulWidget {
+  final bool isEdit;
   final bool isAdd;
   final bool isView;
-  const CompleteProfileMaritalStatus({super.key,  this.isAdd=true,  this.isView=false});
+  const CompleteProfileMaritalStatus({super.key,  this.isAdd=true,  this.isView=false,this.isEdit=false});
 
   @override
   State<CompleteProfileMaritalStatus> createState() => _CompleteProfileMaritalStatusState();
@@ -80,11 +82,13 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                               .read<CompleteProfileBloc>()
                               .socialStatusStream,
                           builder: (context, snapshot) {
-
+                            if(snapshot.data!=null){
                             return Column(
                               children: [
                                 CustomDropDownButton(
                                   label: getTranslated( "Marital status"),
+                                  labelErorr: UserBloc
+                                      .instance.user?.validation?.socialStatus,
                                   validation: (v) =>
                                       Validations.field(snapshot.data?.name),
                                   value: snapshot.data != null
@@ -93,7 +97,8 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                                     return v.id == snapshot.data!.id;
                                   }).firstOrNull
                                       : null,
-                                  isEnabled: !widget.isView,
+                                  isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.socialStatus!=null:true,
+
                                   items: model.data ?? [],
                                   onChange: (v) {
                                     context
@@ -112,6 +117,9 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                                     controller:
                                     context.read<CompleteProfileBloc>().numberOfChildren,
                                     label: getTranslated("number_of_children"),
+                                    isEnabled:widget.isEdit?snapshot.data?.id==3&& UserBloc.instance.user?.validation?.numOfSons!=null:true,
+                                    labelError: UserBloc
+                                        .instance.user?.validation?.numOfSons,
                                     hint:
                                     "${getTranslated("enter")} ${getTranslated("number_of_children")}",
                                     inputType: TextInputType.number,
@@ -119,6 +127,8 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                                   ),
                               ],
                             );
+                          }
+                          return SizedBox();
                           });
                     }
                     if (state is Loading) {

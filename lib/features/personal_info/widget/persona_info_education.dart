@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -19,8 +20,9 @@ import '../bloc/personal_profile_bloc.dart';
 class PersonalInfoEducation extends StatefulWidget {
   final bool isScroll;
   final bool isView;
+  final bool isEdit;
   const PersonalInfoEducation(
-      {super.key, this.isScroll = true, this.isView = false});
+      {super.key, this.isScroll = true, this.isView = false,this.isEdit=false});
 
   @override
   State<PersonalInfoEducation> createState() => _PersonalInfoEducationState();
@@ -55,29 +57,33 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                             context.read<PersonalInfoBloc>().educationStream,
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
-                            return CustomDropDownButton(
-                            label: getTranslated("education_level"),
-                            value: model.data?.firstWhere(
-                              (v) => v.id == snapshot.data?.id,
-                              orElse: () => CustomFieldModel(),
-                            ),
-                            isEnabled: !widget.isView,
+                                                            print(snapshot.data!=null&& UserBloc.instance.user?.validation?.education!=null);
 
-                            onChange: (v) {
-                              context
-                                  .read<PersonalInfoBloc>()
-                                  .updateEducation(v as CustomFieldModel);
-                            },
-                            items: model.data ?? [],
-                            name: context
+                            return CustomDropDownButton(
+                              label: getTranslated("education_level"),
+
+                              labelErorr:
+                                  UserBloc.instance.user?.validation?.education,
+                              value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(),
+                              ),
+
+                              onChange: (v) {
+                                context
                                     .read<PersonalInfoBloc>()
-                                    .education
-                                    .valueOrNull
-                                    ?.name ??
-                                getTranslated("education_level"),
-                          );
-                          }
-                          else return SizedBox();
+                                    .updateEducation(v as CustomFieldModel);
+                              },
+                              items: model.data ?? [],
+                              name: context
+                                      .read<PersonalInfoBloc>()
+                                      .education
+                                      .valueOrNull
+                                      ?.name ??
+                                  getTranslated("education_level"),
+                            );
+                          } else
+                            return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -107,29 +113,34 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return CustomDropDownButton(
-                            label: getTranslated("education_level_2"),
-                            validation: (v) =>
-                                Validations.field(snapshot.data?.name),
+                              label: getTranslated("education_level_2"),
+                              
+                              labelErorr:
+                              UserBloc.instance.user?.validation?.education2,
+                              // isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.education2!=null:true,
+                              validation: (v) =>
+                                  Validations.field(snapshot.data?.name),
                               value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
+                                (v) => v.id == snapshot.data?.id,
                                 orElse: () => CustomFieldModel(name: "no_data"),
                               ),
-                              isEnabled: !widget.isView,
-                            onChange: (v) {
-                              context
-                                  .read<PersonalInfoBloc>()
-                                  .updateEducation2(v as CustomFieldModel);
-                            },
-                            items: model.data ?? [],
-                            name: context
+                              
+
+                              onChange: (v) {
+                                context
                                     .read<PersonalInfoBloc>()
-                                    .education2
-                                    .valueOrNull
-                                    ?.name ??
-                                getTranslated("education_level_2"),
-                          );
-                          }
-                          else return SizedBox();
+                                    .updateEducation2(v as CustomFieldModel);
+                              },
+                              items: model.data ?? [],
+                              name: context
+                                      .read<PersonalInfoBloc>()
+                                      .education2
+                                      .valueOrNull
+                                      ?.name ??
+                                  getTranslated("education_level_2"),
+                            );
+                          } else
+                            return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -156,6 +167,7 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                     return StreamBuilder<List<int>?>(
                         stream: context.read<PersonalInfoBloc>().languages,
                         builder: (context, snapshot) {
+                          if(snapshot.data!=null){
                           return Container(
                             height: 280,
                             child: Column(
@@ -232,6 +244,8 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                               ],
                             ),
                           );
+                        }
+                        return SizedBox();
                         });
                   }
                   if (state is Loading) {

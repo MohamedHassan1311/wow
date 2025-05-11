@@ -25,9 +25,11 @@ import '../../../main_widgets/profile_image_widget.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalProfileIntroduction extends StatefulWidget {
-  final bool  scroll;
+  final bool isEdit;
+  final bool scroll;
 
-  const PersonalProfileIntroduction({super.key,  this.scroll=true});
+  const PersonalProfileIntroduction(
+      {super.key, this.scroll = true, this.isEdit = false});
 
   @override
   State<PersonalProfileIntroduction> createState() =>
@@ -43,78 +45,74 @@ class _CompleteProfileBodyStpe1State extends State<PersonalProfileIntroduction>
       builder: (context, state) {
         return Form(
             key: context.read<PersonalInfoBloc>().formKey5,
-            child:  ListAnimator(
+            child: ListAnimator(
               scroll: widget.scroll,
               data: [
-                if(widget.scroll)
-                Center(
-                  child: Text(getTranslated("profile_image"),
+                if (widget.scroll)
+                  Center(
+                    child: Text(
+                      getTranslated("profile_image"),
+                      maxLines: 3,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14,
+                        overflow: TextOverflow.ellipsis,
+                        color: Styles.HEADER,
+                      ),
+                    ),
+                  ),
+                if (widget.scroll)
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
+                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                      ),
+                      child: StreamBuilder<File?>(
+                          stream: context
+                              .read<PersonalInfoBloc>()
+                              .identityImageeStream,
+                          builder: (context, snapshot) {
+                            return ProfileImageWidget(
+                                withEdit: true,
+                                imageFile: snapshot.data,
+                                onGet: context
+                                    .read<PersonalInfoBloc>()
+                                    .updateIdentityImage);
+                          }),
+                    ),
+                  ),
+                if (widget.scroll)
+                  Text(
+                    getTranslated("profile_image_note"),
                     maxLines: 3,
                     style: const TextStyle(
                       fontWeight: FontWeight.w300,
-
                       fontSize: 14,
                       overflow: TextOverflow.ellipsis,
                       color: Styles.HEADER,
-                    ),),
-                ),
-                if(widget.scroll)
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
-                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
                     ),
-                    child: StreamBuilder<File?>(
-                        stream: context
-                            .read<PersonalInfoBloc>()
-                            .identityImageeStream,
-                        builder: (context, snapshot) {
-                          return ProfileImageWidget(
-                              withEdit: true,
-                              imageFile: snapshot.data,
-                              onGet: context
-                                  .read<PersonalInfoBloc>()
-                                  .updateIdentityImage);
-                        }),
                   ),
-                ),
-                if(widget.scroll)
-                Text(getTranslated("profile_image_note"),
-
-                  maxLines: 3,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w300,
-
-                    fontSize: 14,
-                    overflow: TextOverflow.ellipsis,
-                    color: Styles.HEADER,
-                  ),),
-
                 CustomTextField(
-                  controller:
-                  context.read<PersonalInfoBloc>().personalInfo,
+                  controller: context.read<PersonalInfoBloc>().personalInfo,
                   label: getTranslated("personal_info"),
                   hint:
-                  "${getTranslated("enter")} ${getTranslated("personal_info")}",
+                      "${getTranslated("enter")} ${getTranslated("personal_info")}",
                   inputType: TextInputType.name,
                   pSvgIcon: SvgImages.user,
                   maxLines: 6,
                   validate: Validations.name,
-                ),  CustomTextField(
-
-                  controller:
-                  context.read<PersonalInfoBloc>().partenrInfo,
+                ),
+                CustomTextField(
+                  controller: context.read<PersonalInfoBloc>().partenrInfo,
                   label: getTranslated("partnerInfo"),
                   maxLines: 6,
-
                   hint:
-                  "${getTranslated("enter")} ${getTranslated("partnerInfo")}",
+                      "${getTranslated("enter")} ${getTranslated("partnerInfo")}",
                   inputType: TextInputType.name,
                   pSvgIcon: SvgImages.user,
                   validate: Validations.name,
                 ),
-
               ],
             ));
       },

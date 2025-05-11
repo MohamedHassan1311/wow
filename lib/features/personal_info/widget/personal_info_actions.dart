@@ -26,7 +26,10 @@ import '../bloc/personal_profile_bloc.dart';
 
 
 class PersonalInfoActions extends StatefulWidget {
-  const PersonalInfoActions({super.key});
+
+    final bool isEdit;
+final bool fromViewProfile;
+  const PersonalInfoActions({super.key, this.isEdit = false,this.fromViewProfile=false});
 
   @override
   State<PersonalInfoActions> createState() => _PersonalInfoActionsState();
@@ -36,6 +39,7 @@ class _PersonalInfoActionsState extends State<PersonalInfoActions>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<PersonalInfoBloc, AppState>(
       builder: (context, state) {
         return StreamBuilder<int?>(
@@ -76,7 +80,33 @@ class _PersonalInfoActionsState extends State<PersonalInfoActions>
                             child: CustomButton(
                                 text: getTranslated("next"),
                                 onTap: () async {
-                            print(snapshot.data!);
+                        if(widget.fromViewProfile){
+                          final result=await    CustomAlertDialog.show(
+                                          dailog: AlertDialog(
+                                              contentPadding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                  Dimensions.PADDING_SIZE_DEFAULT.w,
+                                                  horizontal:
+                                                  Dimensions.PADDING_SIZE_DEFAULT.w),
+                                              insetPadding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                  Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                                  horizontal: context.width * 0.1),
+                                              shape: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.transparent),
+                                                  borderRadius:
+                                                  BorderRadius.circular(20.0)),
+                                              content:SubmitConfirmationDialog()
+                                          ));
+                                      if(result) {
+                                        context.read<PersonalInfoBloc>().add(
+                                        Click(arguments: widget.isEdit),
+                                      );
+                                      }
+                          return;
+                        }
+
                                   if (snapshot.data! < 6) {
                                     if (snapshot.data! == 1) {
                                       if (!context
@@ -131,7 +161,7 @@ class _PersonalInfoActionsState extends State<PersonalInfoActions>
                                           ));
                                       if(result) {
                                         context.read<PersonalInfoBloc>().add(
-                                        Click(),
+                                        Click(arguments: widget.isEdit),
                                       );
                                       }
                                       return;

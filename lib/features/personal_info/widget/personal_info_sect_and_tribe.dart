@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import '../../../main_blocs/user_bloc.dart';
 
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -18,7 +19,8 @@ import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoSectAndTribe extends StatefulWidget {
-  const PersonalInfoSectAndTribe({super.key});
+  final bool isEdit;
+  const PersonalInfoSectAndTribe({super.key, this.isEdit = false});
 
   @override
   State<PersonalInfoSectAndTribe> createState() =>
@@ -55,9 +57,15 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                             .read<PersonalInfoBloc>()
                             .SectStream,
                         builder: (context, snapshot) {
+                          if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("Sect"),
-                            value: null,
+                      
+                              value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
+                              ),
+                              // isEnabled: widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.sect==null:true,
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -72,6 +80,8 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                                     ?.name ??
                                 getTranslated("Sect"),
                           );
+                        }
+                        return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -100,12 +110,18 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                         return StreamBuilder<CustomFieldModel?>(
                             stream:
                             context.read<PersonalInfoBloc>().tribeStream,
+
                             builder: (context, snapshot) {
+                              if(snapshot.data!=null){
                               return CustomDropDownButton(
                                 label: getTranslated("tribe"),
                                 validation: (v) =>
                                     Validations.field(snapshot.data?.name),
-                                value: null,
+                    value: model.data?.firstWhere(
+                                (v) => v.id == snapshot.data?.id,
+                                orElse: () => CustomFieldModel(name: "no_data"),
+                              ),
+                              // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
                                 onChange: (v) {
                                   context
                                       .read<PersonalInfoBloc>()
@@ -119,6 +135,8 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                                     ?.name ??
                                     getTranslated("tribe"),
                               );
+                            }
+                            return SizedBox();
                             });
                       }
                       if (state is Loading) {
@@ -138,6 +156,7 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                 controller:
                 context.read<PersonalInfoBloc>().otherTribe,
                 label: getTranslated("other_tribe"),
+                // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().otherTribe.text.isNotEmpty&& UserBloc.instance.user?.validation?.tribe!=null:true,
                 hint:
                 "${getTranslated("enter")} ${getTranslated("other_tribe")}",
                 inputType: TextInputType.name,

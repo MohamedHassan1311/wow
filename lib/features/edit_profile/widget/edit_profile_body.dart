@@ -8,6 +8,8 @@ import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/components/animated_widget.dart';
+import 'package:wow/features/complete_profile/widget/complete_profile_actions.dart';
+import 'package:wow/features/personal_info/widget/personal_info_actions.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/core/text_styles.dart';
 import '../../../../app/core/validation.dart';
@@ -92,6 +94,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                       ),
 
                       CustomExpansionTile(
+                        initiallyExpanded: true,
                           trailing: SizedBox(
                             width: 150,
                             child: Row(
@@ -121,12 +124,14 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                 spacing: 10,
                                 children: [
                                   CompleteProfileHeader(),
-                                  CompleteProfileNameAndGender(scroll: false,),
-                                  CompleteProfileNationalityAndCountry(isScroll: false,isView: true,),
-                                  CompleteProfileMaritalStatus(isAdd: false,isView: true,),
+                                  CompleteProfileNameAndGender(scroll: false,isEdit: true ),
+                                  CompleteProfileNationalityAndCountry(isScroll: false,isView: true,isEdit: true),
+                                  CompleteProfileMaritalStatus(isAdd: false,isView: true,isEdit: true),
                                  if( UserBloc.instance.user!.gender!="M")
-                                  CompleteProfileGuardiandata(scroll: false,),
-                                  CompleteProfileVerification(isAdd: false,isView: true,)
+                                  CompleteProfileGuardiandata(scroll: false,isEdit: true),
+                                  CompleteProfileVerification(isAdd: false,isView: true,isEdit: true),
+                                  CompleteProfileActions(isEdit: true,isView: true),
+
                                 ],
                               );
 
@@ -137,6 +142,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                       ]),
 
                       CustomExpansionTile(
+                        
                           trailing: SizedBox(
                             width: 150,
                             child: Row(
@@ -145,7 +151,8 @@ class _RegisterBodyState extends State<EditProfileBody> {
 
                                 InkWell(
                                     onTap: (){
-                                      CustomNavigator.push(Routes.personalInfo);
+
+                                      CustomNavigator.push(Routes.personalInfo,arguments: true);
                                     },
                                     child: Text(getTranslated("edit"))),
 
@@ -163,11 +170,12 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                 spacing: 10,
                                 children: [
                                   PersonalInfoHeader(),
-                                  PersonalInfoEducation(),
-                                  PersonalInfoJob(),
-                                  PersonalInfoShape(),
-                                  PersonalInfoSectAndTribe(),
-                                  PersonalProfileIntroduction(scroll: false,)
+                                  PersonalInfoEducation(isEdit: true),
+                                  PersonalInfoJob(isEdit: true  ),
+                                  PersonalInfoShape(isEdit: true),
+                                  PersonalInfoSectAndTribe(isEdit: true),
+                                  PersonalProfileIntroduction(scroll: false,),
+                                  PersonalInfoActions(isEdit: true,fromViewProfile: true),
 
                                 ],
                               );

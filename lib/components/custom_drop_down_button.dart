@@ -15,6 +15,7 @@ class CustomDropDownButton extends StatefulWidget {
   final double iconSize;
   final bool isEnabled;
   final String? label;
+  final String? labelErorr;
   final String name;
   final Object? value;
   final dynamic dataType;
@@ -32,6 +33,7 @@ class CustomDropDownButton extends StatefulWidget {
     this.isEnabled=true,
     this.icon,
     this.label,
+    this.labelErorr,
     this.dataType,
     required this.name,
     this.iconSize = 22,
@@ -49,14 +51,43 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label ?? "",
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-            overflow: TextOverflow.ellipsis,
-            color: Styles.HEADER,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                widget.label ?? "",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  overflow: TextOverflow.ellipsis,
+                  color: Styles.HEADER,
+                ),
+              ),
+            ),
+            Spacer(),
+            if(widget.labelErorr !=null)
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Styles.ERORR_COLOR.withOpacity(.10),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.labelErorr ?? "",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          overflow: TextOverflow.ellipsis,
+                          color: Styles.ERORR_COLOR,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
         SizedBox(
           height: 10,

@@ -47,11 +47,11 @@ class CompleteProfile extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         pageSnapping: true,
                         children: [
-                          CompleteProfileNameAndGender(),
-                          CompleteProfileNationalityAndCountry(),
-                          CompleteProfileMaritalStatus(),
-                          CompleteProfileGuardiandata(),
-                          CompleteProfileVerification()
+                          CompleteProfileNameAndGender(isEdit: isEdit,),
+                          CompleteProfileNationalityAndCountry(isEdit: isEdit,),
+                          CompleteProfileMaritalStatus(isEdit: isEdit,),
+                          CompleteProfileGuardiandata(isEdit: isEdit,),
+                          CompleteProfileVerification(isEdit: isEdit,),
                         ],
                       ),
                     ),

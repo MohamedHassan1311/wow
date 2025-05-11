@@ -16,12 +16,18 @@ import '../widget/personal_info_actions.dart';
 import '../widget/personal_info_header.dart';
 
 class PersonalInfo extends StatelessWidget {
-  const PersonalInfo({super.key});
+  final bool isEdit;
+
+  const PersonalInfo({super.key, required this.isEdit});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PersonalInfoBloc(repo: sl<PersonalInfoRepo>()),
+      create: isEdit
+          ? (c) {
+              return PersonalInfoBloc(repo: sl<PersonalInfoRepo>())..onInit();
+            }
+          : (c) => PersonalInfoBloc(repo: sl<PersonalInfoRepo>()),
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(
@@ -42,18 +48,16 @@ class PersonalInfo extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         pageSnapping: true,
                         children: [
-                          PersonalInfoEducation(),
-                          PersonalInfoJob(),
-                          PersonalInfoShape(),
-                          PersonalInfoSectAndTribe(),
-                          PersonalProfileIntroduction()
-
+                          PersonalInfoEducation(isEdit: isEdit),
+                          PersonalInfoJob(isEdit: isEdit),
+                          PersonalInfoShape(isEdit: isEdit),
+                          PersonalInfoSectAndTribe(isEdit: isEdit),
+                          PersonalProfileIntroduction(isEdit: isEdit)
                         ],
                       ),
                     ),
                   ),
-
-                  PersonalInfoActions(),
+                  PersonalInfoActions(isEdit: isEdit),
                 ],
               );
             },
