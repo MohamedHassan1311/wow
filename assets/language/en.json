@@ -707,5 +707,32 @@
   "en": "En",
   "ar": "Ar",
   "yes_logout": "Yes, Logout",
-  "yes_delete": "Yes, Delete"
+  "yes_delete": "Yes, Delete",
+  "social_status_and_class": "Social Status and Class",
+  "social_status": "Social Status",
+  "class": "Class",
+  "health_and_lifestyle": "Health and Lifestyle",
+  "health": "Health",
+  "lifestyle": "Lifestyle",
+  "city_and_culture": "City and Culture",
+  "culture": "Culture",
+  "fashion_style": "Fashion Style",
+  "hijab": "Hijab",
+  "abya": "Abaya",
+  "liked_you":"Liked You",
+  "you_liked":"You Liked",
+  "favourit":"Favourit",
+  "filter_result":"Filter Result",
+  "marie_terms":"Marriage conditions",
+  "plans":"Plans",
+  "payments":"Payments",
+  "subscription":"Subscription",
+  "unlimited_start":"Unlimited Start",
+  "unlimited_desc":"Unlimited Start and discover more possibilities",
+  "Upgrade":"Upgrade",
+  "remaining_favourit":"Remaining Favourit",
+  "get_discount":"Get nominated",
+  "recommendation":"Recommendation"
+
+
 }

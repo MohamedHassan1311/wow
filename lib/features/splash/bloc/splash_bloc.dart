@@ -22,13 +22,15 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
       ///Ask Notification Permission
       PermissionHandler.checkNotificationsPermission();
 
-      // ///Ask Location Permission
-      // Geolocator.requestPermission();
+
+
 
       ///Get Setting
       sl<SettingBloc>().add(Get());
       if (repo.isLogin) {
         UserBloc.instance.add(Click());
+
+
       } else {
         if (!kDebugMode) {
           await repo.guestMode();

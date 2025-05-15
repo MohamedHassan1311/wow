@@ -51,11 +51,10 @@ class CustomNetworkImage {
             EdgeInsets.symmetric(
                 horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
                 vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-        child: Center(
-            child: Image.asset(
-          defaultImage ?? Images.appLogo,
-          fit: fit ?? BoxFit.contain,
-        )),
+        child: Image.asset(
+                  defaultImage ?? Images.appLogo,
+                  fit: fit ?? BoxFit.fill,
+                ),
       ),
       placeholder: (context, url) => ClipRRect(
           borderRadius: BorderRadius.circular(radius ?? 10),

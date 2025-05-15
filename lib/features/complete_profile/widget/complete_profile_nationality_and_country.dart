@@ -50,7 +50,7 @@ class _CompleteProfileNationalityAndCountryState
               BlocProvider(
                 create: (context) =>
                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "country"})),
+                      ..add(Get(arguments: {'field_name': "country","city":"0"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -109,7 +109,7 @@ class _CompleteProfileNationalityAndCountryState
               BlocProvider(
                 create: (context) =>
                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "country"})),
+                      ..add(Get(arguments: {'field_name': "country","city":"0"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -124,7 +124,7 @@ class _CompleteProfileNationalityAndCountryState
                             return CustomDropDownButton(
                               isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.nationalityId!=null:true,
                               label: getTranslated("other_nationality"),
-                              
+
                               labelErorr: UserBloc
                                   .instance.user?.validation?.nationalityId,
                               value: model.data?.firstWhere(
@@ -169,7 +169,7 @@ class _CompleteProfileNationalityAndCountryState
               BlocProvider(
                 create: (context) =>
                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "country"})),
+                      ..add(Get(arguments: {'field_name': "country","city":"1"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {
@@ -318,6 +318,7 @@ class _CompleteProfileNationalityAndCountryState
                   }
                 }),
               ),
+
             ],
           ),
         );

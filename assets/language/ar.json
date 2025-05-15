@@ -731,5 +731,43 @@
   "en": "En",
   "ar": "Ar",
   "yes_logout": "نعم، تسجيل الخروج",
-  "yes_delete": "نعم، حذف"
+  "yes_delete": "نعم، حذف",
+  "social_status_and_class": "الحالة الاجتماعية و الفئة",
+  "social_status": "الحالة الاجتماعية",
+  "class": "الفئة",
+  "health_and_lifestyle": "الصحة و اسلوب الحياة",
+  "health": "الصحة",
+  "lifestyle": "اسلوب الحياة",
+  "city_and_culture": "المدينة و الثقافة",
+  "culture": "الثقافة",
+  "fashion_style": "أسلوب الملابس",
+  "hijab": "الحجاب",
+  "abya": "العباءة",
+ 
+  "liked_you":"أعجبو بك",
+  "you_liked":"أعجبت بهم",
+  "favourit":"الإعجابات",
+  "filter_result":"نتيجة الفلترة",
+  "marie_terms":"شروط الزواج",
+  "plans":"الباقات",
+  "payments":"الدفعات",
+  "subscription":"الاشتراكات",
+  "unlimited_start":"انطلق بلا حدود مع باقة الأطلاق",
+  "unlimited_desc":"أطلق بلا حدود مع باقة الأطلاق واكتشف المزيد من الاحتمالات",
+  "Upgrade":"ترقية",
+  "remaining_favourit":"عدد الإعجابات المتبقية",
+  "get_discount":"أحصل على ترشيح",
+  "recommendation":"التوصيات"
+
+  
+
+  
+  
+  
+
+
+
+  
+
+
 }

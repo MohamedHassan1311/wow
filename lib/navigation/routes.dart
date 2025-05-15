@@ -21,7 +21,11 @@ class Routes {
   static const contactWithUs = "CONTACT_WITH_US";
   static const aboutUs = "ABOUT_US";
   static const terms = "TERMS";
+  static const filterPage = "FilterPage";
+  static const filterResult = "FilterResult";
+  static const favouritPage = "FavouritPage";
   static const privacy = "PRIVACY";
+  static const recommendationPage = "RecommendationPage";
   static const faqs = "FAQS";
   static const settings = "SETTINGS";
   static const notifications = "NOTIFICATIONS";

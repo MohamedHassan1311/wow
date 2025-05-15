@@ -27,9 +27,19 @@ class EndPoints {
   static  String storeProfile(id) => 'store/client/$id';
   static  String profile(id) => 'client/$id';
   static const String bankInfo = 'bank_info';
+  static const String submitFilter = '/client/filters';
 
   ///Home
   static const String banners = 'banners';
+
+
+
+///Favourit
+///
+static const String getFavourit = 'get-bookmark';
+static const String addToFavourit = 'add-bookmark';
+
+
 
   ///Marketplace
   static const String marketplace = 'marketplace';
@@ -78,9 +88,9 @@ class EndPoints {
   static deleteBookmark(id) => 'Bookmarks/$id';
 
   ///Notification
-  static const String notifications = 'notifications';
-  static readNotification(id) => 'notifications/$id';
-  static deleteNotification(id) => 'notifications/$id';
+  static const String notifications = 'notification';
+  static readNotification(id) => 'notification/read/$id';
+  static deleteNotification(id) => 'notification/delete/$id';
 
   ///Create Request
   static const String createRequest = 'company/orders';

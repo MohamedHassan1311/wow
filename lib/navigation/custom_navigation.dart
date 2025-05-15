@@ -1,11 +1,15 @@
 import 'dart:io';
+import 'package:wow/features/Favourit/page/favourit_page.dart';
 import 'package:wow/features/addresses/model/addresses_model.dart';
 import 'package:wow/features/addresses/page/addresses_page.dart';
 import 'package:wow/features/categories/page/categories_page.dart';
 import 'package:wow/features/chats/page/chats_page.dart';
 import 'package:wow/features/edit_profile/page/edit_profile_page.dart';
+import 'package:wow/features/fillter/page/fillter_result.dart';
+import 'package:wow/features/fillter/page/filtter_page.dart';
 import 'package:wow/features/maps/models/location_model.dart';
 import 'package:wow/features/payment/in_app_web_view_page.dart';
+import 'package:wow/features/recommendation/page/recommendation.dart';
 import 'package:wow/features/transactions/page/transactions_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +60,29 @@ abstract class CustomNavigator {
 
       case Routes.register:
         return _pageRoute(const Register());
-        case Routes.CompleteProfile:
-        return _pageRoute( CompleteProfile(isEdit:settings.arguments!=null?settings.arguments as bool:false ,));
-        case Routes.personalInfo:
-          return _pageRoute( PersonalInfo(isEdit:settings.arguments!=null?settings.arguments as bool:false ,));
+      case Routes.CompleteProfile:
+        return _pageRoute(CompleteProfile(
+          isEdit:
+              settings.arguments != null ? settings.arguments as bool : false,
+        ));
+      case Routes.personalInfo:
+        return _pageRoute(PersonalInfo(
+          isEdit:
+              settings.arguments != null ? settings.arguments as bool : false,
+        ));
+      case Routes.filterPage:
+        return _pageRoute(FilterPage(
+          isEdit:
+              settings.arguments != null ? settings.arguments as bool : false,
+        ));
+      case Routes.filterResult:
+        return _pageRoute(FilterResult());
 
       case Routes.forgetPassword:
         return _pageRoute(const ForgetPassword());
+
+      case Routes.favouritPage:
+        return _pageRoute(FavouritPage());
 
       case Routes.resetPassword:
         return _pageRoute(ResetPassword(
@@ -100,7 +120,6 @@ abstract class CustomNavigator {
       case Routes.chats:
         return _pageRoute(const ChatsPage());
 
-
       case Routes.notifications:
         return _pageRoute(const NotificationsPage());
 
@@ -109,6 +128,8 @@ abstract class CustomNavigator {
           vendorId: settings.arguments as int?,
         ));
 
+      case Routes.recommendationPage:
+        return _pageRoute(RecommendationPage());
 
       case Routes.videoPreview:
         return _pageRoute(VideoPreviewPage(data: settings.arguments as Map));

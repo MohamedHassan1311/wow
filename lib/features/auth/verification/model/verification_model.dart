@@ -3,13 +3,17 @@ class VerificationModel {
   String? code;
   String? phone;
   String? countryCode;
+
   bool fromRegister;
+  bool ?fromLogin;
+
   bool fromForgetPass;
   VerificationModel({
     this.email,
     this.code,
     this.phone,
     this.countryCode,
+    this.fromLogin,
     this.fromRegister = true,
     this.fromForgetPass = true,
   });

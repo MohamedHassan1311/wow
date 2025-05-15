@@ -34,8 +34,8 @@ class LoginBody extends StatelessWidget {
         return StreamBuilder<LoginEntity?>(
             stream: context.read<LoginBloc>().loginEntityStream,
             initialData: LoginEntity(
-              email: TextEditingController(text: "mmedh4805@gmail.com"),
-              password: TextEditingController(text: "12345678"),
+              email: TextEditingController(),
+              password: TextEditingController(),
             ),
             builder: (context, snapshot) {
               return Form(

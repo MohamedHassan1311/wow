@@ -114,17 +114,17 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                           if (snapshot.data != null) {
                             return CustomDropDownButton(
                               label: getTranslated("education_level_2"),
-                              
+
                               labelErorr:
                               UserBloc.instance.user?.validation?.education2,
                               // isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.education2!=null:true,
-                              validation: (v) =>
-                                  Validations.field(snapshot.data?.name),
+                              // validation: (v) =>
+                              //     Validations.field(snapshot.data?.name),
                               value: model.data?.firstWhere(
                                 (v) => v.id == snapshot.data?.id,
                                 orElse: () => CustomFieldModel(name: "no_data"),
                               ),
-                              
+
 
                               onChange: (v) {
                                 context

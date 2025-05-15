@@ -13,6 +13,7 @@ class CustomExpansionTile extends StatelessWidget {
       this.titleColor,
       super.key,
       this.leading,
+      this.backgroundColor,
       this.trailing,
       this.initiallyExpanded = false,
       });
@@ -22,6 +23,7 @@ class CustomExpansionTile extends StatelessWidget {
   final double? childrenPadding;
   final Color? iconColor;
   final Color? titleColor;
+    final Color? backgroundColor;
   final Widget? leading;
   final Widget? trailing;
 
@@ -47,13 +49,21 @@ class CustomExpansionTile extends StatelessWidget {
       collapsedIconColor: iconColor ?? Styles.HEADER,
       initiallyExpanded: initiallyExpanded,
       iconColor: iconColor ?? Styles.HEADER,
-      backgroundColor: Styles.SMOKED_WHITE_COLOR,
-      collapsedBackgroundColor: Styles.SMOKED_WHITE_COLOR,
+      backgroundColor:backgroundColor?? Styles.SMOKED_WHITE_COLOR,
+      collapsedBackgroundColor: Styles.WHITE_COLOR,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.w)),
       collapsedShape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.w)),
       expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      children: children,
+
+    children: [
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: children,
+  )
+],
     );
+
   }
 }

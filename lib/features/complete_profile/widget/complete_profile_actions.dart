@@ -129,7 +129,7 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                     if (snapshot.data! == 3 &&
                                         context
                                                 .read<CompleteProfileBloc>()
-                                                .nationality
+                                                .countryOfResidence
                                                 .value!
                                                 .code !=
                                             "SA") {
@@ -160,6 +160,9 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                         context.read<CompleteProfileBloc>().add(
                                           Click(arguments: widget.isEdit),
                                         );
+                                        return;
+                                      }
+                                      else{
                                         return;
                                       }
                                     }

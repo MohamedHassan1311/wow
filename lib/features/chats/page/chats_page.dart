@@ -29,7 +29,8 @@ class ChatsPage extends StatelessWidget {
           create: (context) => ChatsBloc(
             repo: sl<ChatsRepo>(),
             internetConnection: sl<InternetConnection>(),
-          )..add(Click(arguments: SearchEngine())),
+          ),
+          // ..add(Click(arguments: SearchEngine())),
           child: Column(
             children: [
               Expanded(

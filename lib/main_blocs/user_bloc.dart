@@ -11,6 +11,8 @@ import '../data/config/di.dart';
 import '../data/error/failures.dart';
 import '../main_models/user_model.dart';
 import '../main_repos/user_repo.dart';
+import '../navigation/custom_navigation.dart';
+import '../navigation/routes.dart';
 
 class UserBloc extends Bloc<AppEvent, AppState> {
   final UserRepo repo;
@@ -27,7 +29,7 @@ class UserBloc extends Bloc<AppEvent, AppState> {
   UserModel? user;
 
   onClick(Click event, Emitter<AppState> emit) async {
-    // try {
+    try {
       emit(Loading());
 
       Either<ServerFailure, UserModel> response = repo.getUser();
@@ -42,19 +44,21 @@ class UserBloc extends Bloc<AppEvent, AppState> {
         emit(Error());
       }, (success) {
         user = success;
-        log("${success.toJson()}");
+        if(UserBloc.instance.user?.nickname==null) {
+          CustomNavigator.push(Routes.CompleteProfile,);
+        }
         emit(Done(model: user));
       });
-    // } catch (e) {
-    //   AppCore.showSnackBar(
-    //     notification: AppNotification(
-    //       message: e.toString(),
-    //       backgroundColor: Styles.IN_ACTIVE,
-    //       borderColor: Styles.RED_COLOR,
-    //     ),
-    //   );
-    //   emit(Error());
-    // }
+    } catch (e) {
+      AppCore.showSnackBar(
+        notification: AppNotification(
+          message: e.toString(),
+          backgroundColor: Styles.IN_ACTIVE,
+          borderColor: Styles.RED_COLOR,
+        ),
+      );
+      emit(Error());
+    }
   }
 
   onUpdate(Update event, Emitter<AppState> emit) async {

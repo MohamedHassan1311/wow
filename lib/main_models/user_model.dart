@@ -11,6 +11,8 @@ class UserModel extends SingleMapper {
   String? fname;
   String? lname;
   String? nickname;
+  int? isVerified;
+  int? age;
   String? profileImage;
   String? email;
   String? balance;
@@ -39,7 +41,7 @@ class UserModel extends SingleMapper {
   String? partenrInfo;
   String? salary;
   String? identityFile;
-  String? accountType;
+  CustomFieldModel? accountType;
   String? notes;
   int? verified;
   int? blocked;
@@ -50,7 +52,6 @@ class UserModel extends SingleMapper {
   String? updatedAt;
   String? deletedAt;
   int? status;
-  int? isVerified;
   int? verifyPayment;
   List<int>? languages;
   String? deletionDate;
@@ -80,6 +81,7 @@ class UserModel extends SingleMapper {
       this.lname,
       this.nickname,
       this.email,
+      this.age,
       this.profileImage,
       this.balance,
       this.countryCode,
@@ -151,14 +153,16 @@ class UserModel extends SingleMapper {
     otherGuardian = json['otherGuardian'];
     nickname = json['nickname'];
     balance = json['balance'];
+    age = json['age'];
     profileImage = json['image'];
     email = json['email'];
     countryCode = json['country_code'];
     phone = json['phone'];
     phoneCode = json['phone_code'];
     gender = json['gender'];
+    //Unhandled Exception: FormatException: Trying to read / from 2002-12-06 at 5
     dop = json['dob'] != null
-        ? DateFormat('d/M/yyyy').parse(json['dob'])
+        ? DateTime.parse(json['dob'])
         : DateTime.now();
     subscription = json['subscription'];
     socialStatus = (json['social_status'] != null && json['social_status'] is! int)
@@ -179,11 +183,11 @@ class UserModel extends SingleMapper {
 
 
 languages = json['language'] != null
-    ? List<int>.from(json['language'].map((e) => int.parse(e)))
+    ? List<int>.from(json['language'].map((e) => int.parse(e.toString())))
     : [];
 
 
-   
+
 
     weight=int.tryParse(json['weight']?.toString() ?? '0');
     height=int.tryParse(json['height']?.toString() ?? '0');
@@ -212,7 +216,9 @@ languages = json['language'] != null
         : CustomFieldModel(name: "no Data");
 
     identityFile = json['identity_file'];
-    accountType = json['account_type'];
+    accountType = json['account_type'] != null
+        ? CustomFieldModel.fromJson(json['account_type'])
+        : CustomFieldModel(name: "no Data");
     notes = json['notes'];
     verified = json['verified'];
     blocked = json['blocked'];
@@ -256,6 +262,7 @@ languages = json['language'] != null
     data['id'] = id;
     data['fname'] = fname;
     data['lname'] = lname;
+    data['age'] = age;
     data['gfName'] = gfName;
     data['image'] = profileImage;
     data['glName'] = glName;
@@ -276,7 +283,7 @@ languages = json['language'] != null
     data['region_id'] = regionId?.toJson();
     data['city'] = cityId?.toJson();
     data['identity_file'] = identityFile;
-    data['account_type'] = accountType;
+    data['account_type'] = accountType?.toJson();
     data['notes'] = notes;
     data['verified'] = verified;
     data['blocked'] = blocked;

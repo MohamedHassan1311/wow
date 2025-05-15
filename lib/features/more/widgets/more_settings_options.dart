@@ -20,11 +20,11 @@ class MoreSettingsOptions extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-        vertical: Dimensions.paddingSizeMini.h,
+        // vertical: Dimensions.paddingSizeMini.h,
       ),
       padding: EdgeInsets.symmetric(
         horizontal: Dimensions.paddingSizeExtraSmall.w,
-        vertical: Dimensions.paddingSizeExtraSmall.h,
+        // vertical: Dimensions.paddingSizeExtraSmall.h,
       ),
       decoration: ShapeDecoration(
         color: Colors.white,
@@ -38,6 +38,13 @@ class MoreSettingsOptions extends StatelessWidget {
       child: Column(
         children: [
           const LanguageButton(),
+
+ ///Terms && Conditions
+          MoreButton(
+            title: getTranslated("marie_terms", context: context),
+            icon: SvgImages.terms,
+            onTap: () => CustomNavigator.push(Routes.terms),
+          ),
 
           ///Terms && Conditions
           MoreButton(
@@ -67,10 +74,10 @@ class MoreSettingsOptions extends StatelessWidget {
               icon: SvgImages.trash,
               iconColor: Styles.ERORR_COLOR,
               withBottomBorder: false,
-              onTap: () => CustomBottomSheet.show(
-                    height: 305.h,
-                    widget: DeactivateAccount(),
-                  ),
+              // onTap: () => CustomBottomSheet.show(
+              //       height: 305.h,
+              //       widget: DeactivateAccount(),
+              //     ),
           ),
 
           const LogOutButton(),

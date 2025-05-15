@@ -88,7 +88,7 @@ class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGen
                       ),
                     ),
                     SizedBox(height: 10,),
-                    SelectGender(),
+                    SelectGender(isEdit: widget.isEdit),
                   ],
                 ),
         );

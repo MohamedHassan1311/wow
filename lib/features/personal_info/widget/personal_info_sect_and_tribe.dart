@@ -60,7 +60,7 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                           if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("Sect"),
-                      
+
                               value: model.data?.firstWhere(
                                 (v) => v.id == snapshot.data?.id,
                                 orElse: () => CustomFieldModel(name: "no_data"),
@@ -115,8 +115,8 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                               if(snapshot.data!=null){
                               return CustomDropDownButton(
                                 label: getTranslated("tribe"),
-                                validation: (v) =>
-                                    Validations.field(snapshot.data?.name),
+                                // validation: (v) =>
+                                //     Validations.field(snapshot.data?.name),
                     value: model.data?.firstWhere(
                                 (v) => v.id == snapshot.data?.id,
                                 orElse: () => CustomFieldModel(name: "no_data"),

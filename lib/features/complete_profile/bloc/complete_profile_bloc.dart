@@ -205,7 +205,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        if (nationality.valueOrNull?.code == "SA") {
+        if (countryOfResidence.valueOrNull?.code == "SA") {
           CustomAlertDialog.show(
               dailog: AlertDialog(
                   contentPadding: EdgeInsets.symmetric(

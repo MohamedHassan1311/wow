@@ -2,9 +2,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wow/features/Favourit/bloc/favourit_bloc.dart';
+import 'package:wow/features/Favourit/repo/recommendation_repo.dart';
 import 'package:wow/features/addresses/repo/addresses_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/features/auth/register/repo/register_repo.dart';
+import 'package:wow/features/fillter/bloc/filtter_bloc.dart';
+import 'package:wow/features/fillter/repo/fillter_repo.dart';
 import '../../app/theme/theme_provider/theme_provider.dart';
 import '../../features/add_address/repo/add_address_repo.dart';
 import '../../features/auth/activation_account/repo/activation_account_repo.dart';
@@ -78,8 +82,14 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => DashboardRepo(sharedPreferences: sl(), dioClient: sl()));
 
+
+  sl.registerLazySingleton(
+      () => FillterRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => FaqsRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => RecommendationRepo(sharedPreferences: sl(), dioClient: sl()));
+
 
   sl.registerLazySingleton(() => DownloadRepo());
 
@@ -174,8 +184,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DashboardBloc(repo: sl()));
   sl.registerLazySingleton(() => ProfileBloc(repo: sl()));
   sl.registerLazySingleton(() => UserBloc(repo: sl()));
+  
+  sl.registerLazySingleton(() => FilterBloc(repo: sl()));
   sl.registerLazySingleton(
       () => HomeAdsBloc(repo: sl(), internetConnection: sl()));
+
+        sl.registerLazySingleton(() => FavouritBloc(repo: sl(), internetConnection: sl()));
 
   ///Log out
   sl.registerLazySingleton(() => LogoutBloc(repo: sl()));

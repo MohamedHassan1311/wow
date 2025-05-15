@@ -8,8 +8,8 @@ import '../../../app/localization/language_constant.dart';
 import '../bloc/complete_profile_bloc.dart';
 
 class SelectGender extends StatelessWidget {
-  
-  const SelectGender({super.key});
+  final bool isEdit;
+  const SelectGender({super.key, this.isEdit = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,9 @@ class SelectGender extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: (){
-                  context.read<CompleteProfileBloc>().updateGender(1);
+                  if(!isEdit){
+                    context.read<CompleteProfileBloc>().updateGender(1);
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -60,7 +62,9 @@ class SelectGender extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: (){
-                  context.read<CompleteProfileBloc>().updateGender(2);
+                  if(!isEdit){
+                    context.read<CompleteProfileBloc>().updateGender(2);
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

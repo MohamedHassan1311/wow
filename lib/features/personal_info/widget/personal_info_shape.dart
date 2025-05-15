@@ -51,7 +51,7 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 "${getTranslated("enter")} ${getTranslated("height")}",
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.field,
+                // validate: Validations.field,
                 // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().height.text.isNotEmpty&& UserBloc.instance.user?.validation?.height!=null:true,
               ),
 
@@ -63,7 +63,7 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                 "${getTranslated("enter")} ${getTranslated("weight")}",
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.field,
+                // validate: Validations.field,
                 // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().weight.text.isNotEmpty&& UserBloc.instance.user?.validation?.weight!=null:true,
               ),
               /// Shape
@@ -83,8 +83,8 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                           if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("body_type"),
-                            validation: (v) =>
-                                Validations.field(snapshot.data?.name),
+                            // validation: (v) =>
+                            //     Validations.field(snapshot.data?.name),
                             value: model.data?.firstWhere(
                                 (v) => v.id == snapshot.data?.id,
                                 orElse: () => CustomFieldModel(name: "no_data"),

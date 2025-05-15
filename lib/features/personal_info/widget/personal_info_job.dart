@@ -60,8 +60,7 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
                               (v) => v.name == snapshot.data?.name,
                               orElse: () => CustomFieldModel(name: "no_data"),
                             ),
-                            isEnabled:widget.isEdit? snapshot.data != null &&
-                                UserBloc.instance.user?.validation?.job != null:true,
+
                             onChange: (v) {
                               context
                                   .read<PersonalInfoBloc>()
@@ -104,11 +103,10 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
               CustomTextField(
                 controller: context.read<PersonalInfoBloc>().salery,
                 label: getTranslated("salary"),
-                isEnabled: widget.isEdit? context.read<PersonalInfoBloc>().salery.text.isNotEmpty&& UserBloc.instance.user?.validation?.salary != null:true,
                 hint: "${getTranslated("enter")} ${getTranslated("salary")}",
                 inputType: TextInputType.number,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.field,
+                // validate: Validations.field,
               ),
             ],
           ),

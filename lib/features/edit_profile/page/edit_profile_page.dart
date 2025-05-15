@@ -29,9 +29,7 @@ class EditProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // EditProfileHeader(fromComplete: fromComplete),
                   EditProfileBody(fromComplete: fromComplete),
-                  // EditProfileActions(fromComplete: fromComplete),
                 ],
               );
             },

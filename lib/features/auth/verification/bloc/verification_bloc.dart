@@ -48,8 +48,15 @@ class VerificationBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.red));
         emit(Error());
       }, (success) {
+        if (data.fromLogin == true) {
+          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+
+          return;
+        }
         if (data.fromRegister) {
           CustomNavigator.push(Routes.login, clean: true, arguments: 0);
+
+          return;
         } else {
           CustomNavigator.push(Routes.resetPassword, arguments: data);
           return;

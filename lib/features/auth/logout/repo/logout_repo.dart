@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wow/app/core/app_event.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import '../../../../app/core/app_storage_keys.dart';
 import '../../../../data/api/end_points.dart';
 import '../../../../main_repos/base_repo.dart';
@@ -32,6 +34,7 @@ class LogoutRepo extends BaseRepo {
         await sharedPreferences.remove(AppStorageKey.userData);
         await sharedPreferences.remove(AppStorageKey.token);
         await sharedPreferences.remove(AppStorageKey.isLogin);
+          UserBloc.instance.user=null;
         return true;
       }
     } catch (e) {

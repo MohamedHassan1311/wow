@@ -45,37 +45,45 @@ class MoreProfileOptions extends StatelessWidget {
             onTap: () => CustomNavigator.push(Routes.editProfile),
           ),
 
-
           ///Chats
           MoreButton(
             title: getTranslated("chats", context: context),
             icon: SvgImages.chats,
-            onTap: () => CustomNavigator.push(Routes.chats),
+            // onTap: () => CustomNavigator.push(Routes.chats),
           ),
 
-          ///Addresses
-          // MoreButton(
-          //   title: getTranslated("addresses", context: context),
-          //   icon: SvgImages.addresses,
-          //   onTap: () => CustomNavigator.push(Routes.addresses),
-          // ),
+          ///favourit
+          MoreButton(
+            title: getTranslated("favourit", context: context),
+            icon: SvgImages.favourite,
+            // onTap: () => CustomNavigator.push(Routes.favouritPage),
+          ),
 
+          ///wallet
+          MoreButton(
+            title: getTranslated("wallet", context: context),
+            icon: SvgImages.wallet,
+            // onTap: () => CustomNavigator.push(Routes.chats),
+          ),
 
-          ///Push Notification
-          BlocProvider(
-            create: (context) =>
-                TurnNotificationsBloc(repo: sl<NotificationsRepo>()),
-            child: BlocBuilder<TurnNotificationsBloc, AppState>(
-              builder: (context, state) {
-                return TurnButton(
-                  title: getTranslated("push_notifications", context: context),
-                  icon: SvgImages.notification,
-                  bing: context.read<TurnNotificationsBloc>().isTurnOn,
-                  isLoading: state is Loading,
-                  onTap: () => CustomNavigator.push(Routes.notifications),
-                );
-              },
-            ),
+          ///subscription
+          MoreButton(
+            title: getTranslated("subscription", context: context),
+            icon: SvgImages.orders,
+            // onTap: () => CustomNavigator.push(Routes.chats),
+          ),
+
+          ///subscription
+          MoreButton(
+            title: getTranslated("payments", context: context),
+            icon: SvgImages.saudiRiyalSymbol,
+            // onTap: () => CustomNavigator.push(Routes.chats),
+          ),
+
+          MoreButton(
+            title: getTranslated("plans", context: context),
+            icon: SvgImages.category,
+            // onTap: () => CustomNavigator.push(Routes.chats),
           ),
 
           // ///Language

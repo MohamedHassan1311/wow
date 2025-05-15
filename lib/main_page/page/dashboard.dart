@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:app_links/app_links.dart';
+import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/app_state.dart';
+import 'package:wow/features/chats/page/chats_page.dart';
 import 'package:wow/features/home/page/home.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:wow/features/more/page/more.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/navigation/routes.dart' show Routes;
 import '../../data/config/di.dart';
 import '../../data/internet_connection/internet_connection.dart';
 import '../../helpers/check_on_the_version.dart';
@@ -35,6 +38,8 @@ class _DashBoardState extends State<DashBoard> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     if (widget.index != null) {
       DashboardBloc.instance.updateSelectIndex(widget.index!);
+
+
     }
 
     ///App Link
@@ -50,10 +55,13 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   initData() {
-    if (sl<UserBloc>().isLogin) {
-      // sl<UserBloc>().add(Click());
-      // sl<ProfileBloc>().add(Get());
-    }
+    // if (sl<UserBloc>().isLogin) {
+    //   sl<UserBloc>().add(Click());
+    //    if(UserBloc.instance.user?.nickname==null){
+    //     CustomNavigator.push(Routes.CompleteProfile, );
+    //   }
+    //   // sl<ProfileBloc>().add(Get());
+    // }
   }
 
   late AppLinks _appLinks;
@@ -91,10 +99,12 @@ class _DashBoardState extends State<DashBoard> {
         return const Home();
       case 1:
         return const SizedBox();
+        // return const FavouritPage();
       case 2:
         return const SizedBox();
         case 3:
-        return const SizedBox();
+          return const SizedBox();
+        return const ChatsPage();
         case 4:
         return const More();
       default:

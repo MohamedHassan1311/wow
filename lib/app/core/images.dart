@@ -36,4 +36,8 @@ class Images {
   static const String discount = 'assets/images/discount.png';
   static const String logoutAlert = 'assets/images/logout_alert.png';
   static const String deleteAlert = 'assets/images/delete_alert.png';
+  static const String swipeHertButton = 'assets/images/swipe_favoeit.png';
+    static const String swipeLeft = 'assets/images/swipe_remove.png';
+
+
 }

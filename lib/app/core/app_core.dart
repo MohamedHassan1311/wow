@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:wow/app/core/dimensions.dart';
@@ -17,6 +18,10 @@ import 'app_notification.dart';
 import 'styles.dart';
 
 class AppCore {
+
+    static saudiRiyalSymbol({Color? color, double? size}) =>
+      SvgPicture.asset("assets/svgs/saudi_riyal_symbol.svg",
+          width: size ?? 20.w, height: size ?? 20.w, color: color);
   static showSnackBar({required AppNotification notification}) {
     Timer(Duration.zero, () {
       CustomNavigator.scaffoldState.currentState!.showSnackBar(

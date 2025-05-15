@@ -1,4 +1,6 @@
 class SvgImages {
+
+  static const String saudiRiyalSymbol = 'assets/svgs/saudi_riyal_symbol.svg';
   static const String forwardArrow = 'assets/svgs/forward_arrow.svg';
   static const String success = 'assets/svgs/success.svg';
   static const String shieldDone = 'assets/svgs/Shield Done.svg';

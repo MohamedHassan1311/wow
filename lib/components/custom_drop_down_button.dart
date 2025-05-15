@@ -54,6 +54,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         Row(
           children: [
             Expanded(
+              flex: 5,
               child: Text(
                 widget.label ?? "",
                 style: const TextStyle(

@@ -122,6 +122,7 @@ class RegisterBloc extends Bloc<AppEvent, AppState> {
                 email: registerEntity.valueOrNull?.email?.text.trim(),
                 phone: registerEntity.valueOrNull?.phone?.text.trim(),
                 countryCode: registerEntity.valueOrNull?.country,
+                fromForgetPass: false,
                 fromRegister: true));
         clear();
         emit(Done());
