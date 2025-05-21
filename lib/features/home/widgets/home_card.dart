@@ -4,9 +4,12 @@ import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/images.dart';
+import 'package:wow/app/core/svg_images.dart';
+import 'package:wow/components/custom_images.dart';
 import 'package:wow/data/config/di.dart';
 import 'package:wow/features/Favourit/bloc/favourit_bloc.dart';
 import 'package:wow/features/language/bloc/language_bloc.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 
 import '../../../app/core/styles.dart';
 import '../../../app/core/text_styles.dart';
@@ -39,15 +42,22 @@ class HomeCard extends StatelessWidget {
                   spacing: 15,
                   children: [
                     Text(
-                      "Mohamed",
+                      UserBloc.instance.user?.name ?? "",
                       style: AppTextStyles.w800
                           .copyWith(color: Styles.WHITE_COLOR, fontSize: 28),
                     ),
                     Text(
-                      "28",
+                      UserBloc.instance.user?.age.toString() ?? "",
                       style: AppTextStyles.w800
                           .copyWith(color: Styles.WHITE_COLOR, fontSize: 22),
                     ),
+                    if (UserBloc.instance.user?.isVerified == 1)
+                      customImageIconSVG(
+                        imageName: SvgImages.verify,
+                        width: 20,
+                        height: 20,
+                      ),
+                    
                   ],
                 ),
               ),
@@ -59,12 +69,12 @@ class HomeCard extends StatelessWidget {
                   spacing: 15,
                   children: [
                     Text(
-                      "Egypt",
+                      UserBloc.instance.user?.countryId?.name ?? "",
                       style: AppTextStyles.w800
                           .copyWith(color: Styles.WHITE_COLOR, fontSize: 16),
                     ),
                     Text(
-                      "28",
+                      UserBloc.instance.user?.cityId?.name ?? "",
                       style: AppTextStyles.w800
                           .copyWith(color: Styles.WHITE_COLOR, fontSize: 16),
                     ),
@@ -86,7 +96,7 @@ class HomeCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(18),
                         ),
                         child: Text(
-                          "جامعي",
+                          UserBloc.instance.user?.  education?.name ?? "",
                           style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       )),
@@ -101,7 +111,22 @@ class HomeCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(18),
                         ),
                         child: Text(
-                          "جامعي",
+                          UserBloc.instance.user?.  tribe?.name ?? "",
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                      )),
+                         Container(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Text(
+                          UserBloc.instance.user?.  skinColor?.name ?? "",
                           style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       )),

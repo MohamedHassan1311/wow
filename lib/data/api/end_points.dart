@@ -43,6 +43,10 @@ static const String addToFavourit = '/send/favorite';
 
 
 
+/// Recommendation
+static const String getRecommendation = '/recommendation';
+
+
   ///Marketplace
   static const String marketplace = 'marketplace';
 

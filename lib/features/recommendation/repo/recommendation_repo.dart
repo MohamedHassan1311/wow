@@ -8,9 +8,9 @@ import '../../../data/error/failures.dart';
 class RecommendationRepo extends BaseRepo {
   RecommendationRepo({required super.dioClient, required super.sharedPreferences});
 
-  Future<Either<ServerFailure, Response>> getFavourit() async {
+  Future<Either<ServerFailure, Response>> getRecommendation() async {
     try {
-      Response response = await dioClient.get(uri: EndPoints.getFavouritSent(userId));
+      Response response = await dioClient.get(uri: EndPoints.getRecommendation);
       if (response.statusCode == 200) {
         return Right(response);
       } else {

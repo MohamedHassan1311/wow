@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/features/recommendation/repo/recommendation_repo.dart';
+import 'package:wow/main_models/user_model.dart';
 
 import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';
@@ -24,7 +25,6 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
   RecommendationBloc({required this.repo, required this.internetConnection})
       : super(Start()) {
     on<Get>(onGet); 
-    on<Add>(onAdd);
   }
 
   CarouselSliderController bannerController = CarouselSliderController();
@@ -38,7 +38,7 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
       try {
         emit(Loading());
 
-        Either<ServerFailure, Response> response = await repo.getFavourit();
+        Either<ServerFailure, Response> response = await repo.getRecommendation();
 
         response.fold((fail) {
           AppCore.showSnackBar(
@@ -49,7 +49,9 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
                   borderColor: Colors.red));
           emit(Error());
         }, (success) {
-        
+
+          List<UserModel> recommendations = success.data.map((e) => UserModel.fromJson(e)).toList();
+          emit(Done(data: recommendations));
         });
       } catch (e) {
         AppCore.showSnackBar(
@@ -63,36 +65,6 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
     }
   }
 
-
-onAdd(Add event, Emitter<AppState> emit) async {
-  if (await internetConnection.updateConnectivityStatus()) {
-    try { 
-      emit(Loading());
-
-      Either<ServerFailure, Response> response = await repo.addtoFavourit(event.arguments as int);
-
-        response.fold((fail) {
-        AppCore.showSnackBar(
-            notification: AppNotification(
-                message: fail.error,
-                isFloating: true,
-                backgroundColor: Styles.IN_ACTIVE,
-                borderColor: Styles.RED_COLOR,
-              ));
-          emit(Error());
-        }, (success) {
-          emit(Done());
-        });
-    } catch (e) {
-      AppCore.showSnackBar(
-            notification: AppNotification(
-          message: e.toString(),
-          backgroundColor: Styles.IN_ACTIVE,
-          borderColor: Styles.RED_COLOR,
-        ));
-    }
-  }
-}
 
 
 
