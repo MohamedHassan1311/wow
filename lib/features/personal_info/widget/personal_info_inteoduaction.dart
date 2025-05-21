@@ -44,7 +44,7 @@ class _CompleteProfileBodyStpe1State extends State<PersonalProfileIntroduction>
     return BlocBuilder<PersonalInfoBloc, AppState>(
       builder: (context, state) {
         return Form(
-            key: context.read<PersonalInfoBloc>().formKey5,
+            key: context.read<PersonalInfoBloc>().formKey6,
             child: ListAnimator(
               scroll: widget.scroll,
               data: [

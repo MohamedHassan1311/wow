@@ -63,6 +63,7 @@ class NavBar extends StatelessWidget {
                     child: BottomNavBarItem(
                         label: getTranslated("Marriage requests", context: context),
                         imageIcon: Images.logoWord,
+                        height: 30,
                         isSelected: (snapshot.data ?? 0) == 2,
                         onTap: () {
                           DashboardBloc.instance.updateSelectIndex(2);

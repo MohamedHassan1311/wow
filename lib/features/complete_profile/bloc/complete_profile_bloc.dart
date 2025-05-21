@@ -161,7 +161,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         "lname": lName.text.trim(),
         // "email": "ahmeedhassanali@outlook.com",
         // "phone": "123456789",
-        "country_id": nationality.valueOrNull?.id,
+        "country_id": countryOfResidence.valueOrNull?.id,
         "city_id": city.valueOrNull?.id ?? 1,
         "dob": dop.valueOrNull?.defaultFormat2(),
         "social_status": socialStatus.valueOrNull?.id,

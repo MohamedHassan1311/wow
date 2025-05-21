@@ -1,0 +1,2 @@
+/Users/mhamedelbaz/SoftweareCloud2/wow/android/app/.cxx/RelWithDebInfo/6c3k5l19/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/mhamedelbaz/SoftweareCloud2/wow/android/app/.cxx/RelWithDebInfo/6c3k5l19/arm64-v8a/CMakeFiles/rebuild_cache.dir

@@ -33,13 +33,13 @@ class _FashionStyleState extends State<FashionStyle>
         data: [
           CustomExpansionTile(
               backgroundColor: Styles.WHITE_COLOR,
-              initiallyExpanded: true,
+              initiallyExpanded: false,
               title: getTranslated("fashion_style"),
               children: [
                 BlocProvider(
-                  create: (context) =>
+                  create: context.read<FilterBloc>().hijab.value?.id == null ? (context) =>
                       SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "hijab"})),
+                        ..add(Get(arguments: {'field_name': "hijab"})): (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
                   child: BlocBuilder<SettingOptionBloc, AppState>(
                       builder: (context, state) {
                     if (state is Done) {
@@ -101,9 +101,9 @@ class _FashionStyleState extends State<FashionStyle>
                   }),
                 ),
                 BlocProvider(
-                  create: (context) =>
+                  create: context.read<FilterBloc>().abya.value?.id == null ? (context) =>
                       SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "abaya"})),
+                        ..add(Get(arguments: {'field_name': "abaya"})): (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
                   child: BlocBuilder<SettingOptionBloc, AppState>(
                       builder: (context, state) {
                     if (state is Done) {

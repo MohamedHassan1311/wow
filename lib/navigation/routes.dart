@@ -17,6 +17,7 @@ class Routes {
   static const addAddress = "ADD_ADDRESSES";
   static const chats = "CHATS";
   static const categories = "CATEGORIES";
+  static const profileDetails = "PROFILE_DETAILS";
   static const checkOut = "CHECK_OUT";
   static const contactWithUs = "CONTACT_WITH_US";
   static const aboutUs = "ABOUT_US";

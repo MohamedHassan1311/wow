@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:wow/features/Favourit/repo/recommendation_repo.dart';
+import 'package:wow/features/recommendation/repo/recommendation_repo.dart';
 
 import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';

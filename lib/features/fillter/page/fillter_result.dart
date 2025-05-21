@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
+import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/localization/language_constant.dart';
+import 'package:wow/components/animated_widget.dart';
 import 'package:wow/components/custom_app_bar.dart' show CustomAppBar;
+import 'package:wow/components/empty_widget.dart';
 import 'package:wow/features/fillter/bloc/filtter_bloc.dart';
 import 'package:wow/main_widgets/person_card.dart';
 
@@ -39,7 +42,32 @@ class FilterResult extends StatelessWidget {
         }
         if (state is Loading) {
           return Center(child: CircularProgressIndicator(),);
+          return Center(child: Text(getTranslated("no_data", context: context)),);
         }
+         if (state is Error || state is Empty) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: ListAnimator(
+                              customPadding: EdgeInsets.symmetric(
+                                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                                vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
+                              ),
+                              data: [
+                                SizedBox(
+                                  height: 50.h,
+                                ),
+                                EmptyState(
+                                  txt: state is Error
+                                      ? getTranslated("something_went_wrong")
+                                      : null,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    } 
         return SizedBox();
       }),
     );

@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 // import 'firebase_options.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:toastification/toastification.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/data/local_data/local_database.dart';
 import 'package:wow/features/language/bloc/language_bloc.dart';
@@ -54,8 +55,10 @@ Future<void> main() async {
   await di.init();
   await sl<LocaleDatabase>().initDatabase();
 
-  runApp(MultiBlocProvider(
-      providers: ProviderList.providers, child: const MyApp()));
+  runApp(ToastificationWrapper(
+    child: MultiBlocProvider(
+        providers: ProviderList.providers, child: const MyApp()),
+  ));
 }
 
 class MyApp extends StatefulWidget {

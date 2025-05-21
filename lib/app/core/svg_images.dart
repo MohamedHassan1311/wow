@@ -77,6 +77,8 @@ class SvgImages {
   static const String trash = 'assets/svgs/trash.svg';
   static const String clock = 'assets/svgs/clock.svg';
   static const String chats = 'assets/svgs/chats.svg';
+    static const String ring = 'assets/svgs/ring.svg';
+
   static const String bookmark = 'assets/svgs/bookmark.svg';
   static const String alarm = 'assets/svgs/alarm_clock.svg';
   static const String language = 'assets/svgs/language.svg';
@@ -147,4 +149,6 @@ class SvgImages {
   static const String marketplace = 'assets/svgs/marketplace.svg';
   static const String service = 'assets/svgs/service.svg';
   static const String orders = 'assets/svgs/orders.svg';
+    static const String verify = 'assets/svgs/verifay.svg';
+
 }

@@ -1,6 +1,7 @@
 import 'package:wow/app/core/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/features/personal_info/widget/personal_info_fashion_style.dart';
 import '../../../../app/core/dimensions.dart';
 
 import '../../../../data/config/di.dart';
@@ -52,6 +53,7 @@ class PersonalInfo extends StatelessWidget {
                           PersonalInfoJob(isEdit: isEdit),
                           PersonalInfoShape(isEdit: isEdit),
                           PersonalInfoSectAndTribe(isEdit: isEdit),
+                          PersonalInfoFashionStyle(isEdit: isEdit),
                           PersonalProfileIntroduction(isEdit: isEdit)
                         ],
                       ),

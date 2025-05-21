@@ -18,7 +18,7 @@ class Age extends StatelessWidget {
         scroll: false,
         data: [
           CustomExpansionTile(
-              initiallyExpanded: true,
+              initiallyExpanded: false,  
               title: getTranslated("age"),
               backgroundColor: Styles.WHITE_COLOR,
               children: [

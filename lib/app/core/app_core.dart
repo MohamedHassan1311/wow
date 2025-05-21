@@ -7,11 +7,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:toastification/toastification.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/text_styles.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:wow/data/config/di.dart';
+import 'package:wow/features/language/bloc/language_bloc.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../localization/language_constant.dart';
 import 'app_notification.dart';
@@ -23,7 +26,65 @@ class AppCore {
       SvgPicture.asset("assets/svgs/saudi_riyal_symbol.svg",
           width: size ?? 20.w, height: size ?? 20.w, color: color);
   static showSnackBar({required AppNotification notification}) {
-    Timer(Duration.zero, () {
+    if(notification.message.isNotEmpty) {
+      toastification.show(
+      type: ToastificationType.info,
+      style: ToastificationStyle.minimal,
+      autoCloseDuration: const Duration(seconds: 5),
+      title: Text(
+        notification.message,
+        style: AppTextStyles.w600.copyWith(fontSize: 18, color: Styles.HEADER),
+      ),
+      // you can also use RichText widget for title and description parameters
+      description: RichText(
+          text: TextSpan(
+        text: notification.message,
+        style: AppTextStyles.w400
+            .copyWith(fontSize: 14, color: Styles.DETAILS_COLOR),
+      )),
+      alignment: Alignment.topCenter,
+      direction: sl<LanguageBloc>().selectLocale?.languageCode == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      animationDuration: const Duration(milliseconds: 300),
+      animationBuilder: (context, animation, alignment, child) {
+        return ScaleTransition(
+          scale: animation,
+          child: Center(child: child),
+        );
+      },
+      showIcon: true,
+      // show or hide the icon
+      primaryColor: notification.backgroundColor,
+      foregroundColor: Colors.black,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x07000000),
+          blurRadius: 16,
+          offset: Offset(0, 16),
+          spreadRadius: 0,
+        )
+      ],
+      showProgressBar: true,
+      closeButtonShowType: CloseButtonShowType.onHover,
+      closeOnClick: false,
+      pauseOnHover: true,
+      dragToClose: true,
+      applyBlurEffect: true,
+      callbacks: ToastificationCallbacks(
+        onTap: (toastItem) => print('Toast ${toastItem.id} tapped'),
+        onCloseButtonTap: (toastItem) =>
+            print('Toast ${toastItem.id} close button tapped'),
+        onAutoCompleteCompleted: (toastItem) =>
+            print('Toast ${toastItem.id} auto complete completed'),
+        onDismissed: (toastItem) => print('Toast ${toastItem.id} dismissed'),
+      ),
+    );
+    }
+    /* Timer(Duration.zero, () {
       CustomNavigator.scaffoldState.currentState!.showSnackBar(
         SnackBar(
           padding: const EdgeInsets.all(0),
@@ -61,7 +122,7 @@ class AppCore {
           backgroundColor: notification.backgroundColor,
         ),
       );
-    });
+    });*/
   }
 
   static hideSnackBar() {

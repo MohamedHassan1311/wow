@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [ 
+        
+
+        {
+            "name": "wow",
+            "request": "launch",
+            "type": "dart",
+            "stopOnEntry": false,
+            "justMyCode": true,
+            "stopOnException": false,
+            "stopOnCaughtException": false
+        },
+
+        {
+            "name": "wow (debug mode)",
+            "request": "launch",
+            "type": "dart",
+            "stopOnEntry": false,
+            "justMyCode": true,
+            "flutterMode": "debug"
+        },
+        {
+            "name": "wow (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "stopOnEntry": false,
+            "justMyCode": true,
+            "stopOnException": false,
+            "stopOnCaughtException": false,
+            "flutterMode": "profile"
+        },
+        {
+            "name": "wow (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "stopOnEntry": false,
+            "justMyCode": true,
+            "stopOnException": false,
+            "stopOnCaughtException": false,
+            "flutterMode": "release"
+        }
+    ]
+}

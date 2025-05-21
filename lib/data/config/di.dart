@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wow/features/Favourit/bloc/favourit_bloc.dart';
-import 'package:wow/features/Favourit/repo/recommendation_repo.dart';
+import 'package:wow/features/Favourit/repo/favourit_repo.dart';
 import 'package:wow/features/addresses/repo/addresses_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/features/auth/register/repo/register_repo.dart';
@@ -20,7 +20,7 @@ import '../../features/auth/logout/repo/logout_repo.dart';
 import '../../features/auth/reset_password/repo/reset_password_repo.dart';
 import '../../features/auth/social_media_login/repo/social_media_repo.dart';
 import '../../features/auth/verification/repo/verification_repo.dart';
-import '../../features/categories/repo/categories_repo.dart';
+import '../../features/profile_details/repo/profile_details_repo.dart';
 import '../../features/chat/repo/chat_repo.dart';
 import '../../features/chats/repo/chats_repo.dart';
 import '../../features/change_password/repo/change_password_repo.dart';
@@ -88,7 +88,7 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => FaqsRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
-      () => RecommendationRepo(sharedPreferences: sl(), dioClient: sl()));
+      () => FavouritRepo(sharedPreferences: sl(), dioClient: sl()));
 
 
   sl.registerLazySingleton(() => DownloadRepo());
@@ -151,7 +151,7 @@ Future<void> init() async {
       () => DeactivateAccountRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(
-      () => CategoriesRepo(sharedPreferences: sl(), dioClient: sl()));
+      () => ProfileDetailsRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(
       () => NotificationsRepo(sharedPreferences: sl(), dioClient: sl()));

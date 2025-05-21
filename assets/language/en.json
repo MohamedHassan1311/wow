@@ -732,7 +732,9 @@
   "Upgrade":"Upgrade",
   "remaining_favourit":"Remaining Favourit",
   "get_discount":"Get nominated",
-  "recommendation":"Recommendation"
+  "recommendation":"Recommendation",
+  "marige_request":"Marriage Request",
+  "marige_request_desc":"Are you sure you want to send a marriage request?"
 
 
 }

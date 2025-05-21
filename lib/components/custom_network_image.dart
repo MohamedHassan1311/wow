@@ -47,14 +47,14 @@ class CustomNetworkImage {
               : BorderRadius.circular(radius ?? 12),
           color: Styles.WHITE_COLOR,
         ),
-        padding: padding ??
-            EdgeInsets.symmetric(
-                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-        child: Image.asset(
-                  defaultImage ?? Images.appLogo,
-                  fit: fit ?? BoxFit.fill,
-                ),
+     
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius ?? 10),
+          child: Image.asset(
+                    defaultImage ?? Images.appLogo,
+                    fit: fit ?? BoxFit.fill,
+                  ),
+        ),
       ),
       placeholder: (context, url) => ClipRRect(
           borderRadius: BorderRadius.circular(radius ?? 10),
@@ -119,67 +119,70 @@ class CustomNetworkImage {
       backGroundColor,
       color,
       double? padding}) {
-    return CachedNetworkImage(
-      imageUrl: (image ?? ""),
-      repeat: ImageRepeat.noRepeat,
-      errorWidget: (a, c, b) => Container(
-        height: radius * 2,
-        width: radius * 2,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            color: backGroundColor ?? Colors.white,
-            border: color != null ? Border.all(color: color, width: 1) : null,
-            shape: BoxShape.circle),
-        child: CircleAvatar(
-          radius: radius,
-          backgroundColor: backGroundColor ?? Colors.white,
-          child: Image.asset(
-            Images.appLogo,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      fadeInDuration: const Duration(seconds: 1),
-      fadeOutDuration: const Duration(seconds: 2),
-      placeholder: (context, url) => CircleAvatar(
-          radius: radius,
-          backgroundColor: Styles.GREY_BORDER,
-          child: LottieFile.asset(
-            "image_loading",
-            height: radius * 2,
-          )),
-      imageBuilder: (context, provider) {
-        return GestureDetector(
-          onTap: () {
-            if (onTap != null) {
-              onTap.call();
-            } else {
-              showDialog(
-                  context: context,
-                  barrierColor: Colors.black.withOpacity(0.75),
-                  builder: (context) {
-                    return ImagePopUpViewer(
-                      image: image,
-                      isFromInternet: true,
-                      title: "",
-                    );
-                  });
-            }
-          },
-          child: Container(
-            height: radius * 2,
-            width: radius * 2,
-            padding: EdgeInsets.all(padding ?? 0),
-            decoration:
-                BoxDecoration(color: backGroundColor, shape: BoxShape.circle),
-            child: CircleAvatar(
-              backgroundImage: provider,
-              radius: radius,
-              backgroundColor: backGroundColor ?? Colors.white,
+    return Hero(
+      tag: image ?? "",
+      child: CachedNetworkImage(
+        imageUrl: (image ?? ""),
+        repeat: ImageRepeat.noRepeat,
+        errorWidget: (a, c, b) => Container(
+          height: radius * 2,
+          width: radius * 2,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: backGroundColor ?? Colors.white,
+              border: color != null ? Border.all(color: color, width: 1) : null,
+              shape: BoxShape.circle),
+          child: CircleAvatar(
+            radius: radius,
+            backgroundColor: backGroundColor ?? Colors.white,
+            child: Image.asset(
+              Images.appLogo,
+              fit: BoxFit.cover,
             ),
           ),
-        );
-      },
+        ),
+        fadeInDuration: const Duration(seconds: 1),
+        fadeOutDuration: const Duration(seconds: 2),
+        placeholder: (context, url) => CircleAvatar(
+            radius: radius,
+            backgroundColor: Styles.GREY_BORDER,
+            child: LottieFile.asset(
+              "image_loading",
+              height: radius * 2,
+            )),
+        imageBuilder: (context, provider) {
+          return GestureDetector(
+            onTap: () {
+              if (onTap != null) {
+                onTap.call();
+              } else {
+                showDialog(
+                    context: context,
+                    barrierColor: Colors.black.withOpacity(0.75),
+                    builder: (context) {
+                      return ImagePopUpViewer(
+                        image: image,
+                        isFromInternet: true,
+                        title: "",
+                      );
+                    });
+              }
+            },
+            child: Container(
+              height: radius * 2,
+              width: radius * 2,
+              padding: EdgeInsets.all(padding ?? 0),
+              decoration:
+                  BoxDecoration(color: backGroundColor, shape: BoxShape.circle),
+              child: CircleAvatar(
+                backgroundImage: provider,
+                radius: radius,
+                backgroundColor: backGroundColor ?? Colors.white,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

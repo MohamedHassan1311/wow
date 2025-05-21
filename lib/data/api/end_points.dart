@@ -36,8 +36,10 @@ class EndPoints {
 
 ///Favourit
 ///
-static const String getFavourit = 'get-bookmark';
-static const String addToFavourit = 'add-bookmark';
+static String getFavouritSent(id) => '/favorites/sent/$id';
+static String getFavouritReceived(id) => '/favorites/received/$id';
+
+static const String addToFavourit = '/send/favorite';
 
 
 

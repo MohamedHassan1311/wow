@@ -107,7 +107,7 @@ class _PersonalInfoActionsState extends State<PersonalInfoActions>
                           return;
                         }
 
-                                  if (snapshot.data! < 6) {
+                                  if (snapshot.data! < 7) {
                                     if (snapshot.data! == 1) {
                                       if (!context
                                           .read<PersonalInfoBloc>()
@@ -137,9 +137,17 @@ class _PersonalInfoActionsState extends State<PersonalInfoActions>
                                           .currentState!
                                           .validate()) return;
                                     }
+                                       if (snapshot.data! == 5) {
+                                      if (!context
+                                          .read<PersonalInfoBloc>()
+                                          .formKey5
+                                          .currentState!
+                                          .validate()) return;
+                                    }
+
 
                                     print(snapshot.data!);
-                                    if (snapshot.data! == 5) {
+                                    if (snapshot.data! == 6) {
 
                                       final result=await    CustomAlertDialog.show(
                                           dailog: AlertDialog(

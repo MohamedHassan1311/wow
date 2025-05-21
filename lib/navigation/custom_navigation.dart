@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:wow/features/Favourit/page/favourit_page.dart';
 import 'package:wow/features/addresses/model/addresses_model.dart';
 import 'package:wow/features/addresses/page/addresses_page.dart';
-import 'package:wow/features/categories/page/categories_page.dart';
+import 'package:wow/features/profile_details/page/profile_details_page.dart';
 import 'package:wow/features/chats/page/chats_page.dart';
 import 'package:wow/features/edit_profile/page/edit_profile_page.dart';
 import 'package:wow/features/fillter/page/fillter_result.dart';
@@ -123,9 +123,9 @@ abstract class CustomNavigator {
       case Routes.notifications:
         return _pageRoute(const NotificationsPage());
 
-      case Routes.categories:
-        return _pageRoute(CategoriesPage(
-          vendorId: settings.arguments as int?,
+      case Routes.profileDetails:
+        return _pageRoute(ProfileDetailsPage(
+          profileDetailsId: settings.arguments as int?,
         ));
 
       case Routes.recommendationPage:

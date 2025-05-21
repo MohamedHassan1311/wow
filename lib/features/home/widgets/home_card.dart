@@ -125,7 +125,7 @@ class HomeCard extends StatelessWidget {
 
 
                                 confirmDismiss: (direction) async {
-                                    // sl<FavouritBloc>().add(Add(arguments: 1));
+                                    sl<FavouritBloc>().add(Add(arguments: 1));
 
                                   // ❗ Prevent the widget from being removed
                                   return false;

@@ -14,7 +14,7 @@ import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../main_blocs/user_bloc.dart';
-import '../../categories/widgets/categories_section.dart';
+// import '../../profile_details/widgets/categories_section.dart';
 import '../../../main_widgets/main_app_bar.dart';
 
 

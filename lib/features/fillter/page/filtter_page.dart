@@ -56,7 +56,7 @@ class _FilterPageState extends State<FilterPage>
                 ),
                 CustomExpansionTile(
                     backgroundColor: Styles.WHITE_COLOR,
-                    initiallyExpanded: true,
+                    initiallyExpanded: false,
                     title: getTranslated("city_and_culture"),
                     children: [
                       CityAndCulture(),
@@ -66,11 +66,14 @@ class _FilterPageState extends State<FilterPage>
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CustomButton(
-                    text: getTranslated("save"),
-                    onTap: () {
-                      // context.read<FilterBloc>().add(Click());
-                    },
+                  child: Center(
+                    child: CustomButton(
+                      isLoading: state is Loading,
+                      text: getTranslated("save"),
+                      onTap: () {
+                        context.read<FilterBloc>().add(Click());
+                      },
+                    ),
                   ),
                 )
               ],

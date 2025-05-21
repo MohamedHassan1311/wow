@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/navigation/routes.dart' show Routes;
 import '../../data/config/di.dart';
 import '../../data/internet_connection/internet_connection.dart';
+import '../../features/Favourit/page/favourit_page.dart';
 import '../../helpers/check_on_the_version.dart';
 import '../../navigation/custom_navigation.dart';
 import '../bloc/dashboard_bloc.dart';
@@ -98,12 +99,12 @@ class _DashBoardState extends State<DashBoard> {
       case 0:
         return const Home();
       case 1:
-        return const SizedBox();
-        // return const FavouritPage();
+        // return const SizedBox();
+        return const FavouritPage();
       case 2:
         return const SizedBox();
         case 3:
-          return const SizedBox();
+          // return const SizedBox();
         return const ChatsPage();
         case 4:
         return const More();

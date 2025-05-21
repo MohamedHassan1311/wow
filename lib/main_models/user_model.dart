@@ -36,6 +36,10 @@ class UserModel extends SingleMapper {
   CustomFieldModel? skinColor;
   CustomFieldModel? tribe;
   CustomFieldModel? sect;
+  CustomFieldModel? culture;
+  CustomFieldModel? health;
+  CustomFieldModel? lifestyle;
+  
 
   String? personalInfo;
   String? partenrInfo;
@@ -138,12 +142,15 @@ class UserModel extends SingleMapper {
       this.job,
       this.personalInfo,
       this.validation,
-      this.sect});
+      this.sect,
+      this.culture,
+      this.health,
+      this.lifestyle});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     print(json['dop']);
     id = json['id'];
-    name = json['fname'] + " " + json['lname'];
+    name = json['fname'].toString() + " " + json['lname'].toString();
     fname = json['fname'];
     lname = json['lname'];
     image = json['image'];
@@ -176,6 +183,8 @@ class UserModel extends SingleMapper {
         : CustomFieldModel(name: "no Data");
 
 
+
+
    partenrInfo=json['about_partner'];
     personalInfo=json['about_me'];
     salary=json['salary'];
@@ -197,7 +206,7 @@ languages = json['language'] != null
     education2=json['education_2'] != null
         ? CustomFieldModel.fromJson(json['education_2'])
         : CustomFieldModel(name: "no Data");
-    tribe=json['tribe'] != null
+    tribe=json['tribe'] != null && json['tribe'] is! int && json['tribe'] is! String
         ? CustomFieldModel.fromJson(json['tribe'])
         : CustomFieldModel(name: "no Data");
 
@@ -250,6 +259,20 @@ languages = json['language'] != null
     otherNationalityId = json['other_nationality'] != null
         ? CustomFieldModel.fromJson(json['other_nationality'])
         : CustomFieldModel(name: "no Data");
+
+    culture = json['culture'] != null
+        ? CustomFieldModel.fromJson(json['culture'])
+        : CustomFieldModel(name: "no Data");
+    health = json['health'] != null
+        ? CustomFieldModel.fromJson(json['health'])
+        : CustomFieldModel(name: "no Data");
+    lifestyle = json['lifestyle'] != null
+        ? CustomFieldModel.fromJson(json['lifestyle'])
+        : CustomFieldModel(name: "no Data");
+    accountType = json['account_type'] != null
+        ? CustomFieldModel.fromJson(json['account_type'])
+        : CustomFieldModel(name: "no Data");
+
     numOfSons = json['num_of_sons'];
     if (json['client_data_validation'] != null) {
       validation = UserModelValidation();
@@ -320,7 +343,10 @@ languages = json['language'] != null
     data['complexion'] = skinColor?.toJson();
     data['tribe'] = tribe?.toJson();
     data['religion'] = sect?.toJson();
-
+    data['culture'] = culture?.toJson();
+    data['health'] = health?.toJson();
+    data['lifestyle'] = lifestyle?.toJson();
+    data['account_type'] = accountType?.toJson();
     return data;
   }
 

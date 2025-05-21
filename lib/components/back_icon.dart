@@ -25,7 +25,7 @@ class FilteredBackIcon extends StatelessWidget {
         width: 40.w,
         height: 40.w,
         padding: 10.w,
-        radius: 16.w,
+        radius: 26.w,
         backGround: Styles.WHITE_COLOR,
         borderColor: Color(0xFFFFF6F1),
         color: Color(0xFF7E8AA3),

@@ -24,7 +24,7 @@ Widget customImageIcon(
       child: Image.asset(
         imageName,
         color: color,
-        fit: BoxFit.fill,
+        fit:fit?? BoxFit.fill,
         width: width ?? 30,
         height: height ?? 25,
       ),
@@ -156,6 +156,7 @@ Widget customImageIconSVG(
     Color? color,
     double? height,
     double? width,
+    BoxFit? fit,
     Function()? onTap}) {
   return GestureDetector(
     onTap: onTap,
@@ -164,6 +165,7 @@ Widget customImageIconSVG(
       color: color,
       height: height,
       width: width,
+      fit: fit ?? BoxFit.contain,
     ),
   );
 }

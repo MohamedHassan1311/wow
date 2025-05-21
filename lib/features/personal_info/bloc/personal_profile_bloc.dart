@@ -45,7 +45,7 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   final formKey3 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
   final formKey5 = GlobalKey<FormState>();
-
+  final formKey6 = GlobalKey<FormState>();
   final job = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateJob => job.sink.add;
   Stream<CustomFieldModel?> get jobStream => job.stream.asBroadcastStream();
@@ -83,6 +83,29 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   Function(CustomFieldModel?) get updateTribe => tribe.sink.add;
   Stream<CustomFieldModel?> get tribeStream => tribe.stream.asBroadcastStream();
 
+  final hijab = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateHijab => hijab.sink.add;
+  Stream<CustomFieldModel?> get hijabStream => hijab.stream.asBroadcastStream();
+
+  final abaya = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateAbaya => abaya.sink.add;
+  Stream<CustomFieldModel?> get abayaStream => abaya.stream.asBroadcastStream();
+
+  final accountType = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateAccountType => accountType.sink.add;
+  Stream<CustomFieldModel?> get accountTypeStream => accountType.stream.asBroadcastStream();
+
+  final culture = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateCulture => culture.sink.add;
+  Stream<CustomFieldModel?> get cultureStream => culture.stream.asBroadcastStream();
+
+  final health = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateHealth => health.sink.add;
+  Stream<CustomFieldModel?> get healthStream => health.stream.asBroadcastStream();
+
+  final lifestyle = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  Function(CustomFieldModel?) get updateLifestyle => lifestyle.sink.add;
+  Stream<CustomFieldModel?> get lifestyleStream => lifestyle.stream.asBroadcastStream();
 
   final phoneCode = BehaviorSubject<String?>();
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
@@ -109,10 +132,16 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
     }
     if (step == 4) {
       return "Sect and tribe";
+    
     }
+
     if (step == 5) {
+      return "fashion_style";
+    } 
+    if (step == 6) {
       return "introduction";
-    } else
+    } 
+    else
       return "";
   }
 
@@ -132,6 +161,11 @@ print(UserBloc.instance.user!.languages.toString()+"languagess") ;
     personalInfo.text = UserBloc.instance.user?.personalInfo ?? "";
     partenrInfo.text = UserBloc.instance.user?.partenrInfo ?? "";
         salery.text = UserBloc.instance.user?.salary ?? "";
+
+    updateAccountType(UserBloc.instance.user?.accountType);
+    updateCulture(UserBloc.instance.user?.culture);
+    updateHealth(UserBloc.instance.user?.health);
+    updateLifestyle(UserBloc.instance.user?.lifestyle);
 
   }
 
@@ -157,6 +191,10 @@ print(UserBloc.instance.user!.languages.toString()+"languagess") ;
         "about_me": personalInfo.text,
         "about_partner": partenrInfo.text,
         "languages[]":languages.valueOrNull,
+        "culture": culture.valueOrNull?.id,
+        "health": health.valueOrNull?.id,
+        "lifestyle": lifestyle.valueOrNull?.id,
+        "account_type": accountType.valueOrNull?.id,
         //
         if(identityImage.hasValue)
         "image":identityImage.hasValue? MultipartFile.fromFileSync(identityImage.value?.path ?? ""):null

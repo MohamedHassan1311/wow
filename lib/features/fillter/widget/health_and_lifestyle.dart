@@ -33,7 +33,7 @@ class _HealthAndLifestyleState extends State<HealthAndLifestyle>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CustomExpansionTile(
-              initiallyExpanded: true,
+              initiallyExpanded: false,
               backgroundColor: Styles.WHITE_COLOR,
               title: getTranslated("health_and_lifestyle"),
               children: [

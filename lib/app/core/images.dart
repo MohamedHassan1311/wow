@@ -25,7 +25,7 @@ class Images {
   static const String failCart = 'assets/images/fail_cart.png';
   static const String seatEmpty = 'assets/images/seat_empty.png';
   static const String coloredCoin = 'assets/images/colored_coin.png';
-  static const String noInternet = 'assets/images/no_internet.png';
+  static const String noInternet = 'assets/logo.png';
   static const String emptyNotifications = 'assets/images/empty_notifications.png';
   static const String emptyTransactions = 'assets/images/empty_transactions.png';
   static const String whatsApp = 'assets/images/whatsapp.png';
@@ -38,6 +38,7 @@ class Images {
   static const String deleteAlert = 'assets/images/delete_alert.png';
   static const String swipeHertButton = 'assets/images/swipe_favoeit.png';
     static const String swipeLeft = 'assets/images/swipe_remove.png';
+    static const String zwagcard = 'assets/images/personal_info.png';
 
 
 }
