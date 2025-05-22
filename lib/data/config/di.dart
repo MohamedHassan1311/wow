@@ -30,7 +30,7 @@ import '../../features/complete_profile/repo/complete_profile_repo.dart'
 import '../../features/edit_profile/repo/edit_profile_repo.dart';
 import '../../features/faqs/repo/faqs_repo.dart';
 import '../../features/countries/repo/countries_repo.dart';
-import '../../features/home/bloc/home_ads_bloc.dart';
+import '../../features/home/bloc/home_user_bloc.dart';
 import '../../features/home/repo/home_repo.dart';
 import '../../features/language/bloc/language_bloc.dart';
 import '../../features/language/repo/language_repo.dart';
@@ -191,7 +191,7 @@ Future<void> init() async {
   
   sl.registerLazySingleton(() => FilterBloc(repo: sl()));
   sl.registerLazySingleton(
-      () => HomeAdsBloc(repo: sl(), internetConnection: sl()));
+      () => HomeUserBloc(repo: sl(), internetConnection: sl()));
 
         sl.registerLazySingleton(() => FavouritBloc(repo: sl(), internetConnection: sl()));
 

@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wow/main_models/meta.dart';
+import 'package:wow/main_models/search_engine.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
@@ -24,6 +26,8 @@ import '../repo/fillter_repo.dart';
 class FilterBloc extends Bloc<AppEvent, AppState> {
   final FillterRepo repo;
   FilterBloc({required this.repo}) : super(Start()) {
+    controller = ScrollController();
+    customScroll(controller);
     on<Click>(onClick);
   }
 
@@ -109,12 +113,23 @@ class FilterBloc extends Bloc<AppEvent, AppState> {
     updateSocialStatus(UserBloc.instance.user?.socialStatus);
   }
 
+  late ScrollController controller;
+  late SearchEngine _engine;
 
+  customScroll(ScrollController controller) {
+    controller.addListener(() {
+      bool scroll = AppCore.scrollListener(
+          controller, _engine.maxPages, _engine.currentPage!);
+      if (scroll) {
+        _engine.updateCurrentPage(_engine.currentPage!);
+        add(Click(arguments: _engine));
+      }
+    });
+  }
 
-/// list of fillters 
-/// 
-/// 
-List<CustomFieldModel> fillters = [];
+  /// list of fillters
+
+  List<CustomFieldModel> fillters = [];
 
   List<UserModel> users = [];
 
@@ -122,28 +137,37 @@ List<CustomFieldModel> fillters = [];
     try {
       emit(Loading());
 
-  // fillters.add(
-  //   if (age.value != null)
-  //           "age_min": age.value?.split("-")[0],
-      
+      // fillters.add(
+      //   if (age.value != null)
+      //           "age_min": age.value?.split("-")[0],
 
-  //           "age_max": age.value?.split("-")[1],
-  //         if (socialStatus.value?.id != null)
-  //           "social_status": socialStatus.value,
-  //           if (health.value?.id != null) "health": health. value,
-  //           if (hijab.value?.id != null) "hijab": hijab.value,
-  //           if (abya.value?.id != null) "abaya": abya.value,
-  //           if (culture.value?.id != null) "culture": culture.value,
-  //           if (city.value?.id != null) "city": city.value,
-  //           if (lifestyle.value?.id != null) "lifestyle": lifestyle.value,
-  //           if (category.value?.id != null) "account_type": category.value,
-  // );
+      //           "age_max": age.value?.split("-")[1],
+      //         if (socialStatus.value?.id != null)
+      //           "social_status": socialStatus.value,
+      //           if (health.value?.id != null) "health": health. value,
+      //           if (hijab.value?.id != null) "hijab": hijab.value,
+      //           if (abya.value?.id != null) "abaya": abya.value,
+      //           if (culture.value?.id != null) "culture": culture.value,
+      //           if (city.value?.id != null) "city": city.value,
+      //           if (lifestyle.value?.id != null) "lifestyle": lifestyle.value,
+      //           if (category.value?.id != null) "account_type": category.value,
+      // );
+
+      _engine = event.arguments as SearchEngine;
+      if (_engine.currentPage == 0) {
+        users = [];
+        if (!_engine.isUpdate) {
+          emit(Loading());
+        }
+      } else {
+        emit(Done(data: users, loading: true));
+      }
+
       Either<ServerFailure, Response> response = await repo.submitFilter(
+        _engine,
         {
-          if (age.value != null)
-            "age_min": age.value?.split("-")[0],
-
-            "age_max": age.value?.split("-")[1],
+          if (age.value != null) "age_min": age.value?.split("-")[0],
+          "age_max": age.value?.split("-")[1],
           if (socialStatus.value?.id != null)
             "social_status": socialStatus.value?.id,
           if (health.value?.id != null) "health": health.value?.id,
@@ -153,7 +177,6 @@ List<CustomFieldModel> fillters = [];
           if (city.value?.id != null) "city": city.value?.id,
           if (lifestyle.value?.id != null) "lifestyle": lifestyle.value?.id,
           if (category.value?.id != null) "account_type": category.value?.id,
-
         },
       );
 
@@ -166,16 +189,34 @@ List<CustomFieldModel> fillters = [];
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        users = List<UserModel>.from(
+        List<UserModel> res = List<UserModel>.from(
             success.data['data'].map((e) => UserModel.fromJson(e)));
 
-        if (users.isNotEmpty) {
-          CustomNavigator.push(Routes.filterResult);
-           emit(Done());
-        } else {
-           CustomNavigator.push(Routes.filterResult);
+        Meta meta = Meta.fromJson(success.data['meta']);
+        if (_engine.currentPage == 0) {
+          users.clear();
+        }
 
-         emit(Empty());
+        if (res.isNotEmpty) {
+          for (var item in res) {
+            users.removeWhere((e) => e.id == item.id);
+            users.add(item);
+          }
+          _engine.maxPages = meta.pagesCount ?? 1;
+          _engine.updateCurrentPage(meta.currentPage ?? 1);
+        }
+
+        if (users.isNotEmpty) {
+          if (_engine.currentPage == 1) {
+            CustomNavigator.push(Routes.filterResult);
+          }
+          emit(Done());
+        } else {
+          if (_engine.currentPage == 1) {
+            CustomNavigator.push(Routes.filterResult);
+          }
+
+          emit(Empty());
         }
       });
     } catch (e) {

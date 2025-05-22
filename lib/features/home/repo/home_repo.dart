@@ -8,9 +8,9 @@ import '../../../data/error/failures.dart';
 class HomeRepo extends BaseRepo {
   HomeRepo({required super.dioClient, required super.sharedPreferences});
 
-  Future<Either<ServerFailure, Response>> getHomeBanners() async {
+  Future<Either<ServerFailure, Response>> getHomeUser() async {
     try {
-      Response response = await dioClient.get(uri: EndPoints.banners);
+      Response response = await dioClient.get(uri: EndPoints.homeUser(userId));
       if (response.statusCode == 200) {
         return Right(response);
       } else {

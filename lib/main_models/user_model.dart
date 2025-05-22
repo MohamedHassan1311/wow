@@ -297,7 +297,7 @@ languages = json['language'] != null
     data['country_code'] = countryCode;
     data['phone'] = phone;
     data['gender'] = gender;
-    data['dob'] = dop;
+    data['dob'] = DateTime.parse(dop.toString());
     data['image'] = image;
     data['language'] = languages;
     data['salary'] = salary;

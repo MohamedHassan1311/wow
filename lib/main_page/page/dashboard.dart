@@ -5,6 +5,7 @@ import 'package:app_links/app_links.dart';
 import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/features/chats/page/chats_page.dart';
+import 'package:wow/features/home/bloc/home_user_bloc.dart';
 import 'package:wow/features/home/page/home.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,8 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   initData() {
+          sl<HomeUserBloc>().add(Click());
+
     // if (sl<UserBloc>().isLogin) {
     //   sl<UserBloc>().add(Click());
     //    if(UserBloc.instance.user?.nickname==null){

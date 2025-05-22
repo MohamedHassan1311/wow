@@ -8,17 +8,17 @@ class Meta {
 
   Meta.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
-    pagesCount = json['last_page'];
-    total = json['total'];
+    pagesCount = json['total_pages'];
+    total = json['total_pages'];
     limit = int.tryParse(json['per_page']?.toString() ?? "0");
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['current_page'] = currentPage;
-    data['last_page'] = pagesCount;
+    data['total_pages'] = pagesCount;
     data['per_page'] = limit;
-    data['total'] = total;
+    data['total_pages'] = total;
     return data;
   }
 }

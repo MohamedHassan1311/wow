@@ -30,7 +30,7 @@ class EndPoints {
   static const String submitFilter = '/client/filters';
 
   ///Home
-  static const String banners = 'banners';
+  static  String homeUser (id) => 'client/random/$id';
 
 
 
@@ -44,7 +44,7 @@ static const String addToFavourit = '/send/favorite';
 
 
 /// Recommendation
-static const String getRecommendation = '/recommendation';
+static   String getRecommendation (id) =>  '/client/recomendations/$id';
 
 
   ///Marketplace

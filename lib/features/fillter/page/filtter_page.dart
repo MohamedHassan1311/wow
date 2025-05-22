@@ -11,6 +11,7 @@ import 'package:wow/features/fillter/widget/age.dart';
 import 'package:wow/features/fillter/widget/city_and_culture.dart';
 import 'package:wow/features/fillter/widget/fashion_style.dart';
 import 'package:wow/features/fillter/widget/health_and_lifestyle.dart';
+import 'package:wow/main_models/search_engine.dart';
 
 import '../../../../data/config/di.dart';
 import '../bloc/filtter_bloc.dart';
@@ -71,7 +72,7 @@ class _FilterPageState extends State<FilterPage>
                       isLoading: state is Loading,
                       text: getTranslated("save"),
                       onTap: () {
-                        context.read<FilterBloc>().add(Click());
+                        context.read<FilterBloc>().add(Click(arguments: SearchEngine()));
                       },
                     ),
                   ),

@@ -1,14 +1,17 @@
+import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/data/config/di.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_widgets/main_app_bar.dart';
 import '../../fillter/widget/custom_selete.dart';
+import '../bloc/home_user_bloc.dart';
 import '../widgets/home_card.dart';
 import '../widgets/main_services.dart';
 
@@ -22,7 +25,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   void initState() {
-    // sl<HomeAdsBloc>().add(Click());
     super.initState();
   }
 

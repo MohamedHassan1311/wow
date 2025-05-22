@@ -10,7 +10,7 @@ class RecommendationRepo extends BaseRepo {
 
   Future<Either<ServerFailure, Response>> getRecommendation() async {
     try {
-      Response response = await dioClient.get(uri: EndPoints.getRecommendation);
+      Response response = await dioClient.get(uri: EndPoints.getRecommendation(userId));
       if (response.statusCode == 200) {
         return Right(response);
       } else {
@@ -21,18 +21,5 @@ class RecommendationRepo extends BaseRepo {
     }
   }
 
-  Future<Either<ServerFailure, Response>> addtoFavourit(id) async {
-    try {
-      Response response = await dioClient.post(
-          uri: EndPoints.addToFavourit,
-          data: {"sender_id": userId, "receiver_id": id});
-      if (response.statusCode == 200) {
-        return Right(response);
-      } else {
-        return left(ApiErrorHandler.getServerFailure(response.data['message']));
-      }
-    } catch (error) {
-      return left(ApiErrorHandler.getServerFailure(error));
-    }
-  }
+
 }

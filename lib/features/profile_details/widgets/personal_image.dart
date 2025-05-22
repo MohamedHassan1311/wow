@@ -22,6 +22,8 @@ class PersonalImage extends StatelessWidget {
           radius: 25,
           width: context.width,
           height: context.height * .45,
+                        defaultImage: "assets/images/imagebg.png",
+
           fit: BoxFit.cover,
         ),
         Positioned(

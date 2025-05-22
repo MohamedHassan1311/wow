@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wow/main_models/user_model.dart';
 
 import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';
@@ -17,27 +18,24 @@ import '../../../data/internet_connection/internet_connection.dart';
 import '../model/ads_model.dart';
 import '../repo/home_repo.dart';
 
-class HomeAdsBloc extends HydratedBloc<AppEvent, AppState> {
+class HomeUserBloc extends HydratedBloc<AppEvent, AppState> {
   final HomeRepo repo;
   final InternetConnection internetConnection;
 
-  HomeAdsBloc({required this.repo, required this.internetConnection})
+  HomeUserBloc({required this.repo, required this.internetConnection})
       : super(Start()) {
     on<Click>(onClick);
   }
 
-  CarouselSliderController bannerController = CarouselSliderController();
 
-  BehaviorSubject<int> index = BehaviorSubject();
-  Function(int) get updateIndex => index.sink.add;
-  Stream<int> get indexStream => index.stream.asBroadcastStream();
 
+ UserModel? model;
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     if (await internetConnection.updateConnectivityStatus()) {
-      try {
+      // try {
         emit(Loading());
 
-        Either<ServerFailure, Response> response = await repo.getHomeBanners();
+        Either<ServerFailure, Response> response = await repo.getHomeUser();
 
         response.fold((fail) {
           AppCore.showSnackBar(
@@ -48,27 +46,29 @@ class HomeAdsBloc extends HydratedBloc<AppEvent, AppState> {
                   borderColor: Colors.red));
           emit(Error());
         }, (success) {
-          AdsModel model = AdsModel.fromJson(success.data);
-          if (model.data != null && model.data!.isNotEmpty) {
-            emit(Done(model: model));
+           model = UserModel.fromJson(success.data['data']);
+          if (model != null ) {
+            emit(Done());
           } else {
             emit(Empty());
           }
         });
-      } catch (e) {
-        AppCore.showSnackBar(
-            notification: AppNotification(
-          message: e.toString(),
-          backgroundColor: Styles.IN_ACTIVE,
-          borderColor: Styles.RED_COLOR,
-        ));
-        emit(Error());
-      }
+      // } catch (e) {
+      //   print(e);
+      //   AppCore.showSnackBar(
+      //       notification: AppNotification(
+      //     message: e.toString(),
+      //     backgroundColor: Styles.IN_ACTIVE,
+      //     borderColor: Styles.RED_COLOR,
+      //   ));
+      //   emit(Error());
+      // }
     }
   }
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
+    print(json);
     try {
       if (json['state'] == "Start") {
         return Loading();
@@ -81,7 +81,7 @@ class HomeAdsBloc extends HydratedBloc<AppEvent, AppState> {
       }
       if (json['state'] == "Done") {
         return Done(
-          model: AdsModel.fromJson(jsonDecode(json['model'])),
+          model: UserModel.fromJson(jsonDecode(json['data'])),
           loading: jsonDecode(json['loading']) as bool,
         );
       }
