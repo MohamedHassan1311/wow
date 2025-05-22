@@ -30,7 +30,7 @@ Future<Either<ServerFailure, Response>>   addtoFavourit(id) async {
    try {
       Response response = await dioClient.post(uri: EndPoints.addToFavourit,data: {
         "sender_id": userId,
-        "receiver_id": 199,
+        "receiver_id": id,
       });
       if (response.statusCode == 200) {
         return Right(response);

@@ -40,7 +40,7 @@ class DioClient extends ApiClient {
       responseBody: true,
       requestBody: true,
       requestHeader: true,
-      enabled: true,
+      enabled: kDebugMode,
     ));
   }
 
