@@ -14,9 +14,9 @@ Widget customImageIcon(
     color}) {
   return Material(
     child: InkWell(
-      onTap: () {
+      onTap: onTap != null ? () {
         onTap?.call();
-      },
+      } : null,
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,

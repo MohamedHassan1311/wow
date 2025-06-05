@@ -10,10 +10,16 @@ class Routes {
   static const CompleteProfile = "CompleteProfile";
   static const personalInfo = "PersonalInfo";
   static const dashboard = "DASHBOARD";
+  static const interestPage = "INTEREST_PAGE";
+  static const blockPage = "BLOCK_PAGE";
+    static const AddToBlockPage = "AddToBlockPage";
+  static const wallet = "WALLET";
+  static const addToReportPage = "AddToReportPage";
   static const changePassword = "CHANGE_PASSWORD";
   static const profile = "PROFILE";
   static const editProfile = "EDIT_PROFILE";
   static const addresses = "ADDRESSES";
+  static const subscriptions = "SUBSCRIPTIONS";
   static const addAddress = "ADD_ADDRESSES";
   static const chats = "CHATS";
   static const categories = "CATEGORIES";
@@ -41,4 +47,6 @@ class Routes {
   static const myFeedbacks = "MY_FEEDBACKS";
   static const transactions = " TRANSACTIONS";
   static const payment = "PAYMENT";
+  static const plans = "PLANS";
+  static const marriageConditions = "MARRIAGE_CONDITIONS";
 }

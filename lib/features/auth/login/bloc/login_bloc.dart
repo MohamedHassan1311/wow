@@ -54,8 +54,8 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
 
   clear() {
     updateLoginEntity(LoginEntity(
-      email: TextEditingController(text: "mmedh4805@gmail.com"),
-      password: TextEditingController(text: "Mm100200300@"),
+      email: TextEditingController(),
+      password: TextEditingController(),
     ));
     updateRememberMe(false);
   }

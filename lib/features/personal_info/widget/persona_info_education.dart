@@ -154,6 +154,8 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                   }
                 }),
               ),
+             
+             
               //Speeking languages
               BlocProvider(
                 create: (context) =>
@@ -259,6 +261,8 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                   }
                 }),
               ),
+          
+          
             ],
           ),
         );

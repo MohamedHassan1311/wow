@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wow/data/config/di.dart';
-import 'package:wow/features/Favourit/repo/favourit_repo.dart';
+import 'package:wow/features/favourit/repo/favourit_repo.dart';
 import 'package:wow/features/home/bloc/home_user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
@@ -28,6 +28,7 @@ class FavouritBloc extends HydratedBloc<AppEvent, AppState> {
       : super(Start()) {
     on<Get>(onGet);
     on<Add>(onAdd);
+    on<Delete>(onDelete);
   }
 
   CarouselSliderController bannerController = CarouselSliderController();
@@ -94,6 +95,45 @@ class FavouritBloc extends HydratedBloc<AppEvent, AppState> {
           ));
           emit(Error());
         }, (success) {
+          AppCore.showSnackBar(
+              notification: AppNotification(
+            message: success.data['message'],
+            isFloating: true,
+            backgroundColor: Styles.ACTIVE,
+            borderColor: Styles.ACTIVE,
+          ));
+          emit(Done());
+        });
+      } catch (e) {
+       
+        AppCore.showSnackBar(
+            notification: AppNotification(
+          message: e.toString(),
+          backgroundColor: Styles.IN_ACTIVE,
+          borderColor: Styles.RED_COLOR,
+        ));
+      }
+    }
+  }
+
+  onDelete(Delete event, Emitter<AppState> emit) async {
+    if (await internetConnection.updateConnectivityStatus()) {
+      try {
+        emit(Loading());
+
+        Either<ServerFailure, Response> response =
+            await repo.deleteFavourit(event.arguments as int);
+
+        response.fold((fail) {
+          AppCore.showSnackBar(
+              notification: AppNotification(
+            message: fail.error,
+            isFloating: true,
+            backgroundColor: Styles.IN_ACTIVE,
+            borderColor: Styles.RED_COLOR,
+          ));
+          emit(Error());
+        }, (success) {
            sl<HomeUserBloc>().add(Click());
           AppCore.showSnackBar(
               notification: AppNotification(
@@ -115,6 +155,7 @@ class FavouritBloc extends HydratedBloc<AppEvent, AppState> {
       }
     }
   }
+
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {

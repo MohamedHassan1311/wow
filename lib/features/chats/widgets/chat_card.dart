@@ -48,12 +48,10 @@ class ChatCard extends StatelessWidget {
               ],
             ),
             child: InkWell(
-              onTap: () => CustomNavigator.push(Routes.chat, arguments: {
-                "chat_id": chat.id,
-                "user_id":  chat.users?.first.id,
-                "name": chat.users?.first.name,
-                "image": chat.users?.first.photoUrl
-              }),
+              onTap: () => CustomNavigator.push(Routes.chat, arguments:
+               chat,
+
+              ),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
@@ -65,33 +63,46 @@ class ChatCard extends StatelessWidget {
                   children: [
                     CustomNetworkImage.circleNewWorkImage(
                         color: Styles.HINT_COLOR,
-                        image: chat.users?.first.photoUrl ?? "",
-                        radius: 25),
+                        image: chat.user?.image ?? "",
+                        radius: 35),
                     SizedBox(width: 12.w),
                     Expanded(
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          chat.users?.first.name ?? "Name",
-                          style: AppTextStyles.w600
-                              .copyWith(fontSize: 16, color: Styles.HEADER),
+                        Row(
+                          children: [
+                            Text(
+                              chat.user?.nickname ?? "Name",
+                              style: AppTextStyles.w600
+                                  .copyWith(fontSize: 16, color: Styles.ACCENT_COLOR),
+                            ),
+                            Spacer(),
+                            Flexible(
+                              child: Text(
+                                chat.createdAt?.dateFormat(format: 'd MMM yyyy  hh,mm aa') ??
+                                    DateTime.now().dateFormat(format: "h:m"),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.w400.copyWith(
+                                    fontSize: 12,
+                                    color: Styles.DETAILS_COLOR),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 6.h),
                         Row(
                           children: [
                             Text(
-                              "${chat.lastMessage == null ? "${getTranslated("start_to_chat_with")} ${chat.users?.first.name ?? ""}" : chat.lastMessage?.isMe == true ? getTranslated("you") : chat.users?.first.name ?? ""} : ",
+                              "${chat.message == null ? "${getTranslated("start_to_chat_with")} ${chat.user?.name ?? ""}" :  chat.message ??   ""}   ",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.w400.copyWith(
                                   fontSize: 12, color: Styles.DETAILS_COLOR),
                             ),
-                            if (chat.lastMessage != null)
-                              Flexible(
-                                child: messageOption(chat.lastMessage!),
-                              ),
-                            if (chat.lastMessage != null)
+
+                            if (chat.message != null)
                               Container(
                                 margin: EdgeInsets.symmetric(
                                     horizontal:
@@ -102,18 +113,8 @@ class ChatCard extends StatelessWidget {
                                     color: Styles.BORDER_COLOR,
                                     shape: BoxShape.circle),
                               ),
-                            if (chat.lastMessage != null)
-                              Flexible(
-                                child: Text(
-                                  chat.createdAt ??
-                                      DateTime.now().dateFormat(format: "h:m"),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppTextStyles.w400.copyWith(
-                                      fontSize: 12,
-                                      color: Styles.DETAILS_COLOR),
-                                ),
-                              ),
+
+
                           ],
                         )
                       ],
@@ -132,7 +133,7 @@ class ChatCard extends StatelessWidget {
     switch (MessageType.values[message.type ?? 0]) {
       case MessageType.text:
         return Text(
-          chat.lastMessage?.message ?? "message",
+          chat.message?.message ?? "message",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.w400

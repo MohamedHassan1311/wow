@@ -41,4 +41,20 @@ Future<Either<ServerFailure, Response>>   addtoFavourit(id) async {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
+
+  Future<Either<ServerFailure, Response>> deleteFavourit(id) async  {
+   try {
+      Response response = await dioClient.post(uri: EndPoints.deleteFavourit,data: {
+        "sender_id": userId,
+        "receiver_id": id,
+      });
+      if (response.statusCode == 200) {
+        return Right(response);
+      } else {
+        return left(ApiErrorHandler.getServerFailure(response.data['message']));
+      }
+    } catch (error) {
+      return left(ApiErrorHandler.getServerFailure(error));
+    }
+  }
 }

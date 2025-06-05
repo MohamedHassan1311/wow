@@ -86,7 +86,7 @@ class _ListAnimatorState extends State<ListAnimator> {
               scrollDirection: widget.direction ?? Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(widget.data!.length, (index) {
+                children: List.generate(widget.data?.length ?? 0, (index) {
                   return AnimationConfiguration.staggeredList(
                       position: index,
                       duration:

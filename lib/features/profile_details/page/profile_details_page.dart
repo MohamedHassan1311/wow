@@ -2,15 +2,22 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/app/localization/language_constant.dart';
 import 'package:wow/components/back_icon.dart';
+import 'package:wow/components/custom_alert_dialog.dart';
 import 'package:wow/components/custom_app_bar.dart';
 import 'package:wow/components/custom_button.dart';
+import 'package:wow/components/custom_images.dart';
 import 'package:wow/components/custom_network_image.dart';
+import 'package:wow/features/block/bloc/block_bloc.dart';
+import 'package:wow/features/interest/bloc/interest_bloc.dart';
 import 'package:wow/features/profile_details/repo/profile_details_repo.dart';
+import 'package:wow/features/profile_details/widgets/maridge_request_dialog.dart';
 import 'package:wow/features/profile_details/widgets/personal_image.dart';
 import 'package:wow/features/profile_details/widgets/personal_info_country.dart';
 import 'package:wow/features/profile_details/widgets/personal_info_education.dart';
+import 'package:wow/features/profile_details/widgets/personal_info_maridge_info.dart';
 import 'package:wow/features/profile_details/widgets/personal_info_sect_and_tribe.dart'
     show PersonalInfoTapSectAndTribe;
 import 'package:wow/features/profile_details/widgets/personal_info_tap.dart';
@@ -18,6 +25,7 @@ import 'package:wow/features/profile_details/widgets/profile_loading.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
+import 'package:wow/navigation/routes.dart';
 
 import '../../../app/core/app_event.dart';
 import '../../../app/core/app_state.dart';
@@ -47,7 +55,7 @@ class ProfileDetailsPage extends StatelessWidget {
               repo: sl<ProfileDetailsRepo>())
             ..add(Click(arguments: profileDetailsId)),
           child: DefaultTabController(
-            length: 4,
+            length: 5,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: Dimensions.PADDING_SIZE_DEFAULT),
@@ -62,7 +70,7 @@ class ProfileDetailsPage extends StatelessWidget {
                           return ProfileDetailsShimmer();
                         }
                         if (state is Done) {
-                         final  user = state.data as UserModel;
+                          final user = state.data as UserModel;
                           return RefreshIndicator(
                             color: Styles.PRIMARY_COLOR,
                             onRefresh: () async {
@@ -71,7 +79,6 @@ class ProfileDetailsPage extends StatelessWidget {
                                   );
                             },
                             child: NestedScrollView(
-                              
                               headerSliverBuilder:
                                   (context, innerBoxIsScrolled) => [
                                 SliverAppBar(
@@ -82,25 +89,20 @@ class ProfileDetailsPage extends StatelessWidget {
                                   flexibleSpace: LayoutBuilder(
                                     builder: (BuildContext context,
                                         BoxConstraints constraints) {
-                              
                                       bool collapsed =
                                           constraints.maxHeight < 120;
 
                                       return FlexibleSpaceBar(
                                         centerTitle: true,
-                                        
                                         title: collapsed
                                             ? Text(
-                                                user.name ??
-                                                    "",
+                                                user.name ?? "",
                                                 style: const TextStyle(
                                                     color: Colors.black),
                                               )
                                             : null,
                                         background: PersonalImage(
-                                          image:
-                                              user.image ??
-                                                  "",
+                                          user: user,
                                         ),
                                       );
                                     },
@@ -125,27 +127,149 @@ class ProfileDetailsPage extends StatelessWidget {
                                                 "Sect and tribe")),
                                         Tab(text: getTranslated("nationality")),
                                         Tab(text: getTranslated("education")),
+                                        Tab(text: getTranslated("marriage_conditions")),
                                       ],
                                     ),
                                   ),
                                 ),
-                             
                               ],
-                              body: TabBarView(
+                              body: Stack(
+                                alignment: Alignment.bottomCenter,
                                 children: [
-                                  PersonalInfoTap(
-                                      user: user),
-                                  PersonalInfoTapSectAndTribe(
-                                      user: user),
-                                  PersonalInfoTapCountry(
-                                      user: user),
-                                  PersonalInfoTapEducation(
-                                      user: user),
+                                  TabBarView(
+                                    children: [
+                                      PersonalInfoTap(user: user),
+                                      PersonalInfoTapSectAndTribe(user: user),
+                                      PersonalInfoTapCountry(user: user),
+                                      PersonalInfoTapEducation(user: user),
+                                      PersonalInfoMaridgeInfo(user: user),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            Dimensions.PADDING_SIZE_DEFAULT),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      spacing: 10,
+                                      children: [
+                                        Expanded(
+                                            child: CustomButton(
+                                          backgroundColor: Color(0xffFFE979),
+                                          textColor: Styles.BLACK,
+                                          rIconWidget: Icon(
+                                            Icons.report,
+                                            color: Styles.BLACK,
+                                          ),
+                                          onTap: () {
+                                            CustomNavigator.push(
+                                                Routes.addToReportPage,
+                                                arguments: user);
+                                          },
+                                          text: getTranslated("report"),
+                                        )),
+                                        Expanded(
+                                            child: CustomButton(
+                                          backgroundColor: Color(0xffFFA392),
+                                          textColor: Styles.BLACK,
+                                          rIconWidget: Icon(
+                                            Icons.block,
+                                            color: Styles.BLACK,
+                                          ),
+                                          onTap: () async {
+                                            CustomNavigator.push(
+                                                Routes.AddToBlockPage,
+                                                arguments: user);
+
+                                            //  final result= await CustomAlertDialog.show(
+                                            //                         dailog: AlertDialog(
+                                            //                             contentPadding: EdgeInsets.symmetric(
+                                            //                                 vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                                            //                                 horizontal:
+                                            //                                     Dimensions.PADDING_SIZE_DEFAULT.w),
+                                            //                             insetPadding: EdgeInsets.symmetric(
+                                            //                                 vertical:
+                                            //                                     Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                            //                                 horizontal: context.width * 0.1),
+                                            //                             shape: OutlineInputBorder(
+                                            //                                 borderSide: const BorderSide(
+                                            //                                     color: Colors.transparent),
+                                            //                                 borderRadius: BorderRadius.circular(20.0)),
+                                            //                             content: MaridgeRequestDialog(
+                                            //                               name: getTranslated("block")  ,
+                                            //                               discription: getTranslated("block_desc")  ,
+                                            //                               image: SvgImages.report,
+                                            //                             )));
+
+                                            //                             if(result)
+                                            //                             {
+                                            //                               sl.get<BlockBloc>().add(Add(arguments: profileDetailsId));
+                                            //                             }
+                                          },
+                                          text: getTranslated("block"),
+                                        )),
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 100,
+                                    width: context.width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        customImageIconSVG(
+                                          imageName: SvgImages.removeInterset,
+                                          onTap: () {
+
+                                            if(user.isIntersted==1)
+                                            {
+                                               context
+                                                .read<InterestBloc>()
+                                                .add(Delete(
+                                                    arguments: user.id! ));
+                                              context
+                                                .read<ProfileDetailsBloc>()
+                                                .add(Click(
+                                                    arguments: user.id! + 1));
+                                            }
+                                            else
+                                            {
+                                              context
+                                                .read<ProfileDetailsBloc>()
+                                                .add(Click(
+                                                    arguments: user.id! + 1));
+                                            }
+
+                                            context
+                                                .read<ProfileDetailsBloc>()
+                                                .add(Click(
+                                                    arguments: user.id! + 1));
+                                          },
+                                          width: 60.w,
+                                          height: 60.h,
+                                        ),
+                                               if(user.isIntersted==0)
+                                        customImageIconSVG(
+                                          onTap: () {
+                                            sl
+                                                .get<InterestBloc>()
+                                                .add(Add(arguments: user.id));
+                                            context
+                                                .read<ProfileDetailsBloc>()
+                                                .add(Click(
+                                                    arguments: user.id! + 1));
+                                          },
+                                          imageName: SvgImages.interset,
+                                          width: 80.w,
+                                          height: 80.h,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
-
-
-                              
                             ),
                           );
                         }
@@ -156,7 +280,7 @@ class ProfileDetailsPage extends StatelessWidget {
                             onRefresh: () async {
                               context.read<ProfileDetailsBloc>().add(
                                     Click(
-                                      arguments: profileDetailsId,
+                                      arguments: profileDetailsId! + 1,
                                     ),
                                   );
                             },
@@ -168,21 +292,23 @@ class ProfileDetailsPage extends StatelessWidget {
                                         vertical:
                                             Dimensions.PADDING_SIZE_DEFAULT.h),
                                     data: [
-                             
                                       SizedBox(height: 50.h),
                                       EmptyState(
                                           txt: state is Error
                                               ? getTranslated(
                                                   "something_went_wrong")
                                               : null),
-
-                                              CustomButton(
-                                                onTap: (){
-                                                  CustomNavigator.pop();
-                                                },
-                                                text: getTranslated("back"),
-                                                backgroundColor: Styles.PRIMARY_COLOR,
-                                              )
+                                      CustomButton(
+                                        onTap: () {
+                                          context
+                                              .read<ProfileDetailsBloc>()
+                                              .add(Click(
+                                                  arguments:
+                                                      profileDetailsId! + 10));
+                                        },
+                                        text: getTranslated("retry"),
+                                        backgroundColor: Styles.PRIMARY_COLOR,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -208,26 +334,6 @@ class ProfileDetailsPage extends StatelessWidget {
           ),
         ),
       ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    floatingActionButton: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        spacing: 10,
-        children: [
-          Expanded(child: CustomButton(
-            backgroundColor: Color(0xffFFE979),
-            textColor: Styles.BLACK,
-            rIconWidget: Icon(Icons.report, color: Styles.BLACK,),
-            onTap: (){}, text: getTranslated("report"),)),
-          Expanded(child: CustomButton(
-            backgroundColor: Color(0xffFFA392),
-            textColor: Styles.BLACK,
-            rIconWidget: Icon(Icons.block, color: Styles.BLACK,),
-            onTap: (){}, text: getTranslated("block"),)),
-        ],
-      ),
-    ),
     );
   }
 }

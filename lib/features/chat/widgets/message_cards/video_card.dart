@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:video_player/video_player.dart';
@@ -10,20 +7,15 @@ import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 
 class VideoCard extends StatefulWidget {
-  final String? videoUrl;
-  final File? videoFile;
+  final String videoUrl;
   final double height;
   final double? width;
 
-  final double radius;
-
   const VideoCard({
     super.key,
-    this.videoUrl,
-    this.videoFile,
+    required this.videoUrl,
     this.height = 250,
     this.width,
-    this.radius = 15,
   });
 
   @override
@@ -37,17 +29,9 @@ class VideoCardState extends State<VideoCard> {
   @override
   void initState() {
     super.initState();
-    if (widget.videoFile != null) {
-      _videoController = VideoPlayerController.file(widget.videoFile!);
-    } else {
-      _videoController =
-          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl ?? ""));
-    }
-
-    _initializeVideoPlayerFuture =
-        _videoController.initialize().catchError((e) {
-      log("===> $e");
-    });
+    _videoController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
+    _initializeVideoPlayerFuture = _videoController.initialize();
     _videoController.setLooping(true);
   }
 
@@ -60,7 +44,7 @@ class VideoCardState extends State<VideoCard> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(widget.radius),
+      borderRadius: BorderRadius.circular(10),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -127,10 +111,8 @@ class VideoCardState extends State<VideoCard> {
                 if (_videoController.value.isPlaying) {
                   _videoController.pause();
                 }
-                CustomNavigator.push(Routes.videoPreview, arguments: {
-                  "url": widget.videoUrl,
-                  "file": widget.videoFile
-                });
+                CustomNavigator.push(Routes.videoPreview,
+                    arguments: widget.videoUrl);
               },
               icon: const Icon(
                 Icons.fullscreen,

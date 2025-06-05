@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/features/chat/repo/chat_repo.dart';
-import 'package:wow/helpers/pickers/view/file_picker_helper.dart';
+import 'package:wow/helpers/file_picker_helper.dart';
 
 import '../../../../app/core/app_event.dart';
 import '../../../../app/core/styles.dart';

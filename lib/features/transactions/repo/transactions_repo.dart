@@ -14,7 +14,7 @@ class TransactionsRepo extends BaseRepo {
       SearchEngine data) async {
     try {
       Response response = await dioClient.get(
-        uri: EndPoints.transactions,
+        uri: EndPoints.transactions(userId),
         queryParameters: {
           "page": data.currentPage! + 1,
           "limit": data.limit,

@@ -38,7 +38,7 @@ class DeleteChatBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.red));
         emit(Error());
       }, (success) {
-        sl<ChatsBloc>().add(Delete(arguments: event.arguments as int));
+        sl<ChatsBloc>().add(Update(arguments: event.arguments as int));
         AppCore.showSnackBar(
             notification: AppNotification(
           message: getTranslated("the_chat_has_been_deleted_successfully"),

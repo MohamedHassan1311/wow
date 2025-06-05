@@ -60,7 +60,7 @@ class CustomButton extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: (onTap == null || !isActive)
-                ? Styles.LIGHT_BORDER_COLOR
+                ? Styles.PRIMARY_COLOR.withOpacity(0.5)
                 : backgroundColor,
             boxShadow: withShadow
                 ? [

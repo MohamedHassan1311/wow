@@ -123,6 +123,7 @@ class CustomNetworkImage {
       tag: image ?? "",
       child: CachedNetworkImage(
         imageUrl: (image ?? ""),
+        fit: BoxFit.contain,
         repeat: ImageRepeat.noRepeat,
         errorWidget: (a, c, b) => Container(
           height: radius * 2,
@@ -137,7 +138,7 @@ class CustomNetworkImage {
             backgroundColor: backGroundColor ?? Colors.white,
             child: Image.asset(
               Images.appLogo,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
         ),
@@ -177,6 +178,7 @@ class CustomNetworkImage {
               child: CircleAvatar(
                 backgroundImage: provider,
                 radius: radius,
+                
                 backgroundColor: backGroundColor ?? Colors.white,
               ),
             ),

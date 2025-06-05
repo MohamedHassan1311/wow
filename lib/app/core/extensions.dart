@@ -9,6 +9,8 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 
+
+
   Color get toColor {
     String colorStr = this;
     colorStr = "FF$colorStr";
@@ -37,6 +39,9 @@ extension StringExtension on String {
 }
 
 extension DateExtention on DateTime {
+  String dateTimeFormatChat() {
+    return DateFormat("dd-MMM-y - hh:mm aa",sl<LanguageBloc>().selectLocale!.languageCode).format(this);
+  }
   String dateFormat({required String format, String? lang}) {
     return DateFormat(
             format, sl<LanguageBloc>().selectLocale!.languageCode)
@@ -59,6 +64,25 @@ extension DefaultFormat on DateTime {
 }
 
 String localeCode = sl<LanguageBloc>().selectLocale!.languageCode;
+
+extension ProposalStatusExtension on int {
+  String get proposalStatusText {
+    switch (this) {
+      case 1:
+        return 'pendingRequest';
+      case 2:
+        return 'acceptedRequest';
+      case 3:
+        return 'rejectedRequest';
+      case 4:
+        return 'Accepted';
+      case 5:
+        return 'cancelRequest';
+      default:
+        return 'Unknown';
+    }
+  }
+}
 
 extension ConvertDigits on String {
   String convertDigits() {

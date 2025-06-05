@@ -9,6 +9,8 @@ import 'package:wow/components/animated_widget.dart';
 import 'package:wow/components/custom_button.dart';
 import 'package:wow/features/complete_profile/widget/complete_profile_actions.dart';
 import 'package:wow/features/personal_info/widget/personal_info_actions.dart';
+import 'package:wow/features/plans/model/plans_model.dart';
+import 'package:wow/features/plans/widgets/paln_card.dart';
 
 import '../../../../app/core/styles.dart';
 import '../../../../app/core/text_styles.dart';
@@ -93,6 +95,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                       SizedBox(
                         height: 20,
                       ),
+
                       Container(
                         width: context.width,
                         decoration: BoxDecoration(
@@ -107,28 +110,75 @@ class _RegisterBodyState extends State<EditProfileBody> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
-                            Text(
-                              "20",
-                              style: AppTextStyles.w900
-                                  .copyWith(fontSize: 20, color: Styles.HEADER),
+                            Row(
+                              spacing: 10,
+                              children: [
+                                Text(
+                                  getTranslated("remaining_favourit"),
+                                  style: AppTextStyles.w700.copyWith(
+                                      fontSize: 20,
+                                      color: Styles.PRIMARY_COLOR),
+                                ),
+                                Text(
+                                  UserBloc.instance.user?.number_of_likes
+                                          .toString() ??
+                                      "0",
+                                  style: AppTextStyles.w400.copyWith(
+                                      fontSize: 20, color: Styles.BLACK),
+                                ),
+                              ],
                             ),
-                            Text(
-                              getTranslated("remaining_favourit"),
-                              style: AppTextStyles.w700.copyWith(
-                                  fontSize: 20, color: Styles.PRIMARY_COLOR),
+                            Row(
+                              spacing: 10,
+                              children: [
+                                Text(
+                                  getTranslated("remaining_likes"),
+                                  style: AppTextStyles.w700.copyWith(
+                                      fontSize: 20,
+                                      color: Styles.PRIMARY_COLOR),
+                                ),
+                                Text(
+                                  UserBloc.instance.user?.number_of_interst
+                                          .toString() ??
+                                      "0",
+                                  style: AppTextStyles.w400.copyWith(
+                                      fontSize: 20, color: Styles.BLACK),
+                                ),
+                              ],
                             ),
-                            Text(
-                              getTranslated("unlimited_start"),
-                              style: AppTextStyles.w400
-                                  .copyWith(fontSize: 18, color: Styles.BLACK),
+                            Row(
+                              spacing: 10,
+                              children: [
+                                Text(
+                                  getTranslated("remaining_chats"),
+                                  style: AppTextStyles.w700.copyWith(
+                                      fontSize: 20,
+                                      color: Styles.PRIMARY_COLOR),
+                                ),
+                                Text(
+                                  UserBloc.instance.user?.number_of_chats
+                                          .toString() ??
+                                      "0",
+                                  style: AppTextStyles.w400.copyWith(
+                                      fontSize: 20, color: Styles.BLACK),
+                                ),
+                              ],
                             ),
+                            // Text(
+                            //   getTranslated("unlimited_start"),
+                            //   style: AppTextStyles.w400
+                            //       .copyWith(fontSize: 18, color: Styles.BLACK),
+                            // ),
                             CustomButton(
                                 width: context.width * 0.3,
                                 text: getTranslated("Upgrade"),
-                                onTap: () {}),
+                                onTap: () {
+                                  CustomNavigator.push(Routes.plans);
+                                }),
                           ],
                         ),
                       ),
+
                       SizedBox(
                         height: 20,
                       ),

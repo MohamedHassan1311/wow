@@ -1,101 +1,89 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/styles.dart';
-import 'package:wow/app/localization/language_constant.dart';
-import 'package:wow/components/animated_widget.dart';
-import 'package:wow/components/empty_widget.dart';
+import 'package:wow/components/custom_app_bar.dart';
 import 'package:wow/features/chat/repo/chat_repo.dart';
-import '../../../app/core/app_event.dart';
 import '../../../app/core/app_state.dart';
 import '../../../data/config/di.dart';
-import '../../../main_models/search_engine.dart';
-import '../../chats/bloc/chats_bloc.dart';
-import '../widgets/chat_app_bar.dart';
+import '../../chats/model/chats_model.dart';
 import '../bloc/chat_bloc.dart';
 import '../model/message_model.dart';
 import '../widgets/chat_bottom_sheet.dart';
-import '../widgets/message_card.dart';
-import '../widgets/typing_widget.dart';
+import '../widgets/message_cards/message_bubble.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.data});
-  final Map data;
+  final ChatModel data;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
+  int _limit = 15;
+  final int _limitIncrement = 20;
+  final ScrollController listScrollController = ScrollController();
+  List<MessageModel> listMessage = List.from([]);
+  _scrollListener() {
+    if (listScrollController.offset >=
+        listScrollController.position.maxScrollExtent &&
+        !listScrollController.position.outOfRange) {}
+    if (listScrollController.offset <=
+        listScrollController.position.minScrollExtent &&
+        !listScrollController.position.outOfRange) {
+      _limit += _limitIncrement;
+      print("reach the top");
+      setState(() {
+        print("reach the top");
+      });
+    }
+  }
+  @override
+  initState() {
+    listScrollController.addListener(_scrollListener);
+    super.initState();
+  }
   @override
   void dispose() {
-    sl<ChatsBloc>().add(Click(arguments: SearchEngine(isUpdate: true)));
+    // sl<ChatsBloc>().add(Click(arguments: SearchEngine(isUpdate: true)));
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.BACKGROUND_COLOR,
-      appBar: ChatAppBar(
-        id: widget.data["user_id"] ?? "",
-        image: widget.data["image"] ?? "",
-        name: widget.data["name"] ?? "",
-      ),
+      backgroundColor: Styles.WHITE_COLOR,
+
       body: BlocProvider(
-        create: (context) => ChatBloc(repo: sl<ChatRepo>())
-          ..connectToChat(widget.data["chat_id"])
-          ..add(Click(arguments: widget.data["chat_id"])),
+        create: (context) => ChatBloc(repo: sl<ChatRepo>()),
+
         child: Column(
           children: [
+
+            CustomAppBar(
+            
+                title: widget.data.user?.name??"Doctor name"),
             Expanded(
               child: BlocBuilder<ChatBloc, AppState>(
                 builder: (context, state) {
-                  if (state is Loading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is Done) {
-                    MessagesModel res = state.model as MessagesModel;
-                    return SingleChildScrollView(
-                      reverse: true,
-                      physics: const BouncingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                      child: Column(children: [
-                        ...List.generate(
-                          res.messages?.length ?? 0,
-                          (index) => MessageCard(
-                            message: res.messages![index],
-                            image: widget.data["image"] ?? "",
-                          ),
-                        ),
-                        const TypingWidget(),
-                      ]),
-                    );
-                  }
-                  if (state is Error || state is Empty) {
-                    return ListAnimator(
-                      customPadding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                        vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
+                  return SizedBox(
+                    height: context.height,
+                    child: SizedBox(
+                      height: context.height,
+                      child: Column(
+                        children: [
+                          _getMessageList(),
+
+
+                        ],
                       ),
-                      data: [
-                        SizedBox(
-                          height: 50.h,
-                        ),
-                        EmptyState(
-                          txt: state is Empty
-                              ? "${getTranslated("start_to_chat_with")} ${widget.data["name"].toString().capitalize()}"
-                              : state is Error
-                                  ? getTranslated("something_went_wrong")
-                                  : null,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
+                    ),
+                  );
+
                 },
               ),
             ),
@@ -104,13 +92,40 @@ class _ChatPageState extends State<ChatPage> {
                 return Visibility(
                   visible: state is! Loading,
                   child: ChatBottomSheet(
-                    chatId: widget.data["chat_id"].toString(),
+                    chatId: widget.data.id.toString(),
+                    data: widget.data,
                   ),
                 );
               },
             ),
+
           ],
         ),
+      ),
+    );
+  }
+  Widget _getMessageList() {
+    return Expanded(
+      child: FirebaseAnimatedList(
+        controller: listScrollController,
+        // shrinkWrap: true,
+
+        // physics: NeverScrollableScrollPhysics(),
+        defaultChild: Center(child: CircularProgressIndicator()),
+        query: ref
+            .child("messages")
+            .child(widget.data.id.toString())
+            .limitToLast(_limit),
+        itemBuilder: (context, snapshot, animation, index) {
+          listMessage = [];
+          final json = snapshot.value as Map<dynamic, dynamic>;
+          final message = MessageModel.fromJson(json);
+          listMessage.add(message);
+          return MessageBubble(
+            addDate: true,
+            chat: message,
+          );
+        },
       ),
     );
   }

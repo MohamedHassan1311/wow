@@ -1,18 +1,29 @@
 import 'dart:io';
-import 'package:wow/features/Favourit/page/favourit_page.dart';
+import 'package:wow/features/chats/model/chats_model.dart';
+import 'package:wow/features/favourit/page/favourit_page.dart';
 import 'package:wow/features/addresses/model/addresses_model.dart';
 import 'package:wow/features/addresses/page/addresses_page.dart';
+import 'package:wow/features/block/page/add_to_block_page.dart';
+import 'package:wow/features/block/page/block_page.dart';
+import 'package:wow/features/interest/page/interest_page.dart';
+import 'package:wow/features/marriage_conditions/page/marriage_conditions_page.dart';
+import 'package:wow/features/plans/page/plans_page.dart';
 import 'package:wow/features/profile_details/page/profile_details_page.dart';
-import 'package:wow/features/chats/page/chats_page.dart';
+import 'package:wow/features/chats/page/chats.dart';
 import 'package:wow/features/edit_profile/page/edit_profile_page.dart';
 import 'package:wow/features/fillter/page/fillter_result.dart';
 import 'package:wow/features/fillter/page/filtter_page.dart';
 import 'package:wow/features/maps/models/location_model.dart';
 import 'package:wow/features/payment/in_app_web_view_page.dart';
 import 'package:wow/features/recommendation/page/recommendation.dart';
+import 'package:wow/features/report/page/add_to_report_page.dart';
+import 'package:wow/features/setting/pages/settings.dart';
+import 'package:wow/features/subscription/page/subscription_page.dart';
 import 'package:wow/features/transactions/page/transactions_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wow/features/wallet/page/wallet_page.dart';
+import 'package:wow/main_models/user_model.dart';
 import '../features/add_address/page/add_address_page.dart';
 import '../features/chat/page/chat_page.dart';
 import '../components/video_preview_page.dart';
@@ -89,8 +100,14 @@ abstract class CustomNavigator {
           data: settings.arguments as VerificationModel,
         ));
 
+      case Routes.plans:
+        return _pageRoute(PlansPage());
+
       case Routes.changePassword:
         return _pageRoute(const ChangePassword());
+
+      case Routes.marriageConditions:
+        return _pageRoute(const MarriageConditionsPage());
 
       case Routes.verification:
         return _pageRoute(
@@ -110,15 +127,26 @@ abstract class CustomNavigator {
           ),
         );
 
+      case Routes.interestPage:
+        return _pageRoute(InterestPage());
+
+      case Routes.blockPage:
+        return _pageRoute(BlockPage());
+      case Routes.AddToBlockPage:
+        return _pageRoute(AddToBlockPage(user: settings.arguments as UserModel));
+
       case Routes.addresses:
         return _pageRoute(const AddressesPage());
+
+      case Routes.addToReportPage:
+        return _pageRoute(AddToReportPage(user: settings.arguments as UserModel));
 
       case Routes.addAddress:
         return _pageRoute(
             AddAddressPage(address: settings.arguments as AddressModel?));
 
       case Routes.chats:
-        return _pageRoute(const ChatsPage());
+        return _pageRoute(const Chats());
 
       case Routes.notifications:
         return _pageRoute(const NotificationsPage());
@@ -128,6 +156,15 @@ abstract class CustomNavigator {
           profileDetailsId: settings.arguments as int?,
         ));
 
+      case Routes.settings:
+        return _pageRoute(const Settings());
+
+      case Routes.wallet:
+        return _pageRoute(const WalletPage());
+
+      case Routes.subscriptions:
+        return _pageRoute( SubscriptionPage());
+
       case Routes.recommendationPage:
         return _pageRoute(RecommendationPage());
 
@@ -135,7 +172,7 @@ abstract class CustomNavigator {
         return _pageRoute(VideoPreviewPage(data: settings.arguments as Map));
 
       case Routes.chat:
-        return _pageRoute(ChatPage(data: settings.arguments as Map));
+        return _pageRoute(ChatPage(data: settings.arguments as  ChatModel));
 
       case Routes.pickLocation:
         return _pageRoute(

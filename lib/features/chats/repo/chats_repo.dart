@@ -12,13 +12,30 @@ class ChatsRepo extends BaseRepo {
   Future<Either<ServerFailure, Response>> getChats(SearchEngine data) async {
     try {
       Response response = await dioClient.get(
-        uri: EndPoints.chats,
-        queryParameters: {"page": data.currentPage! +1 , "limit": data.limit},
+        uri: EndPoints.chatSMessages(userId),
+
       );
       if (response.statusCode == 200) {
         return Right(response);
       } else {
-        return left(ApiErrorHandler.getServerFailure(response.data['message']));
+        return left(ServerFailure(response.data['message']));
+      }
+    } catch (error) {
+      return left(ApiErrorHandler.getServerFailure(error));
+    }
+  }
+  Future<Either<ServerFailure, Response>> startChat( {required int doctor_id }) async {
+    try {
+      Response response = await dioClient.post(
+        uri: EndPoints.startNewChat(userId),
+        data: {
+          "user_id": doctor_id
+        },
+      );
+      if (response.statusCode == 200) {
+        return Right(response);
+      } else {
+        return left(ServerFailure(response.data['message']));
       }
     } catch (error) {
       return left(ApiErrorHandler.getServerFailure(error));
@@ -32,8 +49,8 @@ class ChatsRepo extends BaseRepo {
       );
       if (response.statusCode == 200) {
         return Right(response);
-      }else {
-        return left(ApiErrorHandler.getServerFailure(response.data['message']));
+      } else {
+        return left(ServerFailure(response.data['message']));
       }
     } catch (error) {
       return left(ApiErrorHandler.getServerFailure(error));

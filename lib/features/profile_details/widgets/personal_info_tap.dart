@@ -3,10 +3,13 @@ import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/images.dart';
 import 'package:wow/app/core/styles.dart';
+import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/app/core/text_styles.dart';
 import 'package:wow/app/localization/language_constant.dart';
+import 'package:wow/components/custom_alert_dialog.dart';
 import 'package:wow/components/custom_network_image.dart';
 import 'package:wow/features/profile_details/widgets/details_row.dart';
+import 'package:wow/features/profile_details/widgets/maridge_request_dialog.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 
@@ -25,7 +28,7 @@ class PersonalInfoTap extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${user.name} , ${user.age}',
+                '${user.nickname} , ${user.age}',
                 style: AppTextStyles.w700
                     .copyWith(fontSize: 20, color: Styles.HEADER),
               ),
@@ -62,10 +65,36 @@ class PersonalInfoTap extends StatelessWidget {
               value: user.socialStatus?.name ?? ''),
           const SizedBox(height: 24),
           if (user.gender == "F")
-            Image.asset(
-              Images.zwagcard,
-              width: context.width,
-              height: context.height * .25,
+            InkWell(
+              onTap: () 
+              {
+                  CustomAlertDialog.show(
+                            dailog: AlertDialog(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                                    horizontal:
+                                        Dimensions.PADDING_SIZE_DEFAULT.w),
+                                insetPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                        Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                    horizontal: context.width * 0.1),
+                                shape: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                content: MaridgeRequestDialog(
+                                  name: getTranslated("MARIDGE_REQUEST_DATA"),
+                                  discription:
+                                      getTranslated("marige_request_data_desc"),
+                                  image: SvgImages.ring,
+                                       note: getTranslated("not_refundable"),
+                            )));
+              },
+              child: Image.asset(
+                Images.zwagcard,
+                width: context.width,
+                height: context.height * .25,
+              ),
             ),
         ],
       ),

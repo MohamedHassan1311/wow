@@ -2,14 +2,27 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wow/features/Favourit/bloc/favourit_bloc.dart';
-import 'package:wow/features/Favourit/repo/favourit_repo.dart';
+import 'package:wow/features/chats/bloc/chats_bloc.dart';
+import 'package:wow/features/favourit/bloc/favourit_bloc.dart';
+import 'package:wow/features/favourit/repo/favourit_repo.dart';
 import 'package:wow/features/addresses/repo/addresses_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/features/auth/register/repo/register_repo.dart';
+import 'package:wow/features/block/bloc/block_bloc.dart';
+import 'package:wow/features/block/repo/block_repo.dart';
 import 'package:wow/features/fillter/bloc/filtter_bloc.dart';
 import 'package:wow/features/fillter/repo/fillter_repo.dart';
+import 'package:wow/features/interest/bloc/interest_bloc.dart';
+import 'package:wow/features/interest/repo/interest_repo.dart';
+import 'package:wow/features/marige_request/bloc/marige_request_bloc.dart';
+import 'package:wow/features/marige_request/repo/marige_request_repo.dart';
+import 'package:wow/features/marriage_conditions/repo/marriage_conditions_repo.dart';
+import 'package:wow/features/plans/repo/plan_repo.dart';
 import 'package:wow/features/recommendation/repo/recommendation_repo.dart';
+import 'package:wow/features/report/repo/report_repo.dart';
+import 'package:wow/features/subscription/bloc/subscription_bloc.dart';
+import 'package:wow/features/subscription/repo/subscription_repo.dart';
+import 'package:wow/features/wallet/repo/wallet_repo.dart';
 import '../../app/theme/theme_provider/theme_provider.dart';
 import '../../features/add_address/repo/add_address_repo.dart';
 import '../../features/auth/activation_account/repo/activation_account_repo.dart';
@@ -83,14 +96,27 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => DashboardRepo(sharedPreferences: sl(), dioClient: sl()));
 
-
   sl.registerLazySingleton(
       () => FillterRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => FaqsRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => FavouritRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => InterestRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => MarigeRequestRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => BlockRepo(sharedPreferences: sl(), dioClient: sl()));
 
+  sl.registerLazySingleton(
+      () => PlanRepo(sharedPreferences: sl(), dioClient: sl()));
+
+  sl.registerLazySingleton(
+      () => ReportRepo(sharedPreferences: sl(), dioClient: sl()));
+
+  sl.registerLazySingleton(
+      () => MarriageConditionsRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(() => DownloadRepo());
 
@@ -154,6 +180,7 @@ Future<void> init() async {
   sl.registerLazySingleton(
       () => DeactivateAccountRepo(sharedPreferences: sl(), dioClient: sl()));
 
+  sl.registerLazySingleton(() => WalletRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => ProfileDetailsRepo(sharedPreferences: sl(), dioClient: sl()));
 
@@ -188,15 +215,27 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DashboardBloc(repo: sl()));
   sl.registerLazySingleton(() => ProfileBloc(repo: sl()));
   sl.registerLazySingleton(() => UserBloc(repo: sl()));
-  
+
   sl.registerLazySingleton(() => FilterBloc(repo: sl()));
   sl.registerLazySingleton(
       () => HomeUserBloc(repo: sl(), internetConnection: sl()));
 
-        sl.registerLazySingleton(() => FavouritBloc(repo: sl(), internetConnection: sl()));
+  sl.registerLazySingleton(
+      () => FavouritBloc(repo: sl(), internetConnection: sl()));
+  sl.registerLazySingleton(
+      () => InterestBloc(repo: sl(), internetConnection: sl()));
+  sl.registerLazySingleton(
+      () => MarigeRequestBloc(repo: sl(), internetConnection: sl()));
+  sl.registerLazySingleton(
+      () => SubscriptionRepo(sharedPreferences: sl(), dioClient: sl()));
+
+  sl.registerLazySingleton(() => ChatsBloc(repo: sl()));
 
   ///Log out
   sl.registerLazySingleton(() => LogoutBloc(repo: sl()));
+
+  sl.registerLazySingleton(
+      () => BlockBloc(repo: sl(), internetConnection: sl()));
 
   // External
   final sharedPreferences = await SharedPreferences.getInstance();

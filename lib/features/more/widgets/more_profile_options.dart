@@ -52,40 +52,52 @@ class MoreProfileOptions extends StatelessWidget {
             // onTap: () => CustomNavigator.push(Routes.chats),
           ),
 
-          ///favourit
+            ///favourit
+            MoreButton(
+              title: getTranslated("favourit", context: context),
+              icon: SvgImages.star,
+              onTap: () => CustomNavigator.push(Routes.favouritPage),
+            ),
+
+
+          ///blocked
           MoreButton(
-            title: getTranslated("favourit", context: context),
-            icon: SvgImages.favourite,
-            // onTap: () => CustomNavigator.push(Routes.favouritPage),
+            title: getTranslated("blocked_users", context: context),
+            icon: SvgImages.report,
+            onTap: () => CustomNavigator.push(Routes.blockPage),
           ),
 
           ///wallet
           MoreButton(
             title: getTranslated("wallet", context: context),
             icon: SvgImages.wallet,
-            // onTap: () => CustomNavigator.push(Routes.chats),
+            onTap: () => CustomNavigator.push(Routes.wallet),
           ),
 
           ///subscription
-          MoreButton(
-            title: getTranslated("subscription", context: context),
-            icon: SvgImages.orders,
-            // onTap: () => CustomNavigator.push(Routes.chats),
-          ),
+          // MoreButton(
+          //   title: getTranslated("subscription", context: context),
+          //   icon: SvgImages.orders,
+          //   onTap: () => CustomNavigator.push(Routes.subscriptions),
+          // ),
 
           ///subscription
-          MoreButton(
-            title: getTranslated("payments", context: context),
-            icon: SvgImages.saudiRiyalSymbol,
-            // onTap: () => CustomNavigator.push(Routes.chats),
-          ),
+          // MoreButton(
+          //   title: getTranslated("payments", context: context),
+          //   icon: SvgImages.saudiRiyalSymbol,
+          //   onTap: () => CustomNavigator.push(Routes.transactions),
+          // ),
 
           MoreButton(
             title: getTranslated("plans", context: context),
             icon: SvgImages.category,
-            // onTap: () => CustomNavigator.push(Routes.chats),
+            onTap: () => CustomNavigator.push(Routes.plans),
           ),
-
+          MoreButton(
+            title: getTranslated("settings", context: context),
+            icon: SvgImages.settings,
+            onTap: () => CustomNavigator.push(Routes.settings),
+          ),
           // ///Language
           // const LanguageButton(),
         ],

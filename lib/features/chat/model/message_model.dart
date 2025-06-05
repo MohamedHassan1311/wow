@@ -54,3 +54,21 @@ class MessageItem {
         "created_at": createdAt,
       };
 }
+
+class MessageModel {
+  late final String massage;
+  late final String? type;
+  late final String? photo;
+  late final DateTime date; late final String senderId;
+
+  MessageModel({required this.massage, this.type,this.photo, required this.date, required this.senderId});
+  MessageModel.fromJson( json){
+    massage = json['message']??"";
+    type = json['type']??"";
+    photo = json['photo']??"";
+    senderId = json['sender_id'].toString();
+    date = DateTime.parse(json['created_at']??DateTime.now().toString());
+
+  }
+
+}

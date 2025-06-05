@@ -45,11 +45,11 @@ Future<void> main() async {
   //   daysToExpire: 12098,
   // );
 
-  if (!kDebugMode) {
+  // if (!kDebugMode) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     await FirebaseNotifications.setUpFirebase();
-  }
+  // }
 
   await dotenv.load(fileName: ".env");
   await di.init();

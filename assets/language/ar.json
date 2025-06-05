@@ -184,6 +184,8 @@
   "menu": "القائمة",
   "discover": "اكتشف",
   "favourites": "الأعجابات",
+
+
   "about_the_app": "عن التطبيق",
   "settings": "الاعدادات",
   "contact_with_us": "تواصل معنا",
@@ -746,7 +748,7 @@
  
   "liked_you":"أعجبو بك",
   "you_liked":"أعجبت بهم",
-  "favourit":"الإعجابات",
+  "favourit":"المفضلة",
   "filter_result":"نتيجة الفلترة",
   "marie_terms":"شروط الزواج",
   "plans":"الباقات",
@@ -755,22 +757,64 @@
   "unlimited_start":"انطلق بلا حدود مع باقة الأطلاق",
   "unlimited_desc":"أطلق بلا حدود مع باقة الأطلاق واكتشف المزيد من الاحتمالات",
   "Upgrade":"ترقية",
-  "remaining_favourit":"عدد الإعجابات المتبقية",
+  "remaining_favourit":"عدد المفضلات المتبقية",
+  "remaining_chats":"عدد المحادثات المتبقية",
+  "remaining_likes":"عدد الإعجابات المتبقية",
   "get_discount":"أحصل على ترشيح",
   "recommendation":"التوصيات",
   "marige_request":"طلب زواج",
-  "marige_request_desc":"هل انت متأكد انك تريد ارسال طلب زاواج؟"
+  "marige_request_desc":"هل انت متأكد انك تريد ارسال طلب زاواج ل#?",
+  "marige_request_sent_successfully":"تم إرسال طلب الزواج بنجاح ويتم الإنتظار لرد الشريك",
+  "go_to_maridge_req_page":"الذهاب إلى صفحة طلب الزواج",
+  "interest":"الاهتمام",
+  "interest_sent":"اهتماماتي المرسلة",
+  "interest_received":"اهتماماتي المستلمة",
+  "blocked_users":"المستخدمين المحظورين",
+  "block_desc":"حظر المستخدم",
+
+  "blocke_user":"حظر المستخدم"
+
+  ,
+  
+  "avilable_favourit":"عدد الاعجابات المتاحة",
+  "avilable_chats":"عدد المحادثات ",
+
+  "view_people_from_other_nationality_desc":"مشاهدة اشخاص من جنسية أخرى تختارها",
 
   
-  
-  
-  
+  "block_user_desc":"هل أنت متأكد أنك تريد حظر #?",
+  "You are about to be banned":"أنت بصدد حظر #",
+  "block_user_note":"يمكنك إلغاء الحظر في قائمة المحظورين > الإعدادات",
 
-  
-  
-  
+  "reason":"السبب",
+  "report_user_desc":"هل أنت متأكد أنك تريد إنشاء بلاغ عن #?",
+  "You are about to be reported":"أنت بصدد إنشاء بلاغ عن #",
+  "report_user":"إبلاغ",
 
+  "retry":"إعادة تحميل",
+  "MARIDGE_REQUEST_DATA":"طلب بيانات ولي الأمر",
+  "marige_request_data_desc":"لتأكيد طلب بيانات ولي الأمر سيتم خصم 50 ريال من المحفظة",
 
+  "not_refundable":"غير مستردة في حال عد إتمام الخطبة",
+
+  "you_have_a_marige_request":"لديك طلب خطبة من #",
+
+  "pendingRequest":" طلب الخطبة قيد الإنتظار",
+  "acceptedRequest":" الخطبة مقبولة",
+  "rejectedRequest":" طلب الخطبة مرفوض",
+  "cancelRequest":"طلب الخطبة ملغي",
+  "marriage_conditions":"شروط الزواج",
+  "marriage_conditions_desc":"يمكنك تحديد الشروط المناسبة لك, ستظهر هذء الشروط في صفحتك الشخصية",
+  "other_condition":"شروط أخرى",
+  "condition_add_done":"تم إضافة الشرط بنجاح",
+  "subscription_success":"تم الاشتراك بنجاح",
+
+  "active":"نشط",
+  "inactive":"غير نشط",
+  
+  "chat_request_desc":"لديك # طلبات متبقية",
+  "chat_request_desc_2":"هل انت متأكد انك تريد ارسال طلب محادثة ل #",
+  "chat_request_sent_successfully":"تم إرسال طلب المحادثة بنجاح ويتم الإنتظار لرد الشريك"
 
   
 

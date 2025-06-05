@@ -12,6 +12,8 @@ class UserModel extends SingleMapper {
   String? lname;
   String? nickname;
   int? isVerified;
+  int? isFavourit;
+  int? isIntersted;
   int? age;
   String? profileImage;
   String? email;
@@ -39,6 +41,8 @@ class UserModel extends SingleMapper {
   CustomFieldModel? culture;
   CustomFieldModel? health;
   CustomFieldModel? lifestyle;
+  List<CustomFieldModel>? marriageCondition;
+  String? otherConditionText;
   
 
   String? personalInfo;
@@ -75,7 +79,11 @@ class UserModel extends SingleMapper {
   int? numOfSons;
   DateTime? dop;
   UserModelValidation? validation;
+  int? number_of_chats;
+  int? number_of_likes;
+    int? number_of_interst;
 
+  int? proposal_suspend;  
 
   UserModel(
       {this.id,
@@ -84,8 +92,11 @@ class UserModel extends SingleMapper {
       this.fname,
       this.lname,
       this.nickname,
+      this.isFavourit,
       this.email,
       this.age,
+      this.marriageCondition,
+      this.otherConditionText,
       this.profileImage,
       this.balance,
       this.countryCode,
@@ -112,6 +123,7 @@ class UserModel extends SingleMapper {
       this.deletedAt,
       this.status,
       this.isVerified,
+      this.isIntersted,
       this.verifyPayment,
       this.deletionDate,
       this.deletionReason,
@@ -145,7 +157,11 @@ class UserModel extends SingleMapper {
       this.sect,
       this.culture,
       this.health,
-      this.lifestyle});
+      this.lifestyle,
+      this.number_of_chats,
+      this.number_of_likes,
+      this.number_of_interst,
+      this.proposal_suspend});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     print(json['dop']);
@@ -167,9 +183,10 @@ class UserModel extends SingleMapper {
     phone = json['phone'];
     phoneCode = json['phone_code'];
     gender = json['gender'];
+    number_of_interst = json['number_of_favourites'];
     //Unhandled Exception: FormatException: Trying to read / from 2002-12-06 at 5
     dop = json['dob'] != null
-        ? DateTime.parse(json['dob'])
+        ? DateTime.tryParse(json['dob'])??DateTime.now()
         : DateTime.now();
     subscription = json['subscription'];
     socialStatus = (json['social_status'] != null && json['social_status'] is! int)
@@ -182,7 +199,10 @@ class UserModel extends SingleMapper {
         ? CustomFieldModel.fromJson(json['city'])
         : CustomFieldModel(name: "no Data");
 
-
+    marriageCondition=json['marriage_condition'] != null
+        ? List<CustomFieldModel>.from(json['marriage_condition'].map((e) => CustomFieldModel.fromJson(e)))
+        : [];
+    otherConditionText=json['other_condition'];
 
 
    partenrInfo=json['about_partner'];
@@ -200,10 +220,10 @@ languages = json['language'] != null
 
     weight=int.tryParse(json['weight']?.toString() ?? '0');
     height=int.tryParse(json['height']?.toString() ?? '0');
-    education=json['education'] != null
+    education=json['education'] != null && json['education'] is! int && json['education'] is! String
         ? CustomFieldModel.fromJson(json['education'])
         : CustomFieldModel(name: "no Data");
-    education2=json['education_2'] != null
+    education2=json['education_2'] != null && json['education_2'] is! int && json['education_2'] is! String
         ? CustomFieldModel.fromJson(json['education_2'])
         : CustomFieldModel(name: "no Data");
     tribe=json['tribe'] != null && json['tribe'] is! int && json['tribe'] is! String
@@ -219,7 +239,8 @@ languages = json['language'] != null
         : CustomFieldModel(name: "no Data");
 
     job=json['job_title'] ;
-
+    isFavourit=json['is_favourite']==false?0:1;
+    isIntersted=json['is_intersted']==false?0:1;
     sect=json['religion'] != null
         ? CustomFieldModel.fromJson(json['religion'])
         : CustomFieldModel(name: "no Data");
@@ -249,6 +270,7 @@ languages = json['language'] != null
     wallet = double.tryParse(json['wallet']?.toString() ?? '0.0');
     points = json['points'];
     type = json['type'];
+    number_of_interst = json['number_of_interst'];
     countryId = json['country'] != null
         ? CustomFieldModel.fromJson(json['country'])
         : CustomFieldModel(name: "no Data");
@@ -273,6 +295,9 @@ languages = json['language'] != null
         ? CustomFieldModel.fromJson(json['account_type'])
         : CustomFieldModel(name: "no Data");
 
+    number_of_chats = json['number_of_chats'];
+    number_of_likes = json['number_of_likes'];
+    proposal_suspend = json['proposal_suspend'];
     numOfSons = json['num_of_sons'];
     if (json['client_data_validation'] != null) {
       validation = UserModelValidation();
@@ -297,11 +322,18 @@ languages = json['language'] != null
     data['country_code'] = countryCode;
     data['phone'] = phone;
     data['gender'] = gender;
-    data['dob'] = DateTime.parse(dop.toString());
+    // data['dob'] = DateTime.tryParse(dop.toString())??DateTime.now();
     data['image'] = image;
+    data['number_of_chats'] = number_of_chats;
+    data['number_of_likes'] = number_of_likes;
+    data['number_of_favourites'] = number_of_interst;
+    data['proposal_suspend'] = proposal_suspend;
+    data['is_favourit'] = isFavourit;
     data['language'] = languages;
     data['salary'] = salary;
     data['subscription'] = subscription;
+    data['marriage_condition'] = marriageCondition?.map((e) => e.toJson()).toList();
+    data['other_condition'] = otherConditionText;
     data['social_status'] = socialStatus?.toJson();
     data['region_id'] = regionId?.toJson();
     data['city'] = cityId?.toJson();

@@ -29,52 +29,48 @@ class _ChangePasswordState extends State<ChangePassword> {
       child: BlocBuilder<ChangePasswordBloc, AppState>(
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(Images.authBG),
-              )),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListAnimator(
-                        customPadding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                            vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                        data: [
-                          ///Header
-                          ChangePasswordHeader(),
-
-                          ///Body
-                          ChangePasswordBody(),
-
-                          ///Confirm
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                            child: CustomButton(
-                                text: getTranslated("confirm_password"),
-                                onTap: () {
-                                  context
-                                      .read<ChangePasswordBloc>()
-                                      .formKey
-                                      .currentState!
-                                      .validate();
-                                  if (context
-                                      .read<ChangePasswordBloc>()
-                                      .isBodyValid()) {
-                                    context.read<ChangePasswordBloc>().add(Click());
-                                  }
-                                },
-                                isLoading: state is Loading),
-                          ),
-                        ],
-                      ),
+            appBar: CustomAppBar(
+              title: getTranslated("change_password", context: context),
+            ),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListAnimator(
+                      customPadding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                          vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                      data: [
+                        ///Header
+                        // ChangePasswordHeader(),
+            
+                        ///Body
+                        ChangePasswordBody(),
+            
+                        ///Confirm
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                          child: CustomButton(
+                              text: getTranslated("confirm_password"),
+                              onTap: () {
+                                context
+                                    .read<ChangePasswordBloc>()
+                                    .formKey
+                                    .currentState!
+                                    .validate();
+                                if (context
+                                    .read<ChangePasswordBloc>()
+                                    .isBodyValid()) {
+                                  context.read<ChangePasswordBloc>().add(Click());
+                                }
+                              },
+                              isLoading: state is Loading),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

@@ -12,9 +12,10 @@ import 'package:wow/components/custom_images.dart';
 import 'package:wow/components/custom_network_image.dart';
 import 'package:wow/components/empty_widget.dart';
 import 'package:wow/data/config/di.dart';
-import 'package:wow/features/Favourit/bloc/favourit_bloc.dart';
+import 'package:wow/features/favourit/bloc/favourit_bloc.dart';
 import 'package:wow/features/home/bloc/home_user_bloc.dart';
 import 'package:wow/features/home/widgets/home_card_shimmer.dart';
+import 'package:wow/features/interest/bloc/interest_bloc.dart';
 import 'package:wow/features/language/bloc/language_bloc.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/navigation/custom_navigation.dart';
@@ -36,18 +37,49 @@ class HomeCard extends StatelessWidget {
           txt: state is Error ? getTranslated("something_went_wrong") : null,
         );
       } else if (state is Done) {
-        return InkWell(
-              onTap: () {
-                CustomNavigator.push(Routes.profileDetails, arguments: context.read<HomeUserBloc>().model?.id);
-              },
+        return GestureDetector(
+          onTap: () {
+            CustomNavigator.push(Routes.profileDetails,
+                arguments: context.read<HomeUserBloc>().model?.id);
+          },
+          onHorizontalDragEnd: (details) {
+            if (details.velocity.pixelsPerSecond.dx > 0) {
+              if (!LanguageBloc.instance.isLtr) {
+                sl<HomeUserBloc>().add(Click());
+              }
+              else {
+                sl<InterestBloc>().add(Add(arguments: context
+                    .read<HomeUserBloc>()
+                    .model
+                    ?.id));
+              }
+
+              // Swiped Right
+              print('Swiped Right');
+            } else if (details.velocity.pixelsPerSecond.dx < 0) {
+              if (!LanguageBloc.instance.isLtr) {
+                sl<InterestBloc>().add(Add(arguments: context
+                    .read<HomeUserBloc>()
+                    .model
+                    ?.id));
+              }
+              else {
+                sl<HomeUserBloc>().add(Click());
+              }
+
+
+              // Swiped Left
+              print('Swiped Left');
+            }
+          },
           child: Stack(
             children: [
               CustomNetworkImage.containerNewWorkImage(
                 image: context.read<HomeUserBloc>().model?.image ?? "",
                 width: context.width,
-                
                 onTap: () {
-                  CustomNavigator.push(Routes.profileDetails, arguments: context.read<HomeUserBloc>().model?.id);
+                  CustomNavigator.push(Routes.profileDetails,
+                      arguments: context.read<HomeUserBloc>().model?.id);
                 },
                 defaultImage: "assets/images/imagebg.png",
                 height: context.height,
@@ -68,17 +100,22 @@ class HomeCard extends StatelessWidget {
                         spacing: 15,
                         children: [
                           Text(
-                            context.read<HomeUserBloc>().model?.name ?? "",
+                            context.read<HomeUserBloc>().model?.nickname ?? "",
                             style: AppTextStyles.w800.copyWith(
                                 color: Styles.WHITE_COLOR, fontSize: 28),
                           ),
                           Text(
-                            context.read<HomeUserBloc>().model?.age.toString() ??
+                            context
+                                    .read<HomeUserBloc>()
+                                    .model
+                                    ?.age
+                                    .toString() ??
                                 "",
                             style: AppTextStyles.w800.copyWith(
                                 color: Styles.WHITE_COLOR, fontSize: 22),
                           ),
-                          if (context.read<HomeUserBloc>().model?.isVerified == 1)
+                          if (context.read<HomeUserBloc>().model?.isVerified ==
+                              1)
                             customImageIconSVG(
                               imageName: SvgImages.verify,
                               width: 20,
@@ -95,7 +132,13 @@ class HomeCard extends StatelessWidget {
                         spacing: 15,
                         children: [
                           if (context.read<HomeUserBloc>().model?.countryId !=
-                              null && context.read<HomeUserBloc>().model?.countryId?.name != 'no Data')
+                                  null &&
+                              context
+                                      .read<HomeUserBloc>()
+                                      .model
+                                      ?.countryId
+                                      ?.name !=
+                                  'no Data')
                             Text(
                               context
                                       .read<HomeUserBloc>()
@@ -106,9 +149,20 @@ class HomeCard extends StatelessWidget {
                               style: AppTextStyles.w800.copyWith(
                                   color: Styles.WHITE_COLOR, fontSize: 16),
                             ),
-                          if (context.read<HomeUserBloc>().model?.cityId != null && context.read<HomeUserBloc>().model?.cityId?.name != 'no Data')
+                          if (context.read<HomeUserBloc>().model?.cityId !=
+                                  null &&
+                              context
+                                      .read<HomeUserBloc>()
+                                      .model
+                                      ?.cityId
+                                      ?.name !=
+                                  'no Data')
                             Text(
-                              context.read<HomeUserBloc>().model?.cityId?.name ??
+                              context
+                                      .read<HomeUserBloc>()
+                                      .model
+                                      ?.cityId
+                                      ?.name ??
                                   "",
                               style: AppTextStyles.w800.copyWith(
                                   color: Styles.WHITE_COLOR, fontSize: 16),
@@ -122,7 +176,11 @@ class HomeCard extends StatelessWidget {
                       children: [
                         if (context.read<HomeUserBloc>().model?.education !=
                                 null &&
-                            context.read<HomeUserBloc>().model?.education?.name !=
+                            context
+                                    .read<HomeUserBloc>()
+                                    .model
+                                    ?.education
+                                    ?.name !=
                                 'no Data')
                           Container(
                               margin: EdgeInsets.symmetric(
@@ -171,7 +229,11 @@ class HomeCard extends StatelessWidget {
                               )),
                         if (context.read<HomeUserBloc>().model?.skinColor !=
                                 null &&
-                            context.read<HomeUserBloc>().model?.skinColor?.name !=
+                            context
+                                    .read<HomeUserBloc>()
+                                    .model
+                                    ?.skinColor
+                                    ?.name !=
                                 'no Data')
                           Container(
                               margin: EdgeInsets.symmetric(
@@ -211,27 +273,31 @@ class HomeCard extends StatelessWidget {
                                       key: Key('unique_key'),
                                       direction: DismissDirection
                                           .startToEnd, // 👈 Only allow swipe left
-          
+
                                       confirmDismiss: (direction) async {
-                                        sl<FavouritBloc>().add(Add(arguments: context.read<HomeUserBloc>().model?.id));
-          
-          
+                                        print("Swiped Right");
+                                        sl<InterestBloc>().add(Add(
+                                            arguments: context
+                                                .read<HomeUserBloc>()
+                                                .model
+                                                ?.id));
+
                                         // ❗ Prevent the widget from being removed
                                         return false;
                                       },
                                       background: Container(
                                         color: Colors.red,
                                         alignment: Alignment.centerLeft,
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 20),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         child: Icon(Icons.arrow_forward,
                                             color: Colors.white),
                                       ),
                                       secondaryBackground: Container(
                                         color: Colors.red,
                                         alignment: Alignment.centerRight,
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 20),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         child: Icon(Icons.arrow_back,
                                             color: Colors.white),
                                       ),
@@ -250,7 +316,7 @@ class HomeCard extends StatelessWidget {
                                             key: Key('unique_key'),
                                             direction: DismissDirection
                                                 .endToStart, // 👈 Only allow swipe left
-          
+
                                             confirmDismiss: (direction) async {
                                               if (direction ==
                                                   DismissDirection.startToEnd) {
@@ -259,8 +325,8 @@ class HomeCard extends StatelessWidget {
                                                   DismissDirection.endToStart) {
                                                 print("Swiped Left");
                                               }
-                sl<HomeUserBloc>().add(Click());
-          
+                                              sl<HomeUserBloc>().add(Click());
+
                                               // ❗ Prevent the widget from being removed
                                               return false;
                                             },

@@ -65,12 +65,12 @@ class TransactionModel extends SingleMapper {
     transactionNum = json['transaction_num']?.toString();
     amount =
         json['amount'] != null ? double.parse(json['amount']!.toString()) : 0;
-    title = json['title']?.toString();
+    title = json['comment']?.toString();
     type = checkTransactionType(json['type']); // pay && deposit && withdraw
     route = json['route'] != null
         ? TransactionRouteModel.fromJson(json['route'])
         : null;
-    createAt = json['create_at'];
+    createAt = json['date'];
     createTime = json['create_time'];
   }
 
@@ -78,7 +78,7 @@ class TransactionModel extends SingleMapper {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['transaction_num'] = transactionNum;
-    data['title'] = title;
+    data['comment'] = title;
     data['amount'] = amount;
     data['type'] = type;
     data['route'] = route?.toJson();

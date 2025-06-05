@@ -37,10 +37,12 @@ class BottomNavBarItem extends StatelessWidget {
                     imageName: svgIcon!,
                     color: isSelected ? Styles.PRIMARY_COLOR : Styles.DISABLED,
                     width: width,
+                    onTap: null,
                     height: height)
                 : customImageIcon(
                     imageName: imageIcon!,
                     height: height,
+                    onTap: null,
                     fit: BoxFit.contain,
                     // color: isSelected ? Styles.PRIMARY_COLOR : Styles.DISABLED,
                     width: width,

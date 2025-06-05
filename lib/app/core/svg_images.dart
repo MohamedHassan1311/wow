@@ -65,6 +65,8 @@ class SvgImages {
   static const String cityIcon = 'assets/svgs/city.svg';
   static const String tickCircleIcon = 'assets/svgs/tick_circle.svg';
   static const String report = 'assets/svgs/report.svg';
+  static const String interset = 'assets/svgs/interset.svg';
+  static const String removeInterset = 'assets/svgs/remove_interset.svg';
   static const String support = 'assets/icons/technical-support.png';
   static const String information = 'assets/svgs/information.svg';
   static const String security = 'assets/svgs/security.svg';
@@ -104,6 +106,8 @@ class SvgImages {
   static const String backpack = 'assets/svgs/backpack.svg';
   static const String feedbacks = 'assets/svgs/feedbacks.svg';
   static const String star = 'assets/svgs/star.svg';
+  static const String starFill = 'assets/svgs/star_fill.svg';
+
   static const String gift = 'assets/svgs/gift.svg';
   static const String mic = 'assets/svgs/mic.svg';
   static const String addCircle = 'assets/svgs/add_circle.svg';

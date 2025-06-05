@@ -44,13 +44,13 @@ class TransactionCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            customImageIconSVG(
-              imageName: transaction.type == TransactionType.deposit
-                  ? SvgImages.deposit
-                  : SvgImages.withdraw,
-              width: 50.w,
-              height: 50.w,
-            ),
+            // customImageIconSVG(
+            //   imageName: transaction.type == TransactionType.deposit
+            //       ? SvgImages.deposit
+            //       : SvgImages.withdraw,
+            //   width: 50.w,
+            //   height: 50.w,
+            // ),
             SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT.w),
             Expanded(
               child: Column(
@@ -60,9 +60,9 @@ class TransactionCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "#${transaction.transactionNum ?? "num"}",
+                          "#${transaction.id ?? "num"}",
                           style: AppTextStyles.w600
-                              .copyWith(fontSize: 16, color: Styles.HEADER),
+                              .copyWith(fontSize: 16, color: Styles.PRIMARY_COLOR),
                         ),
                       ),
                       Text(

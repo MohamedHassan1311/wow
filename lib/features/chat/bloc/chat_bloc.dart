@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wow/data/api/end_points.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../app/core/app_core.dart';
 import '../../../app/core/app_event.dart';
@@ -45,37 +44,6 @@ class ChatBloc extends Bloc<AppEvent, AppState> {
     return super.close();
   }
 
-  void connectToChat(int chatId) {
-    if (socket == null) {
-      String port = EndPoints.chatPort(chatId);
-
-      updateMessage(MessageEntity(chatId: "$chatId"));
-      updateTyping(TypingEntity(chatId: "$chatId"));
-
-      final Map<String, dynamic> headers = {
-        "foo": "bar",
-        'Authorization': "Bearer ${repo.token}",
-        "chat_id": "$chatId",
-      };
-
-      socket = io.io(
-        port,
-        io.OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .setExtraHeaders(headers)
-            .enableForceNew()
-            .build(),
-      );
-      socket?.connect();
-
-      ///Message Channel
-      chatMessageListener();
-
-      ///UserTyping Channel
-      userTypingListener();
-    }
-  }
 
   chatMessageListener() {
     socket?.on('sendChatToClient', (data) {
@@ -94,14 +62,14 @@ class ChatBloc extends Bloc<AppEvent, AppState> {
     socket?.on('userTyping', (data) {
       log("===>On listen Typing ${data["userTyping"]}");
 
-      updateTyping(typing.value!.copyWith(userTyping: data["userTyping"] == 1));
+      updateTyping(typing.value.copyWith(userTyping: data["userTyping"] == 1));
     });
   }
 
   Future<void> onTypingUser(Typing event, Emitter<AppState> emit) async {
     socket?.emit(
-      'chat-typing-${typing.value?.chatId}',
-      {"userTyping": typing.value?.meTyping == true ? 1 : 0},
+      'chat-typing-${typing.value.chatId}',
+      {"userTyping": typing.value.meTyping == true ? 1 : 0},
     );
   }
 
@@ -116,9 +84,7 @@ class ChatBloc extends Bloc<AppEvent, AppState> {
   MessagesModel? model;
   onClick(Click event, Emitter<AppState> emit) async {
     emit(Loading());
-    updateMessage(
-      MessageEntity(chatId: "${event.arguments}"),
-    );
+
     try {
       Either<ServerFailure, Response> response =
           await repo.getChatDetails(event.arguments as int);
@@ -152,11 +118,23 @@ class ChatBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  Future<void> sendMessage(SendMessage event, Emitter<AppState> emit) async {
-    socket?.emit(
-      'chat-${message.value?.chatId}',
-      message.value?.toJson(),
-    );
+  sendMessage(SendMessage event, Emitter<AppState> emit) async {
+
+    final map = event.arguments as Map;
+    Either<ServerFailure, String> apiResponse =
+    await repo.sendMessage(
+        photo: message.valueOrNull?.message,
+        message: map["message"], receiverId: map["receiverId"].toString() , convId: map["convId"].toString());
+    apiResponse.fold((l) {
+      print("faill");
+    }, (success) {
+      updateMessage(
+        MessageEntity(),
+
+      );
+      print(success);
+
+    });
   }
 
   Future<void> receiveMessage(

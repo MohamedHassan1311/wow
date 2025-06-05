@@ -20,7 +20,7 @@ class RegisterHeader extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   vertical: Dimensions.PADDING_SIZE_DEFAULT.h/2),
               child: Image.asset(
-                 Images.logoWord, width: 80.h, height: 100.h)),
+                 Images.splash, width: 130.h, height: 130.h)),
         ),
         // Row(
         //   crossAxisAlignment: CrossAxisAlignment.center,

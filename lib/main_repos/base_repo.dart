@@ -8,7 +8,8 @@ abstract class BaseRepo {
   final DioClient dioClient;
   BaseRepo({required this.sharedPreferences, required this.dioClient});
 
-  String get userId => sharedPreferences.getString(AppStorageKey.userId) ?? "";
+  String get userId => 
+  sharedPreferences.getString(AppStorageKey.userId) ?? "";
   String get token => sharedPreferences.getString(AppStorageKey.token) ?? "";
   bool get isLogin => sharedPreferences.containsKey(AppStorageKey.isLogin);
   setMarketType(v) => sharedPreferences.setString(AppStorageKey.marketplaceType, v);

@@ -39,7 +39,7 @@ class UploadChatFileBloc extends Bloc<AppEvent, AppState> {
       }, (success) {
         ((event.arguments as Map<String, dynamic>)["operation"] as Function(
                 String))
-            .call(success.data["data"]["url"]);
+            .call(success.data["data"]);
         emit(Done());
       });
     } catch (e) {

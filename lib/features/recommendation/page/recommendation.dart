@@ -15,6 +15,8 @@ import 'package:wow/data/config/di.dart';
 import 'package:wow/data/internet_connection/internet_connection.dart';
 import 'package:wow/features/recommendation/bloc/recommendation_bloc.dart';
 import 'package:wow/features/recommendation/repo/recommendation_repo.dart';
+import 'package:wow/main_models/search_engine.dart';
+import 'package:wow/main_models/user_model.dart';
 import 'package:wow/main_widgets/person_card.dart';
 import '../../../app/localization/language_constant.dart';
 
@@ -44,11 +46,13 @@ class _RecommendationPageState extends State<RecommendationPage> {
             create: (context) => RecommendationBloc(
                 repo: sl<RecommendationRepo>(),
                 internetConnection: sl<InternetConnection>())
-              ..add(Get()),
+              ..add(Get(arguments: SearchEngine())),
             child: BlocBuilder<RecommendationBloc, AppState>(
               builder: (context, state) {
                 if (state is Done) {
+                  List<UserModel> list = context.read<RecommendationBloc>().recommendations??[];
                   return GridView.builder(
+                    // controller: context.read<RecommendationBloc>().controller,
                     padding: const EdgeInsets.all(12),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Two cards per row
@@ -56,15 +60,18 @@ class _RecommendationPageState extends State<RecommendationPage> {
                       mainAxisSpacing: 10,
                       childAspectRatio: 3 / 4,
                     ),
-                    itemCount: state.data.length, // Sample count
+                    itemCount: list.length, // Sample count
                     itemBuilder: (context, index) {
                       return PersoneCard(
-                        name: state.data[index].name,
-                        age: state.data[index].age.toString(),
-                        image: state.data[index].image,
+                        name: list[index].name,
+                        age: list[index].age.toString(),
+                        image: list[index].image,
                       );
                     },
                   );
+                }
+                if (state is Empty) {
+                  return EmptyState(                  );
                 }
                 if (state is Loading) {
                   return GridView.builder(
@@ -92,7 +99,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                       ),
                       CustomButton(
                         onTap: () {
-                          context.read<RecommendationBloc>().add(Get());
+                          context.read<RecommendationBloc>().add(Get(arguments: SearchEngine()));
                         },
                         text: getTranslated("try_again"),
                       )

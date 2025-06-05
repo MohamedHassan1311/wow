@@ -10,74 +10,88 @@ import '../../../components/custom_button.dart';
 import '../../../navigation/custom_navigation.dart';
 
 class MaridgeRequestDialog extends StatelessWidget {
-  const MaridgeRequestDialog({super.key});
+  final String name;
+  final String discription;
+  final String? note;
+  final String image;
+  final String? confirmButtonText;
+  final String? backButtonText;
+  final bool? showBackButton;
+  const MaridgeRequestDialog(
+      {super.key,
+      required this.discription,
+      required this.image,
+      required this.name,
+      this.confirmButtonText,
+      this.backButtonText,
+      this.note,
+      this.showBackButton = true});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          customContainerSvgIcon(
-            imageName: SvgImages.ring,
-            color: Styles.BLACK,
-            backGround: Colors.transparent,
-            
-            width: 80.w,
-            height: 80.w,
-            padding: 10.w,
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      customContainerSvgIcon(
+        imageName: image,
+        color: Styles.BLACK,
+        backGround: Colors.transparent,
+        width: 80.w,
+        height: 80.w,
+        padding: 10.w,
+      ),
+      SizedBox(height: 30.h),
+      Text(
+        name,
+        //  getTranslated(
+        //  "marige_request"),
+        style: AppTextStyles.w800.copyWith(
+          fontSize: 16.0,
+          color: Styles.HEADER,
+        ),
+      ),
+      SizedBox(height: 10.h),
+        Text(
+          discription,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.w500.copyWith(
+            fontSize: 16.0,
+            color: Styles.HEADER,
           ),
-          SizedBox(height: 30.h),
-           Text(
-             getTranslated(
-                 "marige_request"),
-             style: AppTextStyles.w800.copyWith(
-               fontSize: 16.0,
-               color: Styles.HEADER,
-             ),
-           ),
-                     SizedBox(height: 10.h),
-
+        ),
+        if (note != null)
           Text(
-            getTranslated(
-                "marige_request_desc"),
+            note!,
             style: AppTextStyles.w500.copyWith(
               fontSize: 16.0,
-              color: Styles.HEADER,
+              color: Styles.ERORR_COLOR,
             ),
           ),
-                    SizedBox(height: 30.h),
-
-          Row(
-            spacing: 10,
-            children: [
-              Expanded(
-                child: CustomButton(
-                    text:
-                    getTranslated("confirm"),
-                    onTap: () {
-
-                      CustomNavigator.pop(result: true);
-
-                    },
-                    ),
-              ),
-              Expanded(
-                child: CustomButton(
-                  text: getTranslated("back_off"),
-                  backgroundColor:
-                  Colors.transparent,
-                  textColor: Styles.PRIMARY_COLOR,
-                  borderColor:
-                  Styles.PRIMARY_COLOR,
-                  withBorderColor: true,
-                  onTap: () {
-                    CustomNavigator.pop(result: false);
-                  },
-                ),
-              ),
-            ],
-          )
-        ]);
+      SizedBox(height: 30.h),
+      Row(
+        spacing: 10,
+        children: [
+          Expanded(
+            child: CustomButton(
+              text: confirmButtonText ?? getTranslated("confirm"),
+              onTap: () {
+                CustomNavigator.pop(result: true);
+              },
+            ),
+          ),
+          if (showBackButton != null && showBackButton == true)
+            Expanded(
+              child: CustomButton(
+                text: backButtonText ?? getTranslated("back_off"),
+                backgroundColor: Colors.transparent,
+                textColor: Styles.PRIMARY_COLOR,
+                borderColor: Styles.PRIMARY_COLOR,
+                withBorderColor: true,
+              onTap: () {
+                CustomNavigator.pop(result: false);
+              },
+            ),
+          ),
+        ],
+      )
+    ]);
   }
 }

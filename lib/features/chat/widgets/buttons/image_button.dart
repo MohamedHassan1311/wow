@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,7 +24,7 @@ class ImageButton extends StatelessWidget {
         builder: (context, state) {
           return InkWell(
             radius: 100,
-            onTap: () {
+            onTap: () async {
               ImagePickerHelper.showOptionSheet(
                   onGet: (v) => context.read<UploadChatFileBloc>().add(Click(
                       arguments: {"path": v.path, "operation": onSelectFile})));

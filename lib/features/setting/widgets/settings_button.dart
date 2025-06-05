@@ -22,7 +22,7 @@ class SettingsButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             customImageIconSVG(
-                imageName: icon, height: 22, width: 22, color: Styles.TITLE),
+                imageName: icon, height: 22, width: 22, color: Styles.PRIMARY_COLOR),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),

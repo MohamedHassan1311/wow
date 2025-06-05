@@ -14,13 +14,7 @@ class ChangePasswordHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-              child: customImageIcon(
-                  imageName: Images.authLogo, width: 230.w, height: 130.h)),
-        ),
+     
         Text(
           getTranslated("reset_password_header"),
           style: AppTextStyles.w700.copyWith(

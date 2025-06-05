@@ -40,11 +40,11 @@ class MoreSettingsOptions extends StatelessWidget {
           const LanguageButton(),
 
  ///Terms && Conditions
-          MoreButton(
-            title: getTranslated("marie_terms", context: context),
-            icon: SvgImages.terms,
-            onTap: () => CustomNavigator.push(Routes.terms),
-          ),
+          // MoreButton(
+          //   title: getTranslated("marie_terms", context: context),
+          //   icon: SvgImages.terms,
+          //   onTap: () => CustomNavigator.push(Routes.terms),
+          // ),
 
           ///Terms && Conditions
           MoreButton(
@@ -67,18 +67,7 @@ class MoreSettingsOptions extends StatelessWidget {
           //   onTap: () => CustomNavigator.push(Routes.contactWithUs),
           // ),
 
-          ///Delete Account
-          // if (UserBloc.instance.isLogin)
-          MoreButton(
-              title: getTranslated("delete_account", context: context),
-              icon: SvgImages.trash,
-              iconColor: Styles.ERORR_COLOR,
-              withBottomBorder: false,
-              // onTap: () => CustomBottomSheet.show(
-              //       height: 305.h,
-              //       widget: DeactivateAccount(),
-              //     ),
-          ),
+        
 
           const LogOutButton(),
         ],

@@ -137,21 +137,7 @@ class FilterBloc extends Bloc<AppEvent, AppState> {
     try {
       emit(Loading());
 
-      // fillters.add(
-      //   if (age.value != null)
-      //           "age_min": age.value?.split("-")[0],
 
-      //           "age_max": age.value?.split("-")[1],
-      //         if (socialStatus.value?.id != null)
-      //           "social_status": socialStatus.value,
-      //           if (health.value?.id != null) "health": health. value,
-      //           if (hijab.value?.id != null) "hijab": hijab.value,
-      //           if (abya.value?.id != null) "abaya": abya.value,
-      //           if (culture.value?.id != null) "culture": culture.value,
-      //           if (city.value?.id != null) "city": city.value,
-      //           if (lifestyle.value?.id != null) "lifestyle": lifestyle.value,
-      //           if (category.value?.id != null) "account_type": category.value,
-      // );
 
       _engine = event.arguments as SearchEngine;
       if (_engine.currentPage == 0) {

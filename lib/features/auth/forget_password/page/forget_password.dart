@@ -52,7 +52,7 @@ class ForgetPassword extends StatelessWidget {
                                       vertical:
                                       Dimensions.PADDING_SIZE_DEFAULT.h),
                                   child: Image.asset(
-                                       Images.logoWord,
+                                       Images.splash,
                                       width: 130.w,
                                       height: 130.h)),
                             ),

@@ -33,6 +33,14 @@ class EndPoints {
   static  String homeUser (id) => 'client/random/$id';
 
 
+  ///Wallet
+  static String wallets(id) => 'transactions/wallet/$id';
+
+// subscriptions
+static String subscriptions(id) => 'subscriptions/$id';
+static String subscribe(id) => 'subscriptions/store/$id';
+static const String cancelSubscription = 'subscriptions/cancel';
+static const String checkSubscriptionStatus = 'subscriptions/check';
 
 ///Favourit
 ///
@@ -40,12 +48,47 @@ static String getFavouritSent(id) => '/favorites/sent/$id';
 static String getFavouritReceived(id) => '/favorites/received/$id';
 
 static const String addToFavourit = '/send/favorite';
+static const String deleteFavourit = '/remove/favorite';
+
+
+///Interest
+static String getInterest(id) => '/interests/received/$id';
+static String getInterestSent(id) => '/interests/sent/$id';
+static const String addToInterest  = '/send/interest';
+static const String removeInterest  = '/remove/interest';
+
+
+///Plans
+static const String getPlans = '/plan';
+static String getPlanDetails(id) => '/plans/$id';
 
 
 
 /// Recommendation
 static   String getRecommendation (id) =>  '/client/recomendations/$id';
 
+
+///Block
+static const String block  = '/blocked/block';
+static const String unblock  = '/blocked/unblock';
+static   String getBlockedUsers (id) =>  '/blocked/by/$id';
+
+
+///Report
+static const String report  = '/reported/report';
+static   String getReportedUsers (id) =>  '/report/users/$id';
+
+
+///Marige Request
+static String getmarigeRequestSend(id)  => '/proposals/send/$id';
+static String getmarigeRequestReceived(id)  => '/proposals/received/$id';
+static String sendMarigeRequest  ='/proposals';
+static String acceptMarigeRequest(id)  =>'/proposals/accept/$id';
+static String rejectMarigeRequest(id)  =>'/proposals/reject/$id';
+static String cancelMarigeRequest(id)  =>'/proposals/cancel/$id';
+
+///Marriage Conditions
+static const String marriageConditions = '/marriage-conditions';
 
   ///Marketplace
   static const String marketplace = 'marketplace';
@@ -80,18 +123,17 @@ static   String getRecommendation (id) =>  '/client/recomendations/$id';
   static editAddress(id) => 'address/$id';
   static addressDetails(id) => 'address/$id';
 
+
+
   ///Chats
   static const String createChat = 'chats';
-  static const String chats = 'chats';
+  static const String sendNotificationConversation = 'conversation/send';
+  static chatSMessages(id) => 'conversation/index/$id';
   static deleteChat(id) => 'chats/$id';
   static chatDetails(id) => 'chats/$id';
   static chatMessages(id) => 'chat-messages/$id';
-  static const String uploadFile = 'upload-file';
-
-  ///Chats
-  static const String addBookmark = 'add-bookmark';
-  static const String bookmarks = 'Bookmarks';
-  static deleteBookmark(id) => 'Bookmarks/$id';
+  static const String uploadFile = 'conversation/uploadPhoto';
+  static startNewChat(id) => 'conversation/save/$id';
 
   ///Notification
   static const String notifications = 'notification';
@@ -124,7 +166,7 @@ static   String getRecommendation (id) =>  '/client/recomendations/$id';
   static applyOrderCoupon(id) => 'company/orders/$id/check-coupon';
 
   ///Transactions
-  static const String transactions = 'transactions';
+  static String transactions(id) => 'transactions/$id';
 
   ///Cart
   static const String cart = 'cart';

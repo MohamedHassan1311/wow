@@ -4,18 +4,21 @@ import 'dart:developer';
 import 'package:app_links/app_links.dart';
 import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/app_state.dart';
-import 'package:wow/features/chats/page/chats_page.dart';
+import 'package:wow/features/chats/page/chats.dart';
 import 'package:wow/features/home/bloc/home_user_bloc.dart';
 import 'package:wow/features/home/page/home.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:wow/features/interest/page/interest_page.dart';
+import 'package:wow/features/marige_request/page/marige_request_page.dart';
 import 'package:wow/features/more/page/more.dart';
+import 'package:wow/features/profile/bloc/profile_bloc.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/navigation/routes.dart' show Routes;
 import '../../data/config/di.dart';
 import '../../data/internet_connection/internet_connection.dart';
-import '../../features/Favourit/page/favourit_page.dart';
+import '../../features/favourit/page/favourit_page.dart';
 import '../../helpers/check_on_the_version.dart';
 import '../../navigation/custom_navigation.dart';
 import '../bloc/dashboard_bloc.dart';
@@ -49,7 +52,9 @@ class _DashBoardState extends State<DashBoard> {
 
     ///Init Data
     initData();
-
+  if (sl<ProfileBloc>().isLogin) {
+      sl<ProfileBloc>().add(Get());
+    }
     connectivitySubscription =
         sl<InternetConnection>().connectionStream(initData);
     // CheckOnTheVersion.checkOnVersion();
@@ -103,12 +108,12 @@ class _DashBoardState extends State<DashBoard> {
         return const Home();
       case 1:
         // return const SizedBox();
-        return const FavouritPage();
+        return const InterestPage();
       case 2:
-        return const SizedBox();
+        return const MarigeRequestPage();
         case 3:
           // return const SizedBox();
-        return const ChatsPage();
+        return const Chats();
         case 4:
         return const More();
       default:

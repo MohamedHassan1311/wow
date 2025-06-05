@@ -1,3 +1,4 @@
+import 'package:wow/app/core/app_core.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/svg_images.dart';
@@ -37,7 +38,7 @@ class WalletCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      getTranslated("cash_back"),
+                      getTranslated("balance"),
                       maxLines: 1,
                       style: AppTextStyles.w500.copyWith(
                           fontSize: 14,
@@ -47,7 +48,7 @@ class WalletCard extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   customContainerSvgIcon(
-                      backGround: Styles.GREEN,
+                      backGround: Styles.PRIMARY_COLOR,
                       imageName: SvgImages.money,
                       radius: 100,
                       height: 40.w,
@@ -69,13 +70,20 @@ class WalletCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8.w),
-                  Text(
-                    "${sl<UserBloc>().user?.balance ?? 0} ${getTranslated("sar", context: context)}",
-                    style: AppTextStyles.w600.copyWith(
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                      color: Styles.GREEN,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        "${sl<UserBloc>().user?.balance ?? 0}",
+                        style: AppTextStyles.w600.copyWith(
+                          fontSize: 18,
+                          overflow: TextOverflow.ellipsis,
+                          color: Styles.PRIMARY_COLOR,
+                        ),
+                        
+                      ),
+                      SizedBox(width: 4.w),
+                      AppCore.saudiRiyalSymbol(color: Styles.PRIMARY_COLOR)
+                    ],
                   )
                 ],
               ),

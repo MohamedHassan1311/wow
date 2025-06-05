@@ -19,7 +19,7 @@ import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
 import '../../../main_models/search_engine.dart';
 import '../widgets/transaction_card.dart';
-import '../widgets/wallet_card.dart';
+import '../../wallet/widgets/wallet_card.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -47,9 +47,7 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: getTranslated("cash_back"),
-      ),
+   
       body: SafeArea(
         child: BlocProvider(
           create: (context) => TransactionsBloc(repo: sl<TransactionsRepo>())
@@ -58,18 +56,7 @@ class _TransactionPageState extends State<TransactionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: Dimensions.PADDING_SIZE_SMALL.w),
-              const WalletCard(),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                    vertical: Dimensions.paddingSizeMini.h),
-                child: Text(
-                  getTranslated("transactions"),
-                  style: AppTextStyles.w600
-                      .copyWith(fontSize: 16, color: Styles.HEADER),
-                ),
-              ),
+            
               Expanded(
                 child: BlocBuilder<TransactionsBloc, AppState>(
                   builder: (context, state) {
@@ -162,8 +149,11 @@ class _TransactionPageState extends State<TransactionPage> {
               ),
             ],
           ),
+        
         ),
       ),
     );
+  
+  
   }
 }
