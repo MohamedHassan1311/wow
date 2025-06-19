@@ -16,6 +16,7 @@ import 'package:wow/features/favourit/bloc/favourit_bloc.dart';
 import 'package:wow/features/interest/bloc/interest_bloc.dart';
 import 'package:wow/features/marige_request/bloc/marige_request_bloc.dart';
 import 'package:wow/features/profile_details/widgets/maridge_request_dialog.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 
@@ -79,7 +80,7 @@ class _PersonalImageState extends State<PersonalImage> {
                     borderColor: Styles.WHITE_COLOR,
                   ),
                 ),
-                
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: customContainerSvgIcon(
@@ -99,11 +100,11 @@ class _PersonalImageState extends State<PersonalImage> {
                                         color: Colors.transparent),
                                     borderRadius: BorderRadius.circular(20.0)),
                                 content: MaridgeRequestDialog(
-                                  name: getTranslated("chat_request_desc").replaceAll("#", " "+widget.user.number_of_chats.toString()),
+                                  name: getTranslated("chat_request_desc").replaceAll("#", " "+UserBloc.instance.user!.number_of_chats.toString()),
                                   discription:
                                       getTranslated("chat_request_desc_2").replaceAll("#", " "+widget.user.name!),
                                   image: SvgImages.chats,
-                            
+
                                 )));
                         if (result == true) {
                        StartChatBloc(repo: sl<ChatsRepo>()).add(Send(arguments: widget.user.id));
@@ -142,10 +143,10 @@ class _PersonalImageState extends State<PersonalImage> {
                                   discription:
                                       getTranslated("marige_request_desc").replaceAll("#", " "+widget.user.name!),
                                   image: SvgImages.ring,
-                            
+
                                 )));
                         if (result == true) {
-                          
+
                           sl<MarigeRequestBloc>().add(Send(arguments: widget.user.id));
                         }
                       },

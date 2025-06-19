@@ -28,7 +28,7 @@ class StartChatBloc extends Bloc<AppEvent, AppState> {
       Either<ServerFailure, Response> response = await repo.startChat(
            doctor_id: event.arguments as int);
       response.fold((fail) {
-        
+
         AppCore.showSnackBar(
             notification: AppNotification(
                 message: fail.error,
@@ -37,17 +37,24 @@ class StartChatBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.red));
         emit(Error());
       }, (success) {
+        AppCore.showSnackBar(
+            notification: AppNotification(
+                message: success.data['message'],
+                isFloating: true,
+                backgroundColor: Styles.ACTIVE,
+                borderColor: Colors.green));
+        emit(Done());
         // final chatModel = ChatModel.fromJson(success.data['data'],fromCreate: true);
           CustomNavigator.push(
           Routes.dashboard,
           clean: true,
-          arguments: 3,
+          arguments: 2,
         );
 
-        emit(Done());
+
       });
     } catch (e) {
-      
+
       AppCore.showSnackBar(
           notification: AppNotification(
         message: e.toString(),
