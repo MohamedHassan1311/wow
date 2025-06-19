@@ -34,7 +34,8 @@ import '../../../main_widgets/main_app_bar.dart';
 
 class AddToBlockPage extends StatefulWidget {
   final UserModel user;
-  const AddToBlockPage({super.key, required this.user});
+  final bool isFromChat;
+  const AddToBlockPage({super.key, required this.user, this.isFromChat = false});
 
   @override
   State<AddToBlockPage> createState() => _AddToBlockPageState();
@@ -168,7 +169,11 @@ class _AddToBlockPageState extends State<AddToBlockPage>
                 text: getTranslated("blocke_user"),
                 isLoading: state is Loading,
                 onTap: () {
-                  context.read<BlockBloc>().add(Add(arguments: widget.user.id));
+                  context.read<BlockBloc>().add(Add(arguments: {
+
+                    "user": widget.user,
+                    "isFromChat": widget.isFromChat
+                  }));
                 },
               ),
               

@@ -80,7 +80,7 @@ class _ChatsState extends State<Chats>
                       children: [
                         Expanded(
                           child: ListAnimator(
-                            controller: controller,
+                            // controller: controller,
                             customPadding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
                             data: state.cards,

@@ -49,8 +49,11 @@ class ReportBloc extends HydratedBloc<AppEvent, AppState> {
       try {
         emit(Loading());
 
+        final Map<String, dynamic> map =
+            event.arguments as Map<String, dynamic>;
+
         Either<ServerFailure, Response> response =
-            await repo.addtoReport(event.arguments as int,reportReasonController.text);
+            await repo.addtoReport(map['user'].id,reportReasonController.text,map['isFromChat']);
 
         response.fold((fail) {
           AppCore.showSnackBar(

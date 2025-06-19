@@ -48,9 +48,9 @@ Widget customCircleSvgIcon(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CircleAvatar(
-          backgroundColor: color ?? Styles.PRIMARY_COLOR.withOpacity(0.1),
-          radius: radius ?? 24.w,
+      CircleAvatar(
+        backgroundColor: color ?? Styles.PRIMARY_COLOR.withOpacity(0.1),
+        radius: radius ?? 24.w,
           child: SvgPicture.asset(
             imageName,
             color: imageColor,
@@ -108,7 +108,7 @@ Widget customContainerSvgIcon(
           borderRadius: BorderRadius.circular(radius ?? 12)),
       child: SvgPicture.asset(
         imageName,
-        color: color,
+    color: color,
       ),
     ),
   );

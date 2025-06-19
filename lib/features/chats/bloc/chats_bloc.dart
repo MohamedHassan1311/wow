@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wow/app/localization/language_constant.dart';
 import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';
 import '../../../../app/core/app_notification.dart';
@@ -21,8 +22,38 @@ class ChatsBloc extends Bloc<AppEvent, AppState> {
     on<Update>(onUpdate);
   }
 
+
+
+
+  String? getStatusMassage(int status , String name) {
+    print(status);
+
+       if (status == 1 ) {
+      // ignore: unnecessary_string_interpolations
+      return "${getTranslated("watting_for_approve_chat")}" ;
+    } 
+     if (status == 2 || status ==4) {
+      return "${getTranslated("start_to_chat_with")} ${name}" ;
+    } 
+    else if (status == 3) {
+        return getTranslated("chat_is_ended",).replaceAll("#", name);
+      } 
+         else if (status == 5) {
+        return getTranslated("chat_is_rejected",).replaceAll("#", name);
+      }
+        else if (status == 6) {
+        return getTranslated("chat_is_exspierd",).replaceAll("#", name);
+      }
+        else if (status == 7) {
+        return getTranslated("chat_is_cancelled",).replaceAll("#", name);
+      }
+    
+     return null; 
+
+  }
+
   late SearchEngine _engine;
-  List<Widget>? _cards;
+List<Widget>? _cards;
 
   customScroll(ScrollController controller) {
     bool scroll = AppCore.scrollListener(
@@ -35,18 +66,9 @@ class ChatsBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
-      _engine = event.arguments as SearchEngine;
-      print(_engine.currentPage);
-      if (_engine.currentPage == 0) {
-        _cards = [];
-        if (!_engine.isUpdate) {
-          emit(Loading());
-        }
-      } else {
-        emit(Done(cards: _cards, loading: true));
-      }
-
-      Either<ServerFailure, Response> response = await repo.getChats(_engine);
+       emit(Loading());
+  _cards =[];
+      Either<ServerFailure, Response> response = await repo.getChats(SearchEngine());
 
       response.fold((fail) {
         AppCore.showSnackBar(
@@ -59,17 +81,15 @@ class ChatsBloc extends Bloc<AppEvent, AppState> {
       }, (success) {
         ChatsModel? model = ChatsModel.fromJson(success.data);
         print(model.data);
-        // if (model.data != null && model.data!.isNotEmpty) {
           for (var chat in model.data!) {
             _cards?.add(ChatCard(key: ValueKey(chat.id), chat: chat));
           }
-          // _engine.maxPages = model.meta?.total ?? 1;
-          // _engine.updateCurrentPage(model.meta?.currentPage ?? 1);
-          print(model.data?.length);
+          if(model.data!.isNotEmpty){
+
           emit(Done(cards: _cards, loading: false));
-        // } else {
-        //   emit(Empty());
-        // }
+        } else {
+          emit(Empty());
+        }
       });
     } catch (e) {
       AppCore.showSnackBar(

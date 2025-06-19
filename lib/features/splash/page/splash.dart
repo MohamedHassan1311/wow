@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/components/custom_images.dart';
 import 'package:wow/features/splash/repo/splash_repo.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/images.dart';
 import '../../../app/core/text_styles.dart';
@@ -24,6 +27,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   @override
   void initState() {
     FlutterNativeSplash.remove();
+
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -48,16 +52,15 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                 horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
                 vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
               ),
-
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                  children: [
                     Spacer(),
                     Center(
                       child: Image.asset(
-                        Images.splash ,
+                        Images.splash,
                         height: 180.h,
                         width: 180.h,
                         fit: BoxFit.contain,
@@ -73,12 +76,35 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                           .then(delay: 200.ms)
                           .shimmer(duration: 1000.ms, curve: Curves.easeInOut),
                     ),
-
                     Spacer(),
+                    BlocBuilder<UserBloc, AppState>(builder: (context, state) {
+                      if (context.read<UserBloc>().user != null)
+                      {  return Image.asset(
+                          context
+                                      .read<UserBloc>()
+                                      .user
+                                      ?.countryId
+                                      ?.code
+                                      ?.toLowerCase() ==
+                                  "sa"
+                              ? Images.sa
+                              : Images.globel,
+                          height: 60.h,
+                          width: 60.h,
+                          fit: BoxFit.contain,
+                        );}
+
+                      return SizedBox();
+                    }),
                     Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text("By Software Cloud 2 ",style: AppTextStyles.w600.copyWith(fontSize: 18),)),
-                      SizedBox(height: 18,)
+                        child: Text(
+                          "By Software Cloud 2 ",
+                          style: AppTextStyles.w600.copyWith(fontSize: 18),
+                        )),
+                    SizedBox(
+                      height: 18,
+                    )
                   ],
                 ),
               ),

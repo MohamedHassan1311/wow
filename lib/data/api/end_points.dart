@@ -130,13 +130,14 @@ static const String marriageConditions = '/marriage-conditions';
   static const String sendNotificationConversation = 'conversation/send';
   static chatSMessages(id) => 'conversation/index/$id';
   static deleteChat(id) => 'chats/$id';
+  static updateChat(id) => 'conversation/update/$id';
   static chatDetails(id) => 'chats/$id';
   static chatMessages(id) => 'chat-messages/$id';
   static const String uploadFile = 'conversation/uploadPhoto';
   static startNewChat(id) => 'conversation/save/$id';
 
   ///Notification
-  static const String notifications = 'notification';
+  static  String notifications(id) => 'notification/$id';
   static readNotification(id) => 'notification/read/$id';
   static deleteNotification(id) => 'notification/delete/$id';
 

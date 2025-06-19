@@ -12,7 +12,7 @@ class Routes {
   static const dashboard = "DASHBOARD";
   static const interestPage = "INTEREST_PAGE";
   static const blockPage = "BLOCK_PAGE";
-    static const AddToBlockPage = "AddToBlockPage";
+  static const AddToBlockPage = "AddToBlockPage";
   static const wallet = "WALLET";
   static const addToReportPage = "AddToReportPage";
   static const changePassword = "CHANGE_PASSWORD";

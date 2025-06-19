@@ -53,7 +53,6 @@ class _RecommendationPageState extends State<RecommendationPage> {
                   List<UserModel> list = context.read<RecommendationBloc>().recommendations??[];
                   return GridView.builder(
                     // controller: context.read<RecommendationBloc>().controller,
-                    padding: const EdgeInsets.all(12),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Two cards per row
                       crossAxisSpacing: 10,
@@ -64,6 +63,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                     itemBuilder: (context, index) {
                       return PersoneCard(
                         name: list[index].name,
+                        user:list[index] ,
                         age: list[index].age.toString(),
                         image: list[index].image,
                       );
@@ -81,7 +81,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                     mainAxisSpacing: 10,
                     childAspectRatio: 3 / 4,
                   ),
-                  itemCount: 10, 
+                  itemCount: 10,
                     itemBuilder: (context, index) {
                       return CustomShimmerContainer(
                         height: 175.h,
@@ -90,7 +90,7 @@ class _RecommendationPageState extends State<RecommendationPage> {
                       );
                     }
                   );
-                } 
+                }
                 if (state is Error) {
                   return Column(
                     children: [

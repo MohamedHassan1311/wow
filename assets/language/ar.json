@@ -422,7 +422,7 @@
   "oops_you_have_to_select_company_image": "عفوا, يجب عليك اختيار صورة للشركة",
   "your_gift_has_been_sent_successfully": "تم إرسال هديتك بنجاح",
   "your_customized_gift_has_been_sent_successfully": "تم إرسال هديتك المخصصة بنجاح",
-  "the_chat_has_been_deleted_successfully": "تمت حذف المحادثة بنجاح",
+  "the_chat_has_been_deleted_successfully": "تم تحديث المحادثة بنجاح",
   "your_gold_coin_balance": "رصيدك من العملة الذهبية",
   "recharge_amount": "مبلغ إعادة الشحن",
   "you": "أنت",
@@ -814,9 +814,21 @@
   
   "chat_request_desc":"لديك # طلبات متبقية",
   "chat_request_desc_2":"هل انت متأكد انك تريد ارسال طلب محادثة ل #",
-  "chat_request_sent_successfully":"تم إرسال طلب المحادثة بنجاح ويتم الإنتظار لرد الشريك"
+  "chat_request_sent_successfully":"تم إرسال طلب المحادثة بنجاح ويتم الإنتظار لرد الشريك",
 
-  
+  "frequently_questions":"الأسئلة الشائعة",
 
+  "end_chat":"إنهاء المحادثة",
 
-}
+  "what_is_your_name":"ما اسمك؟",
+  "what_is_your_age":"كم عمرك؟",
+  "do_you_have_children":"هل تحب الأطفال؟",
+
+    "chat_is_ended":"تم إنهاء المحادثة مع #",
+    "chat_is_rejected":"تم رفض المحادثة مع #",
+"chat_is_exspierd": "انتهت صلاحية المحادثة مع #",
+"chat_is_cancelled": "تم إلغاء المحادثة مع #",
+"chat_is_left": "تم مغادرة المحادثة مع #",
+"watting_for_approve_chat":"في انتظار الموافقة على الدردشة"
+
+  }

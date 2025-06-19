@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../app/core/images.dart';
 import '../app/core/styles.dart';
+import '../data/api/end_points.dart';
 import 'image_pop_up_viewer.dart';
 import 'lottie_file.dart';
 
@@ -31,8 +32,8 @@ class CustomNetworkImage {
       Function()? onTap,
       bool topEdges = false}) {
     return CachedNetworkImage(
-      // imageUrl: EndPoints.imageUrl + image,
-      imageUrl: image,
+      imageUrl: EndPoints.domain + image,
+      // imageUrl: image,
       fadeInDuration: const Duration(seconds: 1),
       fadeOutDuration: const Duration(seconds: 2),
       errorWidget: (a, b, c) => Container(
@@ -47,7 +48,7 @@ class CustomNetworkImage {
               : BorderRadius.circular(radius ?? 12),
           color: Styles.WHITE_COLOR,
         ),
-     
+
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius ?? 10),
           child: Image.asset(
@@ -119,72 +120,69 @@ class CustomNetworkImage {
       backGroundColor,
       color,
       double? padding}) {
-    return Hero(
-      tag: image ?? "",
-      child: CachedNetworkImage(
-        imageUrl: (image ?? ""),
-        fit: BoxFit.contain,
-        repeat: ImageRepeat.noRepeat,
-        errorWidget: (a, c, b) => Container(
-          height: radius * 2,
-          width: radius * 2,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: backGroundColor ?? Colors.white,
-              border: color != null ? Border.all(color: color, width: 1) : null,
-              shape: BoxShape.circle),
-          child: CircleAvatar(
-            radius: radius,
-            backgroundColor: backGroundColor ?? Colors.white,
-            child: Image.asset(
-              Images.appLogo,
-              fit: BoxFit.contain,
-            ),
+    return CachedNetworkImage(
+      imageUrl: (image ?? ""),
+      fit: BoxFit.contain,
+      repeat: ImageRepeat.noRepeat,
+      errorWidget: (a, c, b) => Container(
+        height: radius * 2,
+        width: radius * 2,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: backGroundColor ?? Colors.white,
+            border: color != null ? Border.all(color: color, width: 1) : null,
+            shape: BoxShape.circle),
+        child: CircleAvatar(
+          radius: radius,
+          backgroundColor: backGroundColor ?? Colors.white,
+          child: Image.asset(
+            Images.appLogo,
+            fit: BoxFit.contain,
           ),
         ),
-        fadeInDuration: const Duration(seconds: 1),
-        fadeOutDuration: const Duration(seconds: 2),
-        placeholder: (context, url) => CircleAvatar(
-            radius: radius,
-            backgroundColor: Styles.GREY_BORDER,
-            child: LottieFile.asset(
-              "image_loading",
-              height: radius * 2,
-            )),
-        imageBuilder: (context, provider) {
-          return GestureDetector(
-            onTap: () {
-              if (onTap != null) {
-                onTap.call();
-              } else {
-                showDialog(
-                    context: context,
-                    barrierColor: Colors.black.withOpacity(0.75),
-                    builder: (context) {
-                      return ImagePopUpViewer(
-                        image: image,
-                        isFromInternet: true,
-                        title: "",
-                      );
-                    });
-              }
-            },
-            child: Container(
-              height: radius * 2,
-              width: radius * 2,
-              padding: EdgeInsets.all(padding ?? 0),
-              decoration:
-                  BoxDecoration(color: backGroundColor, shape: BoxShape.circle),
-              child: CircleAvatar(
-                backgroundImage: provider,
-                radius: radius,
-                
-                backgroundColor: backGroundColor ?? Colors.white,
-              ),
-            ),
-          );
-        },
       ),
+      fadeInDuration: const Duration(seconds: 1),
+      fadeOutDuration: const Duration(seconds: 2),
+      placeholder: (context, url) => CircleAvatar(
+          radius: radius,
+          backgroundColor: Styles.GREY_BORDER,
+          child: LottieFile.asset(
+            "image_loading",
+            height: radius * 2,
+          )),
+      imageBuilder: (context, provider) {
+        return GestureDetector(
+          onTap: () {
+            if (onTap != null) {
+              onTap.call();
+            } else {
+              showDialog(
+                  context: context,
+                  barrierColor: Colors.black.withOpacity(0.75),
+                  builder: (context) {
+                    return ImagePopUpViewer(
+                      image: image,
+                      isFromInternet: true,
+                      title: "",
+                    );
+                  });
+            }
+          },
+          child: Container(
+            height: radius * 2,
+            width: radius * 2,
+            padding: EdgeInsets.all(padding ?? 0),
+            decoration:
+                BoxDecoration(color: backGroundColor, shape: BoxShape.circle),
+            child: CircleAvatar(
+              backgroundImage: provider,
+              radius: radius,
+
+              backgroundColor: backGroundColor ?? Colors.white,
+            ),
+          ),
+        );
+      },
     );
   }
 }

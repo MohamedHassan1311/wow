@@ -417,7 +417,7 @@
   "oops_you_have_to_select_profile_image": "Oops, You have to select profile image",
   "oops_you_have_to_select_business_image": "Oops, You have to select business image",
   "oops_you_have_to_select_company_image": "Oops, You have to select company image",
-  "the_chat_has_been_deleted_successfully": "The Chat has been deleted successfully",
+  "the_chat_has_been_deleted_successfully": "The Chat has been Updated successfully",
   "your_gold_coin_balance": "Your Gold Coin Balance",
   "recharge_amount": "Recharge Amount",
   "you": "You",
@@ -777,7 +777,22 @@
   "inactive":"Inactive",
   "chat_request_desc":"You have # chat requests",
   "chat_request_desc_2":"Are you sure you want to send a chat request to #?",
-  "chat_request_sent_successfully":"Chat request sent successfully waiting for partner response"
+  "chat_request_sent_successfully":"Chat request sent successfully waiting for partner response",
+  "what_is_your_name":"What is your name?",
+  "what_is_your_age":"What is your age?",
+  "do_you_have_children":"Do you have children?",
+  "frequently_questions":"Frequently Questions",
+  "end_chat":"End Chat",
+"chat_is_ended":"Chat is ended with #",
+"chat_is_rejected":"Chat is rejected with #",
+
+"chat_is_exspierd":"Chat is exspierd with #",
+"chat_is_cancelled":"Chat is cancelled with #",
+"chat_is_left":"Chat is left with #",
+"watting_for_approve_chat":"waiting for approve chat"
+
+
+
 
 }
 

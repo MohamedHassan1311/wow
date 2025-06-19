@@ -33,7 +33,7 @@ abstract class CustomBottomSheet {
       builder: (_) {
         return Padding(
           padding: MediaQuery.of(CustomNavigator.navigatorState.currentContext!)
-              .viewInsets,
+            .viewInsets,
           child: Container(
             height: height ?? 500.h,
             width: CustomNavigator.navigatorState.currentContext!.width,
@@ -110,7 +110,7 @@ abstract class CustomBottomSheet {
                             children: [
                               Expanded(
                                 child: CustomButton(
-                                  text: getTranslated(buttonText ?? "confirm"),
+                                text: getTranslated(buttonText ?? "confirm"),
                                   isLoading: isLoading ?? false,
                                   onTap: onConfirm,
                                 ),

@@ -22,8 +22,8 @@ class FilteredBackIcon extends StatelessWidget {
           CustomNavigator.pop();
         },
         imageName: SvgImages.backArrow,
-        width: 40.w,
-        height: 40.w,
+  width: 40.w,
+  height: 40.w,
         padding: 10.w,
         radius: 26.w,
         backGround: Styles.WHITE_COLOR,

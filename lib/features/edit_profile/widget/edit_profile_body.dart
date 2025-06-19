@@ -110,24 +110,24 @@ class _RegisterBodyState extends State<EditProfileBody> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
-                            Row(
-                              spacing: 10,
-                              children: [
-                                Text(
-                                  getTranslated("remaining_favourit"),
-                                  style: AppTextStyles.w700.copyWith(
-                                      fontSize: 20,
-                                      color: Styles.PRIMARY_COLOR),
-                                ),
-                                Text(
-                                  UserBloc.instance.user?.number_of_likes
-                                          .toString() ??
-                                      "0",
-                                  style: AppTextStyles.w400.copyWith(
-                                      fontSize: 20, color: Styles.BLACK),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   spacing: 10,
+                            //   children: [
+                            //     Text(
+                            //       getTranslated("remaining_favourit"),
+                            //       style: AppTextStyles.w700.copyWith(
+                            //           fontSize: 20,
+                            //           color: Styles.PRIMARY_COLOR),
+                            //     ),
+                            //     Text(
+                            //       UserBloc.instance.user?.number_of_likes
+                            //               .toString() ??
+                            //           "0",
+                            //       style: AppTextStyles.w400.copyWith(
+                            //           fontSize: 20, color: Styles.BLACK),
+                            //     ),
+                            //   ],
+                            // ),
                             Row(
                               spacing: 10,
                               children: [

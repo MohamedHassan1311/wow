@@ -22,12 +22,13 @@ class ReportRepo extends BaseRepo {
     }
   }
 
-  Future<Either<ServerFailure, Response>> addtoReport(id, reason) async {
+  Future<Either<ServerFailure, Response>> addtoReport(id, reason, fromChat) async {
     try {
       Response response = await dioClient.post(uri: EndPoints.report, data: {
         "reported_by": userId,
         "reported_id": id,
         "comment": reason,
+        "from_chat": fromChat
       });
       if (response.statusCode == 200) {
         return Right(response);

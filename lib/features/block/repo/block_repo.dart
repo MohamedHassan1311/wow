@@ -26,12 +26,13 @@ class BlockRepo extends BaseRepo {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
-Future<Either<ServerFailure, Response>>   addtoBlock(id,reason) async {
+Future<Either<ServerFailure, Response>>   addtoBlock(id,reason,fromChat) async {
    try {
       Response response = await dioClient.post(uri: EndPoints.block,data: {
         "blocked_by": userId,
         "blocked_id": id,
         "comment": reason,
+        "from_chat": fromChat
       });
       if (response.statusCode == 200) {
         return Right(response);

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 
 class LoginEntity {
@@ -24,11 +25,11 @@ class LoginEntity {
     return this;
   }
 
-  Map<String, dynamic> toJson() {
+  Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['email'] = emailError == "" ? email?.text.trim() : null;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
-    data['fcm_token'] = passwordError == "" ? password?.text.trim() : null;
+    data['fcm_token'] =await FirebaseMessaging.instance.getToken();
     return data;
   }
 }

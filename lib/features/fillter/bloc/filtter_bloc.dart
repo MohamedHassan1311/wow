@@ -175,8 +175,9 @@ class FilterBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        List<UserModel> res = List<UserModel>.from(
-            success.data['data'].map((e) => UserModel.fromJson(e)));
+        if (success.data['data'].isNotEmpty) {
+          List<UserModel> res = List<UserModel>.from(
+              success.data['data'].map((e) => UserModel.fromJson(e)));
 
         Meta meta = Meta.fromJson(success.data['meta']);
         if (_engine.currentPage == 0) {
@@ -203,7 +204,19 @@ class FilterBloc extends Bloc<AppEvent, AppState> {
           }
 
           emit(Empty());
+          }
         }
+        else{
+                    emit(Done());
+
+            AppCore.showSnackBar(
+            notification: AppNotification(
+                message: success.data['message'],
+                isFloating: true,
+                backgroundColor: Styles.IN_ACTIVE,
+                borderColor: Colors.transparent));
+        }
+
       });
     } catch (e) {
       print(e);

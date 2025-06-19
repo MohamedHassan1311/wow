@@ -47,24 +47,30 @@ class ChatModel {
   final DateTime? updatedAt;
   final int? patientId;
   final int? doctorId;
+  final int? senderId;
+
   final int? readCount;
   final dynamic message;
   final int? patientRead;
   final int? userRead;
+  final int? status;
+
   final UserModel? user;
   final UserModel? me;
 
   ChatModel({
     this.id,
     this.createdAt,
+    this.senderId,
     this.updatedAt,
     this.patientId,
-    this.doctorId,
+  this.doctorId,
     this.readCount,
     this.message,
     this.patientRead,
     this.userRead,
     this.user,
+    this.status,
     this.me,
   });
 
@@ -74,6 +80,9 @@ class ChatModel {
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     patientId: json["patient_id"],
     doctorId: json["client_id"],
+    senderId: json["sender_id"],
+
+    status: json["conv_status"],
     readCount: json["read_count"],
     message: json["message"],
     patientRead: json["patient_read"],

@@ -7,10 +7,14 @@ import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/svg_images.dart';
 import 'package:wow/app/core/text_styles.dart';
 import 'package:wow/app/localization/language_constant.dart';
+import 'package:wow/components/custom_button.dart';
 import 'package:wow/components/custom_images.dart';
 import 'package:wow/features/chat/model/message_model.dart';
 import 'package:wow/features/chat/repo/chat_repo.dart';
+import 'package:wow/features/chats/bloc/chats_bloc.dart';
+import 'package:wow/features/chats/bloc/update_status_chat_bloc.dart';
 import 'package:wow/features/chats/repo/chats_repo.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
 
@@ -48,11 +52,12 @@ class ChatCard extends StatelessWidget {
               ],
             ),
             child: InkWell(
-              onTap: () => CustomNavigator.push(Routes.chat, arguments:
-               chat,
-
+              onTap: () => CustomNavigator.push(
+                Routes.chat,
+                arguments: chat,
               ),
               child: Container(
+                width: context.width,
                 padding: EdgeInsets.symmetric(
                   vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
                 ),
@@ -74,49 +79,89 @@ class ChatCard extends StatelessWidget {
                           children: [
                             Text(
                               chat.user?.nickname ?? "Name",
-                              style: AppTextStyles.w600
-                                  .copyWith(fontSize: 16, color: Styles.ACCENT_COLOR),
+                              style: AppTextStyles.w600.copyWith(
+                                  fontSize: 16, color: Styles.ACCENT_COLOR),
                             ),
                             Spacer(),
                             Flexible(
                               child: Text(
-                                chat.createdAt?.dateFormat(format: 'd MMM yyyy  hh,mm aa') ??
+                                chat.createdAt?.dateFormat(
+                                        format: 'd MMM yyyy  hh,mm aa') ??
                                     DateTime.now().dateFormat(format: "h:m"),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppTextStyles.w400.copyWith(
-                                    fontSize: 12,
-                                    color: Styles.DETAILS_COLOR),
+                                    fontSize: 12, color: Styles.DETAILS_COLOR),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 6.h),
-                        Row(
-                          children: [
-                            Text(
-                              "${chat.message == null ? "${getTranslated("start_to_chat_with")} ${chat.user?.name ?? ""}" :  chat.message ??   ""}   ",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTextStyles.w400.copyWith(
-                                  fontSize: 12, color: Styles.DETAILS_COLOR),
+                        SizedBox(height: 10.h),
+                        Text(
+                          context.read<ChatsBloc>().getStatusMassage(
+                                  chat.status!, chat.user?.nickname ?? "") ??
+                              "",
+                          style: AppTextStyles.w700
+                              .copyWith(fontSize: 12, color: Styles.BLACK),
+                        ),
+                        if (chat.status == 1) SizedBox(height: 10.h),
+                        if (chat.status == 1&& chat.senderId != UserBloc.instance.user!.id)
+                          SizedBox(
+                            height: 40,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              spacing: 10,
+                              children: [
+                                Expanded(
+                                  child: BlocProvider(
+                                    create: (context) => UpdateStatusChatBloc(
+                                        repo: sl<ChatsRepo>()),
+                                    child: BlocBuilder<UpdateStatusChatBloc,
+                                        AppState>(builder: (context, state) {
+                                      return CustomButton(
+                                        radius: 60,
+                                        text: getTranslated("accept") ,
+                                        isLoading: state is Loading,
+                                        onTap: () {
+                                          context
+                                              .read<UpdateStatusChatBloc>()
+                                              .add(Update(arguments: {
+                                                "id": chat.id,
+                                                "status": 4
+                                              }));
+                                        },
+                                      );
+                                    }),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: BlocProvider(
+                                  create: (context) => UpdateStatusChatBloc(
+                                      repo: sl<ChatsRepo>()),
+                                  child: BlocBuilder<UpdateStatusChatBloc,
+                                      AppState>(builder: (context, state) {
+                                    return CustomButton(
+                                      radius: 60,
+                                      backgroundColor: Styles.GREY_BORDER,
+                                      textColor: Styles.BLACK,
+                                      isLoading: state is Loading,
+                                      text: getTranslated("reject"),
+                                      onTap: () {
+                                        context
+                                            .read<UpdateStatusChatBloc>()
+                                            .add(Update(arguments: {
+                                              "id": chat.id,
+                                              "status": 5
+                                            }));
+                                      },
+                                    );
+                                  }),
+                                ))
+                              ],
                             ),
-
-                            if (chat.message != null)
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal:
-                                        Dimensions.paddingSizeExtraSmall.w),
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                    color: Styles.BORDER_COLOR,
-                                    shape: BoxShape.circle),
-                              ),
-
-
-                          ],
-                        )
+                          ),
                       ],
                     ))
                   ],

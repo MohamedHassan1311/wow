@@ -69,8 +69,8 @@ class NotificationModel extends SingleMapper {
     isRead = json['is_readed'];
     image = json['image'];
     key = json['key'];
-    title = json['title'];
-    body = json['body'];
+    title = json["data"]['title'];
+    body = json['data']['body'];
     keyId = json['key_id'];
   }
 

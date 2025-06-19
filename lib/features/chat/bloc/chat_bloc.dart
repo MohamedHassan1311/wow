@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:wow/app/localization/language_constant.dart';
 import '../../../app/core/app_core.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/app_notification.dart';
@@ -27,6 +28,22 @@ class ChatBloc extends Bloc<AppEvent, AppState> {
     on<ReceiveMessage>(receiveMessage);
     on<Typing>(onTypingUser);
   }
+
+
+List frequentlyQuesions = [
+getTranslated("what_is_your_name"),
+getTranslated("what_is_your_age"),
+getTranslated("do_you_have_children"),
+
+
+
+];
+  final TextEditingController controller = TextEditingController();
+
+
+  final selectedQuestion = BehaviorSubject<String?>();
+  Function(String?) get updateSelectedQuestion => selectedQuestion.sink.add;
+  Stream<String?> get selectedQuestionStream => selectedQuestion.stream.asBroadcastStream();
 
   final isRecording = BehaviorSubject<bool?>();
   Function(bool?) get updateIsRecording => isRecording.sink.add;

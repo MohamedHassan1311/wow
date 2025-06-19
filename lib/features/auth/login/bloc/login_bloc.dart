@@ -38,8 +38,8 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
   Stream<LoginEntity?> get loginEntityStream =>
       loginEntity.stream.asBroadcastStream();
 
-  bool isBodyValid() {
-    for (var entry in (loginEntity.valueOrNull?.toJson() ?? {}).entries) {
+  Future<bool> isBodyValid() async {
+    for (var entry in (await loginEntity.valueOrNull?.toJson() ?? {}).entries) {
       final value = entry.value;
       if (value == null || (value is String && value.trim().isEmpty)) {
         return false;
@@ -64,7 +64,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
     try {
       emit(Loading());
       Either<ServerFailure, Response> response =
-          await repo.logIn(loginEntity.valueOrNull!.toJson());
+          await repo.logIn(await loginEntity.valueOrNull!.toJson());
 
       response.fold((fail) {
           AppCore.showSnackBar(

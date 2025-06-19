@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/features/more/widgets/turn_button.dart';
+import 'package:wow/main_page/bloc/dashboard_bloc.dart';
 import '../../../app/core/app_state.dart';
 import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
@@ -49,6 +50,8 @@ class MoreProfileOptions extends StatelessWidget {
           MoreButton(
             title: getTranslated("chats", context: context),
             icon: SvgImages.chats,
+            onTap: () =>       DashboardBloc.instance.updateSelectIndex(3)
+,
             // onTap: () => CustomNavigator.push(Routes.chats),
           ),
 

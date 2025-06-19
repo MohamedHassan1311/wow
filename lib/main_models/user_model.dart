@@ -183,7 +183,7 @@ class UserModel extends SingleMapper {
     phone = json['phone'];
     phoneCode = json['phone_code'];
     gender = json['gender'];
-    number_of_interst = json['number_of_favourites'];
+    number_of_interst = json['number_of_likes'];
     //Unhandled Exception: FormatException: Trying to read / from 2002-12-06 at 5
     dop = json['dob'] != null
         ? DateTime.tryParse(json['dob'])??DateTime.now()
@@ -270,7 +270,7 @@ languages = json['language'] != null
     wallet = double.tryParse(json['wallet']?.toString() ?? '0.0');
     points = json['points'];
     type = json['type'];
-    number_of_interst = json['number_of_interst'];
+    number_of_interst = json['number_of_likes'];
     countryId = json['country'] != null
         ? CustomFieldModel.fromJson(json['country'])
         : CustomFieldModel(name: "no Data");
@@ -326,7 +326,7 @@ languages = json['language'] != null
     data['image'] = image;
     data['number_of_chats'] = number_of_chats;
     data['number_of_likes'] = number_of_likes;
-    data['number_of_favourites'] = number_of_interst;
+    data['number_of_likes'] = number_of_interst;
     data['proposal_suspend'] = proposal_suspend;
     data['is_favourit'] = isFavourit;
     data['language'] = languages;

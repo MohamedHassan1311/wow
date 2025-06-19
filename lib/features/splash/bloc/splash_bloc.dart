@@ -18,6 +18,11 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<void> onClick(AppEvent event, Emitter<AppState> emit) async {
+     if (repo.isLogin) {
+        UserBloc.instance.add(Click());
+
+
+      }
     Future.delayed(const Duration(milliseconds: 2200), () async {
       ///Ask Notification Permission
       PermissionHandler.checkNotificationsPermission();

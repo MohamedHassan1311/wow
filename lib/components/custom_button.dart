@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
   final bool withShadow;
   final Widget? lIconWidget, rIconWidget;
 
-  const CustomButton({
+const CustomButton({
     super.key,
     this.onTap,
     this.rIconWidget,

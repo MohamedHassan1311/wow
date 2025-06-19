@@ -5,6 +5,8 @@ class SvgImages {
   static const String success = 'assets/svgs/success.svg';
   static const String shieldDone = 'assets/svgs/Shield Done.svg';
   static const String fillCloseCircle = 'assets/svgs/fill-close-circle.svg';
+    static const String close = 'assets/svgs/close.svg';
+
   static const String cameraIcon = 'assets/svgs/camera.svg';
   static const String appLogo = 'assets/svgs/app_logo.svg';
   static const String createRoom = 'assets/svgs/create_room.svg';
@@ -75,6 +77,8 @@ class SvgImages {
   static const String edit = 'assets/svgs/edit.svg';
   static const String login = 'assets/svgs/login.svg';
   static const String send = 'assets/svgs/send.svg';
+    static const String faq = 'assets/svgs/faq.svg';
+
   static const String attach = 'assets/svgs/attach.svg';
   static const String trash = 'assets/svgs/trash.svg';
   static const String clock = 'assets/svgs/clock.svg';

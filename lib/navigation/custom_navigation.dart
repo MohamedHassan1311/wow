@@ -133,13 +133,19 @@ abstract class CustomNavigator {
       case Routes.blockPage:
         return _pageRoute(BlockPage());
       case Routes.AddToBlockPage:
-        return _pageRoute(AddToBlockPage(user: settings.arguments as UserModel));
+        final Map<String, dynamic> map =
+            settings.arguments as Map<String, dynamic>;
+        return _pageRoute(
+            AddToBlockPage(user: map["user"] as UserModel, isFromChat: map["isFromChat"] as bool));
 
       case Routes.addresses:
         return _pageRoute(const AddressesPage());
 
       case Routes.addToReportPage:
-        return _pageRoute(AddToReportPage(user: settings.arguments as UserModel));
+        final Map<String, dynamic> map =  
+            settings.arguments as Map<String, dynamic>;
+        return _pageRoute(
+            AddToReportPage(user: map["user"] as UserModel, isFromChat: map["isFromChat"] as bool));
 
       case Routes.addAddress:
         return _pageRoute(

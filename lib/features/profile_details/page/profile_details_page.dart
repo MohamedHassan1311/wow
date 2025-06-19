@@ -165,7 +165,10 @@ class ProfileDetailsPage extends StatelessWidget {
                                           onTap: () {
                                             CustomNavigator.push(
                                                 Routes.addToReportPage,
-                                                arguments: user);
+                                                arguments: {
+                                                  "user": user,
+                                                  "isFromChat": false
+                                                });
                                           },
                                           text: getTranslated("report"),
                                         )),
@@ -180,7 +183,10 @@ class ProfileDetailsPage extends StatelessWidget {
                                           onTap: () async {
                                             CustomNavigator.push(
                                                 Routes.AddToBlockPage,
-                                                arguments: user);
+                                                arguments: {
+                                                  "user": user,
+                                                  "isFromChat": false
+                                                });
 
                                             //  final result= await CustomAlertDialog.show(
                                             //                         dailog: AlertDialog(

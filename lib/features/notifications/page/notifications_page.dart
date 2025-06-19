@@ -114,7 +114,6 @@ class NotificationsPage extends StatelessWidget {
                               height: 50.h,
                             ),
                             EmptyState(
-                              img: Images.emptyNotifications,
                               imgHeight: 175.h,
                               imgWidth: 140.w,
                               txt: state is Error

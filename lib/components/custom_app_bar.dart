@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? height;
   final Color? backColor;
   final double? actionWidth;
-
+  final bool? isCenter;
   const CustomAppBar(
       {super.key,
       this.title,
@@ -25,6 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.withVPadding = true,
       this.withBack = true,
       this.actionWidth,
+      this.isCenter=true,
       this.actionChild});
 
   @override
@@ -46,13 +47,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SafeArea(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 5,
+      crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             withBack && CustomNavigator.navigatorState.currentState!.canPop()
                 ? FilteredBackIcon()
                 : SizedBox(
                     width: actionWidth ?? 40.w,
                   ),
+            if(isCenter==true)
             const Expanded(child: SizedBox()),
             Text(
               title ?? "",
@@ -61,7 +64,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             const Expanded(child: SizedBox()),
             SizedBox(
-              height: actionWidth ?? 40.w,
+              // height: actionWidth ?? 40.w,
               width: actionWidth ?? 40.w,
               child: actionChild ?? const SizedBox(),
             )

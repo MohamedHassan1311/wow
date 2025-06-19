@@ -32,7 +32,7 @@ class NotificationsRepo extends BaseRepo {
       SearchEngine data) async {
     try {
       Response response = await dioClient.get(
-        uri: EndPoints.notifications,
+        uri: EndPoints.notifications(userId),
         queryParameters: {
           "page": data.currentPage! + 1,
           "limit": data.limit,

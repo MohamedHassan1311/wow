@@ -36,7 +36,8 @@ import '../../../main_widgets/main_app_bar.dart';
 
 class AddToReportPage extends StatefulWidget {
   final UserModel user;
-  const AddToReportPage({super.key, required this.user});
+  final bool isFromChat;
+  const AddToReportPage({super.key, required this.user, this.isFromChat = false});
 
   @override
   State<AddToReportPage> createState() => _AddToReportPageState();
@@ -163,7 +164,10 @@ class _AddToReportPageState extends State<AddToReportPage>
                 text: getTranslated("report_user"),
                 isLoading: state is Loading,
                 onTap: () {
-                  context.read<ReportBloc>().add(Add(arguments: widget.user.id));
+                  context.read<ReportBloc>().add(Add(arguments: {
+                    "user": widget.user,
+                    "isFromChat": widget.isFromChat
+                  }));
                 },
               ),
               

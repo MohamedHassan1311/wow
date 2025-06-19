@@ -53,19 +53,20 @@ class NotificationCard extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                if (notification?.keyId != null &&
-                    notification?.key == "order") {
-                } else if (notification?.key == "transaction") {
-                  CustomNavigator.push(Routes.transactions);
-                } else if (notification?.key == "feedback") {
-                  CustomNavigator.push(Routes.myFeedbacks);
-                }
-
-                if (notification?.isRead != true) {
-                  context
-                      .read<NotificationsBloc>()
-                      .add(Read(arguments: notification?.id ?? ""));
-                }
+                print(notification!.toJson());
+                // if (notification?.keyId != null &&
+                //     notification?.key == "order") {
+                // } else if (notification?.key == "transaction") {
+                //   CustomNavigator.push(Routes.transactions);
+                // } else if (notification?.key == "feedback") {
+                //   CustomNavigator.push(Routes.myFeedbacks);
+                // }
+                //
+                // if (notification?.isRead != true) {
+                //   context
+                //       .read<NotificationsBloc>()
+                //       .add(Read(arguments: notification?.id ?? ""));
+                // }
               },
               child: Container(
                 width: context.width,

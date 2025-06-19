@@ -34,7 +34,6 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
   bool isExpand = false;
   Timer? timer;
 
-  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                             builder: (context, typingSnapshot) {
                               return CustomTextField(
                                 hint: getTranslated("write_your_message"),
-                                controller: _controller,
+                                controller: context.read<ChatBloc>().controller,
                                 maxLines: 3,
                                 sufWidget: customImageIconSVG(
                                   imageName: SvgImages.attach,
@@ -79,31 +78,41 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                                     });
                                   },
                                 ),
-                                prefixWidget: customImageIconSVG(
-                                  imageName: SvgImages.send,
-                                  color: messageSnapshot.data?.message
-                                                  ?.trim() !=
-                                              null &&
-                                          messageSnapshot.data!.message!
-                                              .trim()
-                                              .isNotEmpty
-                                      ? Styles.PRIMARY_COLOR
-                                      : Styles.PRIMARY_COLOR.withOpacity(0.4),
-                                  onTap: () {
-                                    if (_controller.text.isNotEmpty ||(messageSnapshot.hasData &&
-                                        messageSnapshot.data != null &&
-                                        messageSnapshot.data!.message != null)) {
-                                      context
-                                          .read<ChatBloc>()
-                                          .add(SendMessage(arguments: {
-                                            "message": _controller.text.trim(),
-                                            "receiverId": widget.data.doctorId,
-                                            "convId": widget.data.id,
-                                          }));
+                                prefixWidget: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: CircleAvatar(
+                                    backgroundColor: Styles.PRIMARY_COLOR,
+                                    radius: 24.w,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: customImageIconSVG(
+                                        imageName: SvgImages.send,
+                                        color: Styles.WHITE_COLOR,
+                                        onTap: () {
+                                          if (context.read<ChatBloc>().controller.text.isNotEmpty ||
+                                              (messageSnapshot.hasData &&
+                                                  messageSnapshot.data !=
+                                                      null &&
+                                                  messageSnapshot
+                                                          .data!.message !=
+                                                      null)) {
+                                            context
+                                                .read<ChatBloc>()
+                                                .add(SendMessage(arguments: {
+                                                  "message":
+                                                      context.read<ChatBloc>().controller.text.trim(),
+                                                  "receiverId":
+                                                      widget.data.doctorId,
+                                                  "convId": widget.data.id,
+                                                }));
 
-                                      _controller.clear();
-                                    }
-                                  },
+                                            context.read<ChatBloc>().controller.clear();
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               );
                             }),
@@ -160,24 +169,31 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                             Stack(
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 10),
-                                  child: CustomNetworkImage.containerNewWorkImage(
-                                      image: messageSnapshot.data!.message ?? "",
-                                      width: 100.h,
-                                      height: 100.h,
-                                      radius: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child:
+                                      CustomNetworkImage.containerNewWorkImage(
+                                          image:
+                                              messageSnapshot.data!.message ??
+                                                  "",
+                                          width: 100.h,
+                                          height: 100.h,
+                                          radius: 10),
                                 ),
                                 Align(
                                     alignment: Alignment.bottomLeft,
-                                    child: IconButton(onPressed: (){
-                                      context.read<ChatBloc>(). updateMessage(
-                                        MessageEntity(),
-
-
-                                      );
-                                    }, icon: Icon(Icons.remove_circle_outline_rounded,color: Colors.red,))),
-
+                                    child: IconButton(
+                                        onPressed: () {
+                                          context
+                                              .read<ChatBloc>()
+                                              .updateMessage(
+                                                MessageEntity(),
+                                              );
+                                        },
+                                        icon: Icon(
+                                          Icons.remove_circle_outline_rounded,
+                                          color: Colors.red,
+                                        ))),
                               ],
                             ),
                         ],

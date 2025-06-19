@@ -33,7 +33,7 @@ class AppCore {
       autoCloseDuration: const Duration(seconds: 5),
       title: Text(
         notification.message,
-        style: AppTextStyles.w600.copyWith(fontSize: 18, color: Styles.HEADER),
+    style: AppTextStyles.w600.copyWith(fontSize: 18, color: Styles.HEADER),
       ),
       // you can also use RichText widget for title and description parameters
       description: RichText(

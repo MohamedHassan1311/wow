@@ -41,6 +41,24 @@ class ChatsRepo extends BaseRepo {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
+    Future<Either<ServerFailure, Response>> updateChat(id,status) async {
+    try {
+      Response response = await dioClient.post(
+        uri: EndPoints.updateChat(userId),
+        data: {
+          "status": status,
+          "conversationId": id
+        },
+      );
+      if (response.statusCode == 200) {
+        return Right(response);
+      } else {
+        return left(ServerFailure(response.data['message']));
+      }
+    } catch (error) {
+      return left(ApiErrorHandler.getServerFailure(error));
+    }
+  }
 
   Future<Either<ServerFailure, Response>> deleteChat(id) async {
     try {
