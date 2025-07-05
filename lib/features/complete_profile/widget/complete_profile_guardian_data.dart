@@ -129,7 +129,7 @@ class _CompleteProfileBodyStpe1State extends State<CompleteProfileGuardiandata>
                 "${getTranslated("otherGuardian")}",
                 inputType: TextInputType.name,
                 pSvgIcon: SvgImages.user,
-                validate: Validations.name,
+                validate: Validations.field,
               ),
               SizedBox(
                 width: 10,

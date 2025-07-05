@@ -43,7 +43,7 @@ class UserModel extends SingleMapper {
   CustomFieldModel? lifestyle;
   List<CustomFieldModel>? marriageCondition;
   String? otherConditionText;
-  
+
 
   String? personalInfo;
   String? partenrInfo;
@@ -74,6 +74,7 @@ class UserModel extends SingleMapper {
   String? gfName;
   String? glName;
   String? gPhoneNumber;
+  String? grelation;
   String? otherGuardian;
   CustomFieldModel? otherNationalityId;
   int? numOfSons;
@@ -82,8 +83,9 @@ class UserModel extends SingleMapper {
   int? number_of_chats;
   int? number_of_likes;
     int? number_of_interst;
+    bool? can_view_guardian_info;
 
-  int? proposal_suspend;  
+  int? proposal_suspend;
 
   UserModel(
       {this.id,
@@ -158,6 +160,7 @@ class UserModel extends SingleMapper {
       this.culture,
       this.health,
       this.lifestyle,
+      this.can_view_guardian_info,
       this.number_of_chats,
       this.number_of_likes,
       this.number_of_interst,
@@ -170,9 +173,10 @@ class UserModel extends SingleMapper {
     fname = json['fname'];
     lname = json['lname'];
     image = json['image'];
-    glName = json['glName'];
-    gfName = json['gfName'];
-    gPhoneNumber = json['gPhoneNumber'];
+    grelation = json['grelation'];
+    gfName = json['gfname']?.toString();
+    glName = json['glname']?.toString();
+    gPhoneNumber = json['gphone']?.toString();
     otherGuardian = json['otherGuardian'];
     nickname = json['nickname'];
     balance = json['balance'];
@@ -184,7 +188,7 @@ class UserModel extends SingleMapper {
     phoneCode = json['phone_code'];
     gender = json['gender'];
     number_of_interst = json['number_of_likes'];
-    //Unhandled Exception: FormatException: Trying to read / from 2002-12-06 at 5
+    can_view_guardian_info = json['can_view_guardian_info'];
     dop = json['dob'] != null
         ? DateTime.tryParse(json['dob'])??DateTime.now()
         : DateTime.now();
@@ -246,7 +250,7 @@ languages = json['language'] != null
         : CustomFieldModel(name: "no Data");
 
     identityFile = json['identity_file'];
-    accountType = json['account_type'] != null
+    accountType = json['account_type'] != null &&json['account_type'] is Map
         ? CustomFieldModel.fromJson(json['account_type'])
         : CustomFieldModel(name: "no Data");
     notes = json['notes'];
@@ -291,7 +295,7 @@ languages = json['language'] != null
     lifestyle = json['lifestyle'] != null
         ? CustomFieldModel.fromJson(json['lifestyle'])
         : CustomFieldModel(name: "no Data");
-    accountType = json['account_type'] != null
+    accountType = json['account_type'] != null &&json['account_type'] is Map
         ? CustomFieldModel.fromJson(json['account_type'])
         : CustomFieldModel(name: "no Data");
 

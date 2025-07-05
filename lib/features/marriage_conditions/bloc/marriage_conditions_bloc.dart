@@ -32,11 +32,21 @@ class MarriageConditionsBloc extends Bloc<AppEvent, AppState> {
   Future<void> onAdd(Add event, Emitter<AppState> emit) async {
     if (await internetConnection.updateConnectivityStatus()) {
       try {
+        if(!marriageConditions.hasValue){
+          AppCore.showSnackBar(
+              notification: AppNotification(
+                  message: getTranslated("choose_marriage_conditions"),
+                  isFloating: true,
+                  backgroundColor: Styles.IN_ACTIVE,
+                  borderColor: Colors.red));
+          return;
+        }
         emit(Loading());
 
   var data = FormData.fromMap({
        "marriage_condition[]": marriageConditions.valueOrNull,
-       "other_condition": marriageConditionsController.text,
+    if(marriageConditionsController.text.isNotEmpty)
+       "other_condition": marriageConditionsController.text.isNotEmpty?marriageConditionsController.text:"",
 
       });
         Either<ServerFailure, Response> response =
@@ -75,8 +85,8 @@ class MarriageConditionsBloc extends Bloc<AppEvent, AppState> {
       }
     }
   }
-  
 
 
 
-} 
+
+}

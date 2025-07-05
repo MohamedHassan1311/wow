@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
@@ -44,10 +45,7 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 12,
                 children: [
-              
-              
-              
-               /// hijab
+                  /// hijab
                   BlocProvider(
                     create: (context) =>
                         SettingOptionBloc(repo: sl<SettingOptionRepo>())
@@ -55,38 +53,38 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
                       if (state is Done) {
-                        CustomFieldsModel model = state.model as CustomFieldsModel;
-              
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
                         return StreamBuilder<CustomFieldModel?>(
                             stream: context
                                 .read<PersonalInfoBloc>()
                                 .accountTypeStream,
                             builder: (context, snapshot) {
-                              if(snapshot.data!=null){
-                              return CustomDropDownButton(
-                                label: getTranslated("class"),
-              
-                                  value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("class"),
+
+                                  value: model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
                                   ),
                                   // isEnabled: widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.sect==null:true,
-                                onChange: (v) {
-                                  context
-                                      .read<PersonalInfoBloc>()
-                                          .updateAccountType(
-                                          v as CustomFieldModel);
-                                },
-                                items: model.data ?? [],
-                                name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .accountType
-                                        .valueOrNull
-                                        ?.name ??
-                                    getTranslated("class"),
-                              );
-                            }
-                            return SizedBox();
+                                        .updateAccountType(
+                                            v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .accountType
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("class"),
+                                );
+                              }
+                              return SizedBox();
                             });
                       }
                       if (state is Loading) {
@@ -100,10 +98,7 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                       }
                     }),
                   ),
-              
-              
-              
-              
+
                   /// hijab
                   BlocProvider(
                     create: (context) =>
@@ -112,38 +107,36 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
                       if (state is Done) {
-                        CustomFieldsModel model = state.model as CustomFieldsModel;
-              
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
                         return StreamBuilder<CustomFieldModel?>(
-                            stream: context
-                                .read<PersonalInfoBloc>()
-                                .hijabStream,
+                            stream:
+                                context.read<PersonalInfoBloc>().hijabStream,
                             builder: (context, snapshot) {
-                              if(snapshot.data!=null){
-                              return CustomDropDownButton(
-                                label: getTranslated("hijab"),
-              
-                                  value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("hijab"),
+
+                                  value:  model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
                                   ),
                                   // isEnabled: widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.sect==null:true,
-                                onChange: (v) {
-                                  context
-                                      .read<PersonalInfoBloc>()
-                                          .updateHijab(
-                                          v as CustomFieldModel);
-                                },
-                                items: model.data ?? [],
-                                name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .hijab
-                                        .valueOrNull
-                                        ?.name ??
-                                    getTranslated("hijab"),
-                              );
-                            }
-                            return SizedBox();
+                                        .updateHijab(v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .hijab
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("hijab"),
+                                );
+                              }
+                              return SizedBox();
                             });
                       }
                       if (state is Loading) {
@@ -157,235 +150,219 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                       }
                     }),
                   ),
-              
-              
-              
-              
+
                   /// abaya
                   BlocProvider(
                     create: (context) =>
-                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "abaya"})),
+                        SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                          ..add(Get(arguments: {'field_name': "abaya"})),
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
-                          if (state is Done) {
-                            CustomFieldsModel model = state.model as CustomFieldsModel;
-              
-                            return StreamBuilder<CustomFieldModel?>(
-                                stream:
+                      if (state is Done) {
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
+                        return StreamBuilder<CustomFieldModel?>(
+                            stream:
                                 context.read<PersonalInfoBloc>().abayaStream,
-              
-                                builder: (context, snapshot) {
-                                  if(snapshot.data!=null){
-                                  return CustomDropDownButton(
-                                    label: getTranslated("abya"),
-                                    // validation: (v) =>
-                                    //     Validations.field(snapshot.data?.name),
-                        value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
+                            builder: (context, snapshot) {
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("abya"),
+                                  // validation: (v) =>
+                                  //     Validations.field(snapshot.data?.name),
+                                  value:  model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
                                   ),
                                   // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
-                                    onChange: (v) {
-                                      context
-                                          .read<PersonalInfoBloc>()
-                                          .updateTribe(v as CustomFieldModel);
-                                    },
-                                    items: model.data ?? [],
-                                    name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .tribe
-                                        .valueOrNull
-                                        ?.name ??
-                                        getTranslated("abya"),
-                                  );
-                                }
-                                return SizedBox();
-                                });
-                          }
-                          if (state is Loading) {
-                            return CustomShimmerContainer(
-                              height: 60.h,
-                              width: context.width,
-                              radius: 30,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        }),
+                                        .updateTribe(v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .tribe
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("abya"),
+                                );
+                              }
+                              return SizedBox();
+                            });
+                      }
+                      if (state is Loading) {
+                        return CustomShimmerContainer(
+                          height: 60.h,
+                          width: context.width,
+                          radius: 30,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
-              
-              
-              
+
                   /// culture
                   BlocProvider(
                     create: (context) =>
-                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "culture"})),
+                        SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                          ..add(Get(arguments: {'field_name': "culture"})),
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
-                          if (state is Done) {
-                            CustomFieldsModel model = state.model as CustomFieldsModel;
-              
-                            return StreamBuilder<CustomFieldModel?>(
-                                stream:
+                      if (state is Done) {
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
+                        return StreamBuilder<CustomFieldModel?>(
+                            stream:
                                 context.read<PersonalInfoBloc>().cultureStream,
-              
-                                builder: (context, snapshot) {
-                                  if(snapshot.data!=null){
-                                  return CustomDropDownButton(  
-                                    label: getTranslated("culture"),
-                                    // validation: (v) =>
-                                    //     Validations.field(snapshot.data?.name),
-                        value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
+                            builder: (context, snapshot) {
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("culture"),
+                                  // validation: (v) =>
+                                  //     Validations.field(snapshot.data?.name),
+                                  value: model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
                                   ),
                                   // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
-                                    onChange: (v) {
-                                      context
-                                          .read<PersonalInfoBloc>()
-                                          .updateCulture(v as CustomFieldModel);
-                                    },
-                                    items: model.data ?? [],
-                                    name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .culture
-                                        .valueOrNull
-                                        ?.name ??
-                                        getTranslated("culture"),
-                                  );
-                                }
-                                return SizedBox();
-                                });
-                          }
-                          if (state is Loading) {
-                            return CustomShimmerContainer(
-                              height: 60.h,
-                              width: context.width,
-                              radius: 30,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        }),
+                                        .updateCulture(v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .culture
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("culture"),
+                                );
+                              }
+                              return SizedBox();
+                            });
+                      }
+                      if (state is Loading) {
+                        return CustomShimmerContainer(
+                          height: 60.h,
+                          width: context.width,
+                          radius: 30,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
-              
-              
-                 /// health
+
+                  /// health
                   BlocProvider(
                     create: (context) =>
-                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "health"})),
+                        SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                          ..add(Get(arguments: {'field_name': "health"})),
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
-                          if (state is Done) {
-                            CustomFieldsModel model = state.model as CustomFieldsModel;
-              
-                            return StreamBuilder<CustomFieldModel?>(
-                                stream:
+                      if (state is Done) {
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
+                        return StreamBuilder<CustomFieldModel?>(
+                            stream:
                                 context.read<PersonalInfoBloc>().healthStream,
-              
-                                builder: (context, snapshot) {
-                                  if(snapshot.data!=null){
-                                  return CustomDropDownButton(  
-                                    label: getTranslated("health"),
-                                    // validation: (v) =>
-                                    //     Validations.field(snapshot.data?.name),
-                        value: model.data?.firstWhere(
-                                    (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
+                            builder: (context, snapshot) {
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("health"),
+                                  // validation: (v) =>
+                                  //     Validations.field(snapshot.data?.name),
+                                  value:  model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
                                   ),
                                   // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
-                                    onChange: (v) {
-                                      context
-                                          .read<PersonalInfoBloc>()
-                                          .updateHealth(v as CustomFieldModel);
-                                    },
-                                    items: model.data ?? [],
-                                    name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .health
-                                        .valueOrNull
-                                        ?.name ??
-                                        getTranslated("health"),
-                                  );
-                                }
-                                return SizedBox();
-                                });
-                          }
-                          if (state is Loading) {
-                            return CustomShimmerContainer(
-                              height: 60.h,
-                              width: context.width,
-                              radius: 30,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        }),
+                                        .updateHealth(v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .health
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("health"),
+                                );
+                              }
+                              return SizedBox();
+                            });
+                      }
+                      if (state is Loading) {
+                        return CustomShimmerContainer(
+                          height: 60.h,
+                          width: context.width,
+                          radius: 30,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
-              
-              
-              
-               /// health
+
+                  /// health
                   BlocProvider(
                     create: (context) =>
-                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "lifestyle"})),
+                        SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                          ..add(Get(arguments: {'field_name': "lifestyle"})),
                     child: BlocBuilder<SettingOptionBloc, AppState>(
                         builder: (context, state) {
-                          if (state is Done) {
-                            CustomFieldsModel model = state.model as CustomFieldsModel;
-              
-                            return StreamBuilder<CustomFieldModel?>(
-                                stream:
-                                context.read<PersonalInfoBloc>().lifestyleStream,
-              
-                                builder: (context, snapshot) {
-                                  if(snapshot.data!=null){
-                                  return CustomDropDownButton(  
-                                    label: getTranslated("lifestyle"),
-                                    // validation: (v) =>
-                                    //     Validations.field(snapshot.data?.name),
-                        value: model.data?.firstWhere(
+                      if (state is Done) {
+                        CustomFieldsModel model =
+                            state.model as CustomFieldsModel;
+
+                        return StreamBuilder<CustomFieldModel?>(
+                            stream: context
+                                .read<PersonalInfoBloc>()
+                                .lifestyleStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.data != null) {
+                                return CustomDropDownButton(
+                                  label: getTranslated("lifestyle"),
+                                  // validation: (v) =>
+                                  //     Validations.field(snapshot.data?.name),
+                                  value: model.data!.firstWhereOrNull(
                                     (v) => v.id == snapshot.data?.id,
-                                    orElse: () => CustomFieldModel(name: "no_data"),
                                   ),
                                   // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
-                                    onChange: (v) {
-                                      context
-                                          .read<PersonalInfoBloc>()
-                                          .updateLifestyle(v as CustomFieldModel);
-                                    },
-                                    items: model.data ?? [],
-                                    name: context
+                                  onChange: (v) {
+                                    context
                                         .read<PersonalInfoBloc>()
-                                        .lifestyle
-                                        .valueOrNull
-                                        ?.name ??
-                                        getTranslated("lifestyle"),
-                                  );
-                                }
-                                return SizedBox();
-                                });
-                          }
-                          if (state is Loading) {
-                            return CustomShimmerContainer(
-                              height: 60.h,
-                              width: context.width,
-                              radius: 30,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        }),
+                                        .updateLifestyle(v as CustomFieldModel);
+                                  },
+                                  items: model.data ?? [],
+                                  name: context
+                                          .read<PersonalInfoBloc>()
+                                          .lifestyle
+                                          .valueOrNull
+                                          ?.name ??
+                                      getTranslated("lifestyle"),
+                                );
+                              }
+                              return SizedBox();
+                            });
+                      }
+                      if (state is Loading) {
+                        return CustomShimmerContainer(
+                          height: 60.h,
+                          width: context.width,
+                          radius: 30,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
                   ),
-              
-              
-              
-              
-              
                 ],
               ),
             ],

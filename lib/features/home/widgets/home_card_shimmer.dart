@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/app/core/images.dart';
 import 'package:wow/components/custom_network_image.dart';
 
 class HomeCardShimmer extends StatelessWidget {
@@ -13,14 +14,16 @@ class HomeCardShimmer extends StatelessWidget {
         Container(
           width: context.width,
           height: context.height,
-          color: Colors.grey.shade300,
+          color: Colors.white,
         ).animate().shimmer(duration: 1400.ms, color: Colors.white),
-         Image.asset(
-          "assets/images/imagebg.png",
-          width: context.width,
-          height: context.height,
-          fit: BoxFit.cover,
-        ),
+         Center(
+           child: Image.asset(
+            Images.splash,
+            width: context.width*.8,
+            height: context.height,
+            fit: BoxFit.contain,
+                   ),
+         ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Column(

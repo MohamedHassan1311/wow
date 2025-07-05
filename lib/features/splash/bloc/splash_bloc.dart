@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/app_state.dart';
 import '../../../data/config/di.dart';
+import '../../../helpers/deep_links_helper.dart';
 import '../../../helpers/permissions.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../setting/bloc/setting_bloc.dart';
@@ -23,7 +24,9 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
 
 
       }
-    Future.delayed(const Duration(milliseconds: 2200), () async {
+     await DeepLinksHalper().initDeepLinks();
+
+     Future.delayed(const Duration(milliseconds: 2200), () async {
       ///Ask Notification Permission
       PermissionHandler.checkNotificationsPermission();
 

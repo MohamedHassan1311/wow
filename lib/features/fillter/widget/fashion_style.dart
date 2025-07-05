@@ -16,6 +16,10 @@ import 'package:wow/features/setting_option/bloc/setting_option_bloc.dart';
 import 'package:wow/features/setting_option/repo/setting_option_repo.dart';
 import 'package:wow/main_models/custom_field_model.dart';
 
+import '../../../components/custom_bottom_sheet.dart';
+import '../../../components/custom_text_form_field.dart';
+import '../../../navigation/custom_navigation.dart';
+
 class FashionStyle extends StatefulWidget {
   const FashionStyle({super.key});
 
@@ -36,137 +40,142 @@ class _FashionStyleState extends State<FashionStyle>
               initiallyExpanded: false,
               title: getTranslated("fashion_style"),
               children: [
-                BlocProvider(
-                  create: context.read<FilterBloc>().hijab.value?.id == null ? (context) =>
-                      SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "hijab"})): (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
-                  child: BlocBuilder<SettingOptionBloc, AppState>(
-                      builder: (context, state) {
-                    if (state is Done) {
-                      CustomFieldsModel model =
-                          state.model as CustomFieldsModel;
+                StreamBuilder<CustomFieldModel?>(
+                  stream: context.read<FilterBloc>().hijabStream,
+                  builder: (context, snapshot) {
+                    final selectedHijab = snapshot.data;
 
-                      return StreamBuilder<CustomFieldModel?>(
-                          stream: context.read<FilterBloc>().hijabStream,
-                          builder: (context, snapshot) {
-                            return Column(
-                              spacing: 5,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated("hijab"),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Wrap(
-                                  children: model.data!.map(
-                                    (hobby) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (context
-                                                  .read<FilterBloc>()
-                                                  .hijab
-                                                  .value ==
-                                              hobby)
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateHijab(null);
-                                          else
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateHijab(hobby);
-                                        },
-                                        child: CustomSelectWidget(
-                                          hobby: hobby,
-                                          isSelected: snapshot.data == hobby,
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                )
-                              ],
+                    return BlocProvider(
+                      create: context.read<FilterBloc>().hijab.value?.id == null
+                          ? (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                        ..add(Get(arguments: {'field_name': "hijab"}))
+                          : (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
+                      child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
+                          if (state is Loading) {
+                            return CustomShimmerContainer(
+                              height: 60.h,
+                              width: context.width,
+                              radius: 30,
                             );
-                          });
-                    }
-                    if (state is Loading) {
-                      return CustomShimmerContainer(
-                        height: 60.h,
-                        width: context.width,
-                        radius: 30,
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  }),
-                ),
-                BlocProvider(
-                  create: context.read<FilterBloc>().abya.value?.id == null ? (context) =>
-                      SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "abaya"})): (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
-                  child: BlocBuilder<SettingOptionBloc, AppState>(
-                      builder: (context, state) {
-                    if (state is Done) {
-                      CustomFieldsModel model =
-                          state.model as CustomFieldsModel;
+                          } else if (state is Done) {
+                            final model = state.model as CustomFieldsModel;
 
-                      return StreamBuilder<CustomFieldModel?>(
-                          stream: context.read<FilterBloc>().abyaStream,
-                          builder: (context, snapshot) {
-                            return Column(
-                              spacing: 5,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated("abya"),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Wrap(
-                                  alignment: WrapAlignment.start,
-                                  runAlignment: WrapAlignment.start,
-                                  children: model.data!.map(
-                                    (hobby) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (context
-                                                  .read<FilterBloc>()
-                                                  .abya
-                                                  .value ==
-                                              hobby)
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateAbya(null);
-                                          else
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateAbya(hobby);
+                            return CustomTextField(
+                              readOnly: true,
+                              sufWidget: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: Styles.ACCENT_COLOR,
+                              ),
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  label: getTranslated("hijab"),
+                                  onCancel: () => CustomNavigator.pop(),
+                                  onConfirm: () => CustomNavigator.pop(),
+                                  widget: ListView(
+                                    shrinkWrap: true,
+                                    children: model.data!.map((item) {
+                                      final isSelected = selectedHijab == item;
+
+                                      return RadioListTile<CustomFieldModel>(
+                                        value: item,
+                                        groupValue: selectedHijab,
+                                        title: Text(item.name??""),
+                                        activeColor: Styles.PRIMARY_COLOR,
+                                        onChanged: (value) {
+                                          context.read<FilterBloc>().updateHijab(
+                                            isSelected ? null : value,
+                                          );
+                                          CustomNavigator.pop();
                                         },
-                                        child: CustomSelectWidget(
-                                          hobby: hobby,
-                                          isSelected: snapshot.data == hobby,
-                                        ),
                                       );
-                                    },
-                                  ).toList(),
-                                )
-                              ],
+                                    }).toList(),
+                                  ),
+                                );
+                              },
+                              controller: TextEditingController(
+                                text: selectedHijab?.name ?? "",
+                              ),
+                              label: getTranslated("hijab"),
+                              hint: getTranslated("hijab"),
                             );
-                          });
-                    }
-                    if (state is Loading) {
-                      return CustomShimmerContainer(
-                        height: 60.h,
-                        width: context.width,
-                        radius: 30,
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  }),
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
+
+                StreamBuilder<CustomFieldModel?>(
+                  stream: context.read<FilterBloc>().abyaStream,
+                  builder: (context, snapshot) {
+                    final selectedAbya = snapshot.data;
+
+                    return BlocProvider(
+                      create: context.read<FilterBloc>().abya.value?.id == null
+                          ? (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                        ..add(Get(arguments: {'field_name': "abaya"}))
+                          : (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>()),
+                      child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
+                          if (state is Loading) {
+                            return CustomShimmerContainer(
+                              height: 60.h,
+                              width: context.width,
+                              radius: 30,
+                            );
+                          } else if (state is Done) {
+                            final model = state.model as CustomFieldsModel;
+
+                            return CustomTextField(
+                              readOnly: true,
+                              sufWidget: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: Styles.ACCENT_COLOR,
+                              ),
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  label: getTranslated("abya"),
+                                  onCancel: () => CustomNavigator.pop(),
+                                  onConfirm: () => CustomNavigator.pop(),
+                                  widget: ListView(
+                                    shrinkWrap: true,
+                                    children: model.data!.map((item) {
+                                      final isSelected = selectedAbya == item;
+
+                                      return RadioListTile<CustomFieldModel>(
+                                        value: item,
+                                        groupValue: selectedAbya,
+                                        title: Text(item.name??""),
+                                        activeColor: Styles.PRIMARY_COLOR,
+                                        onChanged: (value) {
+                                          context.read<FilterBloc>().updateAbya(
+                                            isSelected ? null : value,
+                                          );
+                                          CustomNavigator.pop();
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              },
+                              controller: TextEditingController(
+                                text: selectedAbya?.name ?? "",
+                              ),
+                              label: getTranslated("abya"),
+                              hint: getTranslated("abya"),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+
               ]),
         ],
       ),

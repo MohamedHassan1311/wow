@@ -1,43 +1,42 @@
 import 'dart:convert';
-
-import 'package:carousel_slider/carousel_controller.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:wow/components/loading_dialog.dart';
+import 'package:wow/features/profile_details/repo/profile_details_repo.dart';
+import 'package:wow/main_models/user_model.dart' show UserModel;
+import 'package:wow/navigation/custom_navigation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:wow/main_models/user_model.dart';
-
-import '../../../../app/core/app_core.dart';
-import '../../../../app/core/app_event.dart';
-import '../../../../app/core/app_notification.dart';
-import '../../../../app/core/app_state.dart';
-import '../../../../app/core/styles.dart';
-import '../../../../data/error/failures.dart';
+import '../../../../../app/core/app_core.dart';
+import '../../../../../app/core/app_event.dart';
+import '../../../../../app/core/app_notification.dart';
+import '../../../../../app/core/app_state.dart';
+import '../../../../../app/core/styles.dart';
+import '../../../../../data/error/failures.dart';
+import '../../../data/config/di.dart';
 import '../../../data/internet_connection/internet_connection.dart';
-import '../model/ads_model.dart';
-import '../repo/home_repo.dart';
+import '../../payment/bloc/payment_bloc.dart';
+import '../model/categories_model.dart';
 
-class HomeUserBloc extends HydratedBloc<AppEvent, AppState> {
-  final HomeRepo repo;
-  final InternetConnection internetConnection;
+class GuardianRequestBloc extends HydratedBloc<AppEvent, AppState> {
+  final ProfileDetailsRepo repo;
 
-  HomeUserBloc({required this.repo, required this.internetConnection})
+  GuardianRequestBloc({ required this.repo})
       : super(Start()) {
     on<Click>(onClick);
   }
 
 
-
- UserModel? model;
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
-    if (await internetConnection.updateConnectivityStatus()) {
+
       try {
         emit(Loading());
-
-        Either<ServerFailure, Response> response = await repo.getHomeUser();
+loadingDialog();
+        Either<ServerFailure, Response> response =
+            await repo.guardianRequest();
 
         response.fold((fail) {
+          CustomNavigator.pop();
           AppCore.showSnackBar(
               notification: AppNotification(
                   message: fail.error,
@@ -46,19 +45,10 @@ class HomeUserBloc extends HydratedBloc<AppEvent, AppState> {
                   borderColor: Colors.red));
           emit(Error());
         }, (success) {
-          if(success.data['data'] is List ) {
-            emit(Empty());
-          }
+          sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId: success.data['data']["checkout_id"]);
 
-          model = UserModel.fromJson(success.data['data']);
-          if (model != null ) {
-            emit(Done());
-          } else {
-            emit(Empty());
-          }
         });
       } catch (e) {
-        print(e);
         AppCore.showSnackBar(
             notification: AppNotification(
           message: e.toString(),
@@ -66,16 +56,15 @@ class HomeUserBloc extends HydratedBloc<AppEvent, AppState> {
           borderColor: Styles.RED_COLOR,
         ));
         emit(Error());
-      }
+
     }
   }
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
-    print(json);
     try {
       if (json['state'] == "Start") {
-        return Loading();
+        return Start();
       }
       if (json['state'] == "Error") {
         return Error();
@@ -85,11 +74,12 @@ class HomeUserBloc extends HydratedBloc<AppEvent, AppState> {
       }
       if (json['state'] == "Done") {
         return Done(
-          model: UserModel.fromJson(jsonDecode(json['data'])),
+          list: List<CategoryModel>.from(
+              jsonDecode(json['list']).map((e) => CategoryModel.fromJson(e))),
           loading: jsonDecode(json['loading']) as bool,
         );
       }
-      return Start();
+      return Loading();
     } catch (e) {
       return Error();
     }

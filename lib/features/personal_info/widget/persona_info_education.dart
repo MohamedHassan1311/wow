@@ -1,8 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import 'package:wow/components/custom_bottom_sheet.dart';
+import 'package:wow/components/custom_text_form_field.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
+import 'package:wow/navigation/custom_navigation.dart';
 
 import '../../../../app/core/validation.dart';
 import '../../../../app/localization/language_constant.dart';
@@ -22,7 +26,10 @@ class PersonalInfoEducation extends StatefulWidget {
   final bool isView;
   final bool isEdit;
   const PersonalInfoEducation(
-      {super.key, this.isScroll = true, this.isView = false,this.isEdit=false});
+      {super.key,
+      this.isScroll = true,
+      this.isView = false,
+      this.isEdit = false});
 
   @override
   State<PersonalInfoEducation> createState() => _PersonalInfoEducationState();
@@ -57,18 +64,18 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                             context.read<PersonalInfoBloc>().educationStream,
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
-                                                            print(snapshot.data!=null&& UserBloc.instance.user?.validation?.education!=null);
+                            print(snapshot.data != null &&
+                                UserBloc.instance.user?.validation?.education !=
+                                    null);
 
                             return CustomDropDownButton(
                               label: getTranslated("education_level"),
-
                               labelErorr:
                                   UserBloc.instance.user?.validation?.education,
-                              value: model.data?.firstWhere(
+                              value: model.data?.firstWhereOrNull(
                                 (v) => v.id == snapshot.data?.id,
-                                orElse: () => CustomFieldModel(),
-                              ),
 
+                              ),
                               onChange: (v) {
                                 context
                                     .read<PersonalInfoBloc>()
@@ -115,16 +122,15 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                             return CustomDropDownButton(
                               label: getTranslated("education_level_2"),
 
-                              labelErorr:
-                              UserBloc.instance.user?.validation?.education2,
+                              labelErorr: UserBloc
+                                  .instance.user?.validation?.education2,
                               // isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.education2!=null:true,
                               // validation: (v) =>
                               //     Validations.field(snapshot.data?.name),
-                              value: model.data?.firstWhere(
+                              value: model.data?.firstWhereOrNull(
                                 (v) => v.id == snapshot.data?.id,
-                                orElse: () => CustomFieldModel(name: "no_data"),
+                                // orElse: () => CustomFieldModel(name: "no_data"),
                               ),
-
 
                               onChange: (v) {
                                 context
@@ -154,8 +160,7 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                   }
                 }),
               ),
-             
-             
+
               //Speeking languages
               BlocProvider(
                 create: (context) =>
@@ -168,11 +173,9 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
 
                     return StreamBuilder<List<int>?>(
                         stream: context.read<PersonalInfoBloc>().languages,
-                        builder: (context, snapshot) {
-                          if(snapshot.data!=null){
-                          return Container(
-                            height: 280,
-                            child: Column(
+                        builder: (context2, snapshot) {
+                          if (snapshot.data != null) {
+                            return Column(
                               spacing: 12,
                               children: [
                                 Text(
@@ -187,67 +190,74 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: model.data?.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2, // Number of columns
-                                        childAspectRatio:
-                                            3, // Adjust height vs width
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return CheckboxListTile(
-                                          value: snapshot.data?.contains(
-                                                  model.data?[index].id) ??
-                                              false,
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          title: Text(
-                                              model.data?[index].name ?? ""),
-                                          onChanged: (bool? value) {
-                                            if (snapshot.data != null) {
-                                              {
-                                                final updateList =
-                                                    snapshot.data;
-                                                if (snapshot.data?.contains(
-                                                        model
-                                                            .data?[index].id) ==
-                                                    false) {
-                                                  updateList?.add(
-                                                      model.data?[index].id);
-                                                } else {
-                                                  updateList?.remove(
-                                                      model.data?[index].id);
-                                                }
-                                                context
-                                                    .read<PersonalInfoBloc>()
-                                                    .updateLanguages(
-                                                        updateList);
-                                              }
-                                            } else {
-                                              context
-                                                  .read<PersonalInfoBloc>()
-                                                  .updateLanguages(
-                                                      [model.data?[index].id]);
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
+                                CustomTextField(
+                                  readOnly: true,
+                                  sufWidget: const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Styles.ACCENT_COLOR,
                                   ),
+                                  onTap: () {
+                                    CustomBottomSheet.show(
+                                      label:  getTranslated("Languages you speak"),
+                                      onCancel: (){
+                                        CustomNavigator.pop();
+                                      },
+                                      onConfirm: (){
+                                        CustomNavigator.pop();
+                                      },
+                                      widget: StreamBuilder<List<int>?>(
+                                          stream: context.read<PersonalInfoBloc>().languages,
+                                          builder: (context2, snapshot){
+                                          return ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: model.data?.length ?? 0,
+                                            itemBuilder: (context3, index) {
+                                              final item = model.data?[index];
+                                              if (item == null) return const SizedBox();
+
+                                              final selectedIds = snapshot.data ?? [];
+
+                                              final isSelected = selectedIds.contains(item.id);
+
+                                              return CheckboxListTile(
+                                                value: isSelected,
+                                                controlAffinity: ListTileControlAffinity.leading,
+                                                title: Text(item?.name??""),
+                                                onChanged: (bool? value) {
+                                                  final updatedList = List<int>.from(selectedIds);
+
+                                                  if (value == true) {
+                                                    if (!updatedList.contains(item.id)) {
+                                                      updatedList.add(item.id);
+                                                    }
+                                                  } else {
+                                                    updatedList.remove(item.id);
+                                                  }
+
+                                                  context.read<PersonalInfoBloc>().updateLanguages(updatedList);
+                                                },
+                                              );
+                                            },
+                                          );
+                                        }
+                                      ),
+                                    );
+                                  },
+                                  controller: TextEditingController(
+                                    text: model.data
+                                        ?.where((item) => (snapshot.data ?? []).contains(item.id))
+                                        .map((e) => e.name)
+                                        .join(', '),
+                                  ),
+                                  label: getTranslated("Languages you speak"),
+                                  hint: getTranslated("Languages you speak"),
                                 ),
+
+
                               ],
-                            ),
-                          );
-                        }
-                        return SizedBox();
+                            );
+                          }
+                          return SizedBox();
                         });
                   }
                   if (state is Loading) {
@@ -261,8 +271,6 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                   }
                 }),
               ),
-          
-          
             ],
           ),
         );

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/features/more/widgets/turn_button.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_page/bloc/dashboard_bloc.dart';
+import '../../../app/core/app_core.dart';
 import '../../../app/core/app_state.dart';
 import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
+import '../../../data/api/end_points.dart';
 import '../../../data/config/di.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
@@ -52,10 +55,20 @@ class MoreProfileOptions extends StatelessWidget {
             icon: SvgImages.chats,
             onTap: () =>       DashboardBloc.instance.updateSelectIndex(3)
 ,
-            // onTap: () => CustomNavigator.push(Routes.chats),
           ),
 
-            ///favourit
+          ///share
+          MoreButton(
+            title: getTranslated("share", context: context),
+            icon: SvgImages.share,
+            onTap: () =>          AppCore.shareDetails(
+
+                details: EndPoints.shareRoute(Routes.register,UserBloc.instance.user?.invitationCode??"")
+            )
+            ,
+          ),
+
+          ///favourit
             MoreButton(
               title: getTranslated("favourit", context: context),
               icon: SvgImages.star,

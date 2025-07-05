@@ -20,6 +20,7 @@ import 'package:wow/navigation/routes.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_widgets/main_app_bar.dart';
+import '../../guest/guest_mode_view.dart';
 
 class InterestPage extends StatefulWidget {
   const InterestPage({super.key});
@@ -32,7 +33,9 @@ class _InterestPageState extends State<InterestPage>
     with AutomaticKeepAliveClientMixin<InterestPage> {
   @override
   void initState() {
-    sl<InterestBloc>().add(Get(arguments: 0));
+    if(UserBloc.instance.isLogin)
+
+      sl<InterestBloc>().add(Get(arguments: 0));
     super.initState();
   }
 
@@ -49,6 +52,7 @@ class _InterestPageState extends State<InterestPage>
               dividerColor: Styles.GREY_BORDER,
               indicatorColor: Styles.PRIMARY_COLOR,
               onTap: (value) {
+                if(UserBloc.instance.isLogin)
                 sl<InterestBloc>().add(Get(arguments: value));
               },
               tabs: [
@@ -57,7 +61,8 @@ class _InterestPageState extends State<InterestPage>
               ],
             ),
           ),
-          body: BlocBuilder<InterestBloc, AppState>(
+          body:  !UserBloc.instance.isLogin
+              ? const GuestModeView():BlocBuilder<InterestBloc, AppState>(
             builder: (context, state) {
               if (state is Done) {
                 return TabBarView(
@@ -145,7 +150,7 @@ class LikesGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         return PersoneCard(
           user: users[index],
-         
+
         );
       },
     );

@@ -30,7 +30,8 @@ class DioClient extends ApiClient {
         'Content-Type': 'application/json; charset=UTF-8',
         "Accept": " application/json",
         'x-api-key': EndPoints.apiKey,
-        "Accept-Language": sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
+        "Accept-Language":
+            sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
         if (sharedPreferences.getString(AppStorageKey.token) != null)
           'Authorization':
               "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
@@ -44,7 +45,7 @@ class DioClient extends ApiClient {
     ));
   }
 
-  Future<void> updateHeader(String? token,{String? lang}) async {
+  Future<void> updateHeader(String? token, {String? lang}) async {
     dio.options.headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       "Accept": " application/json",
@@ -60,9 +61,11 @@ class DioClient extends ApiClient {
       'Content-Type': 'application/json; charset=UTF-8',
       "Accept": " application/json",
       'x-api-key': EndPoints.apiKey,
-      "Accept-Language": sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
+      "Accept-Language":
+          sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
       if (sharedPreferences.getString(AppStorageKey.token) != null)
-        'Authorization': "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
+        'Authorization':
+            "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
     };
   }
 
@@ -114,6 +117,9 @@ class DioClient extends ApiClient {
       var response = await dio.post(
         uri,
         data: data,
+        options: Options(
+          validateStatus: (_) => true, // يسمح لكل status code
+        ),
         queryParameters: queryParameters,
         onReceiveProgress: onReceiveProgress,
       );
@@ -121,6 +127,7 @@ class DioClient extends ApiClient {
     } on FormatException catch (_) {
       throw const FormatException("Unable to process the data");
     } catch (e) {
+
       rethrow;
     }
   }

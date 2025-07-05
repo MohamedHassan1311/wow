@@ -41,10 +41,15 @@ import '../../../data/internet_connection/internet_connection.dart';
 import '../bloc/profile_details_bloc.dart';
 import '../model/categories_model.dart';
 
-class ProfileDetailsPage extends StatelessWidget {
+class ProfileDetailsPage extends StatefulWidget {
   const ProfileDetailsPage({super.key, this.profileDetailsId});
   final int? profileDetailsId;
 
+  @override
+  State<ProfileDetailsPage> createState() => _ProfileDetailsPageState();
+}
+
+class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +58,7 @@ class ProfileDetailsPage extends StatelessWidget {
           create: (context) => ProfileDetailsBloc(
               internetConnection: sl<InternetConnection>(),
               repo: sl<ProfileDetailsRepo>())
-            ..add(Click(arguments: profileDetailsId)),
+            ..add(Click(arguments: widget.profileDetailsId)),
           child: DefaultTabController(
             length: 5,
             child: Padding(
@@ -75,7 +80,7 @@ class ProfileDetailsPage extends StatelessWidget {
                             color: Styles.PRIMARY_COLOR,
                             onRefresh: () async {
                               context.read<ProfileDetailsBloc>().add(
-                                    Click(arguments: profileDetailsId),
+                                    Click(arguments: widget.profileDetailsId),
                                   );
                             },
                             child: NestedScrollView(
@@ -145,116 +150,44 @@ class ProfileDetailsPage extends StatelessWidget {
                                       PersonalInfoMaridgeInfo(user: user),
                                     ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            Dimensions.PADDING_SIZE_DEFAULT),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      spacing: 10,
-                                      children: [
-                                        Expanded(
-                                            child: CustomButton(
-                                          backgroundColor: Color(0xffFFE979),
-                                          textColor: Styles.BLACK,
-                                          rIconWidget: Icon(
-                                            Icons.report,
-                                            color: Styles.BLACK,
-                                          ),
-                                          onTap: () {
-                                            CustomNavigator.push(
-                                                Routes.addToReportPage,
-                                                arguments: {
-                                                  "user": user,
-                                                  "isFromChat": false
-                                                });
-                                          },
-                                          text: getTranslated("report"),
-                                        )),
-                                        Expanded(
-                                            child: CustomButton(
-                                          backgroundColor: Color(0xffFFA392),
-                                          textColor: Styles.BLACK,
-                                          rIconWidget: Icon(
-                                            Icons.block,
-                                            color: Styles.BLACK,
-                                          ),
-                                          onTap: () async {
-                                            CustomNavigator.push(
-                                                Routes.AddToBlockPage,
-                                                arguments: {
-                                                  "user": user,
-                                                  "isFromChat": false
-                                                });
 
-                                            //  final result= await CustomAlertDialog.show(
-                                            //                         dailog: AlertDialog(
-                                            //                             contentPadding: EdgeInsets.symmetric(
-                                            //                                 vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                            //                                 horizontal:
-                                            //                                     Dimensions.PADDING_SIZE_DEFAULT.w),
-                                            //                             insetPadding: EdgeInsets.symmetric(
-                                            //                                 vertical:
-                                            //                                     Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                                            //                                 horizontal: context.width * 0.1),
-                                            //                             shape: OutlineInputBorder(
-                                            //                                 borderSide: const BorderSide(
-                                            //                                     color: Colors.transparent),
-                                            //                                 borderRadius: BorderRadius.circular(20.0)),
-                                            //                             content: MaridgeRequestDialog(
-                                            //                               name: getTranslated("block")  ,
-                                            //                               discription: getTranslated("block_desc")  ,
-                                            //                               image: SvgImages.report,
-                                            //                             )));
-
-                                            //                             if(result)
-                                            //                             {
-                                            //                               sl.get<BlockBloc>().add(Add(arguments: profileDetailsId));
-                                            //                             }
-                                          },
-                                          text: getTranslated("block"),
-                                        )),
-                                      ],
-                                    ),
-                                  ),
                                   Positioned(
-                                    bottom: 100,
+                                    bottom: 0,
                                     width: context.width,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
+                                        if(user.isIntersted==1)
                                         customImageIconSVG(
                                           imageName: SvgImages.removeInterset,
                                           onTap: () {
 
-                                            if(user.isIntersted==1)
+
                                             {
                                                context
                                                 .read<InterestBloc>()
                                                 .add(Delete(
                                                     arguments: user.id! ));
-                                              context
-                                                .read<ProfileDetailsBloc>()
-                                                .add(Click(
-                                                    arguments: user.id! + 1));
+                                               setState(() {
+                                                 user.isIntersted=0;
+                                               });
                                             }
-                                            else
-                                            {
-                                              context
-                                                .read<ProfileDetailsBloc>()
-                                                .add(Click(
-                                                    arguments: user.id! + 1));
-                                            }
-
-                                            context
-                                                .read<ProfileDetailsBloc>()
-                                                .add(Click(
-                                                    arguments: user.id! + 1));
+                                            // else
+                                            // {
+                                            //   context
+                                            //     .read<ProfileDetailsBloc>()
+                                            //     .add(Click(
+                                            //         arguments: user.id! + 1));
+                                            // }
+                                            //
+                                            // context
+                                            //     .read<ProfileDetailsBloc>()
+                                            //     .add(Click(
+                                            //         arguments: user.id! + 1));
                                           },
-                                          width: 60.w,
-                                          height: 60.h,
+                                          width: 45.w,
+                                          height: 45.h,
                                         ),
                                                if(user.isIntersted==0)
                                         customImageIconSVG(
@@ -262,14 +195,19 @@ class ProfileDetailsPage extends StatelessWidget {
                                             sl
                                                 .get<InterestBloc>()
                                                 .add(Add(arguments: user.id));
-                                            context
-                                                .read<ProfileDetailsBloc>()
-                                                .add(Click(
-                                                    arguments: user.id! + 1));
+
+                                            // setState(() {
+                                            //   user.isIntersted=1;
+                                            // });
+
+                                            // context
+                                            //     .read<ProfileDetailsBloc>()
+                                            //     .add(Click(
+                                            //         arguments: user.id! + 1));
                                           },
                                           imageName: SvgImages.interset,
-                                          width: 80.w,
-                                          height: 80.h,
+                                          width: 60.w,
+                                          height: 60.h,
                                         ),
                                       ],
                                     ),
@@ -286,7 +224,7 @@ class ProfileDetailsPage extends StatelessWidget {
                             onRefresh: () async {
                               context.read<ProfileDetailsBloc>().add(
                                     Click(
-                                      arguments: profileDetailsId! + 1,
+                                      arguments: widget.profileDetailsId! + 1,
                                     ),
                                   );
                             },
@@ -310,7 +248,7 @@ class ProfileDetailsPage extends StatelessWidget {
                                               .read<ProfileDetailsBloc>()
                                               .add(Click(
                                                   arguments:
-                                                      profileDetailsId! + 10));
+                                                      widget.profileDetailsId! + 10));
                                         },
                                         text: getTranslated("retry"),
                                         backgroundColor: Styles.PRIMARY_COLOR,

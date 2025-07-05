@@ -24,9 +24,15 @@ import 'package:wow/main_models/user_model.dart';
 import 'package:wow/main_widgets/person_card.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
+import '../../../app/core/validation.dart';
 import '../../../app/localization/language_constant.dart';
+import '../../../components/custom_bottom_sheet.dart';
+import '../../../components/custom_drop_down_button.dart';
 import '../../../main_blocs/user_bloc.dart';
+import '../../../main_models/custom_field_model.dart';
 import '../../../main_widgets/main_app_bar.dart';
+import '../../setting_option/bloc/setting_option_bloc.dart';
+import '../../setting_option/repo/setting_option_repo.dart';
 
 class PlansPage extends StatefulWidget {
   const PlansPage({super.key});
@@ -51,45 +57,136 @@ class _PlansPageState extends State<PlansPage>
           title: Text(getTranslated("plans", context: context)),
         ),
         body: BlocProvider(
-          create: (context) => PlanBloc(repo: sl<PlanRepo>(), internetConnection: sl<InternetConnection>())..add(Get()),
+          create: (context) => PlanBloc(
+              repo: sl<PlanRepo>(),
+              internetConnection: sl<InternetConnection>())
+            ..add(Get()),
           child: BlocBuilder<PlanBloc, AppState>(
-            builder: (context, state) {
+            builder: (contextPlanBloc, state) {
               if (state is Done) {
                 return Column(
                   children: [
                     Expanded(
                       child: ListView.builder(
                         padding: const EdgeInsets.all(12),
-                      
-                        itemCount: context.read <PlanBloc>().plans?.data?.length ?? 0, // Sample count
+
+                        itemCount:
+                        contextPlanBloc.read<PlanBloc>().plans?.data?.length ??
+                                0, // Sample count
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: PalnCard(
-                              plan: context.read<PlanBloc>().plans!.data![index]!,
+                              plan:
+                              contextPlanBloc.read<PlanBloc>().plans!.data![index]!,
                             ),
                           );
                         },
                       ),
                     ),
-
                     StreamBuilder<PlanData>(
-                      stream: context.read<PlanBloc>().selectedPlanStream,
-                      builder: (context, snapshot) {
-                        return SafeArea(
-                          bottom: true,
-                          child: Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                            child: CustomButton(
-                              onTap:snapshot.data!=null? (){
-                                context.read<PlanBloc>().add(Add(arguments: snapshot.data!.id));
-                              }:null,
-                              text: getTranslated("pay"),
+                        stream: contextPlanBloc.read<PlanBloc>().selectedPlanStream,
+                        builder: (context, snapshot) {
+                          return SafeArea(
+                            bottom: true,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                                  vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
+                              child: CustomButton(
+                                onTap: snapshot.data != null
+                                    ? () {
+
+                                        if (snapshot.data?.worldWowAvailable ==
+                                            1) {
+                                          CustomBottomSheet.show(
+                                            height: 350.h,
+                                            label: getTranslated(
+                                                "select_partner_nationality"),
+                                            widget: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  BlocProvider(
+                                                    create: (context) =>
+                                                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                                                      ..add(Get(arguments: {'field_name': "country","city":"0"})),
+                                                    child: BlocBuilder<SettingOptionBloc, AppState>(
+                                                        builder: (context, state) {
+                                                          if (state is Done) {
+                                                            CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                                                            return StreamBuilder<CustomFieldModel?>(
+                                                                stream: contextPlanBloc
+                                                                    .read<PlanBloc>()
+                                                                    .nationalityStream,
+                                                                builder: (context, snapshot) {
+                                                                  if (snapshot.data != null) {
+                                                                    return CustomDropDownButton(
+                                                                      label: getTranslated("nationality"),
+                                                                      labelErorr: UserBloc
+                                                                          .instance.user?.validation?.nationalityId,
+                                                                      validation: (v) =>
+                                                                          Validations.field(snapshot.data?.name),
+                                                                      value: model.data?.firstWhere(
+                                                                            (v) => v.id == snapshot.data?.id,
+                                                                        orElse: () => CustomFieldModel(name: "no_data"),
+                                                                      ),
+                                                                      items: model.data ?? [],
+                                                                      onChange: (v) {
+                                                                        contextPlanBloc
+                                                                            .read<PlanBloc>()
+                                                                            .updateNationality(v as CustomFieldModel);
+                                                                      },
+                                                                      name: contextPlanBloc
+                                                                          .read<PlanBloc>()
+                                                                          .nationality
+                                                                          .valueOrNull
+                                                                          ?.name ??
+                                                                          getTranslated("nationality"),
+                                                                    );
+                                                                  } else
+                                                                    return SizedBox();
+                                                                });
+                                                          }
+                                                          if (state is Loading) {
+                                                            return CustomShimmerContainer(
+                                                              height: 60.h,
+                                                              width: context.width,
+                                                              radius: 30,
+                                                            );
+                                                          } else {
+                                                            return SizedBox();
+                                                          }
+                                                        }),
+                                                  ),
+
+                                                  SafeArea(
+                                                    bottom:true,
+                                                    child: CustomButton(onTap: (){
+                                                      context.read<PlanBloc>().add(
+                                                          Add(arguments: snapshot.data!.id));
+                                                      CustomNavigator.pop();
+                                                    },
+                                                      text: getTranslated("payment"),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }else{
+                                          context.read<PlanBloc>().add(
+                                              Add(arguments: snapshot.data!.id));
+                                        }
+                                      }
+                                    : null,
+                                text: getTranslated("payment"),
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    )
+                          );
+                        })
                   ],
                 );
               }

@@ -96,78 +96,102 @@ class HomeCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                         horizontal: Dimensions.PADDING_SIZE_DEFAULT,
                       ),
-                      child: Row(
-                        spacing: 15,
-                        children: [
-                          Text(
-                            context.read<HomeUserBloc>().model?.nickname ?? "",
-                            style: AppTextStyles.w800.copyWith(
-                                color: Styles.WHITE_COLOR, fontSize: 28),
+                      child: Container(
+                   decoration: BoxDecoration(
+                     color: Colors.black54,
+                     borderRadius: BorderRadius.circular(10)
+                   ),
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            spacing: 15,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                context.read<HomeUserBloc>().model?.nickname ?? "",
+
+                                style: AppTextStyles.w800.copyWith(
+                                    color: Styles.WHITE_COLOR, fontSize: 28),
+                              ),
+                              Text(
+                                context
+                                        .read<HomeUserBloc>()
+                                        .model
+                                        ?.age
+                                        .toString() ??
+                                    "",
+                                style: AppTextStyles.w800.copyWith(
+
+                                    color: Styles.WHITE_COLOR, fontSize: 22),
+                              ),
+                              if (context.read<HomeUserBloc>().model?.isVerified ==
+                                  1)
+                                customImageIconSVG(
+                                  imageName: SvgImages.verify,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                            ],
                           ),
-                          Text(
-                            context
-                                    .read<HomeUserBloc>()
-                                    .model
-                                    ?.age
-                                    .toString() ??
-                                "",
-                            style: AppTextStyles.w800.copyWith(
-                                color: Styles.WHITE_COLOR, fontSize: 22),
-                          ),
-                          if (context.read<HomeUserBloc>().model?.isVerified ==
-                              1)
-                            customImageIconSVG(
-                              imageName: SvgImages.verify,
-                              width: 20,
-                              height: 20,
-                            ),
-                        ],
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: Dimensions.PADDING_SIZE_DEFAULT,
                       ),
-                      child: Row(
-                        spacing: 15,
-                        children: [
-                          if (context.read<HomeUserBloc>().model?.countryId !=
-                                  null &&
-                              context
-                                      .read<HomeUserBloc>()
-                                      .model
-                                      ?.countryId
-                                      ?.name !=
-                                  'no Data')
-                            Text(
-                              context
-                                      .read<HomeUserBloc>()
-                                      .model
-                                      ?.countryId
-                                      ?.name ??
-                                  "",
-                              style: AppTextStyles.w800.copyWith(
-                                  color: Styles.WHITE_COLOR, fontSize: 16),
-                            ),
-                          if (context.read<HomeUserBloc>().model?.cityId !=
-                                  null &&
-                              context
-                                      .read<HomeUserBloc>()
-                                      .model
-                                      ?.cityId
-                                      ?.name !=
-                                  'no Data')
-                            Text(
-                              context
-                                      .read<HomeUserBloc>()
-                                      .model
-                                      ?.cityId
-                                      ?.name ??
-                                  "",
-                              style: AppTextStyles.w800.copyWith(
-                                  color: Styles.WHITE_COLOR, fontSize: 16),
-                            ),
-                        ],
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Row(
+                            spacing: 15,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (context.read<HomeUserBloc>().model?.countryId !=
+                                      null &&
+                                  context
+                                          .read<HomeUserBloc>()
+                                          .model
+                                          ?.countryId
+                                          ?.name !=
+                                      'no Data')
+                                Text(
+                                  context
+                                          .read<HomeUserBloc>()
+                                          .model
+                                          ?.countryId
+                                          ?.name ??
+                                      "",
+                                  style: AppTextStyles.w800.copyWith(
+                                      color: Styles.WHITE_COLOR, fontSize: 16),
+                                ),
+                              if (context.read<HomeUserBloc>().model?.cityId !=
+                                      null &&
+                                  context
+                                          .read<HomeUserBloc>()
+                                          .model
+                                          ?.cityId
+                                          ?.name !=
+                                      'no Data')
+                                Text(
+                                  context
+                                          .read<HomeUserBloc>()
+                                          .model
+                                          ?.cityId
+                                          ?.name ??
+                                      "",
+                                  style: AppTextStyles.w800.copyWith(
+                                      color: Styles.WHITE_COLOR, fontSize: 16),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Wrap(
@@ -189,7 +213,7 @@ class HomeCard extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.black54,
                                   borderRadius: BorderRadius.circular(18),
                                 ),
                                 child: Text(
@@ -213,7 +237,7 @@ class HomeCard extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.black54,
                                   borderRadius: BorderRadius.circular(18),
                                 ),
                                 child: Text(
@@ -242,7 +266,7 @@ class HomeCard extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     vertical: 5, horizontal: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.black54,
                                   borderRadius: BorderRadius.circular(18),
                                 ),
                                 child: Text(

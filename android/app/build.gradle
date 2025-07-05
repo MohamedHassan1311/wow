@@ -125,7 +125,7 @@ android {
 
     defaultConfig {
         applicationId = "com.com.wow.app.app"
-        minSdk = 23
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName =  flutterVersionName
@@ -168,11 +168,30 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
 
+
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.1'
     implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.1'
     def appCenterSdkVersion = '4.4.5'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
-//    implementation('com.facebook.android:facebook-login:latest.release')
+//payment
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    debugImplementation(name: "ipworks3ds_sdk", ext: 'aar')
+    releaseImplementation(name: "ipworks3ds_sdk_deploy", ext: 'aar')
+    implementation(name: "oppwa.mobile-release", ext: 'aar')
+    implementation "com.google.android.material:material:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation 'com.google.android.gms:play-services-wallet:19.1.0'
+    implementation "androidx.browser:browser:1.4.0"
+    implementation "com.google.code.gson:gson:2.8.9"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-livedata-core:2.6.2"
+
+    implementation "androidx.webkit:webkit:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation 'androidx.databinding:viewbinding:7.1.2'
 }

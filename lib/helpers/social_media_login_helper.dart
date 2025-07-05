@@ -129,6 +129,8 @@ class SocialMediaLoginHelper {
       // Create an `OAuthCredential` from the credential returned by Apple.
       final oAuthCredential = OAuthProvider("apple.com").credential(
         idToken: appleUser.identityToken,
+        accessToken: appleUser.authorizationCode,
+
         rawNonce: rawNonce,
       );
 
@@ -148,11 +150,17 @@ class SocialMediaLoginHelper {
       model.phone = userAccountFirebase.user?.phoneNumber;
       model.name = userAccountFirebase.user?.displayName;
       model.image = userAccountFirebase.user?.photoURL;
+      dev.log("oAuthCredential $model");
+
       model.printData();
       return Right(model);
     } on FirebaseAuthException catch (error) {
+      dev.log("oAuthCredential $error");
+
       return left(ServerFailure(error.message ?? ""));
     } catch (error) {
+      dev.log("oAuthCredential $error");
+
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }

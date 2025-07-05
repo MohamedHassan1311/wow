@@ -60,7 +60,9 @@
     "enter": "ادخل",
   "female": "انثي",
   "male": "ذكر",
-  "select_your_interests": "اختر اهتمامتك",
+    "push_notification": "ارسال الاشعارات",
+
+    "select_your_interests": "اختر اهتمامتك",
   "country": "الدولة",
   "region": "المنطقة",
   "state": "المحافظة/المنطقة",
@@ -202,7 +204,7 @@
   "terms_conditions": "الشروط والاحكام",
   "who_us": "من نحن",
   "faqs": "الاسئلة الشائعة",
-  "share": "مشاركة",
+  "share": "أدع صديق واكسب نقاط",
   "talented": "موهوب",
   "i_am_talent": "انا موهبة",
   "i_need_talents": "اريد موهبين",
@@ -745,7 +747,8 @@
   "fashion_style": "أسلوب الملابس",
   "hijab": "الحجاب",
   "abya": "العباءة",
- 
+    "select_partner_nationality": "اختر جنسية الشريك",
+
   "liked_you":"أعجبو بك",
   "you_liked":"أعجبت بهم",
   "favourit":"المفضلة",
@@ -762,7 +765,7 @@
   "remaining_likes":"عدد الإعجابات المتبقية",
   "get_discount":"أحصل على ترشيح",
   "recommendation":"التوصيات",
-  "marige_request":"طلب زواج",
+  "marige_request":"عرض زواج",
   "marige_request_desc":"هل انت متأكد انك تريد ارسال طلب زاواج ل#?",
   "marige_request_sent_successfully":"تم إرسال طلب الزواج بنجاح ويتم الإنتظار لرد الشريك",
   "go_to_maridge_req_page":"الذهاب إلى صفحة طلب الزواج",
@@ -775,13 +778,13 @@
   "blocke_user":"حظر المستخدم"
 
   ,
-  
+
   "avilable_favourit":"عدد الاعجابات المتاحة",
   "avilable_chats":"عدد المحادثات ",
 
   "view_people_from_other_nationality_desc":"مشاهدة اشخاص من جنسية أخرى تختارها",
 
-  
+
   "block_user_desc":"هل أنت متأكد أنك تريد حظر #?",
   "You are about to be banned":"أنت بصدد حظر #",
   "block_user_note":"يمكنك إلغاء الحظر في قائمة المحظورين > الإعدادات",
@@ -804,6 +807,7 @@
   "rejectedRequest":" طلب الخطبة مرفوض",
   "cancelRequest":"طلب الخطبة ملغي",
   "marriage_conditions":"شروط الزواج",
+  "choose_marriage_conditions":"اختر شروط الزواج",
   "marriage_conditions_desc":"يمكنك تحديد الشروط المناسبة لك, ستظهر هذء الشروط في صفحتك الشخصية",
   "other_condition":"شروط أخرى",
   "condition_add_done":"تم إضافة الشرط بنجاح",
@@ -811,10 +815,11 @@
 
   "active":"نشط",
   "inactive":"غير نشط",
-  
+
   "chat_request_desc":"لديك # طلبات متبقية",
   "chat_request_desc_2":"هل انت متأكد انك تريد ارسال طلب محادثة ل #",
   "chat_request_sent_successfully":"تم إرسال طلب المحادثة بنجاح ويتم الإنتظار لرد الشريك",
+    "invitation_code": "كود الاحالة",
 
   "frequently_questions":"الأسئلة الشائعة",
 
@@ -829,6 +834,11 @@
 "chat_is_exspierd": "انتهت صلاحية المحادثة مع #",
 "chat_is_cancelled": "تم إلغاء المحادثة مع #",
 "chat_is_left": "تم مغادرة المحادثة مع #",
-"watting_for_approve_chat":"في انتظار الموافقة على الدردشة"
+"watting_for_approve_chat":"في انتظار الموافقة على الدردشة",
 
-  }
+"paid_successfully":"تم الدفع بنجاح",
+    "paid_successfully_des":"تم الدفع بنجاح يمكنك مراجعة المعاملات من المحفطة",
+    "no Data":"لا يوجد بيانات"
+
+
+}

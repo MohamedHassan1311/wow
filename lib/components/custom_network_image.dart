@@ -32,7 +32,7 @@ class CustomNetworkImage {
       Function()? onTap,
       bool topEdges = false}) {
     return CachedNetworkImage(
-      imageUrl: EndPoints.domain + image,
+      imageUrl: image,
       // imageUrl: image,
       fadeInDuration: const Duration(seconds: 1),
       fadeOutDuration: const Duration(seconds: 2),

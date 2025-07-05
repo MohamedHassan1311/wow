@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../app/core/styles.dart';
 import '../../app/localization/language_constant.dart';
 import '../../components/custom_app_bar.dart';
@@ -28,21 +28,21 @@ class _InAppViewPageState extends State<InAppViewPage> {
       ),
       body: Stack(
         children: [
-          InAppWebView(
-            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-            initialSettings: InAppWebViewSettings(
-                javaScriptEnabled: true,
-                javaScriptCanOpenWindowsAutomatically: true),
-            onWebViewCreated: (controller) => evaluateJavaScript(controller),
-            onLoadStart: (controller, url) => setState(() => isLoading = true),
-            onLoadStop: (controller, url) {
-              isLoading = false;
-              setState(() {});
-
-              /// Evaluate JavaScript to check for a response
-              evaluateJavaScript(controller);
-            },
-          ),
+          // InAppWebView(
+          //   initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+          //   initialSettings: InAppWebViewSettings(
+          //       javaScriptEnabled: true,
+          //       javaScriptCanOpenWindowsAutomatically: true),
+          //   onWebViewCreated: (controller) => evaluateJavaScript(controller),
+          //   onLoadStart: (controller, url) => setState(() => isLoading = true),
+          //   onLoadStop: (controller, url) {
+          //     isLoading = false;
+          //     setState(() {});
+          //
+          //     /// Evaluate JavaScript to check for a response
+          //     evaluateJavaScript(controller);
+          //   },
+          // ),
           if (isLoading)
             Column(
               children: [

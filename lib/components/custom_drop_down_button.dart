@@ -111,6 +111,11 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           menuMaxHeight: context.height * 0.4,
 
           initialValue: widget.value,
+          // initialValue: widget.items.firstWhere(
+          //       (item) => item.id == (widget.value as dynamic)?.id,
+          //   orElse: () => null,
+          // ),
+
           isDense: true,
           validator: widget.validation,
           isExpanded: true,

@@ -40,10 +40,7 @@ class SelectGender extends StatelessWidget {
                       spacing: 12,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          Images.male,
-                          width: 30,height: 30,
-                        ),
+
                         Text(
                           getTranslated("male") ?? "",
                           style: const TextStyle(
@@ -80,10 +77,7 @@ class SelectGender extends StatelessWidget {
                       spacing: 12,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          Images.female,
-                          width: 30,height: 30,
-                        ),
+
                         Text(
                           getTranslated("female") ?? "",
                           style: const TextStyle(

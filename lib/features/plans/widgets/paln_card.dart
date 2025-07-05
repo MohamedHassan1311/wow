@@ -98,6 +98,7 @@ class PalnCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if(plan.worldWowAvailable==1)
                     Row(
                       spacing: 10,
                       children: [

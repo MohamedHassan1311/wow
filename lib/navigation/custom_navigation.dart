@@ -70,7 +70,7 @@ abstract class CustomNavigator {
         return _pageRoute(Login());
 
       case Routes.register:
-        return _pageRoute(const Register());
+        return _pageRoute( Register(userName: settings.arguments as String?,));
       case Routes.CompleteProfile:
         return _pageRoute(CompleteProfile(
           isEdit:
@@ -142,7 +142,7 @@ abstract class CustomNavigator {
         return _pageRoute(const AddressesPage());
 
       case Routes.addToReportPage:
-        final Map<String, dynamic> map =  
+        final Map<String, dynamic> map =
             settings.arguments as Map<String, dynamic>;
         return _pageRoute(
             AddToReportPage(user: map["user"] as UserModel, isFromChat: map["isFromChat"] as bool));
@@ -153,6 +153,9 @@ abstract class CustomNavigator {
 
       case Routes.chats:
         return _pageRoute(const Chats());
+
+      case Routes.chat:
+        return _pageRoute(ChatPage(data: settings.arguments as  ChatModel));
 
       case Routes.notifications:
         return _pageRoute(const NotificationsPage());
@@ -177,8 +180,6 @@ abstract class CustomNavigator {
       case Routes.videoPreview:
         return _pageRoute(VideoPreviewPage(data: settings.arguments as Map));
 
-      case Routes.chat:
-        return _pageRoute(ChatPage(data: settings.arguments as  ChatModel));
 
       case Routes.pickLocation:
         return _pageRoute(
@@ -238,7 +239,10 @@ abstract class CustomNavigator {
       {arguments, bool replace = false, bool clean = false}) {
     if (clean) {
       return navigatorState.currentState!.pushNamedAndRemoveUntil(
-          routeName, (_) => false,
+          routeName,   (Route<dynamic> route) {
+        print(route.settings.name);
+        return route.settings.name == Routes.dashboard;
+      },
           arguments: arguments);
     } else if (replace) {
       return navigatorState.currentState!.pushReplacementNamed(

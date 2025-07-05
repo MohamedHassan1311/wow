@@ -18,16 +18,16 @@ class PersonalInfoTapEducation extends StatelessWidget {
           vertical: Dimensions.PADDING_SIZE_DEFAULT),
       child: Column(
         children: [
-      
 
-      
+
+
           const SizedBox(height: 12),
           DetailsRow(title: getTranslated("education", context: context), value: user.education?.name ?? ''),
                     DetailsRow(title: getTranslated("education_level_2", context: context).split("(")[0], value: user.education2?.name ?? ''),
-  
+
           DetailsRow(title: getTranslated("job", context: context), value: user.job ?? ''),
 
-          
+
         ],
       ),
     );

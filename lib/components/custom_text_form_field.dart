@@ -164,6 +164,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           Row(
             children: [
               Expanded(
+                flex: 3,
                 child: Text(
                   widget.label ?? "",
                   style: const TextStyle(

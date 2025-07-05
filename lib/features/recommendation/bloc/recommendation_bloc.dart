@@ -73,12 +73,12 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
         }, (success) {
 
 
-        Meta meta = Meta.fromJson(success.data['meta']);
+        Meta? meta = null;
         if (_engine.currentPage == 0) {
           recommendations!.clear();
         }
 
-      
+
           if (success.data['data'].isNotEmpty) {
           var  res =
                 success.data['data'].map((e) => UserModel.fromJson(e)).toList();
@@ -87,8 +87,8 @@ class RecommendationBloc extends HydratedBloc<AppEvent, AppState> {
             recommendations!.removeWhere((e) => e.id == item.id);
             recommendations!.add(item);
           }
-          _engine.maxPages = meta.pagesCount ?? 1;
-          _engine.updateCurrentPage(meta.currentPage ?? 1);
+          _engine.maxPages = meta?.pagesCount ?? 1;
+          _engine.updateCurrentPage(meta?.currentPage ?? 1);
         }
           }
 

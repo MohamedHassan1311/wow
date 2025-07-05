@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/components/custom_bottom_sheet.dart';
+import 'package:wow/features/more/widgets/turn_button.dart';
 
+import '../../../app/core/app_event.dart';
+import '../../../app/core/app_state.dart';
 import '../../../app/core/styles.dart';
 import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
+import '../../../data/config/di.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
 import '../../auth/deactivate_account/view/deactivate_account.dart';
 import '../../auth/logout/view/logout_button.dart';
 import '../../language/page/language_button.dart';
+import '../../notifications/bloc/turn_notification_bloc.dart';
+import '../../notifications/repo/notifications_repo.dart';
 import 'more_button.dart';
 
 class MoreSettingsOptions extends StatelessWidget {
@@ -37,7 +44,6 @@ class MoreSettingsOptions extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const LanguageButton(),
 
  ///Terms && Conditions
           // MoreButton(
@@ -60,6 +66,7 @@ class MoreSettingsOptions extends StatelessWidget {
             onTap: () => CustomNavigator.push(Routes.privacy),
           ),
 
+
           ///Contact With Us
           // MoreButton(
           //   title: getTranslated("contact_with_us", context: context),
@@ -67,7 +74,7 @@ class MoreSettingsOptions extends StatelessWidget {
           //   onTap: () => CustomNavigator.push(Routes.contactWithUs),
           // ),
 
-        
+
 
           const LogOutButton(),
         ],

@@ -9,9 +9,12 @@ import '../../../../app/core/styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../app/core/app_event.dart';
 import '../../../components/animated_widget.dart';
+import '../../../components/custom_bottom_sheet.dart';
+import '../../../components/custom_text_form_field.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
 import '../../../main_models/custom_field_model.dart';
+import '../../../navigation/custom_navigation.dart';
 import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/filtter_bloc.dart';
@@ -46,135 +49,139 @@ class _CompleteProfileBodyStpe1State
                   title: getTranslated("social_status_and_class"),
                   backgroundColor: Styles.WHITE_COLOR,
                   children: [
-                    BlocProvider(
-                      create: (context) => SettingOptionBloc(
-                          repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "social_status"})),
-                      child: BlocBuilder<SettingOptionBloc, AppState>(
-                          builder: (context, state) {
-                        if (state is Done) {
-                          CustomFieldsModel model =
-                              state.model as CustomFieldsModel;
+                    StreamBuilder<CustomFieldModel?>(
+                      stream: context.read<FilterBloc>().socialStatusStream,
+                      builder: (context, snapshot) {
+                        final selectedStatus = snapshot.data;
 
-                          return StreamBuilder<CustomFieldModel?>(
-                              stream:
-                                  context.read<FilterBloc>().socialStatusStream,
-                              builder: (context, snapshot) {
-                                return Column(
-                                  spacing: 5,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      getTranslated("social_status"),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Wrap(
-                                      children: model.data!.map(
-                                        (hobby) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (context
-                                                      .read<FilterBloc>()
-                                                      .socialStatus
-                                                      .value ==
-                                                  hobby)
-                                                context
-                                                    .read<FilterBloc>()
-                                                    .updateSocialStatus(null);
-                                              else
-                                                context
-                                                    .read<FilterBloc>()
-                                                    .updateSocialStatus(hobby);
-                                            },
-                                            child: CustomSelectWidget(
-                                              hobby: hobby,
-                                              isSelected: snapshot.data == hobby,
-                                            ),
-                                          );
-                                        },
-                                      ).toList(),
-                                    )
-                                  ],
+                        return BlocProvider(
+                          create: (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                            ..add(Get(arguments: {'field_name': "social_status"})),
+                          child: BlocBuilder<SettingOptionBloc, AppState>(
+                            builder: (context, state) {
+                              if (state is Loading) {
+                                return CustomShimmerContainer(
+                                  height: 60.h,
+                                  width: context.width,
+                                  radius: 30,
                                 );
-                              });
-                        }
-                        if (state is Loading) {
-                          return CustomShimmerContainer(
-                            height: 60.h,
-                            width: context.width,
-                            radius: 30,
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
-                    ),
-                    BlocProvider(
-                      create: (context) => SettingOptionBloc(
-                          repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments: {'field_name': "account_type"})),
-                      child: BlocBuilder<SettingOptionBloc, AppState>(
-                          builder: (context, state) {
-                        if (state is Done) {
-                          CustomFieldsModel model =
-                              state.model as CustomFieldsModel;
+                              } else if (state is Done) {
+                                final model = state.model as CustomFieldsModel;
 
-                          return StreamBuilder<CustomFieldModel?>(
-                              stream: context.read<FilterBloc>().categoryStream,
-                              builder: (context, snapshot) {
-                                return Column(
-                                  spacing: 5,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      getTranslated("class"),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Wrap(
-                                      children: model.data!.map(
-                                        (hobby) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (context
-                                                      .read<FilterBloc>()
-                                                      .category
-                                                      .value ==
-                                                  hobby)
-                                                context
-                                                    .read<FilterBloc>()
-                                                    .updateCategory(null);
-                                              else
-                                                context
-                                                    .read<FilterBloc>()
-                                                    .updateCategory(hobby);
+                                return CustomTextField(
+                                  readOnly: true,
+                                  sufWidget: const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Styles.ACCENT_COLOR,
+                                  ),
+                                  onTap: () {
+                                    CustomBottomSheet.show(
+                                      label: getTranslated("social_status"),
+                                      onCancel: () => CustomNavigator.pop(),
+                                      onConfirm: () => CustomNavigator.pop(),
+                                      widget: ListView(
+                                        shrinkWrap: true,
+                                        children: model.data!.map((item) {
+                                          final isSelected = selectedStatus == item;
+
+                                          return RadioListTile<CustomFieldModel>(
+                                            value: item,
+                                            groupValue: selectedStatus,
+                                            title: Text(item.name??""),
+                                            activeColor: Styles.PRIMARY_COLOR,
+                                            onChanged: (value) {
+                                              context.read<FilterBloc>().updateSocialStatus(
+                                                isSelected ? null : value,
+                                              );
+                                              CustomNavigator.pop();
                                             },
-                                            child: CustomSelectWidget(
-                                                hobby: hobby,
-                                                isSelected: snapshot.data == hobby)
-                                         
                                           );
-                                        },
-                                      ).toList(),
-                                    )
-                                  ],
+                                        }).toList(),
+                                      ),
+                                    );
+                                  },
+                                  controller: TextEditingController(
+                                    text: selectedStatus?.name ?? "",
+                                  ),
+                                  label: getTranslated("social_status"),
+                                  hint: getTranslated("social_status"),
                                 );
-                              });
-                        }
-                        if (state is Loading) {
-                          return CustomShimmerContainer(
-                            height: 60.h,
-                            width: context.width,
-                            radius: 30,
-                          );
-                        } else {
-                          return SizedBox();
-                        }
-                      }),
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
+                        );
+                      },
                     ),
+
+                    StreamBuilder<CustomFieldModel?>(
+                      stream: context.read<FilterBloc>().categoryStream,
+                      builder: (context, snapshot) {
+                        final selectedCategory = snapshot.data;
+
+                        return BlocProvider(
+                          create: (context) => SettingOptionBloc(
+                            repo: sl<SettingOptionRepo>(),
+                          )..add(Get(arguments: {'field_name': "account_type"})),
+                          child: BlocBuilder<SettingOptionBloc, AppState>(
+                            builder: (context, state) {
+                              if (state is Loading) {
+                                return CustomShimmerContainer(
+                                  height: 60.h,
+                                  width: context.width,
+                                  radius: 30,
+                                );
+                              } else if (state is Done) {
+                                final model = state.model as CustomFieldsModel;
+
+                                return CustomTextField(
+                                  readOnly: true,
+                                  sufWidget: const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Styles.ACCENT_COLOR,
+                                  ),
+                                  onTap: () {
+                                    CustomBottomSheet.show(
+                                      label: getTranslated("class"),
+                                      onCancel: () => CustomNavigator.pop(),
+                                      onConfirm: () => CustomNavigator.pop(),
+                                      widget: ListView(
+                                        shrinkWrap: true,
+                                        children: model.data!.map((item) {
+                                          final isSelected = selectedCategory == item;
+
+                                          return RadioListTile<CustomFieldModel>(
+                                            value: item,
+                                            groupValue: selectedCategory,
+                                            title: Text(item.name??""),
+                                            activeColor: Styles.PRIMARY_COLOR,
+                                            onChanged: (value) {
+                                              context.read<FilterBloc>().updateCategory(
+                                                isSelected ? null : value,
+                                              );
+                                              CustomNavigator.pop();
+                                            },
+                                          );
+                                        }).toList(),
+                                      ),
+                                    );
+                                  },
+                                  controller: TextEditingController(
+                                    text: selectedCategory?.name ?? "",
+                                  ),
+                                  label: getTranslated("class"),
+                                  hint: getTranslated("class"),
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    ),
+
                   ]),
             ],
           ),

@@ -10,85 +10,80 @@ class EndPoints {
   static specificTopic(id) => '$id';
 
   ///Auth
-  static const String socialMediaAuth = 'social-login';
+  static const String socialMediaAuth = 'google/login';
   static const String forgetPassword = 'reset-password-email';
   static const String resetPassword = 'new-password';
-  static const String changePassword = 'change-password';
+  static  String changePassword(id) => 'change-password/$id';
   static const String register = 'register';
   static const String logIn = 'login';
   static const String resend = 'resend-otp';
   static const String verifyOtp = 'check-verification-code';
   static const String verifyOtpResetPass = 'reset-password-check-code';
-  static const String suspendAccount = 'suspend-account';
+  static String suspendAccount(userid) => 'client/destroy/$userid';
   static const String reactivateAccount = 'reactivate-account';
 
   ///User Profile
-  static  String editProfile(id) => 'client/$id';
-  static  String storeProfile(id) => 'store/client/$id';
-  static  String profile(id) => 'client/$id';
+  static String editProfile(id) => 'client/$id';
+  static String storeProfile(id) => 'store/client/$id';
+  static String profile(id) => 'client/$id';
   static const String bankInfo = 'bank_info';
   static const String submitFilter = '/client/filters';
 
-  ///Home
-  static  String homeUser (id) => 'client/random/$id';
+  static String guardianRequest(id) => 'client/guardian/request/$id';
 
+
+  ///Home
+  static String homeUser(id) => 'client/random/$id';
 
   ///Wallet
   static String wallets(id) => 'transactions/wallet/$id';
 
 // subscriptions
-static String subscriptions(id) => 'subscriptions/$id';
-static String subscribe(id) => 'subscriptions/store/$id';
-static const String cancelSubscription = 'subscriptions/cancel';
-static const String checkSubscriptionStatus = 'subscriptions/check';
+  static String subscriptions(id) => 'subscriptions/$id';
+  static String subscribe(id) => 'subscriptions/store/$id';
+  static const String cancelSubscription = 'subscriptions/cancel';
+  static const String checkSubscriptionStatus = 'subscriptions/check';
 
-///Favourit
-///
-static String getFavouritSent(id) => '/favorites/sent/$id';
-static String getFavouritReceived(id) => '/favorites/received/$id';
+  ///Favourit
+  ///
+  static String getFavouritSent(id) => '/favorites/sent/$id';
+  static String getFavouritReceived(id) => '/favorites/received/$id';
 
-static const String addToFavourit = '/send/favorite';
-static const String deleteFavourit = '/remove/favorite';
+  static const String addToFavourit = '/send/favorite';
+  static const String deleteFavourit = '/remove/favorite';
 
+  ///Interest
+  static String getInterest(id) => '/interests/received/$id';
+  static String getInterestSent(id) => '/interests/sent/$id';
+  static const String addToInterest = '/send/interest';
+  static const String removeInterest = '/remove/interest';
 
-///Interest
-static String getInterest(id) => '/interests/received/$id';
-static String getInterestSent(id) => '/interests/sent/$id';
-static const String addToInterest  = '/send/interest';
-static const String removeInterest  = '/remove/interest';
+  ///Plans
+  static const String getPlans = '/plan';
+  static String getPlanDetails(id) => '/plans/$id';
 
+  /// Recommendation
+  static String getRecommendation(id) => '/client/recomendations/$id';
 
-///Plans
-static const String getPlans = '/plan';
-static String getPlanDetails(id) => '/plans/$id';
+  ///Block
+  static const String block = '/blocked/block';
+  static const String unblock = '/blocked/unblock';
+  static String getBlockedUsers(id) => '/blocked/by/$id';
 
+  ///Report
+  static const String report = '/reported/report';
+  static String getReportedUsers(id) => '/report/users/$id';
 
+  ///Marige Request
+  static String getmarigeRequestSend(id) => '/proposals/send/$id';
+  static String getmarigeRequestReceived(id) => '/proposals/received/$id';
+  static String sendMarigeRequest = '/proposals';
+  static String acceptMarigeRequest(id) => '/proposals/accept/$id';
+  static String rejectMarigeRequest(id) => '/proposals/reject/$id';
+  static String cancelMarigeRequest(id) => '/proposals/cancel/$id';
 
-/// Recommendation
-static   String getRecommendation (id) =>  '/client/recomendations/$id';
-
-
-///Block
-static const String block  = '/blocked/block';
-static const String unblock  = '/blocked/unblock';
-static   String getBlockedUsers (id) =>  '/blocked/by/$id';
-
-
-///Report
-static const String report  = '/reported/report';
-static   String getReportedUsers (id) =>  '/report/users/$id';
-
-
-///Marige Request
-static String getmarigeRequestSend(id)  => '/proposals/send/$id';
-static String getmarigeRequestReceived(id)  => '/proposals/received/$id';
-static String sendMarigeRequest  ='/proposals';
-static String acceptMarigeRequest(id)  =>'/proposals/accept/$id';
-static String rejectMarigeRequest(id)  =>'/proposals/reject/$id';
-static String cancelMarigeRequest(id)  =>'/proposals/cancel/$id';
-
-///Marriage Conditions
-static const String marriageConditions = '/marriage-conditions';
+  ///Marriage Conditions
+  static const String marriageConditions = '/marriage-conditions';
 
   ///Marketplace
   static const String marketplace = 'marketplace';
@@ -123,8 +118,6 @@ static const String marriageConditions = '/marriage-conditions';
   static editAddress(id) => 'address/$id';
   static addressDetails(id) => 'address/$id';
 
-
-
   ///Chats
   static const String createChat = 'chats';
   static const String sendNotificationConversation = 'conversation/send';
@@ -137,7 +130,7 @@ static const String marriageConditions = '/marriage-conditions';
   static startNewChat(id) => 'conversation/save/$id';
 
   ///Notification
-  static  String notifications(id) => 'notification/$id';
+  static String notifications(id) => 'notification/$id';
   static readNotification(id) => 'notification/read/$id';
   static deleteNotification(id) => 'notification/delete/$id';
 
@@ -165,6 +158,7 @@ static const String marriageConditions = '/marriage-conditions';
   static checkOutOrder(id) => 'company/orders/$id/check-out';
   static checkOutByBankTransfer(id) => 'company/orders/$id/pay-by-bank';
   static applyOrderCoupon(id) => 'company/orders/$id/check-coupon';
+  static checkPayment(id) => 'payment/status/$id';
 
   ///Transactions
   static String transactions(id) => 'transactions/$id';

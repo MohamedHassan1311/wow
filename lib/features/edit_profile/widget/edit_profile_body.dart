@@ -87,7 +87,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                             }),
                       ),
                       Text(
-                        UserBloc.instance.user?.name ?? "",
+                        UserBloc.instance.user?.nickname ?? "",
                         style: AppTextStyles.w800
                             .copyWith(fontSize: 28, color: Styles.HEADER),
                       ),
@@ -133,8 +133,8 @@ class _RegisterBodyState extends State<EditProfileBody> {
                               children: [
                                 Text(
                                   getTranslated("remaining_likes"),
-                                  style: AppTextStyles.w700.copyWith(
-                                      fontSize: 20,
+                                  style: AppTextStyles.w500.copyWith(
+                                      fontSize: 18,
                                       color: Styles.PRIMARY_COLOR),
                                 ),
                                 Text(
@@ -142,7 +142,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                           .toString() ??
                                       "0",
                                   style: AppTextStyles.w400.copyWith(
-                                      fontSize: 20, color: Styles.BLACK),
+                                      fontSize: 18, color: Styles.BLACK),
                                 ),
                               ],
                             ),
@@ -151,8 +151,8 @@ class _RegisterBodyState extends State<EditProfileBody> {
                               children: [
                                 Text(
                                   getTranslated("remaining_chats"),
-                                  style: AppTextStyles.w700.copyWith(
-                                      fontSize: 20,
+                                  style: AppTextStyles.w500.copyWith(
+                                      fontSize: 18,
                                       color: Styles.PRIMARY_COLOR),
                                 ),
                                 Text(
@@ -160,7 +160,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                           .toString() ??
                                       "0",
                                   style: AppTextStyles.w400.copyWith(
-                                      fontSize: 20, color: Styles.BLACK),
+                                      fontSize: 18, color: Styles.BLACK),
                                 ),
                               ],
                             ),
@@ -170,7 +170,8 @@ class _RegisterBodyState extends State<EditProfileBody> {
                             //       .copyWith(fontSize: 18, color: Styles.BLACK),
                             // ),
                             CustomButton(
-                                width: context.width * 0.3,
+                                width: context.width * 0.2,
+                                height: 40,
                                 text: getTranslated("Upgrade"),
                                 onTap: () {
                                   CustomNavigator.push(Routes.plans);

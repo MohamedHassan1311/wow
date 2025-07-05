@@ -12,7 +12,8 @@ import '../widget/register_body.dart';
 import '../widget/register_header.dart';
 
 class Register extends StatelessWidget {
-  const Register({super.key});
+  final String? userName;
+  const Register({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class Register extends StatelessWidget {
                           horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
                       data: [
                         RegisterHeader(),
-                        RegisterBody(),
+                        RegisterBody(userName: userName,),
                         RegisterActions(),
                       ],
                     ),

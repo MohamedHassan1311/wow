@@ -18,14 +18,14 @@ class PersonalInfoTapSectAndTribe extends StatelessWidget {
           vertical: Dimensions.PADDING_SIZE_DEFAULT),
       child: Column(
         children: [
-      
 
-      
+
+
           const SizedBox(height: 12),
           DetailsRow(title: getTranslated("Sect", context: context), value: user.sect?.name ?? ''),
           DetailsRow(title: getTranslated("tribe", context: context), value: user.tribe?.name ?? ''),
           DetailsRow(title: getTranslated("body_type", context: context), value: user.bodyType?.name ?? ''),
-      
+
         ],
       ),
     );

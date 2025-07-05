@@ -34,6 +34,8 @@ import '../../features/auth/logout/repo/logout_repo.dart';
 import '../../features/auth/reset_password/repo/reset_password_repo.dart';
 import '../../features/auth/social_media_login/repo/social_media_repo.dart';
 import '../../features/auth/verification/repo/verification_repo.dart';
+import '../../features/payment/bloc/payment_bloc.dart';
+import '../../features/payment/repo/payment_repo.dart';
 import '../../features/profile_details/repo/profile_details_repo.dart';
 import '../../features/chat/repo/chat_repo.dart';
 import '../../features/chats/repo/chats_repo.dart';
@@ -186,6 +188,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
       () => NotificationsRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => CheckOutRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(
       () => HomeRepo(sharedPreferences: sl(), dioClient: sl()));
@@ -219,6 +223,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => FilterBloc(repo: sl()));
   sl.registerLazySingleton(
       () => HomeUserBloc(repo: sl(), internetConnection: sl()));
+  sl.registerLazySingleton(
+      () => PaymentBloc(repo: sl(), ));
 
   sl.registerLazySingleton(
       () => FavouritBloc(repo: sl(), internetConnection: sl()));

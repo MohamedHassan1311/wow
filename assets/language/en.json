@@ -14,6 +14,7 @@
     "anther_job": "If your job doesn't exist, tell us what it is:",
     "shape": "Shape",
     "body_type": "Body shape",
+    "push_notification": "Push Notification",
 
     "Sect and tribe": "Sect and tribe",
     "tribe": "Tribe",
@@ -208,7 +209,7 @@
   "who_us": "Who Us",
   "faqs": "FAQS",
   "i_agree_to": "I Agree to ",
-  "share": "Share",
+  "share": "Share Refer Code & Eran ",
   "settings": "Settings",
   "register_with_us": "Sign up",
   "register_with_us_description": "Choose whatever you were an artist(talent) or organisation/ company seeking talents.",
@@ -719,7 +720,9 @@
   "fashion_style": "Fashion Style",
   "hijab": "Hijab",
   "abya": "Abaya",
-  "liked_you":"Liked You",
+    "select_partner_nationality": "Select Partner Nationality",
+
+    "liked_you":"Liked You",
   "you_liked":"You Liked",
   "favourit":"Favourit",
   "filter_result":"Filter Result",
@@ -769,7 +772,9 @@
   "rejectedRequest":"Rejected Marriage Request",
   "cancelRequest":"Canceled Marriage Request",
   "marriage_conditions":"Marriage Conditions",
-  "marriage_conditions_desc":"You can choose the appropriate conditions for you, these conditions will appear on your personal page",
+    "choose_marriage_conditions":"Choose marriage conditions",
+
+    "marriage_conditions_desc":"You can choose the appropriate conditions for you, these conditions will appear on your personal page",
   "other_condition":"Other Condition",
   "condition_add_done":"Condition added successfully",
   "subscription_success":"Subscription success",
@@ -778,7 +783,9 @@
   "chat_request_desc":"You have # chat requests",
   "chat_request_desc_2":"Are you sure you want to send a chat request to #?",
   "chat_request_sent_successfully":"Chat request sent successfully waiting for partner response",
-  "what_is_your_name":"What is your name?",
+    "invitation_code": "Invitation code",
+
+    "what_is_your_name":"What is your name?",
   "what_is_your_age":"What is your age?",
   "do_you_have_children":"Do you have children?",
   "frequently_questions":"Frequently Questions",
@@ -789,7 +796,11 @@
 "chat_is_exspierd":"Chat is exspierd with #",
 "chat_is_cancelled":"Chat is cancelled with #",
 "chat_is_left":"Chat is left with #",
-"watting_for_approve_chat":"waiting for approve chat"
+"watting_for_approve_chat":"waiting for approve chat",
+    "paid_successfully": "Payment Successful",
+    "paid_successfully_des": "The payment was successful. You can review the transactions in the wallet.",
+
+    "no Data":"No available data "
 
 
 

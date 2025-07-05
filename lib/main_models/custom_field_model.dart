@@ -64,7 +64,7 @@ class CustomFieldModel extends SingleMapper {
   });
 
   CustomFieldModel.fromJson(Map<String, dynamic> json) {
-    id = json["id"]??json["value"];
+    id = json["id"] ?? json["value"];
     value = json["value"];
     name = json["name"] ?? json["label"] ?? "name";
     description = json["desc"];
@@ -87,4 +87,14 @@ class CustomFieldModel extends SingleMapper {
   Mapper fromJson(Map<String, dynamic> json) {
     return CustomFieldModel.fromJson(json);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CustomFieldModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

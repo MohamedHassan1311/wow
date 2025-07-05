@@ -26,9 +26,10 @@ class LogoutView extends StatelessWidget {
         ),
         child: SafeArea(
           top: false,
+          bottom: true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(

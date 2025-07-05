@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 class SocialMediaModel {
   String? provider;
   String? email;
@@ -31,7 +33,7 @@ class SocialMediaModel {
     log('nonce >>> $rawNonce');
   }
 
-  Map<String, dynamic> toJson() {
+  Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['provider'] = provider;
     data['firebase_id_token'] = idToken;
@@ -41,6 +43,7 @@ class SocialMediaModel {
     data['phone'] = phone;
     data['uid'] = uid;
     data['nonce'] = rawNonce;
+    data['fcm_token'] = await FirebaseMessaging.instance.getToken();
     return data;
   }
 }

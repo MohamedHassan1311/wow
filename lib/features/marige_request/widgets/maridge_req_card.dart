@@ -62,11 +62,13 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
             mainAxisSize: MainAxisSize.min,
             spacing: 10,
             children: [
-              ProfileImageWidget(
-                withEdit: false,
-                radius: 40,
-                image: widget.user?.image ??
-                    "https://staging.wowzawaj.net/assets/images/user.jpg",
+              customContainerSvgIcon(
+                imageName: SvgImages.ring,
+                color: Styles.BLACK,
+                backGround: Colors.transparent,
+                width: 80.w,
+                height: 80.w,
+                padding: 10.w,
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -81,7 +83,7 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                       fontSize: 18,
                     ),
                   ),
-                 
+
                   const SizedBox(width: 5),
                   if (widget.user?.isVerified == 1)
                     customImageIconSVG(
@@ -126,8 +128,8 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                   ),
                 ],
               ),
-            
-        
+
+
 
 
 

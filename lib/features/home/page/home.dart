@@ -11,6 +11,7 @@ import '../../../app/localization/language_constant.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_widgets/main_app_bar.dart';
 import '../../fillter/widget/custom_selete.dart';
+import '../../guest/guest_mode_view.dart';
 import '../bloc/home_user_bloc.dart';
 import '../widgets/home_card.dart';
 import '../widgets/main_services.dart';
@@ -34,7 +35,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return Scaffold(
       body: BlocBuilder<UserBloc, AppState>(
         builder: (context, state) {
-          return Stack(
+          return  !UserBloc.instance.isLogin
+              ? const GuestModeView(): Stack(
             children: [
               HomeCard(),
               SafeArea(

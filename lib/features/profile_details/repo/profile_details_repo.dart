@@ -23,5 +23,20 @@ class ProfileDetailsRepo extends BaseRepo {
     } catch (error) {
       return left(ApiErrorHandler.getServerFailure(error));
     }
+  }  Future<Either<ServerFailure, Response>> guardianRequest(
+ ) async {
+    try {
+      Response response = await dioClient.post(
+          uri: EndPoints.guardianRequest(userId),
+          );
+
+      if (response.statusCode == 200) {
+        return Right(response);
+      } else {
+        return left(ApiErrorHandler.getServerFailure(response.data['message']));
+      }
+    } catch (error) {
+      return left(ApiErrorHandler.getServerFailure(error));
+    }
   }
 }

@@ -78,7 +78,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                     ),
                     Spacer(),
                     BlocBuilder<UserBloc, AppState>(builder: (context, state) {
-                      if (context.read<UserBloc>().user != null)
+                      // if (context.read<UserBloc>().user != null)
                       {  return Image.asset(
                           context
                                       .read<UserBloc>()
@@ -87,8 +87,8 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                                       ?.code
                                       ?.toLowerCase() ==
                                   "sa"
-                              ? Images.sa
-                              : Images.globel,
+                              ? Images.globel
+                              : Images.sa,
                           height: 60.h,
                           width: 60.h,
                           fit: BoxFit.contain,

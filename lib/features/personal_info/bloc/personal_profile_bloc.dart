@@ -50,12 +50,14 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   Function(CustomFieldModel?) get updateJob => job.sink.add;
   Stream<CustomFieldModel?> get jobStream => job.stream.asBroadcastStream();
 
-  final education = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final education = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateEducation => education.sink.add;
   Stream<CustomFieldModel?> get educationStream =>
       education.stream.asBroadcastStream();
 
-  final education2 = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final education2 = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateEducation2 => education2.sink.add;
   Stream<CustomFieldModel?> get education2Stream =>
       education2.stream.asBroadcastStream();
@@ -65,12 +67,14 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   Stream<List<int>?> get languagesStream =>
       languages.stream.asBroadcastStream();
 
-  final skinColor = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final skinColor = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateSkinColor => skinColor.sink.add;
   Stream<CustomFieldModel?> get skinColorStream =>
       skinColor.stream.asBroadcastStream();
 
-  final bodyType = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final bodyType = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateBodyType => bodyType.sink.add;
   Stream<CustomFieldModel?> get bodyTypeStream =>
       bodyType.stream.asBroadcastStream();
@@ -91,21 +95,27 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   Function(CustomFieldModel?) get updateAbaya => abaya.sink.add;
   Stream<CustomFieldModel?> get abayaStream => abaya.stream.asBroadcastStream();
 
-  final accountType = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final accountType = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateAccountType => accountType.sink.add;
-  Stream<CustomFieldModel?> get accountTypeStream => accountType.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get accountTypeStream =>
+      accountType.stream.asBroadcastStream();
 
   final culture = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateCulture => culture.sink.add;
-  Stream<CustomFieldModel?> get cultureStream => culture.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get cultureStream =>
+      culture.stream.asBroadcastStream();
 
   final health = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateHealth => health.sink.add;
-  Stream<CustomFieldModel?> get healthStream => health.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get healthStream =>
+      health.stream.asBroadcastStream();
 
-  final lifestyle = BehaviorSubject<CustomFieldModel?>()..add(CustomFieldModel());
+  final lifestyle = BehaviorSubject<CustomFieldModel?>()
+    ..add(CustomFieldModel());
   Function(CustomFieldModel?) get updateLifestyle => lifestyle.sink.add;
-  Stream<CustomFieldModel?> get lifestyleStream => lifestyle.stream.asBroadcastStream();
+  Stream<CustomFieldModel?> get lifestyleStream =>
+      lifestyle.stream.asBroadcastStream();
 
   final phoneCode = BehaviorSubject<String?>();
   Function(String?) get updatePhoneCode => phoneCode.sink.add;
@@ -132,22 +142,19 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
     }
     if (step == 4) {
       return "Sect and tribe";
-    
     }
 
     if (step == 5) {
       return "fashion_style";
-    } 
+    }
     if (step == 6) {
       return "introduction";
-    } 
-    else
+    } else
       return "";
   }
 
   Future<void> onInit() async {
-
-print(UserBloc.instance.user!.languages.toString()+"languagess") ;
+    print(UserBloc.instance.user!.languages.toString() + "languagess");
     updateEducation(UserBloc.instance.user?.education);
     updateEducation2(UserBloc.instance.user?.education2);
     updateJob(CustomFieldModel(name: UserBloc.instance.user?.job));
@@ -160,13 +167,12 @@ print(UserBloc.instance.user!.languages.toString()+"languagess") ;
     weight.text = UserBloc.instance.user!.weight.toString();
     personalInfo.text = UserBloc.instance.user?.personalInfo ?? "";
     partenrInfo.text = UserBloc.instance.user?.partenrInfo ?? "";
-        salery.text = UserBloc.instance.user?.salary ?? "";
+    salery.text = UserBloc.instance.user?.salary ?? "";
 
     updateAccountType(UserBloc.instance.user?.accountType);
     updateCulture(UserBloc.instance.user?.culture);
     updateHealth(UserBloc.instance.user?.health);
     updateLifestyle(UserBloc.instance.user?.lifestyle);
-
   }
 
   clear() {
@@ -177,27 +183,29 @@ print(UserBloc.instance.user!.languages.toString()+"languagess") ;
     try {
       emit(Loading());
       var data = FormData.fromMap({
-        "education": education.valueOrNull?.id,
-        "education_2": education2.valueOrNull?.id,
-
-        "job_title": job.valueOrNull?.name ?? otherJob.text.trim(),
-        "salary": salery.text.trim(),
-        "height": height.text.trim(),
-        "weight": weight.text.trim(),
-        "body_type": bodyType.valueOrNull?.id,
-        "complexion": skinColor.valueOrNull?.id,
-        "tribe": tribe.valueOrNull?.id,
-        "religion": Sect.valueOrNull?.id,
-        "about_me": personalInfo.text,
-        "about_partner": partenrInfo.text,
-        "languages[]":languages.valueOrNull,
-        "culture": culture.valueOrNull?.id,
-        "health": health.valueOrNull?.id,
-        "lifestyle": lifestyle.valueOrNull?.id,
-        "account_type": accountType.valueOrNull?.id,
+        if (education.valueOrNull?.id!=null)"education": education.valueOrNull?.id,
+        if (education2.valueOrNull?.id!=null)"education_2": education2.valueOrNull?.id,
+        if (job.hasValue)
+          "job_title": job.valueOrNull?.name ?? otherJob.text.trim(),
+        if (salery.text.isNotEmpty) "salary": salery.text.trim(),
+        if (height.text.isNotEmpty) "height": height.text.trim(),
+        if (weight.text.isNotEmpty) "weight": weight.text.trim(),
+        if (bodyType.valueOrNull?.id!=null) "body_type": bodyType.valueOrNull?.id,
+        if (skinColor.valueOrNull?.id!=null) "complexion": skinColor.valueOrNull?.id,
+        if (tribe.valueOrNull?.id!=null) "tribe": tribe.valueOrNull?.id,
+        if (Sect.valueOrNull?.id!=null)"religion": Sect.valueOrNull?.id,
+        if (personalInfo.text.isNotEmpty) "about_me": personalInfo.text,
+        if (partenrInfo.text.isNotEmpty) "about_partner": partenrInfo.text,
+        if (languages.valueOrNull!=null)"languages[]": languages.valueOrNull,
+        if (culture.valueOrNull?.id!=null)"culture": culture.valueOrNull?.id,
+        if (health.valueOrNull?.id!=null)"health": health.valueOrNull?.id,
+        if (lifestyle.valueOrNull?.id!=null)"lifestyle": lifestyle.valueOrNull?.id,
+        if (accountType.valueOrNull?.id!=null)"account_type": accountType.valueOrNull?.id,
         //
-        if(identityImage.hasValue)
-        "image":identityImage.hasValue? MultipartFile.fromFileSync(identityImage.value?.path ?? ""):null
+        if (identityImage.hasValue)
+          "image": identityImage.hasValue
+              ? MultipartFile.fromFileSync(identityImage.value?.path ?? "")
+              : null
       });
       print(data);
       Either<ServerFailure, Response> response =
@@ -219,9 +227,9 @@ print(UserBloc.instance.user!.languages.toString()+"languagess") ;
                 backgroundColor: Styles.ACTIVE,
                 borderColor: Colors.transparent));
 
-        UserBloc.instance.add(Click());
         emit(Done());
-        CustomNavigator.pop();
+        // CustomNavigator.pop();
+        // CustomNavigator.pop();
       });
     } catch (e) {
       AppCore.showSnackBar(

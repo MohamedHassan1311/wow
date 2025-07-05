@@ -13,6 +13,7 @@ import '../../../../app/localization/language_constant.dart';
 import '../../../../data/error/failures.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
+import '../../verification/model/verification_model.dart';
 
 class SocialMediaBloc extends Bloc<AppEvent, AppState> {
   final SocialMediaRepo repo;
@@ -30,20 +31,33 @@ class SocialMediaBloc extends Bloc<AppEvent, AppState> {
       response.fold((fail) {
         AppCore.showSnackBar(
             notification: AppNotification(
-                message: getTranslated("invalid_credentials"),
+                message: fail.error,
                 isFloating: true,
                 backgroundColor: Styles.IN_ACTIVE,
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        CustomNavigator.push(Routes.dashboard, clean: true);
-        AppCore.showSnackBar(
-          notification: AppNotification(
-            message: getTranslated("logged_in_successfully"),
-            backgroundColor: Styles.ACTIVE,
-            borderColor: Styles.ACTIVE,
-          ),
-        );
+        if (success.data['data'] != null &&
+            success.data['data']["client"]["email_verified"] != 1) {
+          CustomNavigator.push(
+            Routes.verification,
+            arguments: VerificationModel(
+                email:  success.data['data']["client"]["email"]?? "",
+                fromForgetPass: false,
+                fromLogin: true,
+                fromRegister: true),
+          );
+          return;
+        } else
+        {
+          if (success.data['data'] != null &&
+              success.data['data']["client"]["social_status"] == null) {
+            CustomNavigator.push(Routes.CompleteProfile, clean: true);
+          }else {
+
+            CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+          }
+        }
         emit(Done());
       });
     } catch (e) {

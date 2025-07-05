@@ -43,29 +43,31 @@ class _ChangePasswordState extends State<ChangePassword> {
                       data: [
                         ///Header
                         // ChangePasswordHeader(),
-            
+
                         ///Body
                         ChangePasswordBody(),
-            
+
                         ///Confirm
                         Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
-                          child: CustomButton(
-                              text: getTranslated("confirm_password"),
-                              onTap: () {
-                                context
-                                    .read<ChangePasswordBloc>()
-                                    .formKey
-                                    .currentState!
-                                    .validate();
-                                if (context
-                                    .read<ChangePasswordBloc>()
-                                    .isBodyValid()) {
-                                  context.read<ChangePasswordBloc>().add(Click());
-                                }
-                              },
-                              isLoading: state is Loading),
+                          child: Center(
+                            child: CustomButton(
+                                text: getTranslated("confirm_password"),
+                                onTap: () {
+                                  context
+                                      .read<ChangePasswordBloc>()
+                                      .formKey
+                                      .currentState!
+                                      .validate();
+                                  if (context
+                                      .read<ChangePasswordBloc>()
+                                      .isBodyValid()) {
+                                    context.read<ChangePasswordBloc>().add(Click());
+                                  }
+                                },
+                                isLoading: state is Loading),
+                          ),
                         ),
                       ],
                     ),

@@ -51,8 +51,9 @@ class _DashBoardState extends State<DashBoard> {
     initDeepLinks();
 
     ///Init Data
-    initData();
+
   if (sl<ProfileBloc>().isLogin) {
+    initData();
       sl<ProfileBloc>().add(Get());
     }
     connectivitySubscription =

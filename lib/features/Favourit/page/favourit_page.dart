@@ -19,6 +19,7 @@ import 'package:wow/navigation/routes.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_widgets/main_app_bar.dart';
+import '../../guest/guest_mode_view.dart';
 
 class FavouritPage extends StatefulWidget {
   const FavouritPage({super.key});
@@ -42,9 +43,10 @@ class _FavouritPageState extends State<FavouritPage>
         appBar: AppBar(
           elevation: 0,
           title: Text(getTranslated("favourit", context: context)),
-         
+
         ),
-        body: BlocBuilder<FavouritBloc, AppState>(
+        body: !UserBloc.instance.isLogin
+            ? const GuestModeView(): BlocBuilder<FavouritBloc, AppState>(
           builder: (context, state) {
             if (state is Done) {
               return GridView.builder(

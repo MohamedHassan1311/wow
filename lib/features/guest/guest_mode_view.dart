@@ -10,16 +10,13 @@ class GuestModeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: getTranslated("requests"),
-        withBack: false,
-      ),
+
       body: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: GuestMode(),
+            child: Center(child: GuestMode()),
           ),
         ],
       ),

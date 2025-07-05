@@ -18,7 +18,8 @@ import '../../../countries/view/country_selection.dart';
 import '../bloc/register_bloc.dart';
 
 class RegisterBody extends StatelessWidget {
-  const RegisterBody({super.key});
+  final String? userName;
+  const RegisterBody({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class RegisterBody extends StatelessWidget {
             initialData: RegisterEntity(
               name: TextEditingController(),
               email: TextEditingController(),
+              nickName: TextEditingController(text: userName),
               phone: TextEditingController(),
               password: TextEditingController(),
               country: "+966",
@@ -172,6 +174,19 @@ class RegisterBody extends StatelessWidget {
                       //       snapshot.data?.countryError != "",
                       // ),
 
+
+                      ///username
+                      CustomTextField(
+                        controller: snapshotReg.data?.nickName,
+                        label: getTranslated("invitation_code"),
+                        hint: getTranslated("invitation_code"),
+
+                        inputType: TextInputType.visiblePassword,
+
+                        pSvgIcon: SvgImages.lockIcon,
+
+
+                      ),
                       ///Password
                       CustomTextField(
                         controller: snapshotReg.data?.password,

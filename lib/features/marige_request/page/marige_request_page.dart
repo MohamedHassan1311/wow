@@ -20,6 +20,7 @@ import 'package:wow/features/recommendation/repo/recommendation_repo.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_widgets/person_card.dart';
 import '../../../app/localization/language_constant.dart';
+import '../../guest/guest_mode_view.dart';
 
 class MarigeRequestPage extends StatefulWidget {
   const MarigeRequestPage({super.key});
@@ -31,6 +32,7 @@ class MarigeRequestPage extends StatefulWidget {
 class _MarigeRequestPageState extends State<MarigeRequestPage> {
   @override
   void initState() {
+    if(UserBloc.instance.isLogin)
     context.read<MarigeRequestBloc>().add(Get());
     super.initState();
   }
@@ -42,7 +44,8 @@ class _MarigeRequestPageState extends State<MarigeRequestPage> {
           elevation: 0,
           title: Text(getTranslated("marige_request", context: context)),
         ),
-        body: Padding(
+        body: !UserBloc.instance.isLogin
+            ? const GuestModeView(): Padding(
           padding:  EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
           child: BlocBuilder<MarigeRequestBloc, AppState>(
             builder: (context, state) {
@@ -80,7 +83,7 @@ class _MarigeRequestPageState extends State<MarigeRequestPage> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 10, 
+                itemCount: 10,
                   itemBuilder: (context, index) {
                     return CustomShimmerContainer(
                       height: 175.h,
@@ -89,9 +92,9 @@ class _MarigeRequestPageState extends State<MarigeRequestPage> {
                     );
                   }
                 );
-              } 
+              }
               if (state is Error) {
-             
+
                 return Column(
                   children: [
                     EmptyState(

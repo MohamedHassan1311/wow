@@ -62,7 +62,13 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
+
+      if(isBodyValid()==false)
+      {
+        return;
+      }
       emit(Loading());
+
       Either<ServerFailure, Response> response =
           await repo.logIn(await loginEntity.valueOrNull!.toJson());
 
@@ -81,7 +87,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
         }
 
         if (success.data['data'] != null &&
-            success.data['data']["client"]["is_verified"] != 1) {
+            success.data['data']["client"]["email_verified"] != 1) {
           CustomNavigator.push(
             Routes.verification,
             arguments: VerificationModel(

@@ -29,13 +29,21 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.420981816895-uqudei86jtp1l9od19ah4b6psc8m10qs</string>
+				<string>com.googleusercontent.apps.1073922732520-2jd0aqlunvd0drqnrltre757741hb4de</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb2079017322472496</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.wow.app.payment</string>
 			</array>
 		</dict>
 	</array>

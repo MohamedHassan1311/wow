@@ -20,6 +20,8 @@ import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 
+import '../../../navigation/routes.dart';
+
 class PersonalImage extends StatefulWidget {
   final UserModel user;
   const PersonalImage({super.key, required this.user});
@@ -47,6 +49,7 @@ class _PersonalImageState extends State<PersonalImage> {
               padding: const EdgeInsets.all(8.0),
               child: FilteredBackIcon(),
             )),
+
         Positioned(
             bottom: 10,
             child: Row(
@@ -73,8 +76,8 @@ class _PersonalImageState extends State<PersonalImage> {
                         ? SvgImages.star
                         : SvgImages.starFill,
                     color: Styles.WHITE_COLOR,
-                    width: 50.w,
-                    height: 50.w,
+                                   width: 40.w,
+                    height: 40.w,
                     padding: 10.w,
                     radius: 26.w,
                     borderColor: Styles.WHITE_COLOR,
@@ -112,8 +115,8 @@ class _PersonalImageState extends State<PersonalImage> {
                     },
                     imageName: SvgImages.chats,
                     color: Styles.WHITE_COLOR,
-                    width: 50.w,
-                    height: 50.w,
+                    width: 40.w,
+                    height: 40.w,
                     padding: 10.w,
                     radius: 26.w,
                     borderColor: Styles.WHITE_COLOR,
@@ -152,13 +155,57 @@ class _PersonalImageState extends State<PersonalImage> {
                       },
                       imageName: SvgImages.ring,
                       color: Styles.WHITE_COLOR,
-                      width: 50.w,
-                      height: 50.w,
+                                 width: 40.w,
+                    height: 40.w,
                       padding: 10.w,
                       radius: 26.w,
                       borderColor: Styles.WHITE_COLOR,
                     ),
                   ),
+
+
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: customContainerSvgIcon(
+                    color: Styles.WHITE_COLOR,
+                                 width: 40.w,
+                    height: 40.w,
+                    padding: 10.w,
+                    radius: 26.w,
+                    borderColor: Styles.WHITE_COLOR,
+                    onTap: () {
+                      CustomNavigator.push(
+                          Routes.addToReportPage,
+                          arguments: {
+                            "user":widget. user,
+                            "isFromChat": false
+                          });
+                    },
+                    imageName: SvgImages.report,                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: customContainerSvgIcon(
+                    color: Styles.WHITE_COLOR,
+                                width: 40.w,
+                    height: 40.w,
+                    padding: 10.w,
+                    radius: 26.w,
+                    borderColor: Styles.WHITE_COLOR,
+                    onTap: () async {
+                      CustomNavigator.push(
+                          Routes.AddToBlockPage,
+                          arguments: {
+                            "user":widget. user,
+                            "isFromChat": false
+                          });
+
+
+                    },
+                    imageName: SvgImages.block,
+                  ),
+                ),
               ],
             )),
       ],

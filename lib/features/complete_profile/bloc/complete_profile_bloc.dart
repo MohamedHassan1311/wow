@@ -134,7 +134,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
 
   ///To init Profile Data
   Future<void> onInit() async {
-    print("aaa${UserBloc.instance.user?.cityId!.toJson()!.toString()}");
+    print("aaa${UserBloc.instance.user?.gfName.toString()}");
     fName.text = UserBloc.instance.user?.fname ?? "";
     lName.text = UserBloc.instance.user?.lname ?? "";
     nickname.text = UserBloc.instance.user?.nickname ?? "";
@@ -163,7 +163,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         // "phone": "123456789",
         "country_id": countryOfResidence.valueOrNull?.id,
         "city_id": city.valueOrNull?.id ?? 1,
-        "dob": dop.valueOrNull?.defaultFormat2(),
+        "dob": dop.valueOrNull?.toUtc(),
         "social_status": socialStatus.valueOrNull?.id,
         "gender": gender.valueOrNull == 1 ? "M" : "F",
         "nickname": nickname.text.trim(),
@@ -205,7 +205,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        if (countryOfResidence.valueOrNull?.code == "SA") {
+        if (nationality.valueOrNull?.code == "SA") {
           CustomAlertDialog.show(
               dailog: AlertDialog(
                   contentPadding: EdgeInsets.symmetric(

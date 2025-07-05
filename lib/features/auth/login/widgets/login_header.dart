@@ -5,6 +5,7 @@ import '../../../../app/core/images.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/core/text_styles.dart';
 import '../../../../app/localization/language_constant.dart';
+import '../../../language/page/language_button.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({super.key});
@@ -14,6 +15,7 @@ class LoginHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        LanguageButton(fromWelcome: true,),
         Center(
           child: Padding(
               padding: EdgeInsets.symmetric(

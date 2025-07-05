@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -130,7 +131,7 @@ class LoginBody extends StatelessWidget {
                         child: CustomButton(
                             text: getTranslated("sign_in"),
                             onTap: () {
-                              ;
+
                               if (context
                                   .read<LoginBloc>()
                                   .formKey
@@ -226,6 +227,8 @@ class LoginBody extends StatelessWidget {
                                   SocialMediaBloc(repo: sl<SocialMediaRepo>()),
                               child: BlocBuilder<SocialMediaBloc, AppState>(
                                 builder: (context, state) {
+                                  if(state is Loading)
+                                    return CupertinoActivityIndicator();
                                   return customImageIconSVG(
                                     imageName: SvgImages.google,
                                     width: 40.w,
@@ -252,6 +255,8 @@ class LoginBody extends StatelessWidget {
                                   SocialMediaBloc(repo: sl<SocialMediaRepo>()),
                               child: BlocBuilder<SocialMediaBloc, AppState>(
                                 builder: (context, state) {
+                                  if(state is Loading)
+                                   return CupertinoActivityIndicator();
                                   return customImageIconSVG(
                                     imageName: SvgImages.apple,
                                     width: 40.w,

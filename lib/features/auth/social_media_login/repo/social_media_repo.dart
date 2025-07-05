@@ -20,7 +20,7 @@ class SocialMediaRepo extends BaseRepo {
   final SocialMediaLoginHelper socialMediaLoginHelper;
 
   saveUserData(json) {
-    subscribeToTopic(id: "${json["id"]}", userType: json["user_type"]);
+    subscribeToTopic(id: "wow", );
     sharedPreferences.setString(AppStorageKey.userId, json["id"].toString());
     sharedPreferences.setString(AppStorageKey.userData, jsonEncode(json));
     sharedPreferences.setBool(AppStorageKey.isLogin, true);
@@ -32,7 +32,7 @@ class SocialMediaRepo extends BaseRepo {
   }
 
   Future subscribeToTopic(
-      {required String id, required String userType}) async {
+      {required String id,}) async {
     FirebaseMessaging.instance
         .subscribeToTopic(EndPoints.specificTopic(id))
         .then((v) async {
@@ -42,7 +42,7 @@ class SocialMediaRepo extends BaseRepo {
 
   Future<Either<ServerFailure, Response>> signInWithSocialMedia(
       SocialMediaProvider provider) async {
-    return left(ApiErrorHandler.getServerFailure("xx"));
+
     try {
       Either<ServerFailure, SocialMediaModel>? socialResponse;
       if (provider == SocialMediaProvider.google) {
@@ -61,18 +61,22 @@ class SocialMediaRepo extends BaseRepo {
         return left(fail);
       }, (success) async {
         Response response = await dioClient.post(
-            uri: EndPoints.socialMediaAuth, data: success.toJson());
+            uri: EndPoints.socialMediaAuth, data: await success.toJson());
+        print(" response $response");
 
         if (response.statusCode == 200) {
-          saveUserData(response.data["data"]);
-          saveUserToken(response.data['data']["token"]);
+          saveUserToken(response.data["data"]["access_token"]);
+          saveUserData(response.data["data"]["client"]);
           return Right(response);
         } else {
+          print(" socialResponse errorr${response.data['message']}");
+
           return left(
-              ApiErrorHandler.getServerFailure(response.data['message']));
+              ServerFailure(response.data['message']));
         }
       });
     } catch (error) {
+      print("errorr$error");
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }

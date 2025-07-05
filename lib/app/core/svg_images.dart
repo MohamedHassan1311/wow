@@ -6,6 +6,7 @@ class SvgImages {
   static const String shieldDone = 'assets/svgs/Shield Done.svg';
   static const String fillCloseCircle = 'assets/svgs/fill-close-circle.svg';
     static const String close = 'assets/svgs/close.svg';
+    static const String block = 'assets/svgs/block.svg';
 
   static const String cameraIcon = 'assets/svgs/camera.svg';
   static const String appLogo = 'assets/svgs/app_logo.svg';

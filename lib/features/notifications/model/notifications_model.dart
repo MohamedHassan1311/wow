@@ -1,3 +1,5 @@
+import 'package:wow/main_models/user_model.dart';
+
 import '../../../data/config/mapper.dart';
 import '../../../main_models/meta.dart';
 
@@ -47,6 +49,9 @@ class NotificationModel extends SingleMapper {
   String? image;
   String? key;
   String? title;
+  UserModel? user;
+  String? route ;
+  String? checkoutId ;
   String? body;
   int? keyId;
 
@@ -59,6 +64,9 @@ class NotificationModel extends SingleMapper {
     this.key,
     this.title,
     this.body,
+    this.user,
+    this.route,
+    this.checkoutId,
     this.keyId,
   });
 
@@ -71,6 +79,9 @@ class NotificationModel extends SingleMapper {
     key = json['key'];
     title = json["data"]['title'];
     body = json['data']['body'];
+    route = json["data"]['routeName'];
+    checkoutId = json["data"]['checkout_id'];
+    user =json['data']['sender']!=null? UserModel.fromJson(json['data']['sender']):null;
     keyId = json['key_id'];
   }
 

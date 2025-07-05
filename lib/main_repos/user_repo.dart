@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:wow/main_repos/base_repo.dart';
@@ -18,6 +19,7 @@ class UserRepo extends BaseRepo {
         sharedPreferences.getString(AppStorageKey.userData);
     if (userObject != null) {
       final json = jsonDecode(userObject);
+
       return Right(UserModel.fromJson(json));
     } else {
       return Left(ServerFailure("There is no data in SharedPreference"));

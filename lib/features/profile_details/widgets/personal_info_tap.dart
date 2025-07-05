@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
 import 'package:wow/app/core/images.dart';
@@ -12,6 +13,10 @@ import 'package:wow/features/profile_details/widgets/details_row.dart';
 import 'package:wow/features/profile_details/widgets/maridge_request_dialog.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
+
+import '../../../data/config/di.dart';
+import '../bloc/guardian_request_bloc.dart';
+import '../repo/profile_details_repo.dart';
 
 class PersonalInfoTap extends StatelessWidget {
   final UserModel user;
@@ -64,31 +69,58 @@ class PersonalInfoTap extends StatelessWidget {
               title: getTranslated("social_status", context: context),
               value: user.socialStatus?.name ?? ''),
           const SizedBox(height: 24),
-          if (user.gender == "F")
-            InkWell(
-              onTap: () 
-              {
-                  CustomAlertDialog.show(
-                            dailog: AlertDialog(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                    horizontal:
-                                        Dimensions.PADDING_SIZE_DEFAULT.w),
-                                insetPadding: EdgeInsets.symmetric(
-                                    vertical:
-                                        Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                                    horizontal: context.width * 0.1),
-                                shape: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                content: MaridgeRequestDialog(
-                                  name: getTranslated("MARIDGE_REQUEST_DATA"),
-                                  discription:
-                                      getTranslated("marige_request_data_desc"),
-                                  image: SvgImages.ring,
-                                       note: getTranslated("not_refundable"),
-                            )));
+
+
+
+
+          ///
+          ///
+          /// guardian info
+      Visibility(
+        visible: user.gender == "F"&& user.can_view_guardian_info!,
+        child: Column(children: [
+          DetailsRow(
+              title: getTranslated("Guardian's data", context: context),
+              value: ''),
+
+          DetailsRow(
+              title: "${getTranslated("name")}", value: user.glName ?? ''),
+
+          DetailsRow(
+              title: "${getTranslated("phone")}",
+              value: user.gPhoneNumber ?? ''),
+          DetailsRow(
+              title: "${getTranslated("kinship")}",
+              value: user.grelation ?? ''),
+        ],),
+      ),
+
+          Visibility(
+            visible: user.gender == "F"&& user.can_view_guardian_info!,
+            child: InkWell(
+              onTap: () async {
+                final result = await CustomAlertDialog.show(
+                    dailog: AlertDialog(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                        insetPadding: EdgeInsets.symmetric(
+                            vertical: Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                            horizontal: context.width * 0.1),
+                        shape: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(20.0)),
+                        content: MaridgeRequestDialog(
+                          name: getTranslated("MARIDGE_REQUEST_DATA"),
+                          discription: getTranslated("marige_request_data_desc"),
+                          image: SvgImages.ring,
+                          note: getTranslated("not_refundable"),
+                        )));
+                if (result == true)
+                  GuardianRequestBloc(
+                    repo: sl.get<ProfileDetailsRepo>(),
+                  ).add(Click());
               },
               child: Image.asset(
                 Images.zwagcard,
@@ -96,6 +128,7 @@ class PersonalInfoTap extends StatelessWidget {
                 height: context.height * .25,
               ),
             ),
+          ),
         ],
       ),
     );

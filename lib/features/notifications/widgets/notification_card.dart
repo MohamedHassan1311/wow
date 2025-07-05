@@ -11,8 +11,10 @@ import '../../../app/core/styles.dart';
 import '../../../app/core/text_styles.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../components/custom_images.dart';
+import '../../../data/config/di.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
+import '../../payment/bloc/payment_bloc.dart';
 import '../bloc/notifications_bloc.dart';
 import '../model/notifications_model.dart';
 
@@ -54,19 +56,25 @@ class NotificationCard extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print(notification!.toJson());
-                // if (notification?.keyId != null &&
-                //     notification?.key == "order") {
-                // } else if (notification?.key == "transaction") {
-                //   CustomNavigator.push(Routes.transactions);
-                // } else if (notification?.key == "feedback") {
-                //   CustomNavigator.push(Routes.myFeedbacks);
-                // }
+
+                if(notification?.checkoutId!=null )
+                  {
+                    sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId:notification!.checkoutId!,pop: false);
+
+                  }
+             if (notification?.route == "CHAT") {
+                  CustomNavigator.push(Routes.chats,arguments: notification?.user);
+                } else if (notification?.route == Routes.chats) {
+               CustomNavigator.push(Routes.chats,);
+                } else if (notification?.route == Routes.wallet ||notification?.route == "subscriptions") {
+               CustomNavigator.push(Routes.wallet,);
+                }
                 //
-                // if (notification?.isRead != true) {
-                //   context
-                //       .read<NotificationsBloc>()
-                //       .add(Read(arguments: notification?.id ?? ""));
-                // }
+                if (notification?.isRead != true) {
+                  context
+                      .read<NotificationsBloc>()
+                      .add(Read(arguments: notification?.id ?? ""));
+                }
               },
               child: Container(
                 width: context.width,

@@ -16,6 +16,10 @@ import 'package:wow/features/setting_option/bloc/setting_option_bloc.dart';
 import 'package:wow/features/setting_option/repo/setting_option_repo.dart';
 import 'package:wow/main_models/custom_field_model.dart';
 
+import '../../../components/custom_bottom_sheet.dart';
+import '../../../components/custom_text_form_field.dart';
+import '../../../navigation/custom_navigation.dart';
+
 class HealthAndLifestyle extends StatefulWidget {
   const HealthAndLifestyle({super.key});
 
@@ -37,140 +41,138 @@ class _HealthAndLifestyleState extends State<HealthAndLifestyle>
               backgroundColor: Styles.WHITE_COLOR,
               title: getTranslated("health_and_lifestyle"),
               children: [
-                BlocProvider(
-                  create: (context) =>
-                      SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                StreamBuilder<CustomFieldModel?>(
+                  stream: context.read<FilterBloc>().healthStream,
+                  builder: (context, snapshot) {
+                    final selectedHealth = snapshot.data;
+
+                    return BlocProvider(
+                      create: (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
                         ..add(Get(arguments: {'field_name': "health"})),
-                  child: BlocBuilder<SettingOptionBloc, AppState>(
-                      builder: (context, state) {
-                    if (state is Done) {
-                      CustomFieldsModel model =
-                          state.model as CustomFieldsModel;
-
-                      return StreamBuilder<CustomFieldModel?>(
-                          stream: context.read<FilterBloc>().healthStream,
-                          builder: (context, snapshot) {
-                            return Column(
-                              spacing: 5,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated("health"),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Wrap(
-                                  alignment: WrapAlignment.start,
-                                  runAlignment: WrapAlignment.start,
-                                  children: model.data!.map(
-                                    (hobby) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (context
-                                                  .read<FilterBloc>()
-                                                  .health
-                                                  .value ==
-                                              hobby)
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateHealth(null);
-                                          else
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateHealth(hobby);
-                                        },
-                                        child: CustomSelectWidget(
-                                          hobby: hobby,
-                                          isSelected: snapshot.data == hobby,
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                )
-                              ],
+                      child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
+                          if (state is Loading) {
+                            return CustomShimmerContainer(
+                              height: 60.h,
+                              width: context.width,
+                              radius: 30,
                             );
-                          });
-                    }
-                    if (state is Loading) {
-                      return CustomShimmerContainer(
-                        height: 60.h,
-                        width: context.width,
-                        radius: 30,
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  }),
+                          } else if (state is Done) {
+                            final model = state.model as CustomFieldsModel;
+
+                            return CustomTextField(
+                              readOnly: true,
+                              sufWidget: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: Styles.ACCENT_COLOR,
+                              ),
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  label: getTranslated("health"),
+                                  onCancel: () => CustomNavigator.pop(),
+                                  onConfirm: () => CustomNavigator.pop(),
+                                  widget: ListView(
+                                    shrinkWrap: true,
+                                    children: model.data!.map((item) {
+                                      final isSelected = selectedHealth == item;
+
+                                      return RadioListTile<CustomFieldModel>(
+                                        value: item,
+                                        groupValue: selectedHealth,
+                                        title: Text(item.name??""),
+                                        activeColor: Styles.PRIMARY_COLOR,
+                                        onChanged: (value) {
+                                          context.read<FilterBloc>().updateHealth(
+                                            isSelected ? null : value,
+                                          );
+                                          CustomNavigator.pop();
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              },
+                              controller: TextEditingController(
+                                text: selectedHealth?.name ?? "",
+                              ),
+                              label: getTranslated("health"),
+                              hint: getTranslated("health"),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
-                BlocProvider(
-                  create: (context) =>
-                      SettingOptionBloc(repo: sl<SettingOptionRepo>())
+
+                StreamBuilder<CustomFieldModel?>(
+                  stream: context.read<FilterBloc>().lifestyleStream,
+                  builder: (context, snapshot) {
+                    final selectedLifestyle = snapshot.data;
+
+                    return BlocProvider(
+                      create: (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
                         ..add(Get(arguments: {'field_name': "lifestyle"})),
-                  child: BlocBuilder<SettingOptionBloc, AppState>(
-                      builder: (context, state) {
-                    if (state is Done) {
-                      CustomFieldsModel model =
-                          state.model as CustomFieldsModel;
-
-                      return StreamBuilder<CustomFieldModel?>(
-                          stream: context.read<FilterBloc>().lifestyleStream,
-                          builder: (context, snapshot) {
-                            return Column(
-                              spacing: 5,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getTranslated("lifestyle"),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Wrap(
-                                  alignment: WrapAlignment.start,
-                                  runAlignment: WrapAlignment.start,
-                                  children: model.data!.map(
-                                    (hobby) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          if (context
-                                                  .read<FilterBloc>()
-                                                  .lifestyle
-                                                  .value ==
-                                              hobby)
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateLifestyle(null);
-                                          else
-                                            context
-                                                .read<FilterBloc>()
-                                                .updateLifestyle(hobby);
-                                        },
-                                        child: CustomSelectWidget(
-                                          hobby: hobby,
-                                          isSelected: snapshot.data == hobby,
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                )
-                              ],
+                      child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
+                          if (state is Loading) {
+                            return CustomShimmerContainer(
+                              height: 60.h,
+                              width: context.width,
+                              radius: 30,
                             );
-                          });
-                    }
-                    if (state is Loading) {
-                      return CustomShimmerContainer(
-                        height: 60.h,
-                        width: context.width,
-                        radius: 30,
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  }),
+                          } else if (state is Done) {
+                            final model = state.model as CustomFieldsModel;
+
+                            return CustomTextField(
+                              readOnly: true,
+                              sufWidget: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: Styles.ACCENT_COLOR,
+                              ),
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  label: getTranslated("lifestyle"),
+                                  onCancel: () => CustomNavigator.pop(),
+                                  onConfirm: () => CustomNavigator.pop(),
+                                  widget: ListView(
+                                    shrinkWrap: true,
+                                    children: model.data!.map((item) {
+                                      final isSelected = selectedLifestyle == item;
+
+                                      return RadioListTile<CustomFieldModel>(
+                                        value: item,
+                                        groupValue: selectedLifestyle,
+                                        title: Text(item.name??""),
+                                        activeColor: Styles.PRIMARY_COLOR,
+                                        onChanged: (value) {
+                                          context.read<FilterBloc>().updateLifestyle(
+                                            isSelected ? null : value,
+                                          );
+                                          CustomNavigator.pop();
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              },
+                              controller: TextEditingController(
+                                text: selectedLifestyle?.name ?? "",
+                              ),
+                              label: getTranslated("lifestyle"),
+                              hint: getTranslated("lifestyle"),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
+
               ]),
         ],
       ),

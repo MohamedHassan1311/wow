@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:country_codes/country_codes.dart';
 import 'package:country_flags/country_flags.dart';
-import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';

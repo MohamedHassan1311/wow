@@ -15,24 +15,13 @@ import '../../../../../data/error/failures.dart';
 import '../../../data/internet_connection/internet_connection.dart';
 import '../model/categories_model.dart';
 
-class ProfileDetailsBloc extends HydratedBloc<AppEvent, AppState> {
+class ProfileDetailsBloc extends Bloc<AppEvent, AppState> {
   final ProfileDetailsRepo repo;
   final InternetConnection internetConnection;
 
   ProfileDetailsBloc({required this.internetConnection, required this.repo})
       : super(Start()) {
     on<Click>(onClick);
-  }
-
-  final List<GlobalKey> globalKeys = [];
-
-  animatedRowScroll(selectIndex) {
-    Scrollable.ensureVisible(
-        globalKeys[selectIndex].currentContext ??
-            CustomNavigator.navigatorState.currentContext!,
-        curve: Curves.ease,
-        duration: const Duration(seconds: 1),
-        alignment: 0.5);
   }
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
@@ -54,7 +43,7 @@ class ProfileDetailsBloc extends HydratedBloc<AppEvent, AppState> {
         }, (success) {
           if (success.data != null && success.data["data"] != null) {
             UserModel user = UserModel.fromJson(success.data["data"]);
-            
+
             emit(Done(data: user));
           } else {
             emit(Empty());
@@ -72,32 +61,4 @@ class ProfileDetailsBloc extends HydratedBloc<AppEvent, AppState> {
       }
     }
   }
-
-  @override
-  AppState? fromJson(Map<String, dynamic> json) {
-    try {
-      if (json['state'] == "Start") {
-        return Start();
-      }
-      if (json['state'] == "Error") {
-        return Error();
-      }
-      if (json['state'] == "Loading") {
-        return Loading();
-      }
-      if (json['state'] == "Done") {
-        return Done(
-          list: List<CategoryModel>.from(
-              jsonDecode(json['list']).map((e) => CategoryModel.fromJson(e))),
-          loading: jsonDecode(json['loading']) as bool,
-        );
-      }
-      return Loading();
-    } catch (e) {
-      return Error();
-    }
-  }
-
-  @override
-  Map<String, dynamic>? toJson(AppState? state) => state?.toJson();
 }

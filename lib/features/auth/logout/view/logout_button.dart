@@ -26,7 +26,7 @@ class LogOutButton extends StatelessWidget {
           onTap: () {
             if (sl<LogoutBloc>().isLogin) {
               CustomBottomSheet.show(
-                height: 300.h,
+                height: 320.h,
                 widget: LogoutView(),
               );
             } else {

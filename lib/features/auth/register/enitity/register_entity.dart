@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../../main_models/custom_field_model.dart';
 
 class RegisterEntity {
-  TextEditingController? name, email, phone, password, confirmPassword;
+  TextEditingController? name,nickName, email, phone, password, confirmPassword;
   String? country;
 
   String? nameError, emailError, phoneError, countryError;
@@ -12,6 +12,7 @@ class RegisterEntity {
   RegisterEntity({
     this.name,
     this.email,
+    this.nickName,
     this.phone,
     this.country,
     this.password,
@@ -27,6 +28,7 @@ class RegisterEntity {
   RegisterEntity copyWith({
     String? name,
     String? email,
+    String? nickName,
     String? phone,
     String? country,
     String? password,
@@ -39,6 +41,7 @@ class RegisterEntity {
     String? confirmPasswordError,
   }) {
     this.country = country ?? this.country;
+    this.nickName = this.nickName;
     this.nameError = nameError ?? this.nameError;
     this.emailError = emailError ?? this.emailError;
     this.phoneError = phoneError ?? this.phoneError;
@@ -57,6 +60,7 @@ class RegisterEntity {
     data['phone'] = phoneError == "" ? phone?.text.trim() : null;
     data['country_code'] = country!.replaceAll("+", "") ;
     data['password'] = passwordError == "" ? password?.text.trim() : null;
+    data['invitation_code'] =  nickName!.text.trim().isEmpty?"WOW":nickName!.text.trim();
     data['confirm_password'] = confirmPasswordError == "" ? confirmPassword?.text.trim() : "";
     return data;
   }

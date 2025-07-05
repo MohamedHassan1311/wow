@@ -45,11 +45,11 @@ class StartChatBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.green));
         emit(Done());
         // final chatModel = ChatModel.fromJson(success.data['data'],fromCreate: true);
-          CustomNavigator.push(
-          Routes.dashboard,
-          clean: true,
-          arguments: 2,
-        );
+        //   CustomNavigator.push(
+        //   Routes.dashboard,
+        //   clean: true,
+        //   arguments: 2,
+        // );
 
 
       });

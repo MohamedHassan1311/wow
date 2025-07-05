@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wow/main_widgets/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,9 +23,14 @@ class _MoreState extends State<More> {
   @override
   void initState() {
     ///To Update Balance
-    if (sl<ProfileBloc>().isLogin) {
-      sl<ProfileBloc>().add(Get());
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<ProfileBloc>().isLogin) {
+        context.read<ProfileBloc>().add(Get());
+        context.read<UserBloc>().add(Click());
+
+      }
+    });
+
     super.initState();
   }
 

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
@@ -85,10 +86,9 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                             label: getTranslated("body_type"),
                             // validation: (v) =>
                             //     Validations.field(snapshot.data?.name),
-                            value: model.data?.firstWhere(
-                                (v) => v.id == snapshot.data?.id,
-                                orElse: () => CustomFieldModel(name: "no_data"),
-                              ),
+                            value:  model.data!.firstWhereOrNull(
+                                  (v) => v.id == snapshot.data?.id,
+                            ),
                             // isEnabled :widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.bodyType!=null:true,
                             onChange: (v) {
                               context
@@ -137,10 +137,9 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
                           if(snapshot.data!=null){
                           return CustomDropDownButton(
                             label: getTranslated("skin_color"),
-                            value: model.data?.firstWhere(
-                                (v) => v.id == snapshot.data?.id,
-                                orElse: () => CustomFieldModel(name: "no_data"),
-                              ),
+                            value:  model.data!.firstWhereOrNull(
+                                  (v) => v.id == snapshot.data?.id,
+                            ),
                             // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.skinColor!=null:true,
                             onChange: (v) {
                               context

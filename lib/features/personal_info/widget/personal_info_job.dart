@@ -97,7 +97,7 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
                 hint: "${getTranslated("enter")} ${getTranslated("job")}",
                 inputType: TextInputType.name,
                 pSvgIcon: SvgImages.user,
-                isEnabled: widget.isEdit? context.read<PersonalInfoBloc>().otherJob.text.isNotEmpty&& UserBloc.instance.user?.validation?.job != null:true,
+                // isEnabled: widget.isEdit? context.read<PersonalInfoBloc>().otherJob.text.isNotEmpty&& UserBloc.instance.user?.validation?.job != null:true,
               ),
 
               CustomTextField(

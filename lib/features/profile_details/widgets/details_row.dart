@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow/app/core/styles.dart';
 import 'package:wow/app/core/text_styles.dart';
+import 'package:wow/app/localization/language_constant.dart';
 
 class DetailsRow extends StatelessWidget {
   const DetailsRow({super.key, required this.title, required this.value});
@@ -15,7 +16,7 @@ class DetailsRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(child: Text(title, style:  AppTextStyles.w600.copyWith(fontSize: 16, color: Styles.HEADER))),
-                    Expanded(child: Text(value, style:  AppTextStyles.w400.copyWith(fontSize: 16, color: Styles.HEADER))),
+                    Expanded(child: Text(getTranslated(value), style:  AppTextStyles.w400.copyWith(fontSize: 16, color: Styles.HEADER))),
 
         ],
       ),

@@ -129,7 +129,7 @@ class _CompleteProfileActionsState extends State<CompleteProfileActions>
                                     if (snapshot.data! == 3 &&
                                         context
                                                 .read<CompleteProfileBloc>()
-                                                .countryOfResidence
+                                                .nationality
                                                 .value!
                                                 .code !=
                                             "SA") {

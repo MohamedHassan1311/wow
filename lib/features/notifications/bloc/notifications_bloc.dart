@@ -45,7 +45,7 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
   List<NotificationModel>? _model;
 
   Future<void> onGet(Get event, Emitter<AppState> emit) async {
-    try {
+    // try {
       _engine = event.arguments as SearchEngine;
       if (_engine.currentPage == 0) {
         _model = [];
@@ -90,15 +90,15 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
           emit(Empty());
         }
       });
-    } catch (e) {
-      AppCore.showSnackBar(
-          notification: AppNotification(
-            message: e.toString(),
-            backgroundColor: Styles.IN_ACTIVE,
-            borderColor: Styles.RED_COLOR,
-          ));
-      emit(Error());
-    }
+    // } catch (e) {
+    //   AppCore.showSnackBar(
+    //       notification: AppNotification(
+    //         message: e.toString(),
+    //         backgroundColor: Styles.IN_ACTIVE,
+    //         borderColor: Styles.RED_COLOR,
+    //       ));
+    //   emit(Error());
+    // }
   }
 
   Future<void> onRead(Read event, Emitter<AppState> emit) async {
