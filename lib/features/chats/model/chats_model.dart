@@ -54,6 +54,7 @@ class ChatModel {
   final int? patientRead;
   final int? userRead;
   final int? status;
+  final int? remaining_days;
 
   final UserModel? user;
   final UserModel? me;
@@ -71,6 +72,7 @@ class ChatModel {
     this.userRead,
     this.user,
     this.status,
+    this.remaining_days,
     this.me,
   });
 
@@ -84,6 +86,7 @@ class ChatModel {
 
     status: json["conv_status"],
     readCount: json["read_count"],
+    remaining_days: json["remaining_days"],
     message: json["message"],
     patientRead: json["patient_read"],
     userRead: json["user_read"],

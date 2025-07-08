@@ -136,7 +136,9 @@ abstract class CustomNavigator {
         final Map<String, dynamic> map =
             settings.arguments as Map<String, dynamic>;
         return _pageRoute(
-            AddToBlockPage(user: map["user"] as UserModel, isFromChat: map["isFromChat"] as bool));
+            AddToBlockPage(user: map["user"] as UserModel,
+            
+            chatId: map['chatId'] as int?, isFromChat: map["isFromChat"] as bool));
 
       case Routes.addresses:
         return _pageRoute(const AddressesPage());

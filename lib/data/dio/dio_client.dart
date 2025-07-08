@@ -111,15 +111,18 @@ class DioClient extends ApiClient {
       {required String uri,
       Map<String, dynamic>? queryParameters,
       Function(int, int)? onReceiveProgress,
-      data}) async {
+      data,
+
+      bool validateStatus =true
+      }) async {
     try {
       dio.options.baseUrl = baseUrl;
       var response = await dio.post(
         uri,
         data: data,
-        options: Options(
-          validateStatus: (_) => true, // يسمح لكل status code
-        ),
+        // options: Options(
+        //   validateStatus: (_) => validateStatus, // يسمح لكل status code
+        // ),
         queryParameters: queryParameters,
         onReceiveProgress: onReceiveProgress,
       );

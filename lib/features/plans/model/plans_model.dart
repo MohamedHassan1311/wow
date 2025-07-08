@@ -50,11 +50,12 @@ class PlanData {
   PlanData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    numberOfChats = json['number_of_chats'];
-    numberOfLikes = json['number_of_likes'];
+    numberOfChats = json['number_of_chats'] ==0 ?null:json['number_of_chats'];
+    numberOfLikes = json['number_of_likes'] ==0 ?null:json['number_of_likes'];
     length = json['length'];
     amount = json['amount'];
-    worldWowAvailable = json['world_wow_available'];
+    worldWowAvailable =
+    json['world_wow_available'];
     if (json['features'] != null) {
       features = <Features>[];
       json['features'].forEach((v) {

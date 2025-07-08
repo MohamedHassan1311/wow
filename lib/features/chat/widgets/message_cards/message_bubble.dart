@@ -18,7 +18,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myId = sharedPreferences.getString(AppStorageKey.userId).toString();
-    bool isMe = chat.type == "patient";
+    bool isMe = chat.senderId == myId;
 
     String dateTime = (chat.date).dateTimeFormatChat();
 
@@ -52,7 +52,7 @@ class MessageBubble extends StatelessWidget {
                         ),
                         color: isMe
                             ? Styles.PRIMARY_COLOR.withOpacity(.2)
-                            : Styles.APP_BAR_BACKGROUND_COLOR,
+                            : Styles.GREY_BORDER,
                       ),
                       child: Column(
                         crossAxisAlignment: !isMe

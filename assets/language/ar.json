@@ -838,7 +838,9 @@
 
 "paid_successfully":"تم الدفع بنجاح",
     "paid_successfully_des":"تم الدفع بنجاح يمكنك مراجعة المعاملات من المحفطة",
-    "no Data":"لا يوجد بيانات"
+    "no Data":"لا يوجد بيانات",
+    "days_on_expire":"& أيام للأنتهاء",
+    "this_chat_is_blocked": "هذه الدردشة محظورة"
 
 
 }

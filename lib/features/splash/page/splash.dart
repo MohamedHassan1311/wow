@@ -40,6 +40,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider(
       create: (context) => SplashBloc(repo: sl<SplashRepo>())..add(Click()),
       child: BlocBuilder<SplashBloc, AppState>(
@@ -78,6 +79,11 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                     ),
                     Spacer(),
                     BlocBuilder<UserBloc, AppState>(builder: (context, state) {
+                      print(context
+                          .read<UserBloc>()
+                          .user
+                          ?.countryId
+                          ?.code);
                       // if (context.read<UserBloc>().user != null)
                       {  return Image.asset(
                           context
@@ -87,8 +93,8 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                                       ?.code
                                       ?.toLowerCase() ==
                                   "sa"
-                              ? Images.globel
-                              : Images.sa,
+                              ? Images.sa
+                              : Images.globel,
                           height: 60.h,
                           width: 60.h,
                           fit: BoxFit.contain,

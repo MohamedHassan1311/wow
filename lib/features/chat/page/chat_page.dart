@@ -80,11 +80,24 @@ class _ChatPageState extends State<ChatPage> {
             CustomAppBar(
               isCenter: false,
               title: widget.data.user?.nickname ?? "name",
-              actionWidth: 80.w,
+              actionWidth: 180.w,
               actionChild: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Container(
+                    decoration: BoxDecoration(color: Styles.Orange,
+
+                    borderRadius: BorderRadius.circular(20)
+                    ),
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(getTranslated("days_on_expire").replaceAll("&", widget.data.remaining_days.toString())),
+                    ),
+                  ),
+
+
                   IconButton(
                       onPressed: () {
                         CustomBottomSheet.show(
@@ -134,7 +147,8 @@ class _ChatPageState extends State<ChatPage> {
                                   CustomNavigator.push(Routes.AddToBlockPage,
                                       arguments: {
                                         "user": widget.data.user,
-                                        "isFromChat": true
+                                        "isFromChat": true,
+                                        "chatId": widget.data.id,
                                       });
                                 },
                               ),
@@ -163,81 +177,115 @@ class _ChatPageState extends State<ChatPage> {
                 },
               ),
             ),
-                   if (widget.data.status != 2&&widget.data.status != 4)
-            SafeArea(
-              child: Column(
-                children: [
-                  customImageIconSVG(
-                      imageName: SvgImages.close,
-                      height: 80,
-                      color: Styles.ERORR_COLOR),
+            if (widget.data.status != 2 && widget.data.status != 4)
+              SafeArea(
+                child: Column(
+                  children: [
+                    customImageIconSVG(
+                        imageName: SvgImages.close,
+                        height: 80,
+                        color: Styles.ERORR_COLOR),
+                    Text(
+                      context.read<ChatsBloc>().getStatusMassage(
+                              widget.data.status!,
+                              widget.data.user?.nickname ?? "") ??
+                          "",
+                      style: AppTextStyles.w700
+                          .copyWith(fontSize: 18, color: Styles.BLACK),
+                    ),
+                  ],
+                ),
+              ),
+            if (widget.data.status == 2 || widget.data.status == 4)
+              StreamBuilder<DatabaseEvent>(
+                stream: ref
+                    .child("messages")
+                    .child(widget.data.id.toString())
+                    .orderByKey()
+                    .limitToLast(1)
+                    .onValue,
+                builder: (context, snapshot) {
+                  // print("widget.data.id.toString()${widget.data.id.toString()}");
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  final value = snapshot.data?.snapshot.value as Map?;
+                  final lastMessageJson = value?.values.last as Map?;
+                  final blockedBy = lastMessageJson?['blocked_by'];
+                  print("blocked_by: $lastMessageJson");
+                  if (blockedBy != null) {
+                    return Column(
+                      children: [
+                        Icon(Icons.block, color: Colors.red, size: 60),
                         Text(
-                          context.read<ChatsBloc>().getStatusMassage(
-                                  widget.data.status!, widget.data.user?.nickname ?? "") ??
-                              "",
+                          getTranslated("this_chat_is_blocked",
+                              context: context),
                           style: AppTextStyles.w700
                               .copyWith(fontSize: 18, color: Styles.BLACK),
                         ),
-                ],
-              ),
-            ),
-            if (widget.data.status == 2||widget.data.status == 4 )
-              BlocBuilder<ChatBloc, AppState>(
-                builder: (context, state) {
-                  return Visibility(
-                    visible: state is! Loading,
-                    child: Stack(
-                      alignment: Alignment.topLeft,
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ChatBottomSheet(
-                          chatId: widget.data.id.toString(),
-                          data: widget.data,
-                        ),
-                        customImageIconSVG(
-                          width: 60,
-                          imageName: SvgImages.faq,
-                          onTap: () {
-                            CustomBottomSheet.show(
-                              height: 300.h,
-                              label: getTranslated("frequently_questions"),
-                              buttonText: getTranslated("send"),
-                              widget: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: context
-                                    .read<ChatBloc>()
-                                    .frequentlyQuesions
-                                    .length,
-                                itemBuilder: (context2, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      CustomNavigator.pop();
-
-                                      context.read<ChatBloc>().controller.text =
-                                          context
-                                              .read<ChatBloc>()
-                                              .frequentlyQuesions[index];
-                                    },
-                                    child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 10.h, horizontal: 10.w),
-                                        child: Text(
-                                          context
-                                              .read<ChatBloc>()
-                                              .frequentlyQuesions[index],
-                                          style: AppTextStyles.w600.copyWith(
-                                              fontSize: 16,
-                                              color: Styles.HEADER),
-                                        )),
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
                       ],
-                    ),
+                    );
+                  }
+                  return BlocBuilder<ChatBloc, AppState>(
+                    builder: (context, state) {
+                      return Visibility(
+                        visible: state is! Loading,
+                        child: Stack(
+                          alignment: Alignment.topLeft,
+                          children: [
+                            ChatBottomSheet(
+                              chatId: widget.data.id.toString(),
+                              data: widget.data,
+                            ),
+                            customImageIconSVG(
+                              width: 60,
+                              imageName: SvgImages.faq,
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  height: 300.h,
+                                  label: getTranslated("frequently_questions"),
+                                  buttonText: getTranslated("send"),
+                                  widget: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: context
+                                        .read<ChatBloc>()
+                                        .frequentlyQuesions
+                                        .length,
+                                    itemBuilder: (context2, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          CustomNavigator.pop();
+                                          context
+                                                  .read<ChatBloc>()
+                                                  .controller
+                                                  .text =
+                                              context
+                                                  .read<ChatBloc>()
+                                                  .frequentlyQuesions[index];
+                                        },
+                                        child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10.h,
+                                                horizontal: 10.w),
+                                            child: Text(
+                                              context
+                                                  .read<ChatBloc>()
+                                                  .frequentlyQuesions[index],
+                                              style: AppTextStyles.w600
+                                                  .copyWith(
+                                                      fontSize: 16,
+                                                      color: Styles.HEADER),
+                                            )),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -248,7 +296,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _getMessageList() {
-
     return Expanded(
       child: FirebaseAnimatedList(
         controller: listScrollController,
@@ -262,6 +309,9 @@ class _ChatPageState extends State<ChatPage> {
             .limitToLast(_limit),
         itemBuilder: (context, snapshot, animation, index) {
           listMessage = [];
+          print("chat id ${widget.data.id.toString()} ");
+          print(snapshot.value);
+
           final json = snapshot.value as Map<dynamic, dynamic>;
           final message = MessageModel.fromJson(json);
           listMessage.add(message);

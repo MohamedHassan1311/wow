@@ -30,6 +30,7 @@ static const Color ACCENT_COLOR = Color(0xFFD2A776);
   static const Color FAILED_COLOR = Colors.red;
   static const Color ERORR_COLOR = Color(0xFFFF4F65);
   static const Color RED_COLOR = Color(0xffFF3B30);
+  static const Color Orange = Color(0xfffc9898);
   static const Color HEADER = Color(0xFF111827);
   static const Color TITLE = Color(0xFF2B3449);
   static const Color BLACK = Color(0xFF151416);

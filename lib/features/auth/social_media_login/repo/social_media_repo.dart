@@ -60,8 +60,10 @@ class SocialMediaRepo extends BaseRepo {
       return socialResponse!.fold((fail) {
         return left(fail);
       }, (success) async {
-        Response response = await dioClient.post(
-            uri: EndPoints.socialMediaAuth, data: await success.toJson());
+        Response response = await dioClient.get(
+            uri: EndPoints.socialMediaAuth,
+
+            queryParameters: await success.toJson());
         print(" response $response");
 
         if (response.statusCode == 200) {

@@ -64,7 +64,9 @@ class PalnCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
+                    if( plan.numberOfChats !=null)
+
+                      Row(
                       spacing: 10,
                       children: [
                         customCircleSvgIcon(
@@ -82,6 +84,7 @@ class PalnCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if( plan.numberOfLikes !=null)
                     Row(
                       spacing: 10,
                       children: [

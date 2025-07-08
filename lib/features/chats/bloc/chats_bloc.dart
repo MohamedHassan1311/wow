@@ -45,7 +45,7 @@ class ChatsBloc extends Bloc<AppEvent, AppState> {
         return getTranslated("chat_is_exspierd",).replaceAll("#", name);
       }
         else if (status == 7) {
-        return getTranslated("chat_is_cancelled",).replaceAll("#", name);
+    return getTranslated("chat_is_cancelled",).replaceAll("#", name);
       }
     
      return null; 

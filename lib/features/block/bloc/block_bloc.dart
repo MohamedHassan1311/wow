@@ -90,7 +90,7 @@ class BlockBloc extends HydratedBloc<AppEvent, AppState> {
         final Map<String, dynamic> map =
             event.arguments as Map<String, dynamic>;
         Either<ServerFailure, Response> response = await repo.addtoBlock(
-            map['user'].id, blockReasonController.text, map['isFromChat']);
+            map['user'].id, blockReasonController.text, map['isFromChat'], map['chatId']);
 
         response.fold((fail) {
           AppCore.showSnackBar(

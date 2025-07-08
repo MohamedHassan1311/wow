@@ -133,7 +133,7 @@ class _PlansPageState extends State<PlansPage>
                                                                             (v) => v.id == snapshot.data?.id,
                                                                         orElse: () => CustomFieldModel(name: "no_data"),
                                                                       ),
-                                                                      items: model.data ?? [],
+                                                                      items: model.data?.where((m) => m.code != "SA").toList()?? [],
                                                                       onChange: (v) {
                                                                         contextPlanBloc
                                                                             .read<PlanBloc>()

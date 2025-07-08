@@ -800,7 +800,10 @@
     "paid_successfully": "Payment Successful",
     "paid_successfully_des": "The payment was successful. You can review the transactions in the wallet.",
 
-    "no Data":"No available data "
+    "no Data":"No available data ",
+    "days_on_expire":"Days on expire &",
+    "this_chat_is_blocked": "This chat is blocked"
+
 
 
 

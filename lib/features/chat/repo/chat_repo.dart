@@ -68,6 +68,7 @@ class ChatRepo extends BaseRepo {
         "type": 'patient',
         "read": false,
         "photo": photo??"",
+        "blocked_by":null,
         "created_at": DateTime.now().toString(),
       }).then((dx){
         print(" ");});
@@ -77,6 +78,22 @@ class ChatRepo extends BaseRepo {
       print(e);
         return left(ApiErrorHandler.getServerFailure(e));
     }
+  }
+
+  Future<void> blockChat(int chatId, String userId) async {
+  await ref.child("messages").child("$chatId").push().set({
+        "conv_id": chatId,
+        "sender_id": userId,
+        "message": "Chat Blocked",
+        "receiver_id": "",
+        "type": 'patient',
+        "read": false,
+        "photo": "",
+        "blocked_by":userId,
+        "created_at": DateTime.now().toString(),
+      });
+  
+  
   }
   Future<Either<ServerFailure, Response>> sendNotifi(
       {required String convId,required String userid}) async {
@@ -91,6 +108,7 @@ class ChatRepo extends BaseRepo {
         return left(ApiErrorHandler.getServerFailure(e));
     }
   }
+
 
 }
 
