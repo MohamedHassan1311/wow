@@ -69,6 +69,11 @@ class NotificationCard extends StatelessWidget {
                 } else if (notification?.route == Routes.wallet ||notification?.route == "subscriptions") {
                CustomNavigator.push(Routes.wallet,);
                 }
+             else if (notification?.route == 'proposals') {
+               CustomNavigator.push(Routes.dashboard,arguments: 2,clean: true);
+                }   else if (notification?.route == 'interest') {
+               CustomNavigator.push(Routes.dashboard,arguments: 1,clean: true);
+                }
                 //
                 if (notification?.isRead != true) {
                   context

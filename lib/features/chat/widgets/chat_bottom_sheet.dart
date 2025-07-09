@@ -78,38 +78,61 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                                     });
                                   },
                                 ),
-                                prefixWidget: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: CircleAvatar(
-                                    backgroundColor: Styles.PRIMARY_COLOR,
-                                    radius: 24.w,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: customImageIconSVG(
-                                        imageName: SvgImages.send,
-                                        color: Styles.WHITE_COLOR,
-                                        onTap: () {
-                                          if (context.read<ChatBloc>().controller.text.isNotEmpty ||
-                                              (messageSnapshot.hasData &&
-                                                  messageSnapshot.data !=
-                                                      null &&
-                                                  messageSnapshot
-                                                          .data!.message !=
-                                                      null)) {
-                                            context
-                                                .read<ChatBloc>()
-                                                .add(SendMessage(arguments: {
-                                                  "message":
-                                                      context.read<ChatBloc>().controller.text.trim(),
-                                                  "receiverId":
-                                                      widget.data.doctorId,
-                                                  "convId": widget.data.id,
-                                                }));
+                                prefixWidget: InkWell(
+                                  onTap: () {
+                                    if (context.read<ChatBloc>().controller.text.isNotEmpty ||
+                                        (messageSnapshot.hasData &&
+                                            messageSnapshot.data !=
+                                                null &&
+                                            messageSnapshot
+                                                .data!.message !=
+                                                null)) {
+                                      context
+                                          .read<ChatBloc>()
+                                          .add(SendMessage(arguments: {
+                                        "message":
+                                        context.read<ChatBloc>().controller.text.trim(),
+                                        "receiverId":
+                                        widget.data.doctorId,
+                                        "convId": widget.data.id,
+                                      }));
 
-                                            context.read<ChatBloc>().controller.clear();
-                                          }
-                                        },
+                                      context.read<ChatBloc>().controller.clear();
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: CircleAvatar(
+                                      backgroundColor: Styles.PRIMARY_COLOR,
+                                      radius: 24.w,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: customImageIconSVG(
+                                          imageName: SvgImages.send,
+                                          color: Styles.WHITE_COLOR,
+                                          onTap: () {
+                                            if (context.read<ChatBloc>().controller.text.isNotEmpty ||
+                                                (messageSnapshot.hasData &&
+                                                    messageSnapshot.data !=
+                                                        null &&
+                                                    messageSnapshot
+                                                            .data!.message !=
+                                                        null)) {
+                                              context
+                                                  .read<ChatBloc>()
+                                                  .add(SendMessage(arguments: {
+                                                    "message":
+                                                        context.read<ChatBloc>().controller.text.trim(),
+                                                    "receiverId":
+                                                        widget.data.doctorId,
+                                                    "convId": widget.data.id,
+                                                  }));
+
+                                              context.read<ChatBloc>().controller.clear();
+                                            }
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),

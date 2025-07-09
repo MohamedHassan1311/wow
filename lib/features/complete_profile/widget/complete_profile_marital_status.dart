@@ -35,6 +35,7 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteProfileBloc, AppState>(
       builder: (context, state) {
+        print("context.read<CompleteProfileBloc>().dop.value ${context.read<CompleteProfileBloc>().dop.value}");
         return Form(
             key: context.read<CompleteProfileBloc>().formKey3,
             child: ListAnimator(
@@ -52,7 +53,7 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                   ),
                 ),
                 ScrollWheelDatePicker(
-                  initialDate: DateTime(1999),
+                  initialDate: DateTime(context.read<CompleteProfileBloc>().dop.value!.year,context.read<CompleteProfileBloc>().dop.value!.day,context.read<CompleteProfileBloc>().dop.value!.month),
                   onSelectedItemChanged: (d){
 
                     context

@@ -41,31 +41,43 @@ class _ChatPageState extends State<ChatPage> {
   int _limit = 15;
   final int _limitIncrement = 20;
   final ScrollController listScrollController = ScrollController();
-  List<MessageModel> listMessage = List.from([]);
+  bool isFirstLoad = true;
+
   _scrollListener() {
-    if (listScrollController.offset >=
-            listScrollController.position.maxScrollExtent &&
-        !listScrollController.position.outOfRange) {}
     if (listScrollController.offset <=
-            listScrollController.position.minScrollExtent &&
+        listScrollController.position.minScrollExtent &&
         !listScrollController.position.outOfRange) {
       _limit += _limitIncrement;
-      print("reach the top");
-      setState(() {
-        print("reach the top");
-      });
+      setState(() {});
     }
   }
 
   @override
-  initState() {
-    listScrollController.addListener(_scrollListener);
+  void initState() {
     super.initState();
+    listScrollController.addListener(_scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusManager.instance.addListener(() {
+        if (FocusManager.instance.primaryFocus?.hasFocus == true) {
+          Future.delayed(Duration(milliseconds: 300), () {
+            if (listScrollController.hasClients) {
+              listScrollController.animateTo(
+                listScrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
+            }
+          });
+        }
+      });
+    });
+
   }
 
   @override
   void dispose() {
-    // sl<ChatsBloc>().add(Click(arguments: SearchEngine(isUpdate: true)));
+    listScrollController.removeListener(_scrollListener);
+    listScrollController.dispose();
     super.dispose();
   }
 
@@ -86,94 +98,78 @@ class _ChatPageState extends State<ChatPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    decoration: BoxDecoration(color: Styles.Orange,
-
-                    borderRadius: BorderRadius.circular(20)
-                    ),
-
+                    decoration: BoxDecoration(
+                        color: Styles.Orange,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(getTranslated("days_on_expire").replaceAll("&", widget.data.remaining_days.toString())),
+                      child: Text(getTranslated("days_on_expire").replaceAll(
+                          "&", widget.data.remaining_days.toString())),
                     ),
                   ),
-
-
                   IconButton(
-                      onPressed: () {
-                        CustomBottomSheet.show(
-                          height: 300.h,
-                          label: getTranslated("more"),
-                          widget: Column(
-                            children: [
-                              BlocProvider(
-                                create: (context) =>
-                                    UpdateStatusChatBloc(repo: sl<ChatsRepo>()),
-                                child:
-                                    BlocBuilder<UpdateStatusChatBloc, AppState>(
-                                        builder: (context, state) {
+                    onPressed: () {
+                      CustomBottomSheet.show(
+                        height: 300.h,
+                        label: getTranslated("more"),
+                        widget: Column(
+                          children: [
+                            BlocProvider(
+                              create: (context) =>
+                                  UpdateStatusChatBloc(repo: sl<ChatsRepo>()),
+                              child: BlocBuilder<UpdateStatusChatBloc, AppState>(
+                                builder: (context, state) {
                                   return MoreButton(
-                                    title: getTranslated("end_chat",
-                                        context: context),
+                                    title: getTranslated("end_chat", context: context),
                                     icon: SvgImages.close,
                                     onTap: () {
                                       context.read<UpdateStatusChatBloc>().add(
-                                              Update(arguments: {
-                                            "id": widget.data.id,
-                                            "status": 3
-                                          }));
+                                        Update(arguments: {
+                                          "id": widget.data.id,
+                                          "status": 3
+                                        }),
+                                      );
                                     },
                                   );
-                                }),
-                              ),
-                              MoreButton(
-                                title:
-                                    getTranslated("report", context: context),
-                                icon: SvgImages.report,
-                                onTap: () {
-                                  CustomNavigator.pop();
-                                  CustomNavigator.push(Routes.addToReportPage,
-                                      arguments: {
-                                        "user": widget.data.user,
-                                        "isFromChat": true
-                                      });
                                 },
                               ),
-                              MoreButton(
-                                title: getTranslated("block", context: context),
-                                icon: SvgImages.rejectedUsers,
-                                onTap: () {
-                                  CustomNavigator.pop();
-
-                                  CustomNavigator.push(Routes.AddToBlockPage,
-                                      arguments: {
-                                        "user": widget.data.user,
-                                        "isFromChat": true,
-                                        "chatId": widget.data.id,
-                                      });
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.more_vert)),
+                            ),
+                            MoreButton(
+                              title: getTranslated("report", context: context),
+                              icon: SvgImages.report,
+                              onTap: () {
+                                CustomNavigator.pop();
+                                CustomNavigator.push(Routes.addToReportPage, arguments: {
+                                  "user": widget.data.user,
+                                  "isFromChat": true
+                                });
+                              },
+                            ),
+                            MoreButton(
+                              title: getTranslated("block", context: context),
+                              icon: SvgImages.rejectedUsers,
+                              onTap: () {
+                                CustomNavigator.pop();
+                                CustomNavigator.push(Routes.AddToBlockPage, arguments: {
+                                  "user": widget.data.user,
+                                  "isFromChat": true,
+                                  "chatId": widget.data.id,
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.more_vert),
+                  ),
                 ],
               ),
             ),
             Expanded(
               child: BlocBuilder<ChatBloc, AppState>(
                 builder: (context, state) {
-                  return SizedBox(
-                    height: context.height,
-                    child: SizedBox(
-                      height: context.height,
-                      child: Column(
-                        children: [
-                          _getMessageList(),
-                        ],
-                      ),
-                    ),
-                  );
+                  return _getMessageList();
                 },
               ),
             ),
@@ -187,8 +183,8 @@ class _ChatPageState extends State<ChatPage> {
                         color: Styles.ERORR_COLOR),
                     Text(
                       context.read<ChatsBloc>().getStatusMassage(
-                              widget.data.status!,
-                              widget.data.user?.nickname ?? "") ??
+                          widget.data.status!,
+                          widget.data.user?.nickname ?? "") ??
                           "",
                       style: AppTextStyles.w700
                           .copyWith(fontSize: 18, color: Styles.BLACK),
@@ -205,27 +201,23 @@ class _ChatPageState extends State<ChatPage> {
                     .limitToLast(1)
                     .onValue,
                 builder: (context, snapshot) {
-                  // print("widget.data.id.toString()${widget.data.id.toString()}");
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
                   final value = snapshot.data?.snapshot.value as Map?;
                   final lastMessageJson = value?.values.last as Map?;
                   final blockedBy = lastMessageJson?['blocked_by'];
-                  print("blocked_by: $lastMessageJson");
+
                   if (blockedBy != null) {
                     return Column(
                       children: [
                         Icon(Icons.block, color: Colors.red, size: 60),
                         Text(
-                          getTranslated("this_chat_is_blocked",
-                              context: context),
+                          getTranslated("this_chat_is_blocked", context: context),
                           style: AppTextStyles.w700
                               .copyWith(fontSize: 18, color: Styles.BLACK),
                         ),
                       ],
                     );
                   }
+
                   return BlocBuilder<ChatBloc, AppState>(
                     builder: (context, state) {
                       return Visibility(
@@ -255,27 +247,23 @@ class _ChatPageState extends State<ChatPage> {
                                       return InkWell(
                                         onTap: () {
                                           CustomNavigator.pop();
+                                          context.read<ChatBloc>().controller.text =
                                           context
-                                                  .read<ChatBloc>()
-                                                  .controller
-                                                  .text =
-                                              context
-                                                  .read<ChatBloc>()
-                                                  .frequentlyQuesions[index];
+                                              .read<ChatBloc>()
+                                              .frequentlyQuesions[index];
                                         },
                                         child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10.h,
-                                                horizontal: 10.w),
-                                            child: Text(
-                                              context
-                                                  .read<ChatBloc>()
-                                                  .frequentlyQuesions[index],
-                                              style: AppTextStyles.w600
-                                                  .copyWith(
-                                                      fontSize: 16,
-                                                      color: Styles.HEADER),
-                                            )),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.h, horizontal: 10.w),
+                                          child: Text(
+                                            context
+                                                .read<ChatBloc>()
+                                                .frequentlyQuesions[index],
+                                            style: AppTextStyles.w600.copyWith(
+                                                fontSize: 16,
+                                                color: Styles.HEADER),
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),
@@ -296,31 +284,36 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _getMessageList() {
-    return Expanded(
-      child: FirebaseAnimatedList(
-        controller: listScrollController,
-        // shrinkWrap: true,
+    return FirebaseAnimatedList(
+      controller: listScrollController,
+      defaultChild: Center(child: CircularProgressIndicator()),
+      query: ref
+          .child("messages")
+          .child(widget.data.id.toString())
+          .limitToLast(_limit),
+      itemBuilder: (context, snapshot, animation, index) {
+        final json = snapshot.value as Map<dynamic, dynamic>;
+        final message = MessageModel.fromJson(json);
 
-        // physics: NeverScrollableScrollPhysics(),
-        defaultChild: Center(child: CircularProgressIndicator()),
-        query: ref
-            .child("messages")
-            .child(widget.data.id.toString())
-            .limitToLast(_limit),
-        itemBuilder: (context, snapshot, animation, index) {
-          listMessage = [];
-          print("chat id ${widget.data.id.toString()} ");
-          print(snapshot.value);
+        // ✅ Scroll only if it's the last message (i.e. new message received)
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (listScrollController.hasClients &&
+              index == _limit - 1) {
+            listScrollController.animateTo(
+              listScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          }
+        });
 
-          final json = snapshot.value as Map<dynamic, dynamic>;
-          final message = MessageModel.fromJson(json);
-          listMessage.add(message);
-          return MessageBubble(
-            addDate: true,
-            chat: message,
-          );
-        },
-      ),
+        return MessageBubble(
+          addDate: true,
+          chat: message,
+        );
+      },
     );
   }
+
 }
+

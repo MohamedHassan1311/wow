@@ -131,7 +131,7 @@ class EndPoints {
 
   ///Notification
   static String notifications(id) => 'notification/$id';
-  static readNotification(id) => 'notification/read/$id';
+  static readNotification({ userId,id}) => 'notification/read/$userId/$id';
   static deleteNotification(id) => 'notification/delete/$id';
 
   ///Create Request

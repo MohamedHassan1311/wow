@@ -154,26 +154,36 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<void> onInit() async {
-    print(UserBloc.instance.user!.languages.toString() + "languagess");
-    updateEducation(UserBloc.instance.user?.education);
-    updateEducation2(UserBloc.instance.user?.education2);
-    updateJob(CustomFieldModel(name: UserBloc.instance.user?.job));
-    updateBodyType(UserBloc.instance.user?.bodyType);
-    updateSkinColor(UserBloc.instance.user?.skinColor);
-    updateTribe(UserBloc.instance.user?.tribe);
-    updateSect(UserBloc.instance.user?.sect);
-    updateLanguages(UserBloc.instance.user?.languages);
-    height.text = UserBloc.instance.user!.height.toString();
-    weight.text = UserBloc.instance.user!.weight.toString();
-    personalInfo.text = UserBloc.instance.user?.personalInfo ?? "";
-    partenrInfo.text = UserBloc.instance.user?.partenrInfo ?? "";
-    salery.text = UserBloc.instance.user?.salary ?? "";
+    final user = UserBloc.instance.user!;
+    print("${user.languages} languagess");
 
-    updateAccountType(UserBloc.instance.user?.accountType);
-    updateCulture(UserBloc.instance.user?.culture);
-    updateHealth(UserBloc.instance.user?.health);
-    updateLifestyle(UserBloc.instance.user?.lifestyle);
+    // نصوص
+    height.text = user.height?.toString() ?? '';
+    weight.text = user.weight?.toString() ?? '';
+    personalInfo.text = user.personalInfo ?? '';
+    partenrInfo.text = user.partenrInfo ?? '';
+    salery.text = user.salary ?? '';
+    otherJob.text = user.job ?? '';
+    otherTribe.text = user.otherTribe ?? '';
+
+    // سلوكيات
+    updateEducation(user.education);
+    updateEducation2(user.education2);
+    updateJob(CustomFieldModel(name: user.job));
+    updateBodyType(user.bodyType);
+    updateSkinColor(user.skinColor);
+    updateTribe(user.tribe);
+    updateSect(user.sect);
+    updateLanguages(user.languages);
+    updateAccountType(user.accountType);
+    updateCulture(user.culture);
+    updateHealth(user.health);
+    updateAbaya(user.hijab);
+    updateHijab(user.abaya);
+    updateAccountType(user.accountType);
+    updateLifestyle(user.lifestyle);
   }
+
 
   clear() {
     // updateProfileImage(null);
@@ -193,6 +203,7 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         if (bodyType.valueOrNull?.id!=null) "body_type": bodyType.valueOrNull?.id,
         if (skinColor.valueOrNull?.id!=null) "complexion": skinColor.valueOrNull?.id,
         if (tribe.valueOrNull?.id!=null) "tribe": tribe.valueOrNull?.id,
+        if (otherTribe.text.isNotEmpty) "otherTribe": otherTribe.text,
         if (Sect.valueOrNull?.id!=null)"religion": Sect.valueOrNull?.id,
         if (personalInfo.text.isNotEmpty) "about_me": personalInfo.text,
         if (partenrInfo.text.isNotEmpty) "about_partner": partenrInfo.text,
@@ -200,7 +211,13 @@ class PersonalInfoBloc extends Bloc<AppEvent, AppState> {
         if (culture.valueOrNull?.id!=null)"culture": culture.valueOrNull?.id,
         if (health.valueOrNull?.id!=null)"health": health.valueOrNull?.id,
         if (lifestyle.valueOrNull?.id!=null)"lifestyle": lifestyle.valueOrNull?.id,
-        if (accountType.valueOrNull?.id!=null)"account_type": accountType.valueOrNull?.id,
+        if (health.value?.id != null) "health": health.value?.id,
+        if (hijab.value?.id != null) "hijab": hijab.value?.id,
+        if (abaya.value?.id != null) "abaya": abaya.value?.id,
+        if (culture.value?.id != null) "culture": culture.value?.id,
+        if (lifestyle.value?.id != null) "lifestyle": lifestyle.value?.id,
+        if (accountType.value?.id != null) "account_type": accountType.value?.id,
+
         //
         if (identityImage.hasValue)
           "image": identityImage.hasValue

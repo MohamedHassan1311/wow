@@ -150,6 +150,9 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
       updateSocialStatus(UserBloc.instance.user?.socialStatus);
       updateCity(UserBloc.instance.user?.cityId);
       updateCountryOfResidence(UserBloc.instance.user?.countryId);
+      print("DOP${UserBloc.instance.user?.dob.toString()}" );
+
+      updateDOP(UserBloc.instance.user?.dob);
 
   }
 

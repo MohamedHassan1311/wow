@@ -33,7 +33,9 @@ class GuardianRequestBloc extends HydratedBloc<AppEvent, AppState> {
         emit(Loading());
 loadingDialog();
         Either<ServerFailure, Response> response =
-            await repo.guardianRequest();
+            await repo.guardianRequest({
+              "target_client_id":event.arguments as int
+            });
 
         response.fold((fail) {
           CustomNavigator.pop();

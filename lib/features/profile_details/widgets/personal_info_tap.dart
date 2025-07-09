@@ -77,7 +77,7 @@ class PersonalInfoTap extends StatelessWidget {
           ///
           /// guardian info
       Visibility(
-        visible: user.gender == "F"&& user.can_view_guardian_info!,
+        visible:  user.can_view_guardian_info ==true,
         child: Column(children: [
           DetailsRow(
               title: getTranslated("Guardian's data", context: context),
@@ -96,7 +96,7 @@ class PersonalInfoTap extends StatelessWidget {
       ),
 
           Visibility(
-            visible: user.gender == "F"&& user.can_view_guardian_info!,
+            visible: user.gender == "F"&& user.can_view_guardian_info==false ,
             child: InkWell(
               onTap: () async {
                 final result = await CustomAlertDialog.show(
@@ -120,7 +120,7 @@ class PersonalInfoTap extends StatelessWidget {
                 if (result == true)
                   GuardianRequestBloc(
                     repo: sl.get<ProfileDetailsRepo>(),
-                  ).add(Click());
+                  ).add(Click(arguments:user.id ));
               },
               child: Image.asset(
                 Images.zwagcard,

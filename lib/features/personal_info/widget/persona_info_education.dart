@@ -178,18 +178,7 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
                             return Column(
                               spacing: 12,
                               children: [
-                                Text(
-                                  getTranslated("Languages you speak") ?? "",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Styles.HEADER,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+
                                 CustomTextField(
                                   readOnly: true,
                                   sufWidget: const Icon(

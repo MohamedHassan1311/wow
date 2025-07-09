@@ -16,6 +16,8 @@ import '../../../data/config/di.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../components/custom_app_bar.dart';
 import '../../guest/guest_mode_view.dart';
+import '../model/chats_model.dart';
+import '../widgets/chat_card.dart';
 
 class Chats extends StatefulWidget {
   const Chats({super.key});
@@ -80,10 +82,13 @@ class _ChatsState extends State<Chats>
                       children: [
                         Expanded(
                           child: ListAnimator(
-                            // controller: controller,
                             customPadding: EdgeInsets.symmetric(
-                                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                            data: state.cards,
+                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                            ),
+                            data: (state.data as List)
+                                .cast<ChatModel>()
+                                .map((chat) => ChatCard(key: ValueKey(chat.id), chat: chat))
+                                .toList(),
                           ),
                         ),
                         CustomLoadingText(
@@ -92,6 +97,7 @@ class _ChatsState extends State<Chats>
                       ],
                     ),
                   );
+
                 }
                 if (state is Error || state is Empty) {
                   return RefreshIndicator(

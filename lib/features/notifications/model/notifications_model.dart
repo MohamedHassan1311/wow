@@ -74,7 +74,7 @@ class NotificationModel extends SingleMapper {
     id = json['id'];
     createdTime = json['created_time'];
     createdAt = json['created_at'];
-    isRead = json['is_readed'];
+    isRead = json['read_at'] !=null;
     image = json['image'];
     key = json['key'];
     title = json["data"]['title'];

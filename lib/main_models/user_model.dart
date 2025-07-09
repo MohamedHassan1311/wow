@@ -34,9 +34,11 @@ class UserModel extends SingleMapper {
   CustomFieldModel? education;
   CustomFieldModel? education2;
   String? job;
+  String? job2;
   CustomFieldModel? bodyType;
   CustomFieldModel? skinColor;
   CustomFieldModel? tribe;
+  String? otherTribe;
   CustomFieldModel? sect;
   CustomFieldModel? culture;
   CustomFieldModel? health;
@@ -77,6 +79,9 @@ class UserModel extends SingleMapper {
   String? grelation;
   String? otherGuardian;
   CustomFieldModel? otherNationalityId;
+  CustomFieldModel? hijab;
+  CustomFieldModel? abaya;
+
   int? numOfSons;
   DateTime? dop;
   UserModelValidation? validation;
@@ -151,6 +156,7 @@ class UserModel extends SingleMapper {
       this.education,
       this.education2,
       this.tribe,
+      this.otherTribe,
       this.skinColor,
       this.bodyType,
       this.job,
@@ -163,6 +169,7 @@ class UserModel extends SingleMapper {
       this.can_view_guardian_info,
       this.number_of_chats,
       this.number_of_likes,
+        this.abaya,
       this.number_of_interst,
       this.proposal_suspend});
 
@@ -189,12 +196,18 @@ class UserModel extends SingleMapper {
     gender = json['gender'];
     number_of_interst = json['number_of_likes'];
     can_view_guardian_info = json['can_view_guardian_info'];
-    dop = json['dob'] != null
-        ? DateTime.tryParse(json['dob'])??DateTime.now()
-        : DateTime.now();
+     dob = DateTime.tryParse(json['dob'] ?? '') ?? DateTime.now();
+
     subscription = json['subscription'];
     socialStatus = (json['social_status'] != null && json['social_status'] is! int)
         ? CustomFieldModel.fromJson(json['social_status'])
+        : CustomFieldModel(name: "no Data");
+
+    hijab = (json['hijab'] != null && json['hijab'] is! int)
+        ? CustomFieldModel.fromJson(json['hijab'])
+        : CustomFieldModel(name: "no Data");
+    abaya = (json['abaya'] != null && json['abaya'] is! int)
+        ? CustomFieldModel.fromJson(json['abaya'])
         : CustomFieldModel(name: "no Data");
     regionId = json['region'] != null
         ? CustomFieldModel.fromJson(json['region'])
@@ -233,6 +246,8 @@ languages = json['language'] != null
     tribe=json['tribe'] != null && json['tribe'] is! int && json['tribe'] is! String
         ? CustomFieldModel.fromJson(json['tribe'])
         : CustomFieldModel(name: "no Data");
+
+    otherTribe=json['otherTribe'];
 
     skinColor=json['complexion'] != null
         ? CustomFieldModel.fromJson(json['complexion'])
@@ -326,7 +341,8 @@ languages = json['language'] != null
     data['country_code'] = countryCode;
     data['phone'] = phone;
     data['gender'] = gender;
-    // data['dob'] = DateTime.tryParse(dop.toString())??DateTime.now();
+    data['dob'] = dop?.toIso8601String();
+
     data['image'] = image;
     data['number_of_chats'] = number_of_chats;
     data['number_of_likes'] = number_of_likes;
@@ -374,10 +390,13 @@ languages = json['language'] != null
     data['weight'] = weight;
     data['height'] = height;
     data['education'] = education?.toJson();
+    data['abaya'] = abaya?.toJson();
+    data['hijab'] = hijab?.toJson();
     data['job_title'] = job;
     data['body_type'] = bodyType?.toJson();
     data['complexion'] = skinColor?.toJson();
     data['tribe'] = tribe?.toJson();
+    data['otherTribe'] = otherTribe;
     data['religion'] = sect?.toJson();
     data['culture'] = culture?.toJson();
     data['health'] = health?.toJson();

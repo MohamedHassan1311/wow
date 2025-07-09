@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/extensions.dart';
+import '../../../components/animated_widget.dart';
 import '../../../main_blocs/user_bloc.dart';
 
 import '../../../../app/core/validation.dart';
@@ -38,101 +39,49 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
       builder: (context, state) {
         return Form(
           key: context.read<PersonalInfoBloc>().formKey4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: [
+          child: ListAnimator(
+            data: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
 
-              /// other nationality
-              BlocProvider(
-                create: (context) =>
-                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "religion"})),
-                child: BlocBuilder<SettingOptionBloc, AppState>(
-                    builder: (context, state) {
-                  if (state is Done) {
-                    CustomFieldsModel model = state.model as CustomFieldsModel;
-
-                    return StreamBuilder<CustomFieldModel?>(
-                        stream: context
-                            .read<PersonalInfoBloc>()
-                            .SectStream,
-                        builder: (context, snapshot) {
-                          if(snapshot.data!=null){
-                          return CustomDropDownButton(
-                            label: getTranslated("Sect"),
-
-                              value:  model.data!.firstWhereOrNull(
-                                    (v) => v.id == snapshot.data?.id,
-                              ),
-                              // isEnabled: widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.sect==null:true,
-                            onChange: (v) {
-                              context
-                                  .read<PersonalInfoBloc>()
-                                  .updateSect(
-                                      v as CustomFieldModel);
-                            },
-                            items: model.data ?? [],
-                            name: context
-                                    .read<PersonalInfoBloc>()
-                                    .Sect
-                                    .valueOrNull
-                                    ?.name ??
-                                getTranslated("Sect"),
-                          );
-                        }
-                        return SizedBox();
-                        });
-                  }
-                  if (state is Loading) {
-                    return CustomShimmerContainer(
-                      height: 60.h,
-                      width: context.width,
-                      radius: 30,
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                }),
-              ),
-
-
-              /// tribe
-              BlocProvider(
-                create: (context) =>
-                SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                  ..add(Get(arguments: {'field_name': "tribe"})),
-                child: BlocBuilder<SettingOptionBloc, AppState>(
-                    builder: (context, state) {
+                  /// other nationality
+                  BlocProvider(
+                    create: (context) =>
+                        SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                          ..add(Get(arguments: {'field_name': "religion"})),
+                    child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
                       if (state is Done) {
                         CustomFieldsModel model = state.model as CustomFieldsModel;
 
                         return StreamBuilder<CustomFieldModel?>(
-                            stream:
-                            context.read<PersonalInfoBloc>().tribeStream,
-
+                            stream: context
+                                .read<PersonalInfoBloc>()
+                                .SectStream,
                             builder: (context, snapshot) {
                               if(snapshot.data!=null){
                               return CustomDropDownButton(
-                                label: getTranslated("tribe"),
-                                // validation: (v) =>
-                                //     Validations.field(snapshot.data?.name),
-                    value: model.data!.firstWhereOrNull(
-                          (v) => v.id == snapshot.data?.id,
-                    ),
-                              // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
+                                label: getTranslated("Sect"),
+
+                                  value:  model.data!.firstWhereOrNull(
+                                        (v) => v.id == snapshot.data?.id,
+                                  ),
+                                  // isEnabled: widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.sect==null:true,
                                 onChange: (v) {
                                   context
                                       .read<PersonalInfoBloc>()
-                                      .updateTribe(v as CustomFieldModel);
+                                      .updateSect(
+                                          v as CustomFieldModel);
                                 },
                                 items: model.data ?? [],
                                 name: context
-                                    .read<PersonalInfoBloc>()
-                                    .tribe
-                                    .valueOrNull
-                                    ?.name ??
-                                    getTranslated("tribe"),
+                                        .read<PersonalInfoBloc>()
+                                        .Sect
+                                        .valueOrNull
+                                        ?.name ??
+                                    getTranslated("Sect"),
                               );
                             }
                             return SizedBox();
@@ -148,22 +97,78 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
                         return SizedBox();
                       }
                     }),
+                  ),
+
+
+                  /// tribe
+                  BlocProvider(
+                    create: (context) =>
+                    SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      ..add(Get(arguments: {'field_name': "tribe"})),
+                    child: BlocBuilder<SettingOptionBloc, AppState>(
+                        builder: (context, state) {
+                          if (state is Done) {
+                            CustomFieldsModel model = state.model as CustomFieldsModel;
+
+                            return StreamBuilder<CustomFieldModel?>(
+                                stream:
+                                context.read<PersonalInfoBloc>().tribeStream,
+
+                                builder: (context, snapshot) {
+                                  if(snapshot.data!=null){
+                                  return CustomDropDownButton(
+                                    label: getTranslated("tribe"),
+                                    // validation: (v) =>
+                                    //     Validations.field(snapshot.data?.name),
+                        value: model.data!.firstWhereOrNull(
+                              (v) => v.id == snapshot.data?.id,
+                        ),
+                                  // isEnabled:widget.isEdit? snapshot.data!=null&& UserBloc.instance.user?.validation?.tribe!=null:true,
+                                    onChange: (v) {
+                                      context
+                                          .read<PersonalInfoBloc>()
+                                          .updateTribe(v as CustomFieldModel);
+                                    },
+                                    items: model.data ?? [],
+                                    name: context
+                                        .read<PersonalInfoBloc>()
+                                        .tribe
+                                        .valueOrNull
+                                        ?.name ??
+                                        getTranslated("tribe"),
+                                  );
+                                }
+                                return SizedBox();
+                                });
+                          }
+                          if (state is Loading) {
+                            return CustomShimmerContainer(
+                              height: 60.h,
+                              width: context.width,
+                              radius: 30,
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        }),
+                  ),
+
+
+                  CustomTextField(
+                    controller:
+                    context.read<PersonalInfoBloc>().otherTribe,
+                    label: getTranslated("other_tribe"),
+                    // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().otherTribe.text.isNotEmpty&& UserBloc.instance.user?.validation?.tribe!=null:true,
+                    hint:
+                    "${getTranslated("enter")} ${getTranslated("other_tribe")}",
+                    inputType: TextInputType.name,
+                    pSvgIcon: SvgImages.user,
+                  ),
+
+
+
+                ],
               ),
-
-
-              CustomTextField(
-                controller:
-                context.read<PersonalInfoBloc>().otherTribe,
-                label: getTranslated("other_tribe"),
-                // isEnabled:widget.isEdit? context.read<PersonalInfoBloc>().otherTribe.text.isNotEmpty&& UserBloc.instance.user?.validation?.tribe!=null:true,
-                hint:
-                "${getTranslated("enter")} ${getTranslated("other_tribe")}",
-                inputType: TextInputType.name,
-                pSvgIcon: SvgImages.user,
-              ),
-
-
-
             ],
           ),
         );

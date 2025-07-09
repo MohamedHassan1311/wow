@@ -51,7 +51,7 @@ class NotificationsRepo extends BaseRepo {
   Future<Either<ServerFailure, Response>> readNotification(id) async {
     try {
       Response response =
-          await dioClient.get(uri: EndPoints.readNotification(id));
+          await dioClient.post(uri: EndPoints.readNotification(id:id, userId: userId));
       if (response.statusCode == 200) {
         return Right(response);
       } else {

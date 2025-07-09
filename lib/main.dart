@@ -94,12 +94,11 @@ class _MyAppState extends State<MyApp> {
           builder: (context, child) => MediaQuery(
               data: MediaQuery.of(context)
                   .copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: UnFocus(
-                  child: Stack(
-                children: [
-                  child!,
-                ],
-              ))),
+              child: Stack(
+                              children: [
+              child!,
+                              ],
+                            )),
           initialRoute: Routes.splash,
           navigatorKey: CustomNavigator.navigatorState,
           onGenerateRoute: CustomNavigator.onCreateRoute,
