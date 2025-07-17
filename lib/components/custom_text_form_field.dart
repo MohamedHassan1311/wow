@@ -178,6 +178,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               Spacer(),
               if(widget.labelError !=null)
                 Expanded(
+                  flex: 2,
                   child: Container(
                     decoration: BoxDecoration(
                         color: Styles.ERORR_COLOR.withOpacity(.10),
@@ -187,6 +188,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.labelError ?? "",
+                          maxLines: 4,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,

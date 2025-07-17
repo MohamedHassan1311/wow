@@ -16,8 +16,11 @@ import 'package:wow/features/profile/bloc/profile_bloc.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/navigation/routes.dart' show Routes;
+import '../../app/core/dimensions.dart';
+import '../../components/custom_alert_dialog.dart';
 import '../../data/config/di.dart';
 import '../../data/internet_connection/internet_connection.dart';
+import '../../features/complete_profile/widget/submit_success_dialog.dart';
 import '../../features/favourit/page/favourit_page.dart';
 import '../../helpers/check_on_the_version.dart';
 import '../../navigation/custom_navigation.dart';
@@ -43,8 +46,6 @@ class _DashBoardState extends State<DashBoard> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     if (widget.index != null) {
       DashboardBloc.instance.updateSelectIndex(widget.index!);
-
-
     }
 
     ///App Link
@@ -52,18 +53,39 @@ class _DashBoardState extends State<DashBoard> {
 
     ///Init Data
 
-  if (sl<ProfileBloc>().isLogin) {
-    initData();
+    if (sl<ProfileBloc>().isLogin) {
+      initData();
       sl<ProfileBloc>().add(Get());
     }
-    connectivitySubscription =
-        sl<InternetConnection>().connectionStream(initData);
+
     // CheckOnTheVersion.checkOnVersion();
     super.initState();
   }
 
   initData() {
-          sl<HomeUserBloc>().add(Click());
+    if (UserBloc.instance.isLogin &&
+        UserBloc.instance.user?.isVerified == 0 &&
+        UserBloc.instance.user?.nationalityId?.code?.toLowerCase() == "sa") {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        CustomAlertDialog.show(
+            dailog: AlertDialog(
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                    horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                insetPadding: EdgeInsets.symmetric(
+                    vertical: Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                    horizontal: 20),
+                shape: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(20.0)),
+                content: SubmitSuccessDialog(
+                  fromVerify: true,
+                  isWrongData: UserBloc.instance.user?.thereIsValidation ==true,
+                )));
+      });
+    } else {
+      sl<HomeUserBloc>().add(Click());
+    }
 
     // if (sl<UserBloc>().isLogin) {
     //   sl<UserBloc>().add(Click());
@@ -112,10 +134,10 @@ class _DashBoardState extends State<DashBoard> {
         return const InterestPage();
       case 2:
         return const MarigeRequestPage();
-        case 3:
-          // return const SizedBox();
+      case 3:
+        // return const SizedBox();
         return const Chats();
-        case 4:
+      case 4:
         return const More();
       default:
         return SizedBox();

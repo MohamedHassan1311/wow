@@ -46,7 +46,6 @@ class UserModel extends SingleMapper {
   List<CustomFieldModel>? marriageCondition;
   String? otherConditionText;
 
-
   String? personalInfo;
   String? partenrInfo;
   String? salary;
@@ -85,10 +84,12 @@ class UserModel extends SingleMapper {
   int? numOfSons;
   DateTime? dop;
   UserModelValidation? validation;
+  bool? thereIsValidation;
   int? number_of_chats;
   int? number_of_likes;
-    int? number_of_interst;
-    bool? can_view_guardian_info;
+  int? number_of_interst;
+  String? editFee;
+  bool? can_view_guardian_info;
 
   int? proposal_suspend;
 
@@ -109,6 +110,7 @@ class UserModel extends SingleMapper {
       this.countryCode,
       this.phone,
       this.phoneCode,
+      this.editFee,
       this.dob,
       this.gender,
       this.dop,
@@ -169,7 +171,7 @@ class UserModel extends SingleMapper {
       this.can_view_guardian_info,
       this.number_of_chats,
       this.number_of_likes,
-        this.abaya,
+      this.abaya,
       this.number_of_interst,
       this.proposal_suspend});
 
@@ -186,7 +188,7 @@ class UserModel extends SingleMapper {
     gPhoneNumber = json['gphone']?.toString();
     otherGuardian = json['otherGuardian'];
     nickname = json['nickname'];
-    balance = json['balance'];
+    balance = json['wallet'].toString();
     age = json['age'];
     profileImage = json['image'];
     email = json['email'];
@@ -194,14 +196,16 @@ class UserModel extends SingleMapper {
     phone = json['phone'];
     phoneCode = json['phone_code'];
     gender = json['gender'];
+    editFee = json['edit_fee'].toString();
     number_of_interst = json['number_of_likes'];
     can_view_guardian_info = json['can_view_guardian_info'];
-     dob = DateTime.tryParse(json['dob'] ?? '') ?? DateTime.now();
+    dob = DateTime.tryParse(json['dob'] ?? '') ?? DateTime.now();
 
     subscription = json['subscription'];
-    socialStatus = (json['social_status'] != null && json['social_status'] is! int)
-        ? CustomFieldModel.fromJson(json['social_status'])
-        : CustomFieldModel(name: "no Data");
+    socialStatus =
+        (json['social_status'] != null && json['social_status'] is! int)
+            ? CustomFieldModel.fromJson(json['social_status'])
+            : CustomFieldModel(name: "no Data");
 
     hijab = (json['hijab'] != null && json['hijab'] is! int)
         ? CustomFieldModel.fromJson(json['hijab'])
@@ -216,56 +220,58 @@ class UserModel extends SingleMapper {
         ? CustomFieldModel.fromJson(json['city'])
         : CustomFieldModel(name: "no Data");
 
-    marriageCondition=json['marriage_condition'] != null
-        ? List<CustomFieldModel>.from(json['marriage_condition'].map((e) => CustomFieldModel.fromJson(e)))
+    marriageCondition = json['marriage_condition'] != null
+        ? List<CustomFieldModel>.from(
+            json['marriage_condition'].map((e) => CustomFieldModel.fromJson(e)))
         : [];
-    otherConditionText=json['other_condition'];
+    otherConditionText = json['other_condition'];
 
+    partenrInfo = json['about_partner'];
+    personalInfo = json['about_me'];
+    salary = json['salary'];
+    //[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: type 'String' is not a subtype of type 'int' in type cast
 
-   partenrInfo=json['about_partner'];
-    personalInfo=json['about_me'];
-    salary=json['salary'];
-   //[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: type 'String' is not a subtype of type 'int' in type cast
+    languages = json['language'] != null
+        ? List<int>.from(json['language'].map((e) => int.parse(e.toString())))
+        : [];
 
-
-languages = json['language'] != null
-    ? List<int>.from(json['language'].map((e) => int.parse(e.toString())))
-    : [];
-
-
-
-
-    weight=int.tryParse(json['weight']?.toString() ?? '0');
-    height=int.tryParse(json['height']?.toString() ?? '0');
-    education=json['education'] != null && json['education'] is! int && json['education'] is! String
+    weight = int.tryParse(json['weight']?.toString() ?? '0');
+    height = int.tryParse(json['height']?.toString() ?? '0');
+    education = json['education'] != null &&
+            json['education'] is! int &&
+            json['education'] is! String
         ? CustomFieldModel.fromJson(json['education'])
         : CustomFieldModel(name: "no Data");
-    education2=json['education_2'] != null && json['education_2'] is! int && json['education_2'] is! String
+    education2 = json['education_2'] != null &&
+            json['education_2'] is! int &&
+            json['education_2'] is! String
         ? CustomFieldModel.fromJson(json['education_2'])
         : CustomFieldModel(name: "no Data");
-    tribe=json['tribe'] != null && json['tribe'] is! int && json['tribe'] is! String
+    tribe = json['tribe'] != null &&
+            json['tribe'] is! int &&
+            json['tribe'] is! String
         ? CustomFieldModel.fromJson(json['tribe'])
         : CustomFieldModel(name: "no Data");
 
-    otherTribe=json['otherTribe'];
+    otherTribe = json['otherTribe'];
 
-    skinColor=json['complexion'] != null
+    skinColor = json['complexion'] != null
         ? CustomFieldModel.fromJson(json['complexion'])
         : CustomFieldModel(name: "no Data");
 
-    bodyType=json['body_type'] != null
+    bodyType = json['body_type'] != null
         ? CustomFieldModel.fromJson(json['body_type'])
         : CustomFieldModel(name: "no Data");
 
-    job=json['job_title'] ;
-    isFavourit=json['is_favourite']==false?0:1;
-    isIntersted=json['is_intersted']==false?0:1;
-    sect=json['religion'] != null
+    job = json['job_title'];
+    isFavourit = json['is_favourite'] == false ? 0 : 1;
+    isIntersted = json['is_intersted'] == false ? 0 : 1;
+    sect = json['religion'] != null
         ? CustomFieldModel.fromJson(json['religion'])
         : CustomFieldModel(name: "no Data");
 
     identityFile = json['identity_file'];
-    accountType = json['account_type'] != null &&json['account_type'] is Map
+    accountType = json['account_type'] != null && json['account_type'] is Map
         ? CustomFieldModel.fromJson(json['account_type'])
         : CustomFieldModel(name: "no Data");
     notes = json['notes'];
@@ -310,7 +316,7 @@ languages = json['language'] != null
     lifestyle = json['lifestyle'] != null
         ? CustomFieldModel.fromJson(json['lifestyle'])
         : CustomFieldModel(name: "no Data");
-    accountType = json['account_type'] != null &&json['account_type'] is Map
+    accountType = json['account_type'] != null && json['account_type'] is Map
         ? CustomFieldModel.fromJson(json['account_type'])
         : CustomFieldModel(name: "no Data");
 
@@ -320,8 +326,10 @@ languages = json['language'] != null
     numOfSons = json['num_of_sons'];
     if (json['client_data_validation'] != null) {
       validation = UserModelValidation();
+      thereIsValidation = true;
       validation!.assignFromValidationList(json['client_data_validation']);
-    }  }
+    }
+  }
 
   @override
   Map<String, dynamic> toJson() {
@@ -352,7 +360,8 @@ languages = json['language'] != null
     data['language'] = languages;
     data['salary'] = salary;
     data['subscription'] = subscription;
-    data['marriage_condition'] = marriageCondition?.map((e) => e.toJson()).toList();
+    data['marriage_condition'] =
+        marriageCondition?.map((e) => e.toJson()).toList();
     data['other_condition'] = otherConditionText;
     data['social_status'] = socialStatus?.toJson();
     data['region_id'] = regionId?.toJson();

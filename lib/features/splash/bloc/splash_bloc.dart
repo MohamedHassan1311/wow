@@ -9,6 +9,7 @@ import '../../../data/config/di.dart';
 import '../../../helpers/deep_links_helper.dart';
 import '../../../helpers/permissions.dart';
 import '../../../main_blocs/user_bloc.dart';
+import '../../profile/bloc/profile_bloc.dart';
 import '../../setting/bloc/setting_bloc.dart';
 import '../repo/splash_repo.dart';
 
@@ -25,8 +26,16 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
 
       }
      await DeepLinksHalper().initDeepLinks();
+     if (repo.isLogin) {
+       sl<ProfileBloc>().add(Get());
 
-     Future.delayed(const Duration(milliseconds: 2200), () async {
+     } else {
+       if (!kDebugMode) {
+         await repo.guestMode();
+       }
+     }
+
+     Future.delayed(const Duration(milliseconds: 4200), () async {
       ///Ask Notification Permission
       PermissionHandler.checkNotificationsPermission();
 
@@ -35,15 +44,6 @@ class SplashBloc extends Bloc<AppEvent, AppState> {
 
       ///Get Setting
       sl<SettingBloc>().add(Get());
-      if (repo.isLogin) {
-        UserBloc.instance.add(Click());
-
-
-      } else {
-        if (!kDebugMode) {
-          await repo.guestMode();
-        }
-      }
 
       if (repo.isFirstTime) {
         CustomNavigator.push(Routes.onBoarding, clean: true);

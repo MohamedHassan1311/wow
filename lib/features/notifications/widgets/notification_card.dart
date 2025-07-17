@@ -73,7 +73,10 @@ class NotificationCard extends StatelessWidget {
                CustomNavigator.push(Routes.dashboard,arguments: 2,clean: true);
                 }   else if (notification?.route == 'interest') {
                CustomNavigator.push(Routes.dashboard,arguments: 1,clean: true);
-                }
+                } else if (notification?.route == 'validation') {
+               CustomNavigator.push(
+                   Routes.CompleteProfile,
+                   arguments: true);                }
                 //
                 if (notification?.isRead != true) {
                   context

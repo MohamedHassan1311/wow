@@ -66,13 +66,12 @@ class TransactionCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "${(transaction.type == TransactionType.deposit) ? "+" : "-"} ${(transaction.amount ?? 0).toStringAsFixed(2)}",
+                        " ${(transaction.amount ?? 0).toStringAsFixed(2)}",
                         textAlign: TextAlign.end,
                         style: AppTextStyles.w600.copyWith(
                             fontSize: 14,
-                            color: transaction.type == TransactionType.deposit
-                                ? Styles.ACTIVE
-                                : Styles.IN_ACTIVE),
+                            color:Styles.ACTIVE
+                             ),
                       ),
                     ],
                   ),

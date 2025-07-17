@@ -7,9 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/data/config/di.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
+import '../../../app/core/dimensions.dart';
 import '../../../app/localization/language_constant.dart';
+import '../../../components/custom_alert_dialog.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_widgets/main_app_bar.dart';
+import '../../complete_profile/widget/submit_success_dialog.dart';
 import '../../fillter/widget/custom_selete.dart';
 import '../../guest/guest_mode_view.dart';
 import '../bloc/home_user_bloc.dart';
@@ -27,6 +30,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   void initState() {
     super.initState();
+
+
   }
 
   @override

@@ -56,8 +56,9 @@ class PaymentBloc extends Bloc<AppEvent, AppState> {
   Future<void> checkStatus(checkoutId,bool pop) async {
     try {
       Either<ServerFailure, Response> response = await repo.checkStatus(checkOutID: checkoutId);
-      if(pop)
-      CustomNavigator.pop();
+      if(pop) {
+        CustomNavigator.pop();
+      }
       response.fold((fail) {
         AppCore.showSnackBar(
             notification: AppNotification(

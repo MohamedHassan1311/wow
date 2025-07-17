@@ -53,7 +53,7 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                   ),
                 ),
                 ScrollWheelDatePicker(
-                  initialDate: DateTime(context.read<CompleteProfileBloc>().dop.value!.year,context.read<CompleteProfileBloc>().dop.value!.day,context.read<CompleteProfileBloc>().dop.value!.month),
+                  initialDate:context.read<CompleteProfileBloc>().dop.value,
                   onSelectedItemChanged: (d){
 
                     context

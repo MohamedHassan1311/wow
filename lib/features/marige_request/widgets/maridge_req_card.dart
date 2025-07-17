@@ -74,13 +74,16 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    getTranslated("you_have_a_marige_request", context: context, ).replaceAll("#", widget.user?.nickname ?? "Mohamed"),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.w600.copyWith(
-                      color: Styles.BLACK,
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      getTranslated("you_have_a_marige_request", context: context, ).replaceAll("#", widget.user?.nickname ?? "Mohamed"),
+                      maxLines: 2,
+                      textAlign:TextAlign.center ,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.w600.copyWith(
+                        color: Styles.BLACK,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
 

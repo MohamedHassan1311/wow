@@ -470,6 +470,7 @@
     "Are_you_sure_the_data_is_correct?" :"Are you sure the data is correct?",
     "Submit_sucess_msg" :"Thank you. Your account is being verified. We are currently reviewing your profile.",
     "Submit_sucess_note" :"Your file will be reviewed within the next 72 hours at most. Upon approval, you will receive an email so you can start your journey with us. ",
+    "submit_needs_edit_note": "We're still reviewing your profile, but we noticed that some information needs to be updated. Would you like to edit it now? If you've already made the changes, you can ignore this message — we're working on updating your data.",
 
     "verification_note": "Make sure all information shown in the photo is correct. If there are errors, you may incur fees to correct them later.",
     "kinship": "kinship",
@@ -802,7 +803,11 @@
 
     "no Data":"No available data ",
     "days_on_expire":"Days on expire &",
-    "this_chat_is_blocked": "This chat is blocked"
+    "this_chat_is_blocked": "This chat is blocked",
+    "view_people_from_other_nationality_desc": "View People From Other Nationality",
+    "accountـmodificationـfee": "Account modification fee #",
+"edit_fees": "Edit Fees",
+    "ok":"ok"
 
 
 

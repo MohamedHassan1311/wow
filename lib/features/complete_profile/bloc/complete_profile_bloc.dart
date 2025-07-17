@@ -18,11 +18,17 @@ import '../../../../app/localization/language_constant.dart';
 import '../../../../data/error/failures.dart';
 
 import '../../../app/core/dimensions.dart';
+import '../../../app/core/svg_images.dart';
 import '../../../components/custom_alert_dialog.dart';
+import '../../../components/loading_dialog.dart';
+import '../../../data/config/di.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../main_models/custom_field_model.dart';
+import '../../../main_widgets/custom_request_dialog.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
+import '../../payment/bloc/payment_bloc.dart';
+import '../../profile_details/widgets/maridge_request_dialog.dart';
 import '../enitity/complete_profile_entity.dart';
 import '../repo/complete_profile_repo.dart';
 import '../widget/submit_success_dialog.dart';
@@ -32,7 +38,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
   CompleteProfileBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
     updateCurrentStep(1);
-    updateDOP(DateTime(1999));
+    updateDOP(DateTime(1999,1,1));
   }
 
   final TextEditingController fName = TextEditingController();
@@ -150,9 +156,10 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
       updateSocialStatus(UserBloc.instance.user?.socialStatus);
       updateCity(UserBloc.instance.user?.cityId);
       updateCountryOfResidence(UserBloc.instance.user?.countryId);
-      print("DOP${UserBloc.instance.user?.dob.toString()}" );
-
-      updateDOP(UserBloc.instance.user?.dob);
+      print("DOP${UserBloc.instance.user?.dob  }${UserBloc.instance.user!.dob!.month-1}" );
+if(UserBloc.instance.user!=null) {
+  updateDOP(DateTime(UserBloc.instance.user!.dob!.year,UserBloc.instance.user!.dob!.month-1 ==0?1:UserBloc.instance.user!.dob!.month-1,UserBloc.instance.user!.dob!.day));
+}
 
   }
 
@@ -180,22 +187,38 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
             : numberOfChildren.text.trim(),
         "nationality_id": nationality.valueOrNull?.id,
         "other_nationality_id": otherNationality.valueOrNull?.id,
-        // "education": "test",
-        // "education_2": "test",
-        //
-        // "job_title": "test",
-        // "salary": "10000",
-        // "height": 170,
-        // "weight": 90,
-        // "body_type": 2,
-        // "complexion": 1,
-        // "tribe": 1,
-        // "religion": 1,
-        // "about_me": "sssssssss",
-        //
+
         if (identityImage.hasValue)
           "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
       });
+      if(event.arguments==true)
+        {
+          final result= await CustomAlertDialog.show(
+              dailog: AlertDialog(
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                      horizontal:
+                      Dimensions.PADDING_SIZE_DEFAULT.w),
+
+                  shape: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  content: CustomDialog(
+                    name: getTranslated("edit_fees"),
+                    confirmButtonText:getTranslated("payment"),
+                    showSympole: true,
+                    discription:
+                    getTranslated("accountـmodificationـfee").replaceAll("#", UserBloc.instance.user!.editFee.toString()),
+                    image: SvgImages.wallet,
+
+                  )));
+
+          if(result==false) {
+          emit(Done());
+          return;
+        }
+      }
       Either<ServerFailure, Response> response =
           await repo.completeProfile(data, isEdit: event.arguments as bool);
 
@@ -208,7 +231,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
-        if (nationality.valueOrNull?.code == "SA") {
+        if (nationality.valueOrNull?.code == "SA" &&  event.arguments!=true) {
           CustomAlertDialog.show(
               dailog: AlertDialog(
                   contentPadding: EdgeInsets.symmetric(
@@ -221,9 +244,19 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
                       borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(20.0)),
                   content: SubmitSuccessDialog()));
-        } else {
-          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
         }
+        else if (nationality.valueOrNull?.code != "SA" &&  event.arguments!=true)  {
+          CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
+        } else{
+          if(success.data["data"]["checkoutId"]!=null) {
+            loadingDialog();
+
+            sl.get<PaymentBloc>().payRequestNowReadyUI(
+                checkoutId: success.data["checkoutId"], pop: true);
+          }
+        }
+
+
 
         clear();
         emit(Done());

@@ -178,7 +178,7 @@ class _PersonalInfoFashionStyleState extends State<PersonalInfoFashionStyle>
                                   onChange: (v) {
                                     context
                                         .read<PersonalInfoBloc>()
-                                        .updateTribe(v as CustomFieldModel);
+                                        .updateAbaya(v as CustomFieldModel);
                                   },
                                   items: model.data ?? [],
                                   name: context
