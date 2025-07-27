@@ -45,14 +45,14 @@ class Age extends StatelessWidget {
                       children: bloc.ageList.map((age) {
                         final isSelected = selectedAge == age;
 
-                        return RadioListTile<String>(
-                          value: age ?? "",
-                          groupValue: selectedAge ?? "",
+                        return ListTile(
                           title: Text(age ?? ""),
-                          activeColor: Styles.PRIMARY_COLOR,
-                          onChanged: (value) {
+                          trailing: isSelected
+                              ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                              : Icon(Icons.radio_button_unchecked),
+                          onTap: ()  {
                             bloc.updateAge(
-                              isSelected ? null : value,
+                              isSelected ? null : age,
                             );
                             CustomNavigator.pop();
                           },

@@ -84,14 +84,14 @@ class _CompleteProfileBodyStpe1State
                                         children: model.data!.map((item) {
                                           final isSelected = selectedStatus == item;
 
-                                          return RadioListTile<CustomFieldModel>(
-                                            value: item,
-                                            groupValue: selectedStatus,
-                                            title: Text(item.name??""),
-                                            activeColor: Styles.PRIMARY_COLOR,
-                                            onChanged: (value) {
+                                          return ListTile(
+                                            title: Text(item.name ?? ""),
+                                            trailing: isSelected
+                                                ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                                : Icon(Icons.radio_button_unchecked),
+                                            onTap: ()  {
                                               context.read<FilterBloc>().updateSocialStatus(
-                                                isSelected ? null : value,
+                                                isSelected ? null : item,
                                               );
                                               CustomNavigator.pop();
                                             },
@@ -151,14 +151,14 @@ class _CompleteProfileBodyStpe1State
                                         children: model.data!.map((item) {
                                           final isSelected = selectedCategory == item;
 
-                                          return RadioListTile<CustomFieldModel>(
-                                            value: item,
-                                            groupValue: selectedCategory,
-                                            title: Text(item.name??""),
-                                            activeColor: Styles.PRIMARY_COLOR,
-                                            onChanged: (value) {
+                                          return ListTile(
+                                            title: Text(item.name ?? ""),
+                                            trailing: isSelected
+                                                ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                                : Icon(Icons.radio_button_unchecked),
+                                            onTap: ()  {
                                               context.read<FilterBloc>().updateCategory(
-                                                isSelected ? null : value,
+                                                isSelected ? null : item,
                                               );
                                               CustomNavigator.pop();
                                             },

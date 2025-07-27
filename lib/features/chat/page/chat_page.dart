@@ -21,8 +21,15 @@ import 'package:wow/features/more/widgets/more_button.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
 import '../../../app/core/app_state.dart';
+import '../../../components/custom_alert_dialog.dart';
+import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
+import '../../../main_models/custom_field_model.dart';
+import '../../../main_widgets/custom_request_dialog.dart';
 import '../../chats/model/chats_model.dart';
+import '../../setting/bloc/setting_bloc.dart';
+import '../../setting_option/bloc/setting_option_bloc.dart';
+import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/chat_bloc.dart';
 import '../model/message_model.dart';
 import '../widgets/chat_bottom_sheet.dart';
@@ -45,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
 
   _scrollListener() {
     if (listScrollController.offset <=
-        listScrollController.position.minScrollExtent &&
+            listScrollController.position.minScrollExtent &&
         !listScrollController.position.outOfRange) {
       _limit += _limitIncrement;
       setState(() {});
@@ -55,6 +62,24 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      CustomAlertDialog.show(
+          dailog: AlertDialog(
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                  horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(20.0)),
+              content: CustomDialog(
+                name: getTranslated("welcome"),
+                showBackButton: false,
+                confirmButtonText: getTranslated("ok"),
+                showSympole: false,
+                discription: getTranslated("chat_info"),
+                image: SvgImages.info,
+              )));
+    });
     listScrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusManager.instance.addListener(() {
@@ -71,7 +96,6 @@ class _ChatPageState extends State<ChatPage> {
         }
       });
     });
-
   }
 
   @override
@@ -110,24 +134,30 @@ class _ChatPageState extends State<ChatPage> {
                   IconButton(
                     onPressed: () {
                       CustomBottomSheet.show(
-                        height: 300.h,
+                        // height: 300.h,
                         label: getTranslated("more"),
                         widget: Column(
                           children: [
+                            MoreButton(
+                              title: getTranslated("chat_instructions", context: context),
+                              icon: SvgImages.terms,
+                              onTap: () => CustomNavigator.push(Routes.chatTerms,replace: true),
+                            ),
                             BlocProvider(
                               create: (context) =>
                                   UpdateStatusChatBloc(repo: sl<ChatsRepo>()),
-                              child: BlocBuilder<UpdateStatusChatBloc, AppState>(
+                              child:
+                                  BlocBuilder<UpdateStatusChatBloc, AppState>(
                                 builder: (context, state) {
                                   return MoreButton(
-                                    title: getTranslated("end_chat", context: context),
+                                    title: getTranslated("end_chat",
+                                        context: context),
                                     icon: SvgImages.close,
                                     onTap: () {
-                                      context.read<UpdateStatusChatBloc>().add(
-                                        Update(arguments: {
-                                          "id": widget.data.id,
-                                          "status": 3
-                                        }),
+                                      CustomNavigator.pop();
+                                      CustomNavigator.push(
+                                        Routes.endChatPage,
+                                        arguments: widget.data,
                                       );
                                     },
                                   );
@@ -139,10 +169,11 @@ class _ChatPageState extends State<ChatPage> {
                               icon: SvgImages.report,
                               onTap: () {
                                 CustomNavigator.pop();
-                                CustomNavigator.push(Routes.addToReportPage, arguments: {
-                                  "user": widget.data.user,
-                                  "isFromChat": true
-                                });
+                                CustomNavigator.push(Routes.addToReportPage,
+                                    arguments: {
+                                      "user": widget.data.user,
+                                      "isFromChat": true
+                                    });
                               },
                             ),
                             MoreButton(
@@ -150,13 +181,15 @@ class _ChatPageState extends State<ChatPage> {
                               icon: SvgImages.rejectedUsers,
                               onTap: () {
                                 CustomNavigator.pop();
-                                CustomNavigator.push(Routes.AddToBlockPage, arguments: {
-                                  "user": widget.data.user,
-                                  "isFromChat": true,
-                                  "chatId": widget.data.id,
-                                });
+                                CustomNavigator.push(Routes.AddToBlockPage,
+                                    arguments: {
+                                      "user": widget.data.user,
+                                      "isFromChat": true,
+                                      "chatId": widget.data.id,
+                                    });
                               },
                             ),
+
                           ],
                         ),
                       );
@@ -183,8 +216,8 @@ class _ChatPageState extends State<ChatPage> {
                         color: Styles.ERORR_COLOR),
                     Text(
                       context.read<ChatsBloc>().getStatusMassage(
-                          widget.data.status!,
-                          widget.data.user?.nickname ?? "") ??
+                              widget.data.status!,
+                              widget.data.user?.nickname ?? "") ??
                           "",
                       style: AppTextStyles.w700
                           .copyWith(fontSize: 18, color: Styles.BLACK),
@@ -210,7 +243,8 @@ class _ChatPageState extends State<ChatPage> {
                       children: [
                         Icon(Icons.block, color: Colors.red, size: 60),
                         Text(
-                          getTranslated("this_chat_is_blocked", context: context),
+                          getTranslated("this_chat_is_blocked",
+                              context: context),
                           style: AppTextStyles.w700
                               .copyWith(fontSize: 18, color: Styles.BLACK),
                         ),
@@ -237,35 +271,61 @@ class _ChatPageState extends State<ChatPage> {
                                   height: 300.h,
                                   label: getTranslated("frequently_questions"),
                                   buttonText: getTranslated("send"),
-                                  widget: ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    itemCount: context
-                                        .read<ChatBloc>()
-                                        .frequentlyQuesions
-                                        .length,
-                                    itemBuilder: (context2, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          CustomNavigator.pop();
-                                          context.read<ChatBloc>().controller.text =
-                                          context
-                                              .read<ChatBloc>()
-                                              .frequentlyQuesions[index];
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10.h, horizontal: 10.w),
-                                          child: Text(
-                                            context
-                                                .read<ChatBloc>()
-                                                .frequentlyQuesions[index],
-                                            style: AppTextStyles.w600.copyWith(
-                                                fontSize: 16,
-                                                color: Styles.HEADER),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  widget: BlocProvider(
+                                    create: (context) => SettingOptionBloc(
+                                        repo: sl<SettingOptionRepo>())
+                                      ..add(Get(arguments: {
+                                        'field_name': "chat_questions"
+                                      })),
+                                    child: BlocBuilder<SettingOptionBloc,
+                                            AppState>(
+                                        builder:
+                                            (contextSettingOptionBloc, state) {
+                                      if (state is Loading) {
+                                        return CustomShimmerContainer(
+                                          height: 60.h,
+                                          width: context.width,
+                                          radius: 30,
+                                        );
+                                      }
+                                      if (state is Done) {
+                                        final model =
+                                            state.model as CustomFieldsModel;
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          itemCount: model.data?.length,
+                                          itemBuilder: (context2, index) {
+                                            return InkWell(
+                                              onTap: () {
+                                                CustomNavigator.pop();
+                                                context
+                                                        .read<ChatBloc>()
+                                                        .controller
+                                                        .text =
+                                                    context
+                                                            .read<ChatBloc>()
+                                                            .frequentlyQuesions[
+                                                        index];
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10.h,
+                                                    horizontal: 10.w),
+                                                child: Text(
+                                                  model.data?[index].name ?? "",
+                                                  style: AppTextStyles.w600
+                                                      .copyWith(
+                                                          fontSize: 16,
+                                                          color: Styles.HEADER),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
+
+                                      return SizedBox();
+                                    }),
                                   ),
                                 );
                               },
@@ -297,8 +357,7 @@ class _ChatPageState extends State<ChatPage> {
 
         // ✅ Scroll only if it's the last message (i.e. new message received)
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (listScrollController.hasClients &&
-              index == _limit - 1) {
+          if (listScrollController.hasClients && index == _limit - 1) {
             listScrollController.animateTo(
               listScrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 300),
@@ -314,6 +373,4 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-
 }
-

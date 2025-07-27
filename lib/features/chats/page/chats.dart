@@ -9,6 +9,7 @@ import 'package:wow/main_models/search_engine.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/app_state.dart';
 import '../../../app/core/dimensions.dart';
+import '../../../app/core/text_styles.dart';
 import '../../../components/animated_widget.dart';
 import '../../../components/custom_loading_text.dart';
 import '../../../components/empty_widget.dart';
@@ -32,7 +33,7 @@ class _ChatsState extends State<Chats>
 
   @override
   void initState() {
-    if(UserBloc.instance.isLogin) {
+    if (UserBloc.instance.isLogin) {
       sl<ChatsBloc>().add(Click(arguments: SearchEngine()));
       controller = ScrollController();
       controller.addListener(() {
@@ -53,86 +54,116 @@ class _ChatsState extends State<Chats>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-
       body: Column(
         children: [
-          CustomAppBar(
-              title: getTranslated("messages",
-                  context: context)),
-
+          CustomAppBar(title: getTranslated("messages", context: context)),
           Expanded(
-            child:  !UserBloc.instance.isLogin
-                ? const GuestModeView():BlocBuilder<ChatsBloc, AppState>(
-              builder: (context, state) {
-                if (state is Loading) {
-                  return ListAnimator(
-                    customPadding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                    data: List.generate(
-                        8, (index) => const _LoadingShimmerWidget()),
-                  );
-                }
-                if (state is Done) {
-                  return RefreshIndicator(
-                    color: Styles.PRIMARY_COLOR,
-                    onRefresh: () async {
-                      sl<ChatsBloc>().add(Click(arguments: SearchEngine()));
-                    },
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListAnimator(
-                            customPadding: EdgeInsets.symmetric(
-                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                            ),
-                            data: (state.data as List)
-                                .cast<ChatModel>()
-                                .map((chat) => ChatCard(key: ValueKey(chat.id), chat: chat))
-                                .toList(),
-                          ),
-                        ),
-                        CustomLoadingText(
-                          loading: state.loading,
-                        ),
-                      ],
-                    ),
-                  );
-
-                }
-                if (state is Error || state is Empty) {
-                  return RefreshIndicator(
-                    color: Styles.PRIMARY_COLOR,
-                    onRefresh: () async {
-                      sl<ChatsBloc>().add(Click(arguments: SearchEngine()));
-                    },
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListAnimator(
-                            customPadding: EdgeInsets.symmetric(
-                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                              vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
-                            ),
-                            data: [
-                              SizedBox(
-                                height: 50.h,
+            child: !UserBloc.instance.isLogin
+                ? const GuestModeView()
+                : BlocBuilder<ChatsBloc, AppState>(
+                    builder: (context, state) {
+                      if (state is Loading) {
+                        return ListAnimator(
+                          customPadding: EdgeInsets.symmetric(
+                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                          data: List.generate(
+                              8, (index) => const _LoadingShimmerWidget()),
+                        );
+                      }
+                      if (state is Done) {
+                        return RefreshIndicator(
+                          color: Styles.PRIMARY_COLOR,
+                          onRefresh: () async {
+                            sl<ChatsBloc>()
+                                .add(Click(arguments: SearchEngine()));
+                          },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      Dimensions.PADDING_SIZE_DEFAULT.w * 2,
+                                ),
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: getTranslated(
+                                            "chatRequestNotice"), // base text
+                                        style: AppTextStyles.w400.copyWith(
+                                          color: Styles.HEADER,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: getTranslated(
+                                            "7_days"), // highlighted part
+                                        style: AppTextStyles.w400.copyWith(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              EmptyState(
-                                txt: state is Error
-                                    ? getTranslated("something_went_wrong")
-                                    : null,
+                              Expanded(
+                                child: ListAnimator(
+                                  customPadding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        Dimensions.PADDING_SIZE_DEFAULT.w,
+                                  ),
+                                  data: (state.data as List)
+                                      .cast<ChatModel>()
+                                      .map((chat) => ChatCard(
+                                          key: ValueKey(chat.id), chat: chat))
+                                      .toList(),
+                                ),
+                              ),
+                              CustomLoadingText(
+                                loading: state.loading,
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
+                        );
+                      }
+                      if (state is Error || state is Empty) {
+                        return RefreshIndicator(
+                          color: Styles.PRIMARY_COLOR,
+                          onRefresh: () async {
+                            sl<ChatsBloc>()
+                                .add(Click(arguments: SearchEngine()));
+                          },
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ListAnimator(
+                                  customPadding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        Dimensions.PADDING_SIZE_DEFAULT.w,
+                                    vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
+                                  ),
+                                  data: [
+                                    SizedBox(
+                                      height: 50.h,
+                                    ),
+                                    EmptyState(
+                                      txt: state is Error
+                                          ? getTranslated(
+                                              "something_went_wrong")
+                                          : null,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  ),
           )
         ],
       ),

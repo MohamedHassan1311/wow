@@ -7,9 +7,10 @@ import '../../../app/core/styles.dart';
 import '../../../app/core/text_styles.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../components/custom_button.dart';
+import '../../../components/custom_text_form_field.dart';
 import '../../../navigation/custom_navigation.dart';
 
-class MaridgeRequestDialog extends StatelessWidget {
+class MaridgeRequestDialog extends StatefulWidget {
   final String name;
   final String discription;
   final String? note;
@@ -17,6 +18,7 @@ class MaridgeRequestDialog extends StatelessWidget {
   final String? confirmButtonText;
   final String? backButtonText;
   final bool? showBackButton;
+  final bool? showTextFeild;
   const MaridgeRequestDialog(
       {super.key,
       required this.discription,
@@ -25,13 +27,27 @@ class MaridgeRequestDialog extends StatelessWidget {
       this.confirmButtonText,
       this.backButtonText,
       this.note,
-      this.showBackButton = true});
+      this.showBackButton = true,
+      this.showTextFeild = false});
+
+  @override
+  State<MaridgeRequestDialog> createState() => _MaridgeRequestDialogState();
+}
+
+class _MaridgeRequestDialogState extends State<MaridgeRequestDialog> {
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _messageController.dispose(); // مهم لتنظيف الذاكرة
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
       customContainerSvgIcon(
-        imageName: image,
+        imageName: widget.image,
         color: Styles.BLACK,
         backGround: Colors.transparent,
         width: 80.w,
@@ -40,7 +56,7 @@ class MaridgeRequestDialog extends StatelessWidget {
       ),
       SizedBox(height: 30.h),
       Text(
-        name,
+        widget.name,
         //  getTranslated(
         //  "marige_request"),
         style: AppTextStyles.w800.copyWith(
@@ -49,47 +65,55 @@ class MaridgeRequestDialog extends StatelessWidget {
         ),
       ),
       SizedBox(height: 10.h),
+      Text(
+        widget.discription,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.w500.copyWith(
+          fontSize: 16.0,
+          color: Styles.HEADER,
+        ),
+      ),
+      if (widget.note != null)
         Text(
-          discription,
-          textAlign: TextAlign.center,
+          widget.note!,
           style: AppTextStyles.w500.copyWith(
             fontSize: 16.0,
-            color: Styles.HEADER,
+            color: Styles.ERORR_COLOR,
           ),
         ),
-        if (note != null)
-          Text(
-            note!,
-            style: AppTextStyles.w500.copyWith(
-              fontSize: 16.0,
-              color: Styles.ERORR_COLOR,
-            ),
-          ),
+      if (widget.showTextFeild == true)
+        CustomTextField(
+          controller: _messageController,
+          label: getTranslated("message"),
+          hint: "${getTranslated("enter")} ${getTranslated("message")}",
+          inputType: TextInputType.text,
+          pSvgIcon: SvgImages.user,
+        ),
       SizedBox(height: 30.h),
       Row(
         spacing: 10,
         children: [
           Expanded(
             child: CustomButton(
-              text: confirmButtonText ?? getTranslated("confirm"),
+              text: widget.confirmButtonText ?? getTranslated("confirm"),
               onTap: () {
-                CustomNavigator.pop(result: true);
+                CustomNavigator.pop(result:_messageController.text.trim().isNotEmpty?_messageController.text.trim(): true);
               },
             ),
           ),
-          if (showBackButton != null && showBackButton == true)
+          if (widget.showBackButton != null && widget.showBackButton == true)
             Expanded(
               child: CustomButton(
-                text: backButtonText ?? getTranslated("back_off"),
+                text: widget.backButtonText ?? getTranslated("back_off"),
                 backgroundColor: Colors.transparent,
                 textColor: Styles.PRIMARY_COLOR,
                 borderColor: Styles.PRIMARY_COLOR,
                 withBorderColor: true,
-              onTap: () {
-                CustomNavigator.pop(result: false);
-              },
+                onTap: () {
+                  CustomNavigator.pop(result: false);
+                },
+              ),
             ),
-          ),
         ],
       )
     ]);

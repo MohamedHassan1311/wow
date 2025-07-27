@@ -13,7 +13,7 @@ class ActivationAccountRepo extends BaseRepo {
       Map<String, dynamic> data) async {
     try {
       Response response =
-          await dioClient.post(uri: EndPoints.reactivateAccount, data: data);
+          await dioClient.post(uri: EndPoints.reactivateAccount(userId), data: data);
 
       if (response.statusCode == 200) {
         return Right(response);

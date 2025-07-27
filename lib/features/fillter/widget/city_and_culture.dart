@@ -14,6 +14,7 @@ import 'package:wow/features/fillter/bloc/filtter_bloc.dart';
 import 'package:wow/features/fillter/widget/custom_selete.dart';
 import 'package:wow/features/setting_option/bloc/setting_option_bloc.dart';
 import 'package:wow/features/setting_option/repo/setting_option_repo.dart';
+import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/custom_field_model.dart';
 
 import '../../../components/custom_bottom_sheet.dart';
@@ -27,26 +28,39 @@ class CityAndCulture extends StatefulWidget {
   State<CityAndCulture> createState() => _CityAndCultureState();
 }
 
-class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliveClientMixin{
+class _CityAndCultureState extends State<CityAndCulture>
+    with AutomaticKeepAliveClientMixin {
   BuildContext? cityBlocContext;
 
   @override
   Widget build(BuildContext context) {
-        super.build(context); // For keep-alive
+    super.build(context); // For keep-alive
 
     return Form(
       child: ListAnimator(
         scroll: false,
         data: [
-               /// other nationality
+          /// other nationality
           BlocProvider(
             create: (context) =>
-            SettingOptionBloc(repo: sl<SettingOptionRepo>())
-              ..add(Get(arguments: {'field_name': "country"})),
+                SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                  ..add(Get(arguments: {'field_name': "country"})),
             child: BlocBuilder<SettingOptionBloc, AppState>(
               builder: (context, state) {
                 if (state is Done) {
-                  final countryList = (state.model as CustomFieldsModel).data ?? [];
+               final List<CustomFieldModel> countryList;
+                  if (UserBloc.instance.user?.nationalityId?.code != "sa") {
+                    countryList = (state.model as CustomFieldsModel)
+                            .data
+                            ?.where((m) => m.code != "SA")
+                            .toList() ??
+                        [];
+                  }
+                  else{
+                    countryList = (state.model as CustomFieldsModel)
+                        .data ??
+                        [];
+                  }
 
                   return StreamBuilder<CustomFieldModel?>(
                     stream: context.read<FilterBloc>().countryStream,
@@ -74,24 +88,30 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
                                   children: countryList.map((item) {
                                     final isSelected = selectedCountry == item;
 
-                                    return RadioListTile<CustomFieldModel>(
-                                      value: item,
-                                      groupValue: selectedCountry,
+                                    return ListTile(
                                       title: Text(item.name ?? ""),
-                                      activeColor: Styles.PRIMARY_COLOR,
-                                      onChanged: (_) {
+                                      trailing: isSelected
+                                          ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                          : Icon(Icons.radio_button_unchecked),
+                                      onTap: () {
                                         if (isSelected) {
-                                          context.read<FilterBloc>().updateCountry(null);
+                                          context
+                                              .read<FilterBloc>()
+                                              .updateCountry(null);
                                         } else {
-                                          context.read<FilterBloc>().updateCountry(item);
+                                          context
+                                              .read<FilterBloc>()
+                                              .updateCountry(item);
 
                                           /// Trigger city loading
-                                          cityBlocContext?.read<SettingOptionBloc>()?.add(
-                                            Get(arguments: {
-                                              'field_name': "city",
-                                              "country_id": item.id,
-                                            }),
-                                          );
+                                          cityBlocContext
+                                              ?.read<SettingOptionBloc>()
+                                              ?.add(
+                                                Get(arguments: {
+                                                  'field_name': "city",
+                                                  "country_id": item.id,
+                                                }),
+                                              );
                                         }
 
                                         CustomNavigator.pop();
@@ -114,19 +134,22 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
                               create: (context) => SettingOptionBloc(
                                 repo: sl<SettingOptionRepo>(),
                               )..add(Get(arguments: {
-                                'field_name': "city",
-                                "country_id": selectedCountry.id,
-                              })),
+                                  'field_name': "city",
+                                  "country_id": selectedCountry.id,
+                                })),
                               child: BlocBuilder<SettingOptionBloc, AppState>(
                                 builder: (context, state) {
                                   cityBlocContext = context;
 
                                   if (state is Done) {
                                     final cityList =
-                                        (state.model as CustomFieldsModel).data ?? [];
+                                        (state.model as CustomFieldsModel)
+                                                .data ??
+                                            [];
 
                                     return StreamBuilder<CustomFieldModel?>(
-                                      stream: context.read<FilterBloc>().cityStream,
+                                      stream:
+                                          context.read<FilterBloc>().cityStream,
                                       builder: (context, snapshot) {
                                         final selectedCity = snapshot.data;
 
@@ -139,20 +162,22 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
                                           onTap: () {
                                             CustomBottomSheet.show(
                                               label: getTranslated("city"),
-                                              onCancel: () => CustomNavigator.pop(),
-                                              onConfirm: () => CustomNavigator.pop(),
+                                              onCancel: () =>
+                                                  CustomNavigator.pop(),
+                                              onConfirm: () =>
+                                                  CustomNavigator.pop(),
                                               widget: ListView(
                                                 shrinkWrap: true,
                                                 children: cityList.map((item) {
                                                   final isSelected =
                                                       selectedCity == item;
 
-                                                  return RadioListTile<CustomFieldModel>(
-                                                    value: item,
-                                                    groupValue: selectedCity,
+                                                  return ListTile(
                                                     title: Text(item.name ?? ""),
-                                                    activeColor: Styles.PRIMARY_COLOR,
-                                                    onChanged: (_) {
+                                                    trailing: isSelected
+                                                        ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                                        : Icon(Icons.radio_button_unchecked),
+                                                    onTap: () {
                                                       if (isSelected) {
                                                         context
                                                             .read<FilterBloc>()
@@ -211,15 +236,15 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
             ),
           ),
 
-
-
           BlocProvider(
-            create: (context) => SettingOptionBloc(repo: sl<SettingOptionRepo>())
-              ..add(Get(arguments: {'field_name': "culture"})),
+            create: (context) =>
+                SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                  ..add(Get(arguments: {'field_name': "culture"})),
             child: BlocBuilder<SettingOptionBloc, AppState>(
               builder: (context, state) {
                 if (state is Done) {
-                  final cultureList = (state.model as CustomFieldsModel).data ?? [];
+                  final cultureList =
+                      (state.model as CustomFieldsModel).data ?? [];
 
                   return StreamBuilder<CustomFieldModel?>(
                     stream: context.read<FilterBloc>().cultureStream,
@@ -242,20 +267,23 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
                               children: cultureList.map((item) {
                                 final isSelected = selectedCulture == item;
 
-                                return RadioListTile<CustomFieldModel>(
-                                  value: item,
-                                  groupValue: selectedCulture,
+                                return ListTile(
                                   title: Text(item.name ?? ""),
-                                  activeColor: Styles.PRIMARY_COLOR,
-                                  onChanged: (_) {
+                                  trailing: isSelected
+                                      ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                      : Icon(Icons.radio_button_unchecked),
+                                  onTap: () {
                                     if (isSelected) {
                                       context.read<FilterBloc>().updateCulture(null);
                                     } else {
                                       context.read<FilterBloc>().updateCulture(item);
+
                                     }
                                     CustomNavigator.pop();
+
                                   },
-                                );
+                                )
+                                ;
                               }).toList(),
                             ),
                           );
@@ -282,10 +310,6 @@ class _CityAndCultureState extends State<CityAndCulture>  with AutomaticKeepAliv
               },
             ),
           )
-
-
-
-
         ],
       ),
     );

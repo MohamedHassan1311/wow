@@ -109,7 +109,7 @@ class _PersonalInfoEducationState extends State<PersonalInfoEducation>
               BlocProvider(
                 create: (context) =>
                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                      ..add(Get(arguments: {'field_name': "education"})),
+                      ..add(Get(arguments: {'field_name': "education_2"})),
                 child: BlocBuilder<SettingOptionBloc, AppState>(
                     builder: (context, state) {
                   if (state is Done) {

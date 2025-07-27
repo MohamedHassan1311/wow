@@ -19,7 +19,7 @@ class DeactivateAccountRepo extends BaseRepo {
   Future<Either<ServerFailure, Response>> deactivateAccount() async {
     try {
       Response response = await dioClient.post(
-        uri: EndPoints.suspendAccount(userId),
+        uri: EndPoints.freezeAccount(userId),
       );
       if (response.statusCode == 200) {
         await clearCache();

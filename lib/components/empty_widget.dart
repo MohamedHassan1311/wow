@@ -16,6 +16,7 @@ class EmptyState extends StatelessWidget {
   final bool isSvg;
   final double? spaceBtw;
   final String? txt;
+  final Color? txtColor;
   final String? subText;
   final bool withImage;
 
@@ -29,7 +30,7 @@ class EmptyState extends StatelessWidget {
     this.imgHeight,
     this.imgWidth,
     this.txt,
-    this.subText,
+    this.subText, this.txtColor,
   });
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,7 @@ class EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: AppTextStyles.w600.copyWith(
                 fontSize: 16,
-                color: Styles.HEADER,
+                color:txtColor?? Styles.HEADER,
                 decoration: TextDecoration.none)),
         SizedBox(height: 8.h),
         Text(subText ?? "",

@@ -58,12 +58,14 @@ class CustomDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 10,
           children: [
-            Text(
-              discription,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.w500.copyWith(
-                fontSize: 16.0,
-                color: Styles.HEADER,
+            Flexible(
+              child: Text(
+                discription,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.w500.copyWith(
+                  fontSize: 16.0,
+                  color: Styles.HEADER,
+                ),
               ),
             ),
             if(showSympole==true)

@@ -46,27 +46,20 @@ class HomeCard extends StatelessWidget {
             if (details.velocity.pixelsPerSecond.dx > 0) {
               if (!LanguageBloc.instance.isLtr) {
                 sl<HomeUserBloc>().add(Click());
-              }
-              else {
-                sl<InterestBloc>().add(Add(arguments: context
-                    .read<HomeUserBloc>()
-                    .model
-                    ?.id));
+              } else {
+                sl<InterestBloc>().add(
+                    Add(arguments: context.read<HomeUserBloc>().model?.id));
               }
 
               // Swiped Right
               print('Swiped Right');
             } else if (details.velocity.pixelsPerSecond.dx < 0) {
               if (!LanguageBloc.instance.isLtr) {
-                sl<InterestBloc>().add(Add(arguments: context
-                    .read<HomeUserBloc>()
-                    .model
-                    ?.id));
-              }
-              else {
+                sl<InterestBloc>().add(
+                    Add(arguments: context.read<HomeUserBloc>().model?.id));
+              } else {
                 sl<HomeUserBloc>().add(Click());
               }
-
 
               // Swiped Left
               print('Swiped Left');
@@ -97,11 +90,9 @@ class HomeCard extends StatelessWidget {
                         horizontal: Dimensions.PADDING_SIZE_DEFAULT,
                       ),
                       child: Container(
-                   decoration: BoxDecoration(
-                     color: Colors.black54,
-                     borderRadius: BorderRadius.circular(10)
-                   ),
-
+                        decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Row(
@@ -109,8 +100,8 @@ class HomeCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                context.read<HomeUserBloc>().model?.nickname ?? "",
-
+                                '${context.read<HomeUserBloc>().model?.nickname ?? ''} '
+                                    '${context.read<HomeUserBloc>().model?.countryId?.code?.toFlagEmoji ?? ''}',
                                 style: AppTextStyles.w800.copyWith(
                                     color: Styles.WHITE_COLOR, fontSize: 28),
                               ),
@@ -122,10 +113,12 @@ class HomeCard extends StatelessWidget {
                                         .toString() ??
                                     "",
                                 style: AppTextStyles.w800.copyWith(
-
                                     color: Styles.WHITE_COLOR, fontSize: 22),
                               ),
-                              if (context.read<HomeUserBloc>().model?.isVerified ==
+                              if (context
+                                      .read<HomeUserBloc>()
+                                      .model
+                                      ?.isVerified ==
                                   1)
                                 customImageIconSVG(
                                   imageName: SvgImages.verify,
@@ -137,6 +130,33 @@ class HomeCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (context.read<HomeUserBloc>().model?.proposal_suspend ==
+                        1)
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            spacing: 10,
+                            children: [
+                              customImageIconSVG(
+                                imageName: SvgImages.ring,
+                                color: Styles.PRIMARY_COLOR,
+                                width: 30,
+                                height: 30,
+                              ),
+                              Text(
+                                getTranslated("has_active_engagement") ?? "",
+                                style: AppTextStyles.w800.copyWith(
+                                    color: Styles.WHITE_COLOR, fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: Dimensions.PADDING_SIZE_DEFAULT,
@@ -144,16 +164,17 @@ class HomeCard extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.black54,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-
+                            borderRadius: BorderRadius.circular(10)),
                         child: Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Row(
                             spacing: 15,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (context.read<HomeUserBloc>().model?.countryId !=
+                              if (context
+                                          .read<HomeUserBloc>()
+                                          .model
+                                          ?.countryId !=
                                       null &&
                                   context
                                           .read<HomeUserBloc>()

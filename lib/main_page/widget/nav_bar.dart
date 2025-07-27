@@ -62,8 +62,9 @@ class NavBar extends StatelessWidget {
                   Expanded(
                     child: BottomNavBarItem(
                         label: getTranslated("Marriage requests", context: context),
-                        imageIcon: Images.logoWord,
-                        height: 30,
+                        // imageIcon: Images.logoWord,
+                        svgIcon: SvgImages.ring,
+                        // height: 30,
                         isSelected: (snapshot.data ?? 0) == 2,
                         onTap: () {
                           DashboardBloc.instance.updateSelectIndex(2);
@@ -80,7 +81,9 @@ class NavBar extends StatelessWidget {
                   Expanded(
                     child: BottomNavBarItem(
                       label: getTranslated("more", context: context),
-                      svgIcon: SvgImages.settings,
+
+                      imageIcon: Images.logoWord,
+                      height: 30,
                       isSelected: (snapshot.data ?? 0) == 4,
                       onTap: () {
                         DashboardBloc.instance.updateSelectIndex(4);

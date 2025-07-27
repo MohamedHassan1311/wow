@@ -40,7 +40,7 @@ class PrivacyPolicy extends StatelessWidget {
                       data: [
 
                         HtmlWidget((state.model as SettingModel)
-                                .appRules
+
                                 ?.privacyPolicy ??
                             "Privacy Policy"),
                         SizedBox(

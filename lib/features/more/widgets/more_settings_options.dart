@@ -54,6 +54,12 @@ class MoreSettingsOptions extends StatelessWidget {
 
           ///Terms && Conditions
           MoreButton(
+            title: getTranslated("chat_instructions", context: context),
+            icon: SvgImages.terms,
+            onTap: () => CustomNavigator.push(Routes.chatTerms),
+          ),
+        ///Terms && Conditions
+          MoreButton(
             title: getTranslated("terms_conditions", context: context),
             icon: SvgImages.terms,
             onTap: () => CustomNavigator.push(Routes.terms),

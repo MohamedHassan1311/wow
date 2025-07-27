@@ -26,12 +26,14 @@ class PlanRepo extends BaseRepo {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
-Future<Either<ServerFailure, Response>>   subscribe(id,{int ? nationality}) async {
+Future<Either<ServerFailure, Response>>   subscribe(id,{int ? nationality, String? coupon}) async {
    try {
       Response response = await dioClient.post(uri: EndPoints.subscribe(userId),data: {
         "plan_id": id,
         if(nationality!=null)
         "nationality": nationality,
+        if(coupon !=null&&coupon.isNotEmpty)
+        "coupon": coupon,
 
       });
       if (response.statusCode==200||response.statusCode==201) {

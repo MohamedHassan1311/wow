@@ -43,6 +43,8 @@ class PlanBloc extends HydratedBloc<AppEvent, AppState> {
   final nationality = BehaviorSubject<CustomFieldModel?>()
     ..add(CustomFieldModel());
 
+
+  TextEditingController couponFeild= TextEditingController();
   Function(CustomFieldModel?) get updateNationality => nationality.sink.add;
   Stream<CustomFieldModel?> get nationalityStream =>
       nationality.stream.asBroadcastStream();
@@ -98,6 +100,7 @@ class PlanBloc extends HydratedBloc<AppEvent, AppState> {
         loadingDialog();
         Either<ServerFailure, Response> response = await repo.subscribe(
             event.arguments as int,
+            coupon: couponFeild.text.trim(),
             nationality: nationality.valueOrNull?.id);
         response.fold((fail) {
           CustomNavigator.pop();

@@ -22,7 +22,9 @@ import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoShape extends StatefulWidget {
   final bool isEdit;
-  const PersonalInfoShape({super.key,this.isEdit=false});
+
+  final bool isScroll;
+  const PersonalInfoShape({super.key,this.isEdit=false,  this.isScroll=false});
 
   @override
   State<PersonalInfoShape> createState() =>
@@ -40,6 +42,7 @@ class _PersonalInfoShapeState extends State<PersonalInfoShape>
         return Form(
           key: context.read<PersonalInfoBloc>().formKey3,
           child: ListAnimator(
+            scroll: widget.isScroll,
             data: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

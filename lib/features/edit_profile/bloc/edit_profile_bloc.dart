@@ -84,7 +84,7 @@ class EditProfileBloc extends Bloc<AppEvent, AppState> {
       if (checkData() || profileImage.valueOrNull != null) {
         if (profileImage.valueOrNull != null) {
           body.addAll({
-            "profile_image":
+            "image":
                 MultipartFile.fromFileSync(profileImage.value!.path)
           });
         }
@@ -112,22 +112,13 @@ class EditProfileBloc extends Bloc<AppEvent, AppState> {
                   borderColor: Colors.transparent));
           emit(Error());
         }, (success) {
-          if (event.arguments as bool == true) {
-            AppCore.showSnackBar(
-                notification: AppNotification(
-              message: getTranslated("register_success_description"),
-              backgroundColor: Styles.ACTIVE,
-              borderColor: Styles.ACTIVE,
-            ));
-            CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
-          } else {
+     {
             AppCore.showSnackBar(
                 notification: AppNotification(
               message: getTranslated("your_profile_successfully_updated"),
               backgroundColor: Styles.ACTIVE,
               borderColor: Styles.ACTIVE,
             ));
-            CustomNavigator.pop();
           }
 
           ///To Update Profile Data

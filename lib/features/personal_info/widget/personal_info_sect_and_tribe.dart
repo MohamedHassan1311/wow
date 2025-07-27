@@ -22,7 +22,9 @@ import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoSectAndTribe extends StatefulWidget {
   final bool isEdit;
-  const PersonalInfoSectAndTribe({super.key, this.isEdit = false});
+
+  final bool isScroll;
+  const PersonalInfoSectAndTribe({super.key, this.isEdit = false,  this.isScroll=true});
 
   @override
   State<PersonalInfoSectAndTribe> createState() =>
@@ -40,6 +42,7 @@ class _PersonalInfoSectAndTribeState extends State<PersonalInfoSectAndTribe>
         return Form(
           key: context.read<PersonalInfoBloc>().formKey4,
           child: ListAnimator(
+            scroll: widget.isScroll,
             data: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,24 +6,22 @@ import '../../../main_models/meta.dart';
 class NotificationsModel extends SingleMapper {
   String? status;
   String? message;
+  String? unreadCount;
   List<NotificationModel>? data;
   Meta? meta;
 
-  NotificationsModel({
-    this.status,
-    this.message,
-    this.data,
-  });
+  NotificationsModel({this.status, this.message, this.data, this.unreadCount});
 
   NotificationsModel.fromJson(Map<String, dynamic> json) {
     status = json["status"];
-    message = json["message"];
+    message = json["data"]["unread_count"].toString();
+    unreadCount = json["data"]["unread_count"].toString();
     meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
 
     data = json["data"] == null
         ? []
-        : List<NotificationModel>.from(
-            json["data"]!.map((x) => NotificationModel.fromJson(x)));
+        : List<NotificationModel>.from(json["data"]['notifications']!
+            .map((x) => NotificationModel.fromJson(x)));
   }
 
   Map<String, dynamic> toJson() => {
@@ -44,14 +42,14 @@ class NotificationsModel extends SingleMapper {
 class NotificationModel extends SingleMapper {
   String? id;
   String? createdTime;
-  String? createdAt;
+  DateTime? createdAt;
   bool? isRead;
   String? image;
   String? key;
   String? title;
   UserModel? user;
-  String? route ;
-  String? checkoutId ;
+  String? route;
+  String? checkoutId;
   String? body;
   int? keyId;
 
@@ -73,15 +71,17 @@ class NotificationModel extends SingleMapper {
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdTime = json['created_time'];
-    createdAt = json['created_at'];
-    isRead = json['read_at'] !=null;
+    createdAt = DateTime.parse(json['created_at']);
+    isRead = json['read_at'] != null;
     image = json['image'];
     key = json['key'];
     title = json["data"]['title'];
     body = json['data']['body'];
     route = json["data"]['routeName'];
     checkoutId = json["data"]['checkout_id'];
-    user =json['data']['sender']!=null? UserModel.fromJson(json['data']['sender']):null;
+    user = json['data']['sender'] != null
+        ? UserModel.fromJson(json['data']['sender'])
+        : null;
     keyId = json['key_id'];
   }
 

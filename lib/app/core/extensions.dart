@@ -4,6 +4,22 @@ import 'package:intl/intl.dart';
 import '../../data/config/di.dart';
 import '../../features/language/bloc/language_bloc.dart';
 
+extension CountryFlagEmoji on String {
+  /// Converts a 2-letter country code (ISO 3166-1 alpha-2) to a flag emoji.
+  /// Example: "US" => 🇺🇸
+  String get toFlagEmoji {
+    if (length != 2) return this; // fallback if not valid code
+
+    final int base = 0x1F1E6; // Regional Indicator Symbol Letter A
+    final upper = toUpperCase();
+
+    final int first = upper.codeUnitAt(0) - 0x41 + base;
+    final int second = upper.codeUnitAt(1) - 0x41 + base;
+
+    return String.fromCharCode(first) + String.fromCharCode(second);
+  }
+}
+
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
@@ -40,7 +56,7 @@ extension StringExtension on String {
 
 extension DateExtention on DateTime {
   String dateTimeFormatChat() {
-    return DateFormat("dd-MMM-y - hh:mm aa",sl<LanguageBloc>().selectLocale!.languageCode).format(this);
+    return DateFormat("dd-MM-y - hh:mm aa",sl<LanguageBloc>().selectLocale!.languageCode).format(this);
   }
   String dateFormat({required String format, String? lang}) {
     return DateFormat(

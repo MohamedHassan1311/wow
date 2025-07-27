@@ -39,7 +39,8 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        CustomNavigator.push(Routes.profileDetails, arguments: widget.user?.clientId);
+        CustomNavigator.push(Routes.profileDetails,
+            arguments: widget.user?.clientId);
       },
       child: Container(
         width: context.width,
@@ -76,9 +77,12 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                 children: [
                   Expanded(
                     child: Text(
-                      getTranslated("you_have_a_marige_request", context: context, ).replaceAll("#", widget.user?.nickname ?? "Mohamed"),
+                      getTranslated(
+                        "you_have_a_marige_request",
+                        context: context,
+                      ).replaceAll("#", widget.user?.nickname ?? "Mohamed"),
                       maxLines: 2,
-                      textAlign:TextAlign.center ,
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.w600.copyWith(
                         color: Styles.BLACK,
@@ -86,7 +90,6 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 5),
                   if (widget.user?.isVerified == 1)
                     customImageIconSVG(
@@ -97,75 +100,104 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                 ],
               ),
 
-/// Pending and user gender is female
-              if (widget.user?.proposalStatus == 1 && UserBloc.instance.user?.gender == "F")
-              Row(
-                spacing: 15,
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      width: 80,
-                      height: 45,
-                      textSize: 14,
-                      onTap: () {
-                        context.read<MarigeRequestBloc>().add(Accept(arguments: widget.user?.id));
-                      },
-                      text: getTranslated("accept", context: context),
-                      // color: Styles.PRIMARY_COLOR,
+              /// Pending and user gender is female
+              if (widget.user?.proposalStatus == 1 &&
+                  UserBloc.instance.user?.gender == "F")
+                Row(
+                  spacing: 15,
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        width: 80,
+                        height: 45,
+                        textSize: 14,
+                        onTap: () {
+                          context
+                              .read<MarigeRequestBloc>()
+                              .add(Accept(arguments: widget.user?.id));
+                        },
+                        text: getTranslated("accept", context: context),
+                        // color: Styles.PRIMARY_COLOR,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: CustomButton(
-                      width: 80,
-                      height: 45,
-                      backgroundColor: Styles.GREY_BORDER,
-                      borderColor: Styles.GREY_BORDER,
-                      textColor: Styles.BLACK,
-                      textSize: 14,
-                      onTap: () {
-                        context.read<MarigeRequestBloc>().add(Reject(arguments: widget.user?.id));
-                      },
-                      text: getTranslated("reject", context: context),
-                      // color: Styles.PRIMARY_COLOR,
+                    Expanded(
+                      child: CustomButton(
+                        width: 80,
+                        height: 45,
+                        backgroundColor: Styles.GREY_BORDER,
+                        borderColor: Styles.GREY_BORDER,
+                        textColor: Styles.BLACK,
+                        textSize: 14,
+                        onTap: () {
+                          context
+                              .read<MarigeRequestBloc>()
+                              .add(Reject(arguments: widget.user?.id));
+                        },
+                        text: getTranslated("reject", context: context),
+                        // color: Styles.PRIMARY_COLOR,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
+              /// Pending and user gender is male
+              if (widget.user?.proposalStatus != 1)
+                Text(
+                  getTranslated(
+                      widget.user?.proposalStatus.proposalStatusText ??
+                          "Unknown",
+                      context: context),
+                  style: AppTextStyles.w600
+                      .copyWith(color: Styles.BLACK, fontSize: 18),
+                ),
 
-
-
-
-     /// Pending and user gender is male
-            if (widget.user?.proposalStatus != 1 )
-            Text(getTranslated(widget.user?.proposalStatus.proposalStatusText ?? "Unknown", context: context), style: AppTextStyles.w600.copyWith(color: Styles.BLACK, fontSize: 18),)
-
-
-    ,
-            /// Pending and user gender is male
-            if (widget.user?.proposalStatus == 1 && UserBloc.instance.user?.gender == "M")
-            Row(
-              spacing: 15,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-               CustomButton(
+              /// Pending and user gender is male
+              if (widget.user?.proposalStatus == 1 &&
+                  UserBloc.instance.user?.gender == "M")
+                Row(
+                  spacing: 15,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
                       width: 80,
                       height: 45,
-                        backgroundColor: Styles.RED_COLOR,
-                        borderColor: Styles.RED_COLOR,
-                        textColor: Styles.WHITE_COLOR,
+                      backgroundColor: Styles.RED_COLOR,
+                      borderColor: Styles.RED_COLOR,
+                      textColor: Styles.WHITE_COLOR,
                       textSize: 14,
                       onTap: () {
-                        context.read<MarigeRequestBloc>().add(Reject(arguments: widget.user?.id));
+                        context
+                            .read<MarigeRequestBloc>()
+                            .add(Reject(arguments: widget.user?.id));
                       },
                       text: getTranslated("cancel", context: context),
                       // color: Styles.PRIMARY_COLOR,
                     ),
-              ],
-            ),
+                  ],
+                ),
 
-
-
+              if (widget.user?.proposalStatus == 4 )
+                Row(
+                  spacing: 15,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
+                      width: 80,
+                      height: 45,
+                      backgroundColor: Styles.RED_COLOR,
+                      borderColor: Styles.RED_COLOR,
+                      textColor: Styles.WHITE_COLOR,
+                      textSize: 14,
+                      onTap: () {
+                        context
+                            .read<MarigeRequestBloc>()
+                            .add(Reject(arguments: widget.user?.id));
+                      },
+                      text: getTranslated("break_engagement", context: context),
+                      // color: Styles.PRIMARY_COLOR,
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

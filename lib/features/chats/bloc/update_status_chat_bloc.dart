@@ -22,6 +22,7 @@ class UpdateStatusChatBloc extends Bloc<AppEvent, AppState> {
   UpdateStatusChatBloc({required this.repo}) : super(Start()) {
     on<Update>(onUpdate);
   }
+  TextEditingController reasonController = TextEditingController();
 
   Future<void> onUpdate(Update event, Emitter<AppState> emit) async {
     try {
@@ -30,7 +31,8 @@ class UpdateStatusChatBloc extends Bloc<AppEvent, AppState> {
           event.arguments as Map<String, dynamic>;
 
       Either<ServerFailure, Response> response =
-          await repo.updateChat(arguments['id'], arguments['status']);
+          await repo.updateChat(arguments['id'], arguments['status'],reasonController.text.trim()
+          );
       CustomNavigator.pop();
       response.fold((fail) {
         AppCore.showSnackBar(

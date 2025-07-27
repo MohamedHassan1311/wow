@@ -17,6 +17,7 @@ import '../../../app/core/svg_images.dart';
 import '../../../data/config/di.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
+import '../../auth/destory_account/view/destroy_account.dart';
 import '../../language/page/language_button.dart';
 import '../../more/widgets/turn_button.dart';
 import '../../notifications/bloc/turn_notification_bloc.dart';
@@ -75,16 +76,29 @@ class Settings extends StatelessWidget {
                 ),
 
                 if (UserBloc.instance.isLogin)
-                  MoreButton(
-                    title: getTranslated("delete_account", context: context),
-                    icon: SvgImages.trash,
-                    iconColor: Styles.ERORR_COLOR,
-                    withBottomBorder: false,
-                    onTap: () => CustomBottomSheet.show(
-                      height: 305.h,
-                      widget: DeactivateAccount(),
-                    ),
-                  ),
+               Column(children: [
+
+                 MoreButton(
+                   title: getTranslated("freeze_account", context: context),
+                   icon: SvgImages.freeze,
+                   iconColor: Styles.BLUE_COLOR,
+                   withBottomBorder: false,
+                   onTap: () => CustomBottomSheet.show(
+                     height: 305.h,
+                     widget: DeactivateAccount(),
+                   ),
+                 ),
+                 MoreButton(
+                   title: getTranslated("delete_account", context: context),
+                   icon: SvgImages.trash,
+                   iconColor: Styles.ERORR_COLOR,
+                   withBottomBorder: false,
+                   onTap: () => CustomBottomSheet.show(
+                     height: 305.h,
+                     widget: DestroyAccount(),
+                   ),
+                 ),
+               ],)
               ],
             ),
           )

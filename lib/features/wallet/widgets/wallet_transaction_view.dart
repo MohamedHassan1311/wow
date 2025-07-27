@@ -45,7 +45,7 @@ class WalletTransactionView extends StatelessWidget {
           );
         }
         if (state is Done) {
-          TransactionsModel? list = 
+          TransactionsModel? list =
               context.read<WalletBloc>().model;
           return RefreshIndicator(
             color: Styles.PRIMARY_COLOR,
@@ -96,7 +96,6 @@ class WalletTransactionView extends StatelessWidget {
                         height: 50.h,
                       ),
                       EmptyState(
-                        img: Images.emptyTransactions,
                         imgHeight: 220.h,
                         imgWidth: 220.w,
                         txt: state is Error

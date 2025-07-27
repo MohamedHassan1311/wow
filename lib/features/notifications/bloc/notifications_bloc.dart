@@ -42,18 +42,18 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
 
   bool get isLogin => repo.isLogin;
 
-  List<NotificationModel>? _model;
-
+  List<NotificationModel>? model;
+  NotificationsModel? res;
   Future<void> onGet(Get event, Emitter<AppState> emit) async {
     // try {
       _engine = event.arguments as SearchEngine;
       if (_engine.currentPage == 0) {
-        _model = [];
+        model = [];
         if (!_engine.isUpdate) {
           emit(Loading());
         }
       } else {
-        emit(Done(list: _model, loading: true));
+        emit(Done(list: model, loading: true));
       }
 
       Either<ServerFailure, Response> response =
@@ -68,24 +68,24 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.red));
         emit(Error());
       }, (success) {
-        NotificationsModel? res = NotificationsModel.fromJson(success.data);
+         res = NotificationsModel.fromJson(success.data);
 
         if (_engine.currentPage == 0) {
-          _model?.clear();
+          model?.clear();
         }
 
-        if (res.data != null && res.data!.isNotEmpty) {
-          for (var notification in res.data!) {
-            _model?.removeWhere((e) => e.id == notification.id);
+        if (res?.data != null && res!.data!.isNotEmpty) {
+          for (var notification in res!.data!) {
+            model?.removeWhere((e) => e.id == notification.id);
 
-            _model?.add(notification);
+            model?.add(notification);
           }
 
-          _engine.maxPages = res.meta?.pagesCount ?? 1;
-          _engine.updateCurrentPage(res.meta?.currentPage ?? 1);
+          _engine.maxPages = res!.meta?.pagesCount ?? 1;
+          _engine.updateCurrentPage(res!.meta?.currentPage ?? 1);
         }
-        if (_model != null && _model!.isNotEmpty) {
-          emit(Done(list: _model, loading: false));
+        if (model != null && model!.isNotEmpty) {
+          emit(Done(list: model, loading: false));
         } else {
           emit(Empty());
         }
@@ -104,13 +104,14 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
   Future<void> onRead(Read event, Emitter<AppState> emit) async {
     await repo.readNotification(event.arguments as String);
 
-    _model?.forEach((e) {
+    model?.forEach((e) {
       if (e.id == event.arguments as String) {
         e.isRead = true;
       }
     });
-    if (_model != null && _model!.isNotEmpty) {
-      emit(Done(list: _model, loading: false));
+    res?.unreadCount= (int.tryParse(res!.unreadCount!)!-1).toString();
+    if (model != null && model!.isNotEmpty) {
+      emit(Done(list: model, loading: false));
     } else {
       emit(Empty());
     }
@@ -127,10 +128,10 @@ class NotificationsBloc extends Bloc<AppEvent, AppState> {
         AppCore.showToast(fail.error);
       }, (success) {
         AppCore.showToast(getTranslated("notification_deleted_successfully"));
-        _model?.removeWhere((e) => e.id == event.arguments as String);
+        model?.removeWhere((e) => e.id == event.arguments as String);
 
-        if (_model != null && _model!.isNotEmpty) {
-          emit(Done(list: _model, loading: false));
+        if (model != null && model!.isNotEmpty) {
+          emit(Done(list: model, loading: false));
         } else {
           emit(Empty());
         }

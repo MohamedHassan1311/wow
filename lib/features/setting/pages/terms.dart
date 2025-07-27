@@ -42,8 +42,8 @@ class Terms extends StatelessWidget {
                       data: [
 
                         HtmlWidget((state.model as SettingModel)
-                                .appRules
-                                ?.termsAndConditions ??
+
+                                ?.termsConditions ??
                             "Terms&Conditions"),
                         SizedBox(height: 24.h),
                       ],

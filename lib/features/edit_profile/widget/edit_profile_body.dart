@@ -16,8 +16,10 @@ import '../../../../app/core/styles.dart';
 import '../../../../app/core/text_styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../main_widgets/profile_image_widget.dart';
+import '../../../app/core/app_event.dart';
 import '../../../components/custom_expansion_tile.dart';
 import '../../../data/config/di.dart';
+import '../../../helpers/remote_config_service.dart';
 import '../../../main_blocs/user_bloc.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
@@ -79,11 +81,15 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                 .profileImageStream,
                             builder: (context, snapshot) {
                               return ProfileImageWidget(
-                                  withEdit: false,
+                                  withEdit: true,
                                   imageFile: snapshot.data,
-                                  onGet: context
-                                      .read<EditProfileBloc>()
-                                      .updateProfileImage);
+                                  onGet: (v){
+                                    context
+                                        .read<EditProfileBloc>()
+                                        .updateProfileImage(v);
+                                    context
+                                        .read<EditProfileBloc>().add(Click());
+                                  });
                             }),
                       ),
                       Text(
@@ -95,6 +101,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                       SizedBox(
                         height: 20,
                       ),
+                      if(AppConfig.isIosFlag)
 
                       Container(
                         width: context.width,
@@ -184,8 +191,17 @@ class _RegisterBodyState extends State<EditProfileBody> {
                         height: 20,
                       ),
 
+                      Text(
+                        getTranslated("welcomeMessage") ?? "",
+                        style: AppTextStyles.w400
+                            .copyWith(color: Styles.HEADER, fontSize: 13),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
                       CustomExpansionTile(
-                          initiallyExpanded: true,
+                          initiallyExpanded: false,
                           trailing: SizedBox(
                             width: 150,
                             child: Row(
@@ -218,6 +234,7 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                       CompleteProfileHeader(),
                                       CompleteProfileNameAndGender(
                                           scroll: false, isEdit: true),
+
                                       CompleteProfileNationalityAndCountry(
                                           isScroll: false,
                                           isView: true,
@@ -229,12 +246,13 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                       if (UserBloc.instance.user!.gender != "M")
                                         CompleteProfileGuardiandata(
                                             scroll: false, isEdit: true),
+                                      if(UserBloc.instance.user?.nationalityId?.code?.toLowerCase() == "sa")
                                       CompleteProfileVerification(
                                           isAdd: false,
                                           isView: true,
                                           isEdit: true),
-                                      CompleteProfileActions(
-                                          isEdit: true, isView: true),
+                                      // CompleteProfileActions(
+                                      //     isEdit: true, isView: true),
                                     ],
                                   );
                                 },
@@ -276,15 +294,15 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                     spacing: 10,
                                     children: [
                                       PersonalInfoHeader(),
-                                      PersonalInfoEducation(isEdit: true),
-                                      PersonalInfoJob(isEdit: true),
-                                      PersonalInfoShape(isEdit: true),
-                                      PersonalInfoSectAndTribe(isEdit: true),
+                                      PersonalInfoEducation(isEdit: true,isScroll: false,),
+                                      PersonalInfoJob(isEdit: true,isScroll: false,),
+                                      PersonalInfoShape(isEdit: true,isScroll: false,),
+                                      PersonalInfoSectAndTribe(isEdit: true,isScroll: false,),
                                       PersonalProfileIntroduction(
                                         scroll: false,
                                       ),
-                                      PersonalInfoActions(
-                                          isEdit: true, fromViewProfile: true),
+                                      // PersonalInfoActions(
+                                      //     isEdit: true, fromViewProfile: true),
                                     ],
                                   );
                                 },

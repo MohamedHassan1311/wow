@@ -20,23 +20,24 @@ class PersonalInfoMaridgeInfo extends StatelessWidget {
           vertical: Dimensions.PADDING_SIZE_DEFAULT),
       child: Column(
         children: [
-      
-
-      if(user.marriageCondition?.isNotEmpty ?? false)
-        Expanded(
-         child: ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: user.marriageCondition?.length,
-          itemBuilder: (context, index) {
-            return Text(user.marriageCondition?[index].name ?? '', style:  AppTextStyles.w600.copyWith(fontSize: 16, color: Styles.HEADER));
-          },
-         ),
-       ),
-if(user.marriageCondition?.isEmpty ?? true)
-EmptyState(imgHeight: 60,imgWidth: 60,)       
-
-          
+          if (user.marriageCondition?.isNotEmpty ?? false)
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: user.marriageCondition?.length,
+                itemBuilder: (context, index) {
+                  return Text(user.marriageCondition?[index].name ?? '',
+                      style: AppTextStyles.w600
+                          .copyWith(fontSize: 16, color: Styles.HEADER));
+                },
+              ),
+            ),
+          if (user.marriageCondition?.isEmpty ?? true)
+            EmptyState(
+              imgHeight: 60,
+              imgWidth: 60,
+            )
         ],
       ),
     );

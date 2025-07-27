@@ -47,7 +47,6 @@ class SettingBloc extends Bloc<AppEvent, AppState> {
         emit(Error());
       }, (success) {
         model = SettingModel.fromJson(success.data["data"]);
-        repo.cacheSplashVideo(model?.general?.splashVideo ?? "");
 
         emit(Done(model: model));
       });

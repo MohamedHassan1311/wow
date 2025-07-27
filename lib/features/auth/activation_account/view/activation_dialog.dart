@@ -34,7 +34,9 @@ class ActivationDialog extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(bottom: 8.h),
                   child: customImageIcon(
-                      imageName: Images.appLogo, width: 220.w, height: 70.h)),
+                      imageName: Images.logoWord,
+                      fit: BoxFit.contain,
+                      width: 80.w, height: 80.w)),
               Text(
                 getTranslated("active_account"),
                 textAlign: TextAlign.center,

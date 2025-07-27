@@ -35,6 +35,9 @@ class DioClient extends ApiClient {
         if (sharedPreferences.getString(AppStorageKey.token) != null)
           'Authorization':
               "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
+        if (sharedPreferences.getString(AppStorageKey.token) != null)
+          'user-id':
+          "${sharedPreferences.getString(AppStorageKey.userId)}",
       };
     dio.interceptors.add(PrettyDioLogger(
       request: true,
@@ -52,7 +55,9 @@ class DioClient extends ApiClient {
       'x-api-key': EndPoints.apiKey,
       "Accept-Language":
           sharedPreferences.getString(AppStorageKey.languageCode) ?? "ar",
-      if (token != null) 'Authorization': "Bearer $token"
+      if (token != null) 'Authorization': "Bearer $token",
+      if (token != null)        'user-id':
+        "${sharedPreferences.getString(AppStorageKey.userId)}",
     };
   }
 
@@ -66,6 +71,9 @@ class DioClient extends ApiClient {
       if (sharedPreferences.getString(AppStorageKey.token) != null)
         'Authorization':
             "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
+      if (sharedPreferences.getString(AppStorageKey.token) != null)
+        'user-id':
+        "${sharedPreferences.getString(AppStorageKey.userId)}",
     };
   }
 
@@ -75,6 +83,9 @@ class DioClient extends ApiClient {
       if (sharedPreferences.getString(AppStorageKey.token) != null)
         'Authorization':
             "Bearer ${sharedPreferences.getString(AppStorageKey.token)}",
+      if (sharedPreferences.getString(AppStorageKey.token) != null)
+        'user-id':
+        "${sharedPreferences.getString(AppStorageKey.userId)}",
       'Content-Type': 'application/json; charset=UTF-8',
       "Accept": " application/json",
       'x-api-key': EndPoints.apiKey,

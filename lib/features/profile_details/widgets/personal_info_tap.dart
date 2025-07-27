@@ -33,7 +33,7 @@ class PersonalInfoTap extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${user.nickname} , ${user.age}',
+                '${user.can_view_guardian_info==true ?user.name:user.nickname} , ${user.age}',
                 style: AppTextStyles.w700
                     .copyWith(fontSize: 20, color: Styles.HEADER),
               ),
@@ -62,10 +62,9 @@ class PersonalInfoTap extends StatelessWidget {
           DetailsRow(
               title: getTranslated("height", context: context),
               value: user.height.toString() ?? ''),
+
           DetailsRow(
-              title: getTranslated("body_type", context: context),
-              value: user.bodyType?.name ?? ''),
-          DetailsRow(
+
               title: getTranslated("social_status", context: context),
               value: user.socialStatus?.name ?? ''),
           const SizedBox(height: 24),
@@ -80,16 +79,24 @@ class PersonalInfoTap extends StatelessWidget {
         visible:  user.can_view_guardian_info ==true,
         child: Column(children: [
           DetailsRow(
+
               title: getTranslated("Guardian's data", context: context),
+              textColor: Styles.PRIMARY_COLOR,
               value: ''),
 
           DetailsRow(
+              textColor: Styles.PRIMARY_COLOR,
+
               title: "${getTranslated("name")}", value: user.glName ?? ''),
 
           DetailsRow(
+              textColor: Styles.PRIMARY_COLOR,
+
               title: "${getTranslated("phone")}",
               value: user.gPhoneNumber ?? ''),
           DetailsRow(
+              textColor: Styles.PRIMARY_COLOR,
+
               title: "${getTranslated("kinship")}",
               value: user.grelation ?? ''),
         ],),

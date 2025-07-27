@@ -49,8 +49,9 @@ class LoginBody extends StatelessWidget {
                         controller: snapshot.data?.email,
                         focusNode: context.read<LoginBloc>().emailNode,
                         nextFocus: context.read<LoginBloc>().passwordNode,
-                        label: getTranslated("mail"),
-                        hint: getTranslated("enter_your_mail"),
+                        label: getTranslated("mail", context: context),
+                        hint:
+                            getTranslated("enter_your_mail", context: context),
                         inputType: TextInputType.emailAddress,
                         pSvgIcon: SvgImages.mail,
                         validate: (v) {
@@ -59,14 +60,12 @@ class LoginBody extends StatelessWidget {
                                   emailError: Validations.mail(v) ?? ""));
                           return null;
                         },
-
-
                       ),
 
                       ///Password
                       CustomTextField(
                         controller: snapshot.data?.password,
-                        label: getTranslated("password"),
+                        label: getTranslated("password", context: context),
                         hint: "*********",
                         focusNode: context.read<LoginBloc>().passwordNode,
                         inputType: TextInputType.visiblePassword,
@@ -77,11 +76,9 @@ class LoginBody extends StatelessWidget {
                           context.read<LoginBloc>().updateLoginEntity(
                               snapshot.data?.copyWith(
                                   passwordError:
-                                  Validations.firstPassword(v) ?? ""));
+                                      Validations.firstPassword(v) ?? ""));
                           return null;
                         },
-
-
                       ),
 
                       ///Forget Password && Remember me
@@ -111,7 +108,8 @@ class LoginBody extends StatelessWidget {
                                 CustomNavigator.push(Routes.forgetPassword);
                               },
                               child: Text(
-                                getTranslated("forget_password"),
+                                getTranslated("forget_password",
+                                    context: context),
                                 style: AppTextStyles.w500.copyWith(
                                   color: Styles.PRIMARY_COLOR,
                                   fontSize: 13,
@@ -129,9 +127,8 @@ class LoginBody extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             vertical: Dimensions.PADDING_SIZE_DEFAULT.h),
                         child: CustomButton(
-                            text: getTranslated("sign_in"),
+                            text: getTranslated("sign_in", context: context),
                             onTap: () {
-
                               if (context
                                   .read<LoginBloc>()
                                   .formKey
@@ -156,13 +153,14 @@ class LoginBody extends StatelessWidget {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: getTranslated("do_not_have_acc"),
+                            text: getTranslated("do_not_have_acc",
+                                context: context),
                             style: AppTextStyles.w400.copyWith(
                                 fontSize: 14, color: Styles.DETAILS_COLOR),
                             children: [
                               TextSpan(
                                   text:
-                                      " ${getTranslated("create_an_account")}",
+                                      " ${getTranslated("create_an_account", context: context)}",
                                   style: AppTextStyles.w600.copyWith(
                                     fontSize: 16,
                                     color: Styles.PRIMARY_COLOR,
@@ -196,7 +194,7 @@ class LoginBody extends StatelessWidget {
                                   height: 12.h,
                                 )),
                                 Text(
-                                  "  ${getTranslated("or")}  ",
+                                  "  ${getTranslated("or", context: context)}  ",
                                   style: AppTextStyles.w500.copyWith(
                                       fontSize: 14, color: Styles.HINT_COLOR),
                                 ),
@@ -227,7 +225,7 @@ class LoginBody extends StatelessWidget {
                                   SocialMediaBloc(repo: sl<SocialMediaRepo>()),
                               child: BlocBuilder<SocialMediaBloc, AppState>(
                                 builder: (context, state) {
-                                  if(state is Loading)
+                                  if (state is Loading)
                                     return CupertinoActivityIndicator();
                                   return customImageIconSVG(
                                     imageName: SvgImages.google,
@@ -247,16 +245,14 @@ class LoginBody extends StatelessWidget {
                             ),
                           ),
 
-
-
                           if (Platform.isIOS)
                             BlocProvider(
                               create: (context) =>
                                   SocialMediaBloc(repo: sl<SocialMediaRepo>()),
                               child: BlocBuilder<SocialMediaBloc, AppState>(
                                 builder: (context, state) {
-                                  if(state is Loading)
-                                   return CupertinoActivityIndicator();
+                                  if (state is Loading)
+                                    return CupertinoActivityIndicator();
                                   return customImageIconSVG(
                                     imageName: SvgImages.apple,
                                     width: 40.w,

@@ -27,8 +27,10 @@ class ChatsBloc extends Bloc<AppEvent, AppState> {
 
     if (status == 1) {
       return getTranslated("watting_for_approve_chat");
-    } else if (status == 2 || status == 4) {
+    } else if (status == 2 ) {
       return "${getTranslated("start_to_chat_with")} $name";
+    }else if ( status == 4) {
+      return "${getTranslated("active_chat")}";
     } else if (status == 3) {
       return getTranslated("chat_is_ended")?.replaceAll("#", name);
     } else if (status == 5) {

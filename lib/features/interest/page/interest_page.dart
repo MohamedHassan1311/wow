@@ -30,105 +30,115 @@ class InterestPage extends StatefulWidget {
 }
 
 class _InterestPageState extends State<InterestPage>
-    with AutomaticKeepAliveClientMixin<InterestPage> {
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
-    if(UserBloc.instance.isLogin)
-
-      sl<InterestBloc>().add(Get(arguments: 0));
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+
+    if (UserBloc.instance.isLogin) {
+      sl<InterestBloc>().add(Get(arguments: 0));
+    }
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) return;
+      if (UserBloc.instance.isLogin) {
+        sl<InterestBloc>().add(Get(arguments: _tabController.index));
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    return DefaultTabController(
-      length: 2, // Two tabs
-      child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            title: Text(getTranslated("favourites", context: context)),
-            bottom: TabBar(
-              dividerColor: Styles.GREY_BORDER,
-              indicatorColor: Styles.PRIMARY_COLOR,
-              onTap: (value) {
-                if(UserBloc.instance.isLogin)
-                sl<InterestBloc>().add(Get(arguments: value));
-              },
-              tabs: [
-                Tab(text: getTranslated("liked_you", context: context)),
-                Tab(text: getTranslated("you_liked", context: context)),
-              ],
-            ),
-          ),
-          body:  !UserBloc.instance.isLogin
-              ? const GuestModeView():BlocBuilder<InterestBloc, AppState>(
-            builder: (context, state) {
-              if (state is Done) {
-                return TabBarView(
-                  children: [
-                    LikesGrid(users: sl<InterestBloc>().users),
-                    LikesGrid(users: sl<InterestBloc>().users),
-                  ],
-                );
-              }
-              if (state is Loading) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
-                  child: GridView.builder(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(getTranslated("favourites", context: context)),
+        bottom: TabBar(
+          controller: _tabController,
+          dividerColor: Styles.GREY_BORDER,
+          indicatorColor: Styles.PRIMARY_COLOR,
+          tabs: [
+            Tab(text: getTranslated("liked_you", context: context)),
+            Tab(text: getTranslated("you_liked", context: context)),
+          ],
+        ),
+      ),
+      body: !UserBloc.instance.isLogin
+          ? const GuestModeView()
+          : BlocBuilder<InterestBloc, AppState>(
+              builder: (context, state) {
+                if (state is Done) {
+                  return TabBarView(
+                    controller: _tabController,
+                    children: [
+                      LikesGrid(users: sl<InterestBloc>().users),
+                      LikesGrid(users: sl<InterestBloc>().users),
+                    ],
+                  );
+                } else if (state is Loading) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                    ),
+                    child: GridView.builder(
                       padding: const EdgeInsets.all(12),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Two cards per row
+                        crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                         childAspectRatio: 3 / 4,
                       ),
-                      itemCount: 10, // Sample count
+                      itemCount: 10,
                       itemBuilder: (context, index) {
                         return CustomShimmerContainer(
                           height: 175.h,
                           width: context.width,
                           radius: 24.w,
                         );
-                      }),
-                );
-              }
-              if (state is Error || state is Empty) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListAnimator(
-                        customPadding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                          vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
-                        ),
-                        data: [
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                          EmptyState(
-                            txt: state is Error
-                                ? getTranslated("something_went_wrong")
-                                : null,
-                          ),
-                        ],
-                      ),
+                      },
                     ),
-                  ],
-                );
-              } else {
-                return SafeArea(child: Container());
-              }
-            },
-          )),
+                  );
+                } else if (state is Error || state is Empty) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListAnimator(
+                          customPadding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                            vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
+                          ),
+                          data: [
+                            SizedBox(height: 50.h),
+                            EmptyState(
+                              txt: state is Error
+                                  ? getTranslated("something_went_wrong")
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return SafeArea(child: Container());
+                }
+              },
+            ),
     );
-    ;
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 }
 
 class LikesGrid extends StatelessWidget {
@@ -150,7 +160,6 @@ class LikesGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         return PersoneCard(
           user: users[index],
-
         );
       },
     );

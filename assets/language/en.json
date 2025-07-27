@@ -61,7 +61,7 @@
   "Nationality_and_country": "Nationality and country",
   "Marital status": "Marital status",
   "First_name": "First Name",
-  "Second_name": "Second Name",
+  "Second_name": "Second Name And Full Family Name",
   "male": "Male",
   "you_are_all_set": "You’re all set!",
   "select_your_interests": "Select your Interests",
@@ -84,10 +84,10 @@
   "on_boarding_header_1": "Talented Actors of All Ages",
   "on_boarding_header_2": "Fashion Models with Global Standards",
   "on_boarding_header_3": "Musicians and a Wide Range of Musical Instruments",
-  "on_boarding_description_1": " We offer a selection of talented actors from all age groups who can bring characters to life with exceptional performance and skill in various roles.",
-  "on_boarding_description_2": "We provide male and female models who meet global beauty and fitness standards, delivering high-quality fashion shows suitable for any occasion.",
-  "on_boarding_description_3": "We present a group of professional musicians skilled in playing various musical instruments, adding a magical touch to any event or performance.",
-  "forget_password_header": "Forget Password?",
+    "on_boarding_description_1": "We provide tailored suggestions based on your interests, helping you get closer to someone who shares your dreams and aspirations.",
+    "on_boarding_description_2": "You’re in full control — start or pause your journey anytime, with no commitments.",
+    "on_boarding_description_3": "Your privacy is our top priority. Your information will remain completely confidential until you choose to connect with the right person.",
+    "forget_password_header": "Forget Password?",
   "forget_password_title": "No worries, we will help you",
   "forget_password_description": "Please enter your email so we can send you a verification code",
   "forget_password_helper": "Please check your email for the reset link",
@@ -410,7 +410,9 @@
   "support": "Support",
   "gifting": "Gifting",
   "apply": "Apply",
-  "enter_coupon": "Enter Coupon",
+    "do_you_have_coupon": "Do You Have Coupon?",
+
+    "enter_coupon": "Enter Coupon",
   "coupon_is_not_valid": "Oops, Coupon is not valid!",
   "coupon_applied_successfully": "Coupon Applied Successfully",
   "you_have_to_fill_input": "Oops, You have to fill inputs",
@@ -426,7 +428,9 @@
     "enter": "Enter",
 
     "start_to_chat_with": "Start to chat with",
-  "messages": "Messages",
+    "active_chat": "Active Chat",
+
+    "messages": "Messages",
   "message": "Message",
   "enter_your_message": "Enter your message",
   "write_your_message": "Write your message...",
@@ -791,7 +795,10 @@
   "do_you_have_children":"Do you have children?",
   "frequently_questions":"Frequently Questions",
   "end_chat":"End Chat",
-"chat_is_ended":"Chat is ended with #",
+    "end_chat_with": "End chat with #",
+    "end_chat_des": "Please enter the reason for ending the chat",
+
+    "chat_is_ended":"Chat is ended with #",
 "chat_is_rejected":"Chat is rejected with #",
 
 "chat_is_exspierd":"Chat is exspierd with #",
@@ -807,11 +814,24 @@
     "view_people_from_other_nationality_desc": "View People From Other Nationality",
     "accountـmodificationـfee": "Account modification fee #",
 "edit_fees": "Edit Fees",
-    "ok":"ok"
+    "ok":"ok",
+    "DiscountMessage": "Dear, you have a discount code. Use the code “#” and get a ** discount on the documentation package.",
+    "chatRequestNotice": "Once you accept the chat request, you won’t be able to accept other requests ",
+    "7_days": "for 7 days",
 
 
+        "welcomeMessage": "Dear subscribers, welcome! Please note that your personal information (name and mobile number) is not visible to the public. It is only shown to the administration for identity verification. Additionally, the name and phone number of the girl’s guardian will be shown to users who have mutually agreed to proceed with engagement. We wish you a pleasant and successful journey.",
+    "has_active_engagement": "Has an active engagement",
 
 
+    "chat_info":" ⚠\uFE0F Important Notice\nAll users are kindly requested to communicate respectfully and politely.\nSharing phone numbers or any personal information is strictly prohibited.\nViolating these rules may result in permanent account suspension.\n",
+    "mardig_massge": "Important Notice\nYour account has been temporarily suspended due to an existing engagement recorded in the system.\nWe pray that Allah blesses your union and grants you a joyful and blessed life together.",
+    "guardian_info_note": "Dear user, regarding the guardian’s information: the management of 'W' platform does not contact the guardian in any way. This information is only visible to the person you may accept a marriage proposal from in the future.",
 
+    "personal_info_notice": "Dear users, welcome!\nPlease note that your personal information (name and phone number) is not visible to the public. It is only accessible to the platform’s administration for identity verification purposes.\nAdditionally, the girl’s name and guardian’s number will only be visible to users who have agreed to proceed with an engagement.\nWe wish you a pleasant and successful journey, by the grace of Allah.",
+    "break_engagement": "Break Engagement",
+    "chat_instructions": "Chat Instructions",
+    "freeze_account": "Freeze Account",
+    "freeze_account_des": "Are you sure you want to temporarily freeze your account? You won't be able to access your account until it's reactivated."
 }
 

@@ -24,112 +24,110 @@ class NotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    sl<NotificationsBloc>().add(Get(arguments: SearchEngine()));
+
     return Scaffold(
       appBar: CustomAppBar(title: getTranslated("notifications")),
       body: SafeArea(
-        child: BlocProvider(
-          create: (context) => NotificationsBloc(repo: sl<NotificationsRepo>())
-            ..add(Get(arguments: SearchEngine())),
-          child: BlocBuilder<NotificationsBloc, AppState>(
-            builder: (context, state) {
-              if (state is Loading) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListAnimator(data: [
-                        SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT.h),
-                        ...List.generate(
-                          10,
-                              (i) => Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                              vertical: Dimensions.paddingSizeMini.h,
-                            ),
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Styles.WHITE_COLOR, width: 1))),
-                            child: CustomShimmerContainer(
-                              height: 80.h,
-                              width: context.width,
-                              radius: 14,
-                            ),
+        child: BlocBuilder<NotificationsBloc, AppState>(
+          builder: (context, state) {
+            if (state is Loading) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListAnimator(data: [
+                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT.h),
+                      ...List.generate(
+                        10,
+                            (i) => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
+                            vertical: Dimensions.paddingSizeMini.h,
+                          ),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Styles.WHITE_COLOR, width: 1))),
+                          child: CustomShimmerContainer(
+                            height: 80.h,
+                            width: context.width,
+                            radius: 14,
                           ),
                         ),
-                      ]),
-                    ),
-                  ],
-                );
-              }
-              if (state is Done) {
-                List<NotificationModel> list =
-                state.list as List<NotificationModel>;
-                return RefreshIndicator(
-                  color: Styles.PRIMARY_COLOR,
-                  onRefresh: () async {
-                    context
-                        .read<NotificationsBloc>()
-                        .add(Get(arguments: SearchEngine()));
-                  },
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListAnimator(
-                            controller:
-                            context.read<NotificationsBloc>().controller,
-                            data: [
-                              SizedBox(
-                                  height: Dimensions.PADDING_SIZE_DEFAULT.h),
-                              ...List.generate(
-                                  list.length,
-                                      (i) => NotificationCard(
-                                    notification: list[i],
-                                    withBorder: i != (list.length - 1),
-                                  )),
-                            ]),
                       ),
-                      CustomLoadingText(
-                        loading: state.loading,
-                      ),
-                    ],
+                    ]),
                   ),
-                );
-              }
-              if (state is Empty || State is Error) {
-                return RefreshIndicator(
-                  color: Styles.PRIMARY_COLOR,
-                  onRefresh: () async {
-                    context
-                        .read<NotificationsBloc>()
-                        .add(Get(arguments: SearchEngine()));
-                  },
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListAnimator(
-                          customPadding: EdgeInsets.symmetric(
-                              horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                ],
+              );
+            }
+            if (state is Done) {
+              List<NotificationModel> list =
+              state.list as List<NotificationModel>;
+              return RefreshIndicator(
+                color: Styles.PRIMARY_COLOR,
+                onRefresh: () async {
+                  context
+                      .read<NotificationsBloc>()
+                      .add(Get(arguments: SearchEngine()));
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListAnimator(
+                          controller:
+                          context.read<NotificationsBloc>().controller,
                           data: [
                             SizedBox(
-                              height: 50.h,
-                            ),
-                            EmptyState(
-                              imgHeight: 175.h,
-                              imgWidth: 140.w,
-                              txt: state is Error
-                                  ? getTranslated("something_went_wrong")
-                                  : getTranslated("no_notifications"),
-                            ),
-                          ],
-                        ),
+                                height: Dimensions.PADDING_SIZE_DEFAULT.h),
+                            ...List.generate(
+                                list.length,
+                                    (i) => NotificationCard(
+                                  notification: list[i],
+                                  withBorder: i != (list.length - 1),
+                                )),
+                          ]),
+                    ),
+                    CustomLoadingText(
+                      loading: state.loading,
+                    ),
+                  ],
+                ),
+              );
+            }
+            if (state is Empty || State is Error) {
+              return RefreshIndicator(
+                color: Styles.PRIMARY_COLOR,
+                onRefresh: () async {
+                  context
+                      .read<NotificationsBloc>()
+                      .add(Get(arguments: SearchEngine()));
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListAnimator(
+                        customPadding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                        data: [
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          EmptyState(
+                            imgHeight: 175.h,
+                            imgWidth: 140.w,
+                            txt: state is Error
+                                ? getTranslated("something_went_wrong")
+                                : getTranslated("no_notifications"),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );

@@ -41,13 +41,16 @@ class ChatsRepo extends BaseRepo {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
-    Future<Either<ServerFailure, Response>> updateChat(id,status) async {
+    Future<Either<ServerFailure, Response>> updateChat(id,status,String? reason) async {
     try {
       Response response = await dioClient.post(
         uri: EndPoints.updateChat(userId),
         data: {
           "status": status,
-          "conversationId": id
+          "conversationId": id,
+          if(reason!=null && reason.isNotEmpty)
+          "reason": reason
+
         },
       );
       if (response.statusCode == 200) {

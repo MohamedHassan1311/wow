@@ -19,9 +19,11 @@ import '../../../app/core/styles.dart';
 import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../components/custom_alert_dialog.dart';
+import '../../../data/config/di.dart';
 import '../../../data/error/failures.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
+import '../../profile/bloc/profile_bloc.dart';
 import '../../profile_details/widgets/maridge_request_dialog.dart';
 import '../repo/payment_repo.dart';
 
@@ -67,7 +69,9 @@ class PaymentBloc extends Bloc<AppEvent, AppState> {
                 backgroundColor: Styles.IN_ACTIVE,
                 borderColor: Colors.red));
       }, (success) async {
-   await CustomAlertDialog.show(
+        sl<ProfileBloc>().add(Get());
+
+        await CustomAlertDialog.show(
             dailog: AlertDialog(
                 contentPadding: EdgeInsets.symmetric(
                     vertical: Dimensions.PADDING_SIZE_DEFAULT.w,

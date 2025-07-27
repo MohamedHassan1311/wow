@@ -9,6 +9,7 @@ import 'package:wow/components/animated_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/components/custom_button.dart';
+import 'package:wow/components/custom_text_form_field.dart';
 import 'package:wow/components/empty_widget.dart';
 import 'package:wow/components/shimmer/custom_shimmer.dart';
 import 'package:wow/data/config/di.dart';
@@ -97,17 +98,25 @@ class _PlansPageState extends State<PlansPage>
                                 onTap: snapshot.data != null
                                     ? () {
 
-                                        if (snapshot.data?.worldWowAvailable ==
-                                            1) {
+                                        {
                                           CustomBottomSheet.show(
-                                            height: 350.h,
+                                            height: (snapshot.data?.worldWowAvailable ==
+                                                1)?450.h:350.h,
                                             label: getTranslated(
-                                                "select_partner_nationality"),
+                                                "payment"),
                                             widget: Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
+
+                                                  CustomTextField(
+                                                    hint: getTranslated("do_you_have_coupon"),
+                                                    label: getTranslated("enter_coupon"),
+                                                    controller:  context.read<PlanBloc>(). couponFeild ,
+                                                  ),
+                                                  if (snapshot.data?.worldWowAvailable ==
+                                                      1)
                                                   BlocProvider(
                                                     create: (context) =>
                                                     SettingOptionBloc(repo: sl<SettingOptionRepo>())
@@ -176,9 +185,6 @@ class _PlansPageState extends State<PlansPage>
                                               ),
                                             ),
                                           );
-                                        }else{
-                                          context.read<PlanBloc>().add(
-                                              Add(arguments: snapshot.data!.id));
                                         }
                                       }
                                     : null,
@@ -198,10 +204,13 @@ class _PlansPageState extends State<PlansPage>
                       padding: const EdgeInsets.all(12),
                       itemCount: 10, // Sample count
                       itemBuilder: (context, index) {
-                        return CustomShimmerContainer(
-                          height: 175.h,
-                          width: context.width,
-                          radius: 24.w,
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomShimmerContainer(
+                            height: 175.h,
+                            width: context.width,
+                            radius: 24.w,
+                          ),
                         );
                       }),
                 );

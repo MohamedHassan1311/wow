@@ -68,6 +68,10 @@ class ChatCard extends StatelessWidget {
                   children: [
                     CustomNetworkImage.circleNewWorkImage(
                         color: Styles.HINT_COLOR,
+                        onTap: (){
+                          CustomNavigator.push(Routes.profileDetails, arguments: chat.user?.id);
+
+                        },
                         image: chat.user?.image ?? "",
                         radius: 35),
                     SizedBox(width: 12.w),
@@ -77,16 +81,21 @@ class ChatCard extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              chat.user?.nickname ?? "Name",
-                              style: AppTextStyles.w600.copyWith(
-                                  fontSize: 16, color: Styles.ACCENT_COLOR),
+                            InkWell(
+                              onTap: (){
+                                CustomNavigator.push(Routes.profileDetails, arguments: chat.user?.id);
+
+                              },
+                              child: Text(
+                                chat.user?.nickname ?? "Name",
+                                style: AppTextStyles.w600.copyWith(
+                                    fontSize: 16, color: Styles.ACCENT_COLOR),
+                              ),
                             ),
                             Spacer(),
                             Flexible(
                               child: Text(
-                                chat.createdAt?.dateFormat(
-                                        format: 'd MMM yyyy  hh,mm aa') ??
+                                chat.createdAt?.dateTimeFormatChat()??
                                     DateTime.now().dateFormat(format: "h:m"),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

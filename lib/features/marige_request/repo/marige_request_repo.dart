@@ -31,14 +31,14 @@ class MarigeRequestRepo extends BaseRepo {
     }
   }
 
-  Future<Either<ServerFailure, Response>> sendMarigeRequest(int id) async {
+  Future<Either<ServerFailure, Response>> sendMarigeRequest(int id, message) async {
     try {
       Response response = await dioClient.post(
           uri: EndPoints.sendMarigeRequest,
           data: {
             "sender_id": userId,
             "receiver_id": id,
-            "message": "Proposal By $userId"
+            "message": "$message"
           });
       if (response.statusCode == 200) {
         return Right(response);

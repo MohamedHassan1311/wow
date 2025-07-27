@@ -12,6 +12,8 @@ import '../../app/core/app_event.dart';
 import '../../features/auth/logout/bloc/logout_bloc.dart';
 import '../../features/home/bloc/home_user_bloc.dart';
 import '../../features/language/bloc/language_bloc.dart';
+import '../../features/notifications/bloc/notifications_bloc.dart';
+import '../../features/notifications/repo/notifications_repo.dart';
 import '../../features/payment/bloc/payment_bloc.dart';
 import '../../features/profile/bloc/profile_bloc.dart';
 import '../../features/setting/bloc/setting_bloc.dart';
@@ -29,6 +31,7 @@ abstract class ProviderList {
     BlocProvider<HomeUserBloc>(create: (_) => di.sl<HomeUserBloc>()),
     BlocProvider<MarigeRequestBloc>(create: (_) => di.sl<MarigeRequestBloc>()),
     BlocProvider<PaymentBloc>(create: (_) => di.sl<PaymentBloc>()),
+    BlocProvider<NotificationsBloc>(create: (_) => di.sl<NotificationsBloc>()),
     ///Log out
     BlocProvider<LogoutBloc>(create: (_) => di.sl<LogoutBloc>()),
     BlocProvider<ChatsBloc>(create: (_) => di.sl<ChatsBloc>()),

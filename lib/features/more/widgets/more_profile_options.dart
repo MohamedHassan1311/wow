@@ -10,6 +10,7 @@ import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
 import '../../../data/api/end_points.dart';
 import '../../../data/config/di.dart';
+import '../../../helpers/remote_config_service.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
 import '../../notifications/bloc/turn_notification_bloc.dart';
@@ -83,6 +84,7 @@ class MoreProfileOptions extends StatelessWidget {
             onTap: () => CustomNavigator.push(Routes.blockPage),
           ),
 
+          if(AppConfig.isIosFlag)
           ///wallet
           MoreButton(
             title: getTranslated("wallet", context: context),
@@ -103,7 +105,7 @@ class MoreProfileOptions extends StatelessWidget {
           //   icon: SvgImages.saudiRiyalSymbol,
           //   onTap: () => CustomNavigator.push(Routes.transactions),
           // ),
-
+          if(AppConfig.isIosFlag)
           MoreButton(
             title: getTranslated("plans", context: context),
             icon: SvgImages.category,

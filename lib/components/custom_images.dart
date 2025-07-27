@@ -104,7 +104,7 @@ Widget customContainerSvgIcon(
       padding: EdgeInsets.all(padding ?? 16),
       decoration: BoxDecoration(
           border: Border.all(color: borderColor ?? Colors.transparent),
-          color: backGround ?? Styles.PRIMARY_COLOR.withOpacity(0.1),
+          color: backGround ?? Styles.PRIMARY_COLOR.withOpacity(0.8),
           borderRadius: BorderRadius.circular(radius ?? 12)),
       child: SvgPicture.asset(
         imageName,

@@ -143,20 +143,10 @@ class NotificationCard extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+
                               Flexible(
                                 child: Text(
-                                  notification?.createdTime ?? "since 4 h",
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: AppTextStyles.w400.copyWith(
-                                      fontSize: 12,
-                                      color: Styles.DETAILS_COLOR),
-                                ),
-                              ),
-                              Flexible(
-                                child: Text(
-                                  " - ${notification?.createdAt ?? "12-8-2024"}",
+                                  " - ${notification?.createdAt?.dateTimeFormatChat() ?? "12-8-2024"}",
                                   textAlign: TextAlign.end,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

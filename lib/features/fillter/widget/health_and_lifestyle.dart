@@ -76,14 +76,14 @@ class _HealthAndLifestyleState extends State<HealthAndLifestyle>
                                     children: model.data!.map((item) {
                                       final isSelected = selectedHealth == item;
 
-                                      return RadioListTile<CustomFieldModel>(
-                                        value: item,
-                                        groupValue: selectedHealth,
-                                        title: Text(item.name??""),
-                                        activeColor: Styles.PRIMARY_COLOR,
-                                        onChanged: (value) {
+                                      return ListTile(
+                                        title: Text(item.name ?? ""),
+                                        trailing: isSelected
+                                            ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                            : Icon(Icons.radio_button_unchecked),
+                                        onTap: ()  {
                                           context.read<FilterBloc>().updateHealth(
-                                            isSelected ? null : value,
+                                            isSelected ? null : item,
                                           );
                                           CustomNavigator.pop();
                                         },

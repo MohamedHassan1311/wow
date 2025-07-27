@@ -82,6 +82,7 @@ class SvgImages {
 
   static const String attach = 'assets/svgs/attach.svg';
   static const String trash = 'assets/svgs/trash.svg';
+  static const String freeze = 'assets/svgs/freeze.svg';
   static const String clock = 'assets/svgs/clock.svg';
   static const String chats = 'assets/svgs/chats.svg';
     static const String ring = 'assets/svgs/ring.svg';

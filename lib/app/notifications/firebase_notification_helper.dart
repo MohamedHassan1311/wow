@@ -2,18 +2,23 @@ part of 'notification_helper.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as FireStore,
-  // make sure you call initializeApp before using other Firebase services.
   await Firebase.initializeApp();
   log('on Message background notification ${message.data}');
   log('on Message background data ${message.notification?.body}');
-  log("Handling a background message: ${message.notification!.toMap()}");
-  if (Platform.isAndroid) {
-    scheduleNotification(message.notification!.title ?? "",
-        message.notification!.body ?? "", json.encode(message.data));
+  log("Handling a background message: ${message.notification?.toMap()}");
+
+  // لا نعرض إشعار محلي إذا كانت الرسالة تحتوي على notification (Firebase سيعرضه)
+  if (Platform.isAndroid && message.notification == null) {
+    scheduleNotification(
+      message.notification?.title ?? "",
+      message.notification?.body ?? "",
+      json.encode(message.data),
+    );
   }
+
   handlePath(message.data);
 }
+
 
 FirebaseMessaging? _firebaseMessaging;
 
@@ -45,19 +50,25 @@ class FirebaseNotifications {
       iOSPermission();
     }
     FirebaseMessaging.onMessage.listen(
-      (RemoteMessage data) {
+          (RemoteMessage data) {
         log('on Message notification ${data.notification?.toMap()}');
         log('on Message data ${data.data}');
         log('on Message body ${data.notification?.body}');
         Map notify = data.data;
-        log("$notify");
+
+        // في وضع foreground، لازم نعرض الإشعار يدويًا
         if (Platform.isAndroid) {
-          scheduleNotification(data.notification!.title ?? "",
-              data.notification!.body ?? "", json.encode(notify));
+          scheduleNotification(
+            data.notification?.title ?? "",
+            data.notification?.body ?? "",
+            json.encode(notify),
+          );
         }
+
         updateUserFunctions(notify: notify);
       },
     );
+
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage data) {
       log('on Opened ${data.data}');

@@ -11,6 +11,7 @@ import '../../../../app/core/app_state.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../data/error/failures.dart';
+import '../../../../main_blocs/user_bloc.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 import '../../verification/model/verification_model.dart';
@@ -37,6 +38,8 @@ class SocialMediaBloc extends Bloc<AppEvent, AppState> {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
+        UserBloc.instance.add(Click());
+
         if (success.data['data'] != null &&
             success.data['data']["client"]["email_verified"] != 1) {
           CustomNavigator.push(

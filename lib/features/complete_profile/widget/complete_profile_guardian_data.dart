@@ -17,11 +17,13 @@ import '../../../../components/custom_text_form_field.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/text_styles.dart';
 import '../../../components/animated_widget.dart';
+import '../../../components/custom_alert_dialog.dart';
 import '../../../components/custom_app_bar.dart';
 import '../../../components/custom_drop_down_button.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
 import '../../../main_models/custom_field_model.dart';
+import '../../../main_widgets/custom_request_dialog.dart';
 import '../../setting_option/bloc/setting_option_bloc.dart';
 import '../../setting_option/repo/setting_option_repo.dart';
 import '../bloc/complete_profile_bloc.dart';
@@ -37,8 +39,40 @@ class CompleteProfileGuardiandata extends StatefulWidget {
       _CompleteProfileBodyStpe1State();
 }
 
+
 class _CompleteProfileBodyStpe1State extends State<CompleteProfileGuardiandata>
     with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+
+    super.initState();
+    if(widget.scroll==true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      CustomAlertDialog.show(
+          dailog: AlertDialog(
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                  horizontal:
+                  Dimensions.PADDING_SIZE_DEFAULT.w),
+
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(20.0)),
+              content: CustomDialog(
+                name: getTranslated("welcome"),
+                showBackButton: false,
+                confirmButtonText:getTranslated("ok"),
+                showSympole: false,
+                discription:
+                getTranslated("guardian_info_note")
+                ,
+                image: SvgImages.info,
+
+              )));      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     super.build(context);

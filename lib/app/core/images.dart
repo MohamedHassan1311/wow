@@ -3,6 +3,7 @@ class Images {
   static const String logo = 'assets/images/logo.png';
   static const String logoWord = 'assets/images/wow.png';
   static const String splash = 'assets/images/splachLogo.png';
+  static const String splash2 = 'assets/wowbg.jpeg';
     static const String globel = 'assets/images/globel.png';
     static const String sa = 'assets/images/sa.png';
 

@@ -21,7 +21,8 @@ import '../bloc/personal_profile_bloc.dart';
 
 class PersonalInfoJob extends StatefulWidget {
   final bool isEdit;
-  const PersonalInfoJob({super.key, this.isEdit = false});
+  final bool isScroll;
+  const PersonalInfoJob({super.key, this.isEdit = false,  this.isScroll =true});
 
   @override
   State<PersonalInfoJob> createState() => _PersonalInfoJobState();
@@ -38,6 +39,7 @@ class _PersonalInfoJobState extends State<PersonalInfoJob>
         return Form(
           key: context.read<PersonalInfoBloc>().formKey2,
           child: ListAnimator(
+            scroll: widget.isScroll,
             data: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

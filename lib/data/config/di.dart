@@ -2,6 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wow/features/auth/destory_account/repo/destroy_account_repo.dart';
+import 'package:wow/features/auth/destory_account/view/destroy_account.dart';
 import 'package:wow/features/chats/bloc/chats_bloc.dart';
 import 'package:wow/features/favourit/bloc/favourit_bloc.dart';
 import 'package:wow/features/favourit/repo/favourit_repo.dart';
@@ -34,6 +36,7 @@ import '../../features/auth/logout/repo/logout_repo.dart';
 import '../../features/auth/reset_password/repo/reset_password_repo.dart';
 import '../../features/auth/social_media_login/repo/social_media_repo.dart';
 import '../../features/auth/verification/repo/verification_repo.dart';
+import '../../features/notifications/bloc/notifications_bloc.dart';
 import '../../features/payment/bloc/payment_bloc.dart';
 import '../../features/payment/repo/payment_repo.dart';
 import '../../features/profile_details/repo/profile_details_repo.dart';
@@ -180,9 +183,13 @@ Future<void> init() async {
       sharedPreferences: sl(), dioClient: sl(), socialMediaLoginHelper: sl()));
 
   sl.registerLazySingleton(
+      () => DestroyAccountRepo(sharedPreferences: sl(), dioClient: sl()));
+
+  sl.registerLazySingleton(
       () => DeactivateAccountRepo(sharedPreferences: sl(), dioClient: sl()));
 
-  sl.registerLazySingleton(() => WalletRepo(sharedPreferences: sl(), dioClient: sl()));
+  sl.registerLazySingleton(
+      () => WalletRepo(sharedPreferences: sl(), dioClient: sl()));
   sl.registerLazySingleton(
       () => ProfileDetailsRepo(sharedPreferences: sl(), dioClient: sl()));
 
@@ -219,12 +226,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => DashboardBloc(repo: sl()));
   sl.registerLazySingleton(() => ProfileBloc(repo: sl()));
   sl.registerLazySingleton(() => UserBloc(repo: sl()));
+  sl.registerLazySingleton(() => NotificationsBloc(repo: sl()));
 
   sl.registerLazySingleton(() => FilterBloc(repo: sl()));
   sl.registerLazySingleton(
       () => HomeUserBloc(repo: sl(), internetConnection: sl()));
-  sl.registerLazySingleton(
-      () => PaymentBloc(repo: sl(), ));
+  sl.registerLazySingleton(() => PaymentBloc(
+        repo: sl(),
+      ));
 
   sl.registerLazySingleton(
       () => FavouritBloc(repo: sl(), internetConnection: sl()));

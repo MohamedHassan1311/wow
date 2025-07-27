@@ -15,6 +15,7 @@ class Routes {
   static const AddToBlockPage = "AddToBlockPage";
   static const wallet = "WALLET";
   static const addToReportPage = "AddToReportPage";
+  static const endChatPage = "endChatPage";
   static const changePassword = "CHANGE_PASSWORD";
   static const profile = "PROFILE";
   static const editProfile = "EDIT_PROFILE";
@@ -28,6 +29,7 @@ class Routes {
   static const contactWithUs = "CONTACT_WITH_US";
   static const aboutUs = "ABOUT_US";
   static const terms = "TERMS";
+  static const chatTerms = "ChatTerms";
   static const filterPage = "FilterPage";
   static const filterResult = "FilterResult";
   static const favouritPage = "FavouritPage";

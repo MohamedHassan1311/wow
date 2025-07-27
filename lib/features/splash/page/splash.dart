@@ -24,11 +24,18 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with WidgetsBindingObserver {
+  bool _showImage = false;
+
   @override
   void initState() {
     FlutterNativeSplash.remove();
 
     WidgetsBinding.instance.addObserver(this);
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      setState(() {
+        _showImage = true;
+      });
+    });
     super.initState();
   }
 
@@ -40,7 +47,6 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (context) => SplashBloc(repo: sl<SplashRepo>())..add(Click()),
       child: BlocBuilder<SplashBloc, AppState>(
@@ -49,70 +55,78 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
             body: Container(
               width: context.width,
               height: context.height,
-              padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.PADDING_SIZE_DEFAULT.w,
-                vertical: Dimensions.PADDING_SIZE_DEFAULT.h,
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Center(
-                      child: Image.asset(
-                        Images.splash,
-                        height: 180.h,
-                        width: 180.h,
-                        fit: BoxFit.contain,
-                      )
-                          .animate()
-                          .scale(
-                            begin: const Offset(0.5, 0.5),
-                            end: const Offset(1.0, 1.0),
-                            duration: 1000.ms,
-                            delay: 0.ms,
-                            curve: Curves.easeInOut,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        Center(
+                          child: Image.asset(
+                            Images.splash,
+                            height: 170.h,
+                            width: 170.h,
+                            fit: BoxFit.cover,
                           )
-                          .then(delay: 200.ms)
-                          .shimmer(duration: 1000.ms, curve: Curves.easeInOut),
-                    ),
-                    Spacer(),
-                    BlocBuilder<UserBloc, AppState>(builder: (context, state) {
-                      print(context
-                          .read<UserBloc>()
-                          .user
-                          ?.countryId
-                          ?.code);
-                      // if (context.read<UserBloc>().user != null)
-                      {  return Image.asset(
-                          context
-                                      .read<UserBloc>()
-                                      .user
-                                      ?.countryId
-                                      ?.code
-                                      ?.toLowerCase() ==
-                                  "sa"
-                              ? Images.sa
-                              : Images.globel,
-                          height: 60.h,
-                          width: 60.h,
-                          fit: BoxFit.contain,
-                        );}
+                              .animate()
+                              .scale(
+                                begin: const Offset(0.5, 0.5),
+                                end: const Offset(1.0, 1.0),
+                                duration: 1000.ms,
+                                delay: 0.ms,
+                                curve: Curves.easeInOut,
+                              )
+                              .then(delay: 200.ms)
+                              .shimmer(
+                                  duration: 1000.ms, curve: Curves.easeInOut),
+                        ),
+                        Spacer(),
+                        BlocBuilder<UserBloc, AppState>(
+                            builder: (context, state) {
+                          print(context.read<UserBloc>().user?.countryId?.code);
+                          // if (context.read<UserBloc>().user != null)
+                          {
+                            return Image.asset(
+                              context
+                                          .read<UserBloc>()
+                                          .user
+                                          ?.countryId
+                                          ?.code
+                                          ?.toLowerCase() ==
+                                      "sa"
+                                  ? Images.sa
+                                  : Images.globel,
+                              height: 60.h,
+                              width: 60.h,
+                              fit: BoxFit.contain,
+                            );
+                          }
 
-                      return SizedBox();
-                    }),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Text(
-                          "By Software Cloud 2 ",
-                          style: AppTextStyles.w600.copyWith(fontSize: 18),
-                        )),
-                    SizedBox(
-                      height: 18,
-                    )
-                  ],
-                ),
+                          return SizedBox();
+                        }),
+                        Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              "By Software Cloud 2 ",
+                              style: AppTextStyles.w600.copyWith(fontSize: 18),
+                            )),
+                        SizedBox(
+                          height: 18,
+                        )
+                      ],
+                    ),
+                  ),
+                  if (_showImage)
+                    Center(
+                        child: Image.asset(
+                      Images.splash2,
+                      height: context.height,
+                      width: context.width,
+                      fit: BoxFit.contain,
+                    ).animate(delay: Duration(seconds: 60))),
+                ],
               ),
             ),
           );

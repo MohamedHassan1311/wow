@@ -27,6 +27,7 @@ import 'package:wow/main_models/user_model.dart';
 import '../features/add_address/page/add_address_page.dart';
 import '../features/chat/page/chat_page.dart';
 import '../components/video_preview_page.dart';
+import '../features/chats/page/end_chat_page.dart';
 import '../features/complete_profile/page/CompleteProfile.dart';
 import '../features/contact_with_us/page/contact_with_us_page.dart';
 import '../features/faqs/page/faqs_page.dart';
@@ -34,6 +35,7 @@ import '../features/maps/page/pick_map_page.dart';
 import '../features/notifications/page/notifications_page.dart';
 import '../features/personal_info/page/PersonalInfo.dart';
 import '../features/personal_info/repo/perosnal_info_repo.dart';
+import '../features/setting/pages/chat_terms.dart';
 import '../main.dart';
 import 'routes.dart';
 import '../main_page/page/dashboard.dart';
@@ -137,7 +139,7 @@ abstract class CustomNavigator {
             settings.arguments as Map<String, dynamic>;
         return _pageRoute(
             AddToBlockPage(user: map["user"] as UserModel,
-            
+
             chatId: map['chatId'] as int?, isFromChat: map["isFromChat"] as bool));
 
       case Routes.addresses:
@@ -152,6 +154,9 @@ abstract class CustomNavigator {
       case Routes.addAddress:
         return _pageRoute(
             AddAddressPage(address: settings.arguments as AddressModel?));
+     case Routes.endChatPage:
+        return _pageRoute(
+            EndChatPage(chatModel: settings.arguments as ChatModel));
 
       case Routes.chats:
         return _pageRoute(const Chats());
@@ -201,6 +206,9 @@ abstract class CustomNavigator {
 
       case Routes.terms:
         return _pageRoute(const Terms());
+
+        case Routes.chatTerms:
+        return _pageRoute(const ChatTerms());
 
       case Routes.faqs:
         return _pageRoute(const FaqsPage());

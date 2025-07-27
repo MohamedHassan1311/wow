@@ -10,10 +10,15 @@ import '../../../../app/core/app_core.dart';
 import '../../../../app/core/app_event.dart';
 import '../../../../app/core/app_notification.dart';
 import '../../../../app/core/app_state.dart';
+import '../../../../app/core/dimensions.dart';
 import '../../../../app/core/styles.dart';
+import '../../../../app/core/svg_images.dart';
 import '../../../../app/localization/language_constant.dart';
+import '../../../../components/custom_alert_dialog.dart';
 import '../../../../components/custom_simple_dialog.dart';
 import '../../../../data/error/failures.dart';
+import '../../../../main_blocs/user_bloc.dart';
+import '../../../../main_widgets/custom_request_dialog.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 import '../../activation_account/view/activation_dialog.dart';
@@ -62,9 +67,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
 
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
     try {
-
-      if(isBodyValid()==false)
-      {
+      if (isBodyValid() == false) {
         return;
       }
       emit(Loading());
@@ -73,18 +76,28 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
           await repo.logIn(await loginEntity.valueOrNull!.toJson());
 
       response.fold((fail) {
-          AppCore.showSnackBar(
-              notification: AppNotification(
-                  message: fail.error,
-                  isFloating: true,
-                  backgroundColor: Styles.IN_ACTIVE,
-                  borderColor: Colors.transparent));
+        if (fail.statusCode == 406) {
+          CustomSimpleDialog.parentSimpleDialog(
+            canDismiss: false,
+            withContentPadding: false,
+            customWidget: ActivationDialog( email: '',),
+          );
+        }
+        AppCore.showSnackBar(
+            notification: AppNotification(
+                message: fail.error,
+                isFloating: true,
+                backgroundColor: Styles.IN_ACTIVE,
+                borderColor: Colors.transparent));
 
         emit(Error());
       }, (success) {
+
+
         if (rememberMe.valueOrNull == true) {
           repo.saveCredentials(loginEntity.valueOrNull!.toJson());
         }
+        UserBloc.instance.add(Click());
 
         if (success.data['data'] != null &&
             success.data['data']["client"]["email_verified"] != 1) {
@@ -97,13 +110,27 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
                 fromRegister: true),
           );
           return;
-        } else
-        {
+        } else {
           if (success.data['data'] != null &&
               success.data['data']["client"]["social_status"] == null) {
             CustomNavigator.push(Routes.CompleteProfile, clean: true);
-          }else {
-
+            CustomAlertDialog.show(
+                dailog: AlertDialog(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                        horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                    shape: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(20.0)),
+                    content: CustomDialog(
+                      name: getTranslated("welcome"),
+                      showBackButton: false,
+                      confirmButtonText: getTranslated("ok"),
+                      showSympole: false,
+                      discription: getTranslated("personal_info_notice"),
+                      image: SvgImages.info,
+                    )));
+          } else {
             CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
           }
         }

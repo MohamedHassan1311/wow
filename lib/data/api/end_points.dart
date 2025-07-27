@@ -20,7 +20,8 @@ class EndPoints {
   static const String verifyOtp = 'check-verification-code';
   static const String verifyOtpResetPass = 'reset-password-check-code';
   static String suspendAccount(userid) => 'client/destroy/$userid';
-  static const String reactivateAccount = 'reactivate-account';
+  static String freezeAccount(userid) => 'client/suspend/$userid';
+  static  String reactivateAccount (userid) => 'client/suspend/$userid';
 
   ///User Profile
   static String editProfile(id) => 'client/$id';

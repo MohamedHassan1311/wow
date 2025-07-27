@@ -12,6 +12,7 @@ import '../../../../app/core/styles.dart';
 import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_button.dart';
 import '../../../../data/config/di.dart';
+import '../../destory_account/repo/destroy_account_repo.dart';
 import '../bloc/deactivate_account_bloc.dart';
 import '../repo/deactivate_account_repo.dart';
 
@@ -36,23 +37,20 @@ class DeactivateAccount extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.h),
-                  child: customImageIcon(
-                    imageName: Images.deleteAlert,
-                    width: 80.w,
-                    height: 80.w,
-                  ),
-                ),
+                Icon(Icons.ac_unit,
+
+                    size:80.w,color: Colors.blue),
+
+
 
                 Text(
-                  getTranslated("delete_account"),
+                  getTranslated("freeze_account"),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.w600
-                      .copyWith(fontSize: 22, color: Styles.IN_ACTIVE),
+                      .copyWith(fontSize: 22, color: Colors.blue),
                 ),
                 Text(
-                  getTranslated("are_you_sure_you_want_to_delete_your_account"),
+                  getTranslated("freeze_account_des"),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.w400
                       .copyWith(fontSize: 16, color: Styles.HEADER),
@@ -83,7 +81,7 @@ class DeactivateAccount extends StatelessWidget {
                       SizedBox(width: 16.w),
                       Expanded(
                         child: CustomButton(
-                          text: getTranslated("yes_delete"),
+                          text: getTranslated("yes"),
                           height: 45.h,
                           textColor: Styles.LOGOUT_COLOR,
                           borderColor: Styles.LOGOUT_COLOR,

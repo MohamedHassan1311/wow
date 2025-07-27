@@ -101,7 +101,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                                         centerTitle: true,
                                         title: collapsed
                                             ? Text(
-                                                user.name ?? "",
+                                                user.nickname ?? "",
                                                 style: const TextStyle(
                                                     color: Colors.black),
                                               )

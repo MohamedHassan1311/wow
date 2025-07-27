@@ -28,6 +28,7 @@ import '../../../main_widgets/custom_request_dialog.dart';
 import '../../../navigation/custom_navigation.dart';
 import '../../../navigation/routes.dart';
 import '../../payment/bloc/payment_bloc.dart';
+import '../../profile/bloc/profile_bloc.dart';
 import '../../profile_details/widgets/maridge_request_dialog.dart';
 import '../enitity/complete_profile_entity.dart';
 import '../repo/complete_profile_repo.dart';
@@ -151,15 +152,30 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
     otherGuardian.text = UserBloc.instance.user?.otherGuardian.toString() ?? "";
     updateGender(UserBloc.instance.user?.gender == "M" ? 1 : 2);
 
-      updateNationality(UserBloc.instance.user?.countryId);
+      updateNationality(UserBloc.instance.user?.nationalityId);
       updateOtherNationality(UserBloc.instance.user?.otherNationalityId);
       updateSocialStatus(UserBloc.instance.user?.socialStatus);
       updateCity(UserBloc.instance.user?.cityId);
       updateCountryOfResidence(UserBloc.instance.user?.countryId);
-      print("DOP${UserBloc.instance.user?.dob  }${UserBloc.instance.user!.dob!.month-1}" );
-if(UserBloc.instance.user!=null) {
-  updateDOP(DateTime(UserBloc.instance.user!.dob!.year,UserBloc.instance.user!.dob!.month-1 ==0?1:UserBloc.instance.user!.dob!.month-1,UserBloc.instance.user!.dob!.day));
-}
+      print("DOP${UserBloc.instance.user?.dob  } ${UserBloc.instance.user!.dob!.month-1 ==0?1:UserBloc.instance.user!.dob!.month-1}" );
+    if (UserBloc.instance.user != null) {
+      final dob = UserBloc.instance.user!.dob!;
+      int year = dob.year;
+      int month = dob.month - 1;
+      if (month == 0) {
+        month = 12;
+        year -= 1;
+      }
+
+      final day = dob.day;
+      final daysInMonth = DateUtils.getDaysInMonth(year, month);
+      final safeDay = day > daysInMonth ? daysInMonth : day;
+
+      final previousMonthDate = DateTime(year, month, safeDay);
+
+      updateDOP(previousMonthDate);
+    }
+
 
   }
 
@@ -191,7 +207,7 @@ if(UserBloc.instance.user!=null) {
         if (identityImage.hasValue)
           "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
       });
-      if(event.arguments==true)
+      if(event.arguments==true&& UserBloc.instance.user!.editFee!="0")
         {
           final result= await CustomAlertDialog.show(
               dailog: AlertDialog(
@@ -231,6 +247,8 @@ if(UserBloc.instance.user!=null) {
                 borderColor: Colors.transparent));
         emit(Error());
       }, (success) {
+        sl<ProfileBloc>().add(Get());
+
         if (nationality.valueOrNull?.code == "SA" &&  event.arguments!=true) {
           CustomAlertDialog.show(
               dailog: AlertDialog(
@@ -248,11 +266,12 @@ if(UserBloc.instance.user!=null) {
         else if (nationality.valueOrNull?.code != "SA" &&  event.arguments!=true)  {
           CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
         } else{
-          if(success.data["data"]["checkoutId"]!=null) {
+          print("${success.data["data"]["checkout_id"]}");
+          if(success.data["data"]["checkout_id"]!=null) {
             loadingDialog();
 
             sl.get<PaymentBloc>().payRequestNowReadyUI(
-                checkoutId: success.data["checkoutId"], pop: true);
+                checkoutId: success.data["data"]["checkout_id"].toString(), pop: true);
           }
         }
 

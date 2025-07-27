@@ -17,6 +17,7 @@ import '../app/core/app_event.dart';
 import '../app/core/text_styles.dart';
 import '../components/custom_text_form_field.dart';
 import '../data/config/di.dart';
+import '../features/notifications/widgets/notificaton_button.dart';
 import 'guest_mode.dart';
 import 'profile_image_widget.dart';
 import '../navigation/routes.dart';
@@ -78,7 +79,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 .copyWith(fontSize: 14, color: Styles.TITLE),
                           ),
                           Text(
-                            UserBloc.instance.user?.name ?? "Guest",
+                            UserBloc.instance.user?.nickname ?? "Guest",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyles.w600
@@ -87,24 +88,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ],
                       ),
                     )),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      child: customContainerSvgIcon(
-                          onTap: () {
-                            if (UserBloc.instance.isLogin) {
-                              CustomNavigator.push(Routes.notifications);
-                            } else {
-                              CustomBottomSheet.show(widget: const GuestMode());
-                            }
-                          },
-                          backGround: Styles.WHITE_COLOR,
-                          color: Styles.PRIMARY_COLOR,
-                          width: 40.w,
-                          height: 40.w,
-                          radius: 16.w,
-                          padding: 10.w,
-                          imageName: SvgImages.notification),
-                    ),
+                    NotificationButton()
+
                   ],
                 ),
 

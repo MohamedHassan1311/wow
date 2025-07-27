@@ -77,14 +77,14 @@ class _FashionStyleState extends State<FashionStyle>
                                     children: model.data!.map((item) {
                                       final isSelected = selectedHijab == item;
 
-                                      return RadioListTile<CustomFieldModel>(
-                                        value: item,
-                                        groupValue: selectedHijab,
-                                        title: Text(item.name??""),
-                                        activeColor: Styles.PRIMARY_COLOR,
-                                        onChanged: (value) {
+                                      return ListTile(
+                                        title: Text(item.name ?? ""),
+                                        trailing: isSelected
+                                            ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                            : Icon(Icons.radio_button_unchecked),
+                                        onTap: ()  {
                                           context.read<FilterBloc>().updateHijab(
-                                            isSelected ? null : value,
+                                            isSelected ? null : item,
                                           );
                                           CustomNavigator.pop();
                                         },
@@ -145,14 +145,14 @@ class _FashionStyleState extends State<FashionStyle>
                                     children: model.data!.map((item) {
                                       final isSelected = selectedAbya == item;
 
-                                      return RadioListTile<CustomFieldModel>(
-                                        value: item,
-                                        groupValue: selectedAbya,
-                                        title: Text(item.name??""),
-                                        activeColor: Styles.PRIMARY_COLOR,
-                                        onChanged: (value) {
+                                      return ListTile(
+                                        title: Text(item.name ?? ""),
+                                        trailing: isSelected
+                                            ? Icon(Icons.radio_button_checked, color: Styles.PRIMARY_COLOR)
+                                            : Icon(Icons.radio_button_unchecked),
+                                        onTap: () {
                                           context.read<FilterBloc>().updateAbya(
-                                            isSelected ? null : value,
+                                            isSelected ? null : item,
                                           );
                                           CustomNavigator.pop();
                                         },

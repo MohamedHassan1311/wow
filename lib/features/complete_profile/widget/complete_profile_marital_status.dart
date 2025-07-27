@@ -24,26 +24,29 @@ class CompleteProfileMaritalStatus extends StatefulWidget {
   final bool isEdit;
   final bool isAdd;
   final bool isView;
-  const CompleteProfileMaritalStatus({super.key,  this.isAdd=true,  this.isView=false,this.isEdit=false});
+  const CompleteProfileMaritalStatus(
+      {super.key, this.isAdd = true, this.isView = false, this.isEdit = false});
 
   @override
-  State<CompleteProfileMaritalStatus> createState() => _CompleteProfileMaritalStatusState();
+  State<CompleteProfileMaritalStatus> createState() =>
+      _CompleteProfileMaritalStatusState();
 }
 
-class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalStatus>with AutomaticKeepAliveClientMixin {
+class _CompleteProfileMaritalStatusState
+    extends State<CompleteProfileMaritalStatus>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompleteProfileBloc, AppState>(
       builder: (context, state) {
-        print("context.read<CompleteProfileBloc>().dop.value ${context.read<CompleteProfileBloc>().dop.value}");
         return Form(
             key: context.read<CompleteProfileBloc>().formKey3,
             child: ListAnimator(
-              scroll:widget. isAdd,
+              scroll: widget.isAdd,
               data: [
                 Center(
                   child: Text(
-                   getTranslated("select_your_birth") ?? "",
+                    getTranslated("select_your_birth") ?? "",
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
@@ -52,26 +55,58 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                     ),
                   ),
                 ),
-                ScrollWheelDatePicker(
-                  initialDate:context.read<CompleteProfileBloc>().dop.value,
-                  onSelectedItemChanged: (d){
+                Stack(
+                  children: [
+                    ScrollWheelDatePicker(
+                      initialDate: context.read<CompleteProfileBloc>().dop.value,
+                      onSelectedItemChanged: (d) {
+                        if (UserBloc.instance.user != null) {
+                          final dob = UserBloc.instance.user!.dob!;
+                          int year = dob.year;
+                          int month = dob.month - 1;
+                          if (month == 0) {
+                            month = 12;
+                            year -= 1;
+                          }
 
-                    context
-                        .read<CompleteProfileBloc>().updateDOP(d);
-                  },
-                  theme: FlatDatePickerTheme(
-                    backgroundColor: Colors.white,
-                    overlay: ScrollWheelDatePickerOverlay.holo,
-                    itemTextStyle: defaultItemTextStyle.copyWith(color: Colors.black),
-                    overlayColor: Colors.black45,
-                    overAndUnderCenterOpacity: 0.4,
-                  ),
+                          final day = dob.day;
+                          final daysInMonth = DateUtils.getDaysInMonth(year, month);
+                          final safeDay = day > daysInMonth ? daysInMonth : day;
+
+                          final previousMonthDate = DateTime(year, month, safeDay);
+
+                          context
+                              .read<CompleteProfileBloc>(). updateDOP(previousMonthDate);
+                        }
+
+                      },
+                      theme: FlatDatePickerTheme(
+                        backgroundColor: Colors.white,
+                        overlay: ScrollWheelDatePickerOverlay.holo,
+                        itemTextStyle:
+                            defaultItemTextStyle.copyWith(color: Colors.black),
+                        overlayColor: Colors.black45,
+                        overAndUnderCenterOpacity: 0.4,
+                      ),
+                    ),
+                    if( widget.isEdit
+                        ? context.read<CompleteProfileBloc>().dop.value != null &&
+                        UserBloc.instance.user?.validation
+                            ?.dop ==
+                            null
+                        : false)
+                    Container(
+                      width: context.width,
+                      height:200.h,
+                      color: Colors.transparent,
+                    )
+                  ],
                 ),
                 BlocProvider(
-                  create: (context) =>!widget.isAdd
-                      ? SettingOptionBloc(repo: sl<SettingOptionRepo>()):
-                      SettingOptionBloc(repo: sl<SettingOptionRepo>())
-                        ..add(Get(arguments:{'field_name': "social_status"} )),
+                  create: (context) => !widget.isAdd
+                      ? SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                      : SettingOptionBloc(repo: sl<SettingOptionRepo>())
+                    ..add(Get(arguments: {'field_name': "social_status"})),
                   child: BlocBuilder<SettingOptionBloc, AppState>(
                       builder: (context, state) {
                     if (state is Done) {
@@ -83,53 +118,64 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                               .read<CompleteProfileBloc>()
                               .socialStatusStream,
                           builder: (context, snapshot) {
-                            if(snapshot.data!=null){
-                            return Column(
-                              children: [
-                                CustomDropDownButton(
-                                  label: getTranslated( "Marital status"),
-                                  labelErorr: UserBloc
-                                      .instance.user?.validation?.socialStatus,
-                                  validation: (v) =>
-                                      Validations.field(snapshot.data?.name),
-                                  value: snapshot.data != null
-                                      ? model.data?.where((v) {
-
-                                    return v.id == snapshot.data!.id;
-                                  }).firstOrNull
-                                      : null,
-                                  isEnabled:widget.isEdit?snapshot.data!=null&& UserBloc.instance.user?.validation?.socialStatus!=null:true,
-
-                                  items: model.data ?? [],
-                                  onChange: (v) {
-                                    context
-                                        .read<CompleteProfileBloc>()
-                                        .updateSocialStatus(v as CustomFieldModel);
-                                  },
-                                  name: context
+                            if (snapshot.data != null) {
+                              return Column(
+                                children: [
+                                  CustomDropDownButton(
+                                    label: getTranslated("Marital status"),
+                                    labelErorr: UserBloc.instance.user
+                                        ?.validation?.socialStatus,
+                                    validation: (v) =>
+                                        Validations.field(snapshot.data?.name),
+                                    value: snapshot.data != null
+                                        ? model.data?.where((v) {
+                                            return v.id == snapshot.data!.id;
+                                          }).firstOrNull
+                                        : null,
+                                    isEnabled: widget.isEdit
+                                        ? snapshot.data != null &&
+                                            UserBloc.instance.user?.validation
+                                                    ?.socialStatus !=
+                                                null
+                                        : true,
+                                    items: model.data ?? [],
+                                    onChange: (v) {
+                                      context
                                           .read<CompleteProfileBloc>()
-                                          .nationality
-                                          .valueOrNull
-                                          ?.name ??
-                                      getTranslated("nationality"),
-                                ),
-                                if(snapshot.data?.id!=3)
-                                  CustomTextField(
-                                    controller:
-                                    context.read<CompleteProfileBloc>().numberOfChildren,
-                                    label: getTranslated("number_of_children"),
-                                    isEnabled:widget.isEdit?snapshot.data?.id==3&& UserBloc.instance.user?.validation?.numOfSons!=null:true,
-                                    labelError: UserBloc
-                                        .instance.user?.validation?.numOfSons,
-                                    hint:
-                                    "${getTranslated("enter")} ${getTranslated("number_of_children")}",
-                                    inputType: TextInputType.number,
-                                    pSvgIcon: SvgImages.user,
+                                          .updateSocialStatus(
+                                              v as CustomFieldModel);
+                                    },
+                                    name: context
+                                            .read<CompleteProfileBloc>()
+                                            .nationality
+                                            .valueOrNull
+                                            ?.name ??
+                                        getTranslated("nationality"),
                                   ),
-                              ],
-                            );
-                          }
-                          return SizedBox();
+                                  if (snapshot.data?.id != 3)
+                                    CustomTextField(
+                                      controller: context
+                                          .read<CompleteProfileBloc>()
+                                          .numberOfChildren,
+                                      label:
+                                          getTranslated("number_of_children"),
+                                      isEnabled: widget.isEdit
+                                          ? snapshot.data?.id == 3 &&
+                                              UserBloc.instance.user?.validation
+                                                      ?.numOfSons !=
+                                                  null
+                                          : true,
+                                      labelError: UserBloc
+                                          .instance.user?.validation?.numOfSons,
+                                      hint:
+                                          "${getTranslated("enter")} ${getTranslated("number_of_children")}",
+                                      inputType: TextInputType.number,
+                                      pSvgIcon: SvgImages.user,
+                                    ),
+                                ],
+                              );
+                            }
+                            return SizedBox();
                           });
                     }
                     if (state is Loading) {
@@ -143,7 +189,6 @@ class _CompleteProfileMaritalStatusState extends State<CompleteProfileMaritalSta
                     }
                   }),
                 ),
-
               ],
             ));
       },

@@ -13,6 +13,7 @@ import '../../../../app/core/styles.dart';
 import '../../../../data/error/failures.dart';
 import '../../../../main_blocs/user_bloc.dart';
 import '../../../../navigation/routes.dart';
+import '../../destory_account/repo/destroy_account_repo.dart';
 import '../repo/deactivate_account_repo.dart';
 
 class DeactivateAccountBloc extends Bloc<AppEvent, AppState> {

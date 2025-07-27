@@ -15,6 +15,7 @@ import 'package:wow/navigation/routes.dart';
 
 import '../../../app/core/styles.dart';
 import '../../../app/core/text_styles.dart';
+import '../app/localization/language_constant.dart';
 
 class PersoneCard extends StatefulWidget {
   final String? name;
@@ -33,7 +34,10 @@ class _PersoneCardState extends State<PersoneCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        CustomNavigator.push(Routes.profileDetails, arguments: widget.user?.id);
+        if (widget.user?.proposal_suspend !=
+            1) {
+          CustomNavigator.push(Routes.profileDetails, arguments: widget.user?.id);
+        }
       },
       child: AspectRatio(
         aspectRatio: 3 / 5, // Adjust based on your desired shape
@@ -70,6 +74,43 @@ class _PersoneCardState extends State<PersoneCard> {
                 ),
               ),
             ),
+            if (widget.user?.proposal_suspend ==
+                1)
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 10,
+                    children: [
+                      customImageIconSVG(
+                        imageName: SvgImages.ring,
+                        color: Styles.PRIMARY_COLOR,
+                        width: 30,
+                        height: 30,
+                      ),
+                      Text(
+                        getTranslated("has_active_engagement") ?? "",
+                        style: AppTextStyles.w800.copyWith(
+                            color: Styles.WHITE_COLOR, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if(widget.user?.countryId?.code!=null)
+            Text(
+              '${widget.user?.countryId?.name} ${widget.user?.countryId?.code?.toFlagEmoji ?? ''}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.w600.copyWith(
+                color: Styles.BLACK,
+                fontSize: 12,
+              ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -88,7 +129,7 @@ class _PersoneCardState extends State<PersoneCard> {
                       Expanded(
                         flex: 36,
                         child: Text(
-                          widget.user?.nickname ?? "Mohamed",
+                          widget.user?.nickname ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.w600.copyWith(
