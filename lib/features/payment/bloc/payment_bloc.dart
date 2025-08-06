@@ -40,19 +40,21 @@ class PaymentBloc extends Bloc<AppEvent, AppState> {
 
   FlutterHyperPay? flutterHyperPay;
   payRequestNowReadyUI(
-      {List<String>? brandsName, bool pop =true, required String checkoutId}) async {
-    PaymentResultData paymentResultData;
-    paymentResultData = await flutterHyperPay!.readyUICards(
-      readyUI: ReadyUI(
-          brandsName: brandsName ?? ["VISA", "MASTER"],
-          checkoutId: checkoutId,
-          merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
-          countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
-          companyNameApplePayIOS: AppStrings.appName,
-          themColorHexIOS: "#d2a777",
-          setStorePaymentDetailsMode: false),
-    );
-    await checkStatus(checkoutId,pop);
+      {List<String>? brandsName, bool pop =true, required String checkoutlink}) async {
+    CustomNavigator.push(Routes.payment,arguments:checkoutlink);
+
+    // PaymentResultData paymentResultData;
+    // paymentResultData = await flutterHyperPay!.readyUICards(
+    //   readyUI: ReadyUI(
+    //       brandsName: brandsName ?? ["VISA", "MASTER"],
+    //       checkoutId: checkoutId,
+    //       merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
+    //       countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
+    //       companyNameApplePayIOS: AppStrings.appName,
+    //       themColorHexIOS: "#d2a777",
+    //       setStorePaymentDetailsMode: false),
+    // );
+    // await checkStatus(checkoutId,pop);
 
   }
   Future<void> checkStatus(checkoutId,bool pop) async {
@@ -62,6 +64,8 @@ class PaymentBloc extends Bloc<AppEvent, AppState> {
         CustomNavigator.pop();
       }
       response.fold((fail) {
+        sl<ProfileBloc>().add(Get());
+
         AppCore.showSnackBar(
             notification: AppNotification(
                 message: fail.error,

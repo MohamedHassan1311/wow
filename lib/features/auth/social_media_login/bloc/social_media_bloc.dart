@@ -66,7 +66,7 @@ class SocialMediaBloc extends Bloc<AppEvent, AppState> {
     } catch (e) {
       AppCore.showSnackBar(
         notification: AppNotification(
-          message: e.toString(),
+          message:  getTranslated("something_went_wrong"),
           backgroundColor: Styles.IN_ACTIVE,
           borderColor: Styles.RED_COLOR,
         ),

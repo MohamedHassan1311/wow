@@ -113,9 +113,9 @@ class PlanBloc extends HydratedBloc<AppEvent, AppState> {
             borderColor: Styles.RED_COLOR,
           ));
         }, (success) {
-
-          sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId: success.data['data']["checkout_id"]);
-          // CustomNavigator.push(Routes.payment,arguments:success.data['data']["checkout_id"]);
+          CustomNavigator.pop();
+          // sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId: success.data['data']["checkout_id"]);
+          CustomNavigator.push(Routes.payment,arguments:success.data['data']["checkout_link"]);
 
           // AppCore.showSnackBar(
           //     notification: AppNotification(

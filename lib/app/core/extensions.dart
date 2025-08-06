@@ -8,6 +8,8 @@ extension CountryFlagEmoji on String {
   /// Converts a 2-letter country code (ISO 3166-1 alpha-2) to a flag emoji.
   /// Example: "US" => 🇺🇸
   String get toFlagEmoji {
+    if (toLowerCase() == "global") return "🌍"; // or use 🌐
+
     if (length != 2) return this; // fallback if not valid code
 
     final int base = 0x1F1E6; // Regional Indicator Symbol Letter A

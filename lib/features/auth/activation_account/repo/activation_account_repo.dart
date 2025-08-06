@@ -10,10 +10,10 @@ class ActivationAccountRepo extends BaseRepo {
       {required super.sharedPreferences, required super.dioClient});
 
   Future<Either<ServerFailure, Response>> activateAccount(
-      Map<String, dynamic> data) async {
+data) async {
     try {
       Response response =
-          await dioClient.post(uri: EndPoints.reactivateAccount(userId), data: data);
+          await dioClient.post(uri: EndPoints.reactivateAccount(data), );
 
       if (response.statusCode == 200) {
         return Right(response);

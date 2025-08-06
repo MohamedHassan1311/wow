@@ -24,6 +24,10 @@ class SettingBloc extends Bloc<AppEvent, AppState> {
   Function(String) get updateConfigVideo => configVideo.sink.add;
   Stream<String> get configVideoStream =>
       configVideo.stream.asBroadcastStream();
+  final nationality = BehaviorSubject<String?>();
+
+  Function(String?) get updateNationality => nationality.sink.add;
+  Stream<String?> get nationalityStream => nationality.stream;
 
   // Future<void> onClick(Click event, Emitter<AppState> emit) async {
   //   String video = repo.getConfigVideo;

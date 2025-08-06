@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/extensions.dart';
@@ -21,6 +22,7 @@ import 'package:wow/features/more/widgets/more_button.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
 import '../../../app/core/app_state.dart';
+import '../../../app/core/app_storage_keys.dart';
 import '../../../components/custom_alert_dialog.dart';
 import '../../../components/shimmer/custom_shimmer.dart';
 import '../../../data/config/di.dart';
@@ -139,9 +141,12 @@ class _ChatPageState extends State<ChatPage> {
                         widget: Column(
                           children: [
                             MoreButton(
-                              title: getTranslated("chat_instructions", context: context),
+                              title: getTranslated("chat_instructions",
+                                  context: context),
                               icon: SvgImages.terms,
-                              onTap: () => CustomNavigator.push(Routes.chatTerms,replace: true),
+                              onTap: () => CustomNavigator.push(
+                                  Routes.chatTerms,
+                                  replace: true),
                             ),
                             BlocProvider(
                               create: (context) =>
@@ -189,7 +194,6 @@ class _ChatPageState extends State<ChatPage> {
                                     });
                               },
                             ),
-
                           ],
                         ),
                       );
@@ -302,10 +306,8 @@ class _ChatPageState extends State<ChatPage> {
                                                         .read<ChatBloc>()
                                                         .controller
                                                         .text =
-                                                    context
-                                                            .read<ChatBloc>()
-                                                            .frequentlyQuesions[
-                                                        index];
+                                                    model.data?[index].name ??
+                                                        "";
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
@@ -366,9 +368,46 @@ class _ChatPageState extends State<ChatPage> {
           }
         });
 
-        return MessageBubble(
-          addDate: true,
-          chat: message,
+        return InkWell(
+          onLongPress: () async {
+            final myId = sl
+                .get<SharedPreferences>()
+                .getString(AppStorageKey.userId)
+                .toString();
+            bool isMe = message.senderId == myId;
+            if (isMe && message.photo!.isNotEmpty) {
+              final shouldDelete = await showDialog<bool>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text(getTranslated('delete_title')),
+                  content: Text(getTranslated("delete_message")),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, false),
+                      child: Text(getTranslated("cancel")),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      child: Text(getTranslated("delete_button"),
+                          style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              );
+
+              if (shouldDelete == true) {
+                ref
+                    .child("messages")
+                    .child(widget.data.id.toString())
+                    .child(snapshot.key!) // 👈 This is the key of the message
+                    .remove();
+              }
+            }
+          },
+          child: MessageBubble(
+            addDate: true,
+            chat: message,
+          ),
         );
       },
     );

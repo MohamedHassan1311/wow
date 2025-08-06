@@ -39,24 +39,33 @@ class HomeCard extends StatelessWidget {
       } else if (state is Done) {
         return GestureDetector(
           onTap: () {
-            CustomNavigator.push(Routes.profileDetails,
+            if (context.read<HomeUserBloc>().model?.proposal_suspend !=
+                1) {
+              CustomNavigator.push(Routes.profileDetails,
                 arguments: context.read<HomeUserBloc>().model?.id);
+            }
           },
           onHorizontalDragEnd: (details) {
             if (details.velocity.pixelsPerSecond.dx > 0) {
               if (!LanguageBloc.instance.isLtr) {
                 sl<HomeUserBloc>().add(Click());
               } else {
-                sl<InterestBloc>().add(
+                if (context.read<HomeUserBloc>().model?.proposal_suspend !=
+                    1) {
+                  sl<InterestBloc>().add(
                     Add(arguments: context.read<HomeUserBloc>().model?.id));
+                }
               }
 
               // Swiped Right
               print('Swiped Right');
             } else if (details.velocity.pixelsPerSecond.dx < 0) {
               if (!LanguageBloc.instance.isLtr) {
-                sl<InterestBloc>().add(
+                if (context.read<HomeUserBloc>().model?.proposal_suspend !=
+                    1) {
+                  sl<InterestBloc>().add(
                     Add(arguments: context.read<HomeUserBloc>().model?.id));
+                }
               } else {
                 sl<HomeUserBloc>().add(Click());
               }
@@ -71,8 +80,11 @@ class HomeCard extends StatelessWidget {
                 image: context.read<HomeUserBloc>().model?.image ?? "",
                 width: context.width,
                 onTap: () {
-                  CustomNavigator.push(Routes.profileDetails,
+                  if (context.read<HomeUserBloc>().model?.proposal_suspend !=
+                      1) {
+                    CustomNavigator.push(Routes.profileDetails,
                       arguments: context.read<HomeUserBloc>().model?.id);
+                  }
                 },
                 defaultImage: "assets/images/imagebg.png",
                 height: context.height,
@@ -132,28 +144,33 @@ class HomeCard extends StatelessWidget {
                     ),
                     if (context.read<HomeUserBloc>().model?.proposal_suspend ==
                         1)
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            spacing: 10,
-                            children: [
-                              customImageIconSVG(
-                                imageName: SvgImages.ring,
-                                color: Styles.PRIMARY_COLOR,
-                                width: 30,
-                                height: 30,
-                              ),
-                              Text(
-                                getTranslated("has_active_engagement") ?? "",
-                                style: AppTextStyles.w800.copyWith(
-                                    color: Styles.WHITE_COLOR, fontSize: 18),
-                              ),
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.PADDING_SIZE_DEFAULT,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              spacing: 10,
+                              children: [
+                                customImageIconSVG(
+                                  imageName: SvgImages.ring,
+                                  color: Styles.PRIMARY_COLOR,
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                Text(
+                                  getTranslated("has_active_engagement") ?? "",
+                                  style: AppTextStyles.w800.copyWith(
+                                      color: Styles.WHITE_COLOR, fontSize: 18),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

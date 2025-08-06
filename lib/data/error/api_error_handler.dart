@@ -3,6 +3,8 @@ import '../../app/core/app_event.dart';
 import '../../app/core/app_state.dart';
 import '../../app/localization/language_constant.dart';
 import '../../features/auth/logout/bloc/logout_bloc.dart';
+import '../../navigation/custom_navigation.dart';
+import '../../navigation/routes.dart';
 import '../config/di.dart';
 import 'failures.dart';
 
@@ -29,6 +31,19 @@ class ApiErrorHandler {
             case DioExceptionType.badResponse:
               switch (error.response!.statusCode) {
                 case 404:
+                  return ServerFailure(
+                      error.response!.data["message"] != ""
+                          ? error.response!.data["message"].trim()
+                          : getTranslated("something_went_wrong"),
+                      statusCode: 404);case 406:
+                  return ServerFailure(
+                      error.response!.data["message"] != ""
+                          ? error.response!.data["message"].trim()
+                          : getTranslated("something_went_wrong"),
+                      statusCode: 406);
+                case 405:
+                  CustomNavigator.push(Routes.plans);
+
                   return ServerFailure(
                       error.response!.data["message"] != ""
                           ? error.response!.data["message"].trim()

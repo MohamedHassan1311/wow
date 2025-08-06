@@ -27,6 +27,7 @@ import 'package:wow/features/subscription/repo/subscription_repo.dart';
 import 'package:wow/features/wallet/repo/wallet_repo.dart';
 import '../../app/theme/theme_provider/theme_provider.dart';
 import '../../features/add_address/repo/add_address_repo.dart';
+import '../../features/all_users/repo/all_users_repo.dart';
 import '../../features/auth/activation_account/repo/activation_account_repo.dart';
 import '../../features/auth/deactivate_account/repo/deactivate_account_repo.dart';
 import '../../features/auth/forget_password/repo/forget_password_repo.dart';
@@ -142,6 +143,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton(
       () => RecommendationRepo(sharedPreferences: sl(), dioClient: sl()));
+
+  sl.registerLazySingleton(
+      () => AllUsersRepo(sharedPreferences: sl(), dioClient: sl()));
 
   sl.registerLazySingleton(
       () => RegisterRepo(sharedPreferences: sl(), dioClient: sl()));

@@ -66,12 +66,13 @@ class MarigeRequestRepo extends BaseRepo {
     }
   }
 
- Future<Either<ServerFailure, Response>> rejectMarigeRequest(int id) async {
+ Future<Either<ServerFailure, Response>> rejectMarigeRequest(int id,cancelReason) async {
     try {
       Response response = await dioClient.post(
           uri: EndPoints.rejectMarigeRequest(id),
           data: {
             "id": id,
+            "cancel_reason":cancelReason
           });
       if (response.statusCode == 200) {
         return Right(response);
@@ -82,12 +83,14 @@ class MarigeRequestRepo extends BaseRepo {
       return left(ApiErrorHandler.getServerFailure(error));
     }
   }
-   Future<Either<ServerFailure, Response>> cancelMarigeRequest(int id) async {
+   Future<Either<ServerFailure, Response>> cancelMarigeRequest(int id,cancelReason) async {
     try {
       Response response = await dioClient.post(
           uri: EndPoints.cancelMarigeRequest(id),
           data: {
             "id": id,
+            "cancel_reason":cancelReason
+
           });
       if (response.statusCode == 200) {
         return Right(response);

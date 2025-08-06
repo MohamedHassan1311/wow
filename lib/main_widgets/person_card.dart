@@ -95,7 +95,7 @@ class _PersoneCardState extends State<PersoneCard> {
                       Text(
                         getTranslated("has_active_engagement") ?? "",
                         style: AppTextStyles.w800.copyWith(
-                            color: Styles.WHITE_COLOR, fontSize: 18),
+                            color: Styles.WHITE_COLOR, fontSize: 17),
                       ),
                     ],
                   ),
@@ -119,40 +119,55 @@ class _PersoneCardState extends State<PersoneCard> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
+                    color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    mainAxisSize:MainAxisSize.min ,
                     children: [
-                      Expanded(
-                        flex: 36,
-                        child: Text(
-                          widget.user?.nickname ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.w600.copyWith(
-                            color: Styles.BLACK,
-                            fontSize: 18,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 36,
+                            child: Text(
+                              widget.user?.nickname ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.w600.copyWith(
+                                color: Styles.BLACK,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 2),
+                          Text(
+                            widget.user?.age.toString() ?? "28",
+                            style: AppTextStyles.w600.copyWith(
+                              color: Styles.BLACK,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          if (widget.user?.isVerified == 1)
+                            customImageIconSVG(
+                              imageName: SvgImages.verify,
+                              width: 20,
+                              height: 20,
+                            ),
+                        ],
                       ),
-                      const SizedBox(width: 2),
+                      if(widget.user?.socialStatus?.name!='no Data')
                       Text(
-                        widget.user?.age.toString() ?? "28",
+                        widget.user?.socialStatus?.name ?? 'no Data',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.w600.copyWith(
                           color: Styles.BLACK,
-                          fontSize: 18,
+                          fontSize: 13,
                         ),
                       ),
-                      const SizedBox(width: 5),
-                      if (widget.user?.isVerified == 1)
-                        customImageIconSVG(
-                          imageName: SvgImages.verify,
-                          width: 20,
-                          height: 20,
-                        ),
                     ],
                   ),
                 ),

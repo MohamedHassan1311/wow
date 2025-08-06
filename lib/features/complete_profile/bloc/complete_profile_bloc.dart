@@ -141,6 +141,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
 
   ///To init Profile Data
   Future<void> onInit() async {
+
     print("aaa${UserBloc.instance.user?.gfName.toString()}");
     fName.text = UserBloc.instance.user?.fname ?? "";
     lName.text = UserBloc.instance.user?.lname ?? "";
@@ -207,34 +208,7 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         if (identityImage.hasValue)
           "identityFile": MultipartFile.fromFileSync(identityImage.value!.path)
       });
-      if(event.arguments==true&& UserBloc.instance.user!.editFee!="0")
-        {
-          final result= await CustomAlertDialog.show(
-              dailog: AlertDialog(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
-                      horizontal:
-                      Dimensions.PADDING_SIZE_DEFAULT.w),
 
-                  shape: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  content: CustomDialog(
-                    name: getTranslated("edit_fees"),
-                    confirmButtonText:getTranslated("payment"),
-                    showSympole: true,
-                    discription:
-                    getTranslated("accountـmodificationـfee").replaceAll("#", UserBloc.instance.user!.editFee.toString()),
-                    image: SvgImages.wallet,
-
-                  )));
-
-          if(result==false) {
-          emit(Done());
-          return;
-        }
-      }
       Either<ServerFailure, Response> response =
           await repo.completeProfile(data, isEdit: event.arguments as bool);
 
@@ -265,15 +239,19 @@ class CompleteProfileBloc extends Bloc<AppEvent, AppState> {
         }
         else if (nationality.valueOrNull?.code != "SA" &&  event.arguments!=true)  {
           CustomNavigator.push(Routes.dashboard, clean: true, arguments: 0);
-        } else{
-          print("${success.data["data"]["checkout_id"]}");
-          if(success.data["data"]["checkout_id"]!=null) {
-            loadingDialog();
-
-            sl.get<PaymentBloc>().payRequestNowReadyUI(
-                checkoutId: success.data["data"]["checkout_id"].toString(), pop: true);
-          }
-        }
+        }     else if (nationality.valueOrNull?.code == "SA" &&  event.arguments==true) {
+          CustomAlertDialog.show(
+              dailog: AlertDialog(
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                      horizontal: Dimensions.PADDING_SIZE_DEFAULT.w),
+                  insetPadding: EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                      horizontal: 20),
+                  shape: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(20.0)),
+                  content: SubmitSuccessDialog()));}
 
 
 

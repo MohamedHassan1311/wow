@@ -18,6 +18,7 @@ import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_button.dart';
 import '../../../../components/custom_text_form_field.dart';
 import '../../../../data/config/di.dart';
+import '../../../../helpers/remote_config_service.dart';
 import '../../../../helpers/social_media_login_helper.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
@@ -209,6 +210,7 @@ class LoginBody extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if(AppConfig.isIosFlag)
 
                       Wrap(
                         runSpacing: 16.w,

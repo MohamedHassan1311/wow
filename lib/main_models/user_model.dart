@@ -2,6 +2,7 @@ import 'package:wow/data/config/mapper.dart';
 import 'package:intl/intl.dart';
 import 'package:wow/main_models/user_model_validation.dart';
 
+import '../features/chats/model/chats_model.dart';
 import 'custom_field_model.dart';
 
 class UserModel extends SingleMapper {
@@ -15,6 +16,11 @@ class UserModel extends SingleMapper {
   int? isFavourit;
   int? isIntersted;
   int? age;
+  bool? canSendProposal;
+  bool? chatSuspend;
+  ChatModel? chat;
+  bool? canSendChat;
+  int? proposal_suspend;
   String? profileImage;
   String? email;
   String? balance;
@@ -89,9 +95,9 @@ class UserModel extends SingleMapper {
   int? number_of_likes;
   int? number_of_interst;
   String? editFee;
+  String? checkoutLink;
   bool? can_view_guardian_info;
 
-  int? proposal_suspend;
 
   UserModel(
       {this.id,
@@ -122,6 +128,7 @@ class UserModel extends SingleMapper {
       this.identityFile,
       this.accountType,
       this.notes,
+      this.chat,
       this.verified,
       this.blocked,
       this.online,
@@ -140,6 +147,8 @@ class UserModel extends SingleMapper {
       this.verificationCode,
       this.invitationCode,
       this.fcmToken,
+      this.canSendProposal,
+
       this.countryId,
       this.wallet,
       this.points,
@@ -171,6 +180,8 @@ class UserModel extends SingleMapper {
       this.can_view_guardian_info,
       this.number_of_chats,
       this.number_of_likes,
+      this.canSendChat,
+      this.checkoutLink,
       this.abaya,
       this.number_of_interst,
       this.proposal_suspend});
@@ -195,6 +206,8 @@ class UserModel extends SingleMapper {
     countryCode = json['country_code'];
     phone = json['phone'];
     phoneCode = json['phone_code'];
+    canSendChat = json['can_send_chat'];
+    chat = json['chat']!=null?ChatModel.fromJson(json['chat']):null;
     gender = json['gender'];
     editFee = json['edit_fee'].toString();
     number_of_interst = json['number_of_likes'];
@@ -323,6 +336,9 @@ class UserModel extends SingleMapper {
     number_of_chats = json['number_of_chats'];
     number_of_likes = json['number_of_likes'];
     proposal_suspend = json['proposal_suspend'];
+    canSendProposal = json['can_send_proposal'];
+    checkoutLink = json['checkout_link'];
+    chatSuspend = json['chat_suspend']==1;
     numOfSons = json['num_of_sons'];
     if (json['client_data_validation'] != null) {
       validation = UserModelValidation();

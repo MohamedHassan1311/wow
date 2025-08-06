@@ -83,6 +83,12 @@ class MoreProfileOptions extends StatelessWidget {
             icon: SvgImages.report,
             onTap: () => CustomNavigator.push(Routes.blockPage),
           ),
+      ///users
+          MoreButton(
+            title: getTranslated("recommendation", context: context),
+            icon: SvgImages.users,
+            onTap: () => CustomNavigator.push(Routes.recommendationPage),
+          ),
 
           if(AppConfig.isIosFlag)
           ///wallet

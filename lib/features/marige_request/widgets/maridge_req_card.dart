@@ -22,6 +22,8 @@ import 'package:wow/navigation/routes.dart';
 
 import '../../../app/core/styles.dart';
 import '../../../app/core/text_styles.dart';
+import '../../../components/custom_alert_dialog.dart';
+import '../../profile_details/widgets/maridge_request_dialog.dart';
 
 class MaridgeReqCard extends StatefulWidget {
   final ProposalData? user;
@@ -128,10 +130,39 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                         borderColor: Styles.GREY_BORDER,
                         textColor: Styles.BLACK,
                         textSize: 14,
-                        onTap: () {
-                          context
-                              .read<MarigeRequestBloc>()
-                              .add(Reject(arguments: widget.user?.id));
+                        onTap: () async {
+
+                          final result = await CustomAlertDialog.show(
+                              dailog: AlertDialog(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical:
+                                      Dimensions.PADDING_SIZE_DEFAULT.w,
+                                      horizontal:
+                                      Dimensions.PADDING_SIZE_DEFAULT.w),
+                                  insetPadding: EdgeInsets.symmetric(
+                                      vertical:
+                                      Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                      horizontal: context.width * 0.1),
+                                  shape: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.transparent),
+                                      borderRadius:
+                                      BorderRadius.circular(20.0)),
+                                  content: MaridgeRequestDialog(
+                                    showTextFeild: true,
+                                    name: getTranslated("break_engagement_reason"),
+                                    discription:"",
+                                    image: SvgImages.ring,
+                                  )));
+                          if (result is String && result.isNotEmpty) {
+                            context
+                                .read<MarigeRequestBloc>()
+                                .add(Reject(arguments: {
+                              'id': widget.user?.id,
+                              "message": result
+                            }));
+                          }
+
                         },
                         text: getTranslated("reject", context: context),
                         // color: Styles.PRIMARY_COLOR,
@@ -165,10 +196,39 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                       borderColor: Styles.RED_COLOR,
                       textColor: Styles.WHITE_COLOR,
                       textSize: 14,
-                      onTap: () {
-                        context
-                            .read<MarigeRequestBloc>()
-                            .add(Reject(arguments: widget.user?.id));
+                      onTap: () async {
+                        final result = await CustomAlertDialog.show(
+                            dailog: AlertDialog(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                    Dimensions.PADDING_SIZE_DEFAULT.w,
+                                    horizontal:
+                                    Dimensions.PADDING_SIZE_DEFAULT.w),
+                                insetPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                    Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                    horizontal: context.width * 0.1),
+                                shape: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent),
+                                    borderRadius:
+                                    BorderRadius.circular(20.0)),
+                                content: MaridgeRequestDialog(
+                                  showTextFeild: true,
+                                  name: getTranslated("break_engagement_reason"),
+                                  discription:"",
+                                  image: SvgImages.ring,
+                                )));
+
+                        print(result);
+                        if (result is String && result.isNotEmpty) {
+                          context
+                              .read<MarigeRequestBloc>()
+                              .add(Reject(arguments: {
+                            'id': widget.user?.id,
+                            "message": result
+                          }));
+                        }
                       },
                       text: getTranslated("cancel", context: context),
                       // color: Styles.PRIMARY_COLOR,
@@ -176,23 +236,52 @@ class _MaridgeReqCardState extends State<MaridgeReqCard> {
                   ],
                 ),
 
-              if (widget.user?.proposalStatus == 4 )
+              if (widget.user?.proposalStatus == 2||widget.user?.proposalStatus == 4 )
                 Row(
                   spacing: 15,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomButton(
-                      width: 80,
+                      width: 150,
                       height: 45,
                       backgroundColor: Styles.RED_COLOR,
                       borderColor: Styles.RED_COLOR,
                       textColor: Styles.WHITE_COLOR,
                       textSize: 14,
-                      onTap: () {
-                        context
-                            .read<MarigeRequestBloc>()
-                            .add(Reject(arguments: widget.user?.id));
+                      onTap: () async {
+                        final result = await CustomAlertDialog.show(
+                            dailog: AlertDialog(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                    Dimensions.PADDING_SIZE_DEFAULT.w,
+                                    horizontal:
+                                    Dimensions.PADDING_SIZE_DEFAULT.w),
+                                insetPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                    Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                    horizontal: context.width * 0.1),
+                                shape: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent),
+                                    borderRadius:
+                                    BorderRadius.circular(20.0)),
+                                content: MaridgeRequestDialog(
+                                  showTextFeild: true,
+                                  name: getTranslated("break_engagement_reason"),
+                                  discription:"",
+                                  image: SvgImages.ring,
+                                )));
+
+                        if (result is String && result.isNotEmpty) {
+                          context
+                              .read<MarigeRequestBloc>()
+                              .add(Delete(arguments: {
+                            'id': widget.user?.id,
+                            "message": result
+                          }));
+                        }
                       },
+
                       text: getTranslated("break_engagement", context: context),
                       // color: Styles.PRIMARY_COLOR,
                     ),

@@ -64,7 +64,7 @@ class SocialMediaRepo extends BaseRepo {
             uri: EndPoints.socialMediaAuth,
 
             queryParameters: await success.toJson());
-        print(" response $response");
+        print(" response socialResponse $response");
 
         if (response.statusCode == 200) {
           saveUserToken(response.data["data"]["access_token"]);

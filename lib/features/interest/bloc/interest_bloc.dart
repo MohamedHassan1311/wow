@@ -20,6 +20,7 @@ import '../../../../app/core/app_state.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../data/error/failures.dart';
 import '../../../data/internet_connection/internet_connection.dart';
+import '../../../navigation/routes.dart';
 
 class InterestBloc extends HydratedBloc<AppEvent, AppState> {
   final InterestRepo repo;
@@ -49,6 +50,8 @@ class InterestBloc extends HydratedBloc<AppEvent, AppState> {
             await repo.getInterest(likedYou: event.arguments == 0);
 
         response.fold((fail) {
+
+
           AppCore.showSnackBar(
               notification: AppNotification(
                   message: fail.error,
@@ -107,7 +110,7 @@ class InterestBloc extends HydratedBloc<AppEvent, AppState> {
           emit(Done());
         });
       } catch (e) {
-       
+
         AppCore.showSnackBar(
             notification: AppNotification(
           message: e.toString(),
@@ -146,7 +149,7 @@ class InterestBloc extends HydratedBloc<AppEvent, AppState> {
           emit(Done());
         });
       } catch (e) {
-       
+
         AppCore.showSnackBar(
             notification: AppNotification(
           message: e.toString(),

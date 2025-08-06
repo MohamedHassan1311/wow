@@ -68,7 +68,7 @@ class LoginRepo extends BaseRepo {
         }
         return Right(response);
       } else {
-        return left(ServerFailure(response.data['message']));
+        return left(ServerFailure(response.data['message'],statusCode: response.statusCode));
       }
     } catch (error) {
       return left(ApiErrorHandler.getServerFailure(error));

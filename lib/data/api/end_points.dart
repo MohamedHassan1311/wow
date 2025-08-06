@@ -64,7 +64,8 @@ class EndPoints {
   static String getPlanDetails(id) => '/plans/$id';
 
   /// Recommendation
-  static String getRecommendation(id) => '/client/recomendations/$id';
+  static String getRecommendation(id) => '/client/special/recomendations/$id';
+  static String getAllUsers(id) => '/client/recomendations/$id';
 
   ///Block
   static const String block = '/blocked/block';

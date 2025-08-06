@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:wow/app/core/app_state.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:flutter/gestures.dart';
@@ -14,9 +16,14 @@ import '../../../../app/localization/language_constant.dart';
 import '../../../../components/custom_button.dart';
 import '../../../../components/custom_images.dart';
 import '../../../../data/config/di.dart';
+import '../../../../helpers/remote_config_service.dart';
+import '../../../../helpers/social_media_login_helper.dart';
 import '../../../../navigation/custom_navigation.dart';
 import '../../../../navigation/routes.dart';
 import '../../../language/bloc/language_bloc.dart';
+import '../../../setting/bloc/setting_bloc.dart';
+import '../../social_media_login/bloc/social_media_bloc.dart';
+import '../../social_media_login/repo/social_media_repo.dart';
 import '../../verification/model/verification_model.dart';
 import '../bloc/register_bloc.dart';
 
@@ -86,6 +93,72 @@ class RegisterActions extends StatelessWidget {
                   ]),
             ),
             SizedBox(height: 12.h),
+            if(AppConfig.isIosFlag)
+
+              Visibility(
+                visible: context.read<SettingBloc>().nationality.value?.toUpperCase()!="SA",
+                child: Wrap(
+                  runSpacing: 16.w,
+                  spacing: 16.h,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    ///Login With Google
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: Dimensions.PADDING_SIZE_SMALL.h),
+                      child: BlocProvider(
+                        create: (context) =>
+                            SocialMediaBloc(repo: sl<SocialMediaRepo>()),
+                        child: BlocBuilder<SocialMediaBloc, AppState>(
+                          builder: (context, state) {
+                            if (state is Loading)
+                              return CupertinoActivityIndicator();
+                            return customImageIconSVG(
+                              imageName: SvgImages.google,
+                              width: 40.w,
+                              height: 40.w,
+                              onTap: () {
+                                context.read<SocialMediaBloc>().add(
+                                  Click(
+                                    arguments:
+                                    SocialMediaProvider.google,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+
+                    if (Platform.isIOS)
+                      BlocProvider(
+                        create: (context) =>
+                            SocialMediaBloc(repo: sl<SocialMediaRepo>()),
+                        child: BlocBuilder<SocialMediaBloc, AppState>(
+                          builder: (context, state) {
+                            if (state is Loading)
+                              return CupertinoActivityIndicator();
+                            return customImageIconSVG(
+                              imageName: SvgImages.apple,
+                              width: 40.w,
+                              height: 40.w,
+                              onTap: () {
+                                context.read<SocialMediaBloc>().add(
+                                  Click(
+                                    arguments:
+                                    SocialMediaProvider.apple,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              )
           ],
         );
       },

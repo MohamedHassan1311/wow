@@ -56,7 +56,7 @@ class ChatModel {
   final int? status;
   final int? remaining_days;
 
-  final UserModel? user;
+    UserModel? user;
   final UserModel? me;
 
   ChatModel({
@@ -76,7 +76,7 @@ class ChatModel {
     this.me,
   });
 
-  factory ChatModel.fromJson(Map<String, dynamic> json, {bool fromCreate=false}) => ChatModel(
+  factory ChatModel.fromJson(Map<String, dynamic> json, {UserModel? userModel}) => ChatModel(
     id: json["id"],
     createdAt: json["expiry"] == null ? null : DateTime.parse(json["expiry"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
@@ -90,7 +90,7 @@ class ChatModel {
     message: json["message"],
     patientRead: json["patient_read"],
     userRead: json["user_read"],
-    user:fromCreate ?json["userData"] == null ? null : UserModel.fromJson(json["userData"]):  json["userData"] == null ? null : UserModel.fromJson(json["userData"]),
+    user:userModel ?? (json["userData"] == null ? null : UserModel.fromJson(json["userData"])),
     me: UserBloc.instance.user,
   );
 

@@ -27,7 +27,7 @@ class DeactivateAccountBloc extends Bloc<AppEvent, AppState> {
     try {
       loadingDialog();
       emit(Loading());
-      Either<ServerFailure, Response> response = await repo.deactivateAccount();
+      Either<ServerFailure, Response> response = await repo.deactivateAccount(UserBloc.instance.user?.email);
       CustomNavigator.pop();
 
       response.fold((fail) {

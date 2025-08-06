@@ -59,7 +59,7 @@ class NotificationCard extends StatelessWidget {
 
                 if(notification?.checkoutId!=null )
                   {
-                    sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId:notification!.checkoutId!,pop: false);
+                    sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutlink:notification!.checkoutId!,pop: false);
 
                   }
              if (notification?.route == "CHAT") {
@@ -99,9 +99,7 @@ class NotificationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     customContainerImage(
-                      backGroundColor: notification?.isRead != true
-                          ? Styles.WHITE_COLOR
-                          : Styles.PRIMARY_COLOR.withOpacity(0.1),
+                      backGroundColor: Colors.transparent,
                       imageName: Images.appLogo,
                       radius: 100,
                       width: 50,

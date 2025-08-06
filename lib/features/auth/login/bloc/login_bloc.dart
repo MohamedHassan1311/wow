@@ -76,12 +76,17 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
           await repo.logIn(await loginEntity.valueOrNull!.toJson());
 
       response.fold((fail) {
+        emit(Error());
+print(fail.statusCode );
         if (fail.statusCode == 406) {
           CustomSimpleDialog.parentSimpleDialog(
             canDismiss: false,
             withContentPadding: false,
-            customWidget: ActivationDialog( email: '',),
+            customWidget: ActivationDialog(
+              email: loginEntity!.value!.email!.text,
+            ),
           );
+          return;
         }
         AppCore.showSnackBar(
             notification: AppNotification(
@@ -89,11 +94,7 @@ class LoginBloc extends Bloc<AppEvent, AppState> {
                 isFloating: true,
                 backgroundColor: Styles.IN_ACTIVE,
                 borderColor: Colors.transparent));
-
-        emit(Error());
       }, (success) {
-
-
         if (rememberMe.valueOrNull == true) {
           repo.saveCredentials(loginEntity.valueOrNull!.toJson());
         }

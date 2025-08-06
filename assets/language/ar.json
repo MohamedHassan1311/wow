@@ -55,7 +55,7 @@
   "Name_and_gender": "الاسم والجنس",
   "Nationality_and_country": "الجنسية والبلد",
   "First_name": "الاسم الأول",
-    "Second_name": "الاسم الثاني واسم العائلة بالكامل",
+    "Second_name": "اسم العائلة بالكامل",
   "user_name": "اسم المستخدم",
   "enter": "أدخل",
   "female": "أنثى",
@@ -148,7 +148,7 @@
   "you_deactivate_your_account_successfully": "لقد قمت بتعطيل حسابك بنجاح",
   "you_activate_your_account_successfully": "لقد قمت بتنشيط حسابك بنجاح",
   "delete_account": "حذف الحساب",
-  "are_you_sure_you_want_to_delete_your_account": "هل أنت متأكد أنك تريد حذف حسابك؟",
+  "are_you_sure_you_want_to_delete_your_account": "تحذير: سيتم حذف حسابك بشكل دائم بعد 30 يومًا وسيتم إيقافه فورًا.؟",
   "active_account": "تنشيط حسابك",
   "are_you_sure_you_want_to_activate_your_account": "هل أنت متأكد أنك تريد تنشيط حسابك؟",
   "browse": "تصفح ",
@@ -767,7 +767,7 @@
   "remaining_chats":"عدد المحادثات المتبقية",
   "remaining_likes":"عدد الإعجابات المتبقية",
   "get_discount":"أحصل على ترشيح",
-  "recommendation":"مرشح لك",
+  "recommendation":"رشحلي",
   "marige_request":"عرض زواج",
   "marige_request_desc":"هل انت متأكد انك تريد ارسال طلب زاواج ل#?",
   "marige_request_sent_successfully":"تم إرسال طلب الزواج بنجاح ويتم الإنتظار لرد الشريك",
@@ -798,12 +798,14 @@
   "report_user":"إبلاغ",
 
   "retry":"إعادة تحميل",
-  "MARIDGE_REQUEST_DATA":"طلب بيانات ولي الأمر",
+    "retry_desc":"حدث خطاء الرجاء اعادة المحاولة",
+
+    "MARIDGE_REQUEST_DATA":"طلب بيانات ولي الأمر",
   "marige_request_data_desc":"لتأكيد طلب بيانات ولي الأمر سيتم خصم 50 ريال من المحفظة",
 
   "not_refundable":"غير مستردة في حال عد إتمام الخطبة",
 
-  "you_have_a_marige_request":"لديك طلب خطبة من #",
+  "you_have_a_marige_request":"لديك طلب خطبة مع #",
 
   "pendingRequest":" طلب الخطبة قيد الإنتظار",
   "acceptedRequest":" الخطبة مقبولة",
@@ -866,7 +868,25 @@
     "break_engagement": "فسخ الخطبة",
     "chat_instructions": "تعليمات المحادثة",
     "freeze_account": "تجميد الحساب",
-    "freeze_account_des": "هل أنت متأكد أنك تريد تجميد حسابك مؤقتًا؟ لن تتمكن من الوصول إلى حسابك حتى يتم إعادة تفعيله."
+    "freeze_account_des": "هل أنت متأكد أنك تريد تجميد حسابك مؤقتًا؟ لن تتمكن من الوصول إلى حسابك حتى يتم إعادة تفعيله.",
+    "un_freeze_account": "تم تفعيل الحساب يمكنك تسجيل الدخول",
+    "break_engagement_reason": "سبب فسخ / إلغاء الارتباط",
+    "delete_title": "حذف الرسالة",
+    "delete_message": "هل أنت متأكد أنك تريد حذف هذه الرسالة؟",
+    "delete_button": "حذف",
+    "choose_country": "اختر الدولة",
+    "saudi_arabia": "المملكة العربية السعودية",
+    "global": "عام",
+    "all_users":"جميع المشتركين"
+
+
+
+
+
+
+
+
+
 
 
 }

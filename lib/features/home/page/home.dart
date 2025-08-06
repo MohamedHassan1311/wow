@@ -1,32 +1,19 @@
-import 'package:badges/badges.dart';
-import 'package:wow/app/core/app_event.dart';
 import 'package:wow/app/core/app_state.dart';
-import 'package:wow/app/core/images.dart';
 import 'package:wow/app/core/styles.dart';
 
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wow/data/config/di.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 import 'package:wow/navigation/routes.dart';
-import '../../../app/core/dimensions.dart';
 import '../../../app/core/svg_images.dart';
 import '../../../app/localization/language_constant.dart';
-import '../../../components/custom_alert_dialog.dart';
-import '../../../components/custom_bottom_sheet.dart';
-import '../../../components/custom_images.dart';
+
 import '../../../components/empty_widget.dart';
 import '../../../main_blocs/user_bloc.dart';
-import '../../../main_widgets/guest_mode.dart';
-import '../../../main_widgets/main_app_bar.dart';
-import '../../complete_profile/widget/submit_success_dialog.dart';
-import '../../fillter/widget/custom_selete.dart';
+
 import '../../guest/guest_mode_view.dart';
-import '../../notifications/bloc/notifications_bloc.dart';
 import '../../notifications/widgets/notificaton_button.dart';
-import '../bloc/home_user_bloc.dart';
 import '../widgets/home_card.dart';
-import '../widgets/main_services.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -71,7 +58,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                             Spacer(),
                             InkWell(
                               onTap: () {
-                                CustomNavigator.push(Routes.recommendationPage);
+                                CustomNavigator.push(Routes.allUsers);
                               },
                               child: Container(
                                   margin: EdgeInsets.symmetric(
@@ -84,7 +71,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                                       borderRadius: BorderRadius.circular(18),
                                     ),
                                     child: Text(
-                                      getTranslated("recommendation",
+                                      getTranslated("all_users",
                                           context: context),
                                       style: TextStyle(
                                           color: Styles.PRIMARY_COLOR,

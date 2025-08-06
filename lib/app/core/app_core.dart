@@ -36,12 +36,12 @@ class AppCore {
     style: AppTextStyles.w600.copyWith(fontSize: 18, color: Styles.HEADER),
       ),
       // you can also use RichText widget for title and description parameters
-      description: RichText(
-          text: TextSpan(
-        text: notification.message,
-        style: AppTextStyles.w400
-            .copyWith(fontSize: 14, color: Styles.DETAILS_COLOR),
-      )),
+      // description: RichText(
+      //     text: TextSpan(
+      //   text: notification.message,
+      //   style: AppTextStyles.w400
+      //       .copyWith(fontSize: 14, color: Styles.DETAILS_COLOR),
+      // )),
       alignment: Alignment.topCenter,
       direction: sl<LanguageBloc>().selectLocale?.languageCode == "ar"
           ? TextDirection.rtl

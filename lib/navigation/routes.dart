@@ -35,6 +35,7 @@ class Routes {
   static const favouritPage = "FavouritPage";
   static const privacy = "PRIVACY";
   static const recommendationPage = "RecommendationPage";
+  static const allUsers = "AllUsersPage";
   static const faqs = "FAQS";
   static const settings = "SETTINGS";
   static const notifications = "NOTIFICATIONS";

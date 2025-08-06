@@ -14,10 +14,9 @@ class MessageBubble extends StatelessWidget {
   final MessageModel chat;
   final bool addDate;
   MessageBubble({super.key, required this.chat, required this.addDate});
-  SharedPreferences sharedPreferences = sl.get<SharedPreferences>();
   @override
   Widget build(BuildContext context) {
-    final myId = sharedPreferences.getString(AppStorageKey.userId).toString();
+    final myId = sl.get<SharedPreferences>().getString(AppStorageKey.userId).toString();
     bool isMe = chat.senderId == myId;
 
     String dateTime = (chat.date).dateTimeFormatChat();
@@ -71,7 +70,7 @@ class MessageBubble extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.PADDING_SIZE_LARGE,
                                 vertical: Dimensions.PADDING_SIZE_SMALL/2),
-                            child: SelectableText( chat.massage ,
+                            child:Text( chat.massage ,
                                 style: TextStyle(
                                     fontSize: 16,
                                     color:  Theme.of(context)

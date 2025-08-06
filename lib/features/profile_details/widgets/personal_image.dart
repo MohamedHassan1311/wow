@@ -20,6 +20,8 @@ import 'package:wow/main_blocs/user_bloc.dart';
 import 'package:wow/main_models/user_model.dart';
 import 'package:wow/navigation/custom_navigation.dart';
 
+import '../../../app/core/app_core.dart';
+import '../../../app/core/app_notification.dart';
 import '../../../navigation/routes.dart';
 
 class PersonalImage extends StatefulWidget {
@@ -88,34 +90,52 @@ class _PersonalImageState extends State<PersonalImage> {
                   padding: const EdgeInsets.all(8.0),
                   child: customContainerSvgIcon(
                     onTap: () async {
-                      final result = await CustomAlertDialog.show(
-                          dailog: AlertDialog(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                  horizontal:
-                                      Dimensions.PADDING_SIZE_DEFAULT.w),
-                              insetPadding: EdgeInsets.symmetric(
-                                  vertical:
-                                      Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                                  horizontal: context.width * 0.1),
-                              shape: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.transparent),
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              content: MaridgeRequestDialog(
-                                name: getTranslated("chat_request_desc").replaceAll(
-                                    "#",
-                                    " ${UserBloc.instance.user!.number_of_chats}"),
-                                discription:
-                                    getTranslated("chat_request_desc_2")
-                                        .replaceAll(
-                                            "#", " ${widget.user.nickname!}"),
-                                image: SvgImages.chats,
-                              )));
-                      if (result == true) {
-                        StartChatBloc(repo: sl<ChatsRepo>())
-                            .add(Send(arguments: widget.user.id));
+                      if(UserBloc.instance.user!.number_of_chats==0){
+
+                        CustomNavigator.push(Routes.plans);
+                        return;
+
                       }
+
+                      if((widget.user.canSendChat==true) ) {
+                        final result = await CustomAlertDialog.show(
+                            dailog: AlertDialog(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
+                                    horizontal:
+                                        Dimensions.PADDING_SIZE_DEFAULT.w),
+                                insetPadding: EdgeInsets.symmetric(
+                                    vertical:
+                                        Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                    horizontal: context.width * 0.1),
+                                shape: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                content: MaridgeRequestDialog(
+                                  name: getTranslated("chat_request_desc")
+                                      .replaceAll("#",
+                                          " ${UserBloc.instance.user!.number_of_chats}"),
+                                  discription:
+                                      getTranslated("chat_request_desc_2")
+                                          .replaceAll(
+                                              "#", " ${widget.user.nickname!}"),
+                                  image: SvgImages.chats,
+                                )));
+                        if (result == true) {
+                          StartChatBloc(repo: sl<ChatsRepo>())
+                              .add(Send(arguments: widget.user.id));
+                        }
+                      }
+                      else{
+                        widget.user.chat?.user=   widget.user;
+                        CustomNavigator.push(
+                          Routes.chat,
+                          arguments: widget.user.chat,
+                        );
+                      }
+
+
                     },
                     imageName: SvgImages.chats,
                     color: Styles.WHITE_COLOR,
@@ -133,41 +153,53 @@ class _PersonalImageState extends State<PersonalImage> {
                     padding: const EdgeInsets.all(8.0),
                     child: customContainerSvgIcon(
                       onTap: () async {
-                        final result = await CustomAlertDialog.show(
-                            dailog: AlertDialog(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: Dimensions.PADDING_SIZE_DEFAULT.w,
-                                    horizontal:
-                                        Dimensions.PADDING_SIZE_DEFAULT.w),
-                                insetPadding: EdgeInsets.symmetric(
-                                    vertical:
-                                        Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
-                                    horizontal: context.width * 0.1),
-                                shape: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                content: MaridgeRequestDialog(
-                                  showTextFeild: true,
-                                  name: getTranslated("marige_request"),
-                                  discription:
-                                      getTranslated("marige_request_desc")
-                                          .replaceAll(
-                                              "#", " " + widget.user.nickname!),
-                                  image: SvgImages.ring,
-                                )));
-                        if (result is bool && result == true) {
-                          sl<MarigeRequestBloc>().add(Send(arguments: {
-                            'id': widget.user.id,
-                            "message": ""
-                          }));
+                      {
+                          final result = await CustomAlertDialog.show(
+                              dailog: AlertDialog(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical:
+                                          Dimensions.PADDING_SIZE_DEFAULT.w,
+                                      horizontal:
+                                          Dimensions.PADDING_SIZE_DEFAULT.w),
+                                  insetPadding: EdgeInsets.symmetric(
+                                      vertical:
+                                          Dimensions.PADDING_SIZE_EXTRA_LARGE.w,
+                                      horizontal: context.width * 0.1),
+                                  shape: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.transparent),
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  content: MaridgeRequestDialog(
+                                    showTextFeild: widget.user.canSendProposal==true&&UserBloc.instance.user?.proposal_suspend==0,
+                                    name: getTranslated("marige_request"),
+                                    discription:
+                                        getTranslated("marige_request_desc")
+                                            .replaceAll("#",
+                                                " " + widget.user.nickname!),
+                                    image: SvgImages.ring,
+                                  )));
+                          if (result is bool && result == true) {
+                            sl<MarigeRequestBloc>().add(Send(arguments: {
+                              'id': widget.user.id,
+                              "message": ""
+                            }));
+                          }
+                          if (result is String && result.isNotEmpty) {
+                            sl<MarigeRequestBloc>().add(Send(arguments: {
+                              'id': widget.user.id,
+                              "message": result
+                            }));
+                          }
                         }
-                        if (result is String && result.isNotEmpty) {
-                          sl<MarigeRequestBloc>().add(Send(arguments: {
-                            'id': widget.user.id,
-                            "message": result
-                          }));
-                        }
+                        // else{
+                        //   AppCore.showSnackBar(
+                        //       notification: AppNotification(
+                        //           message: fail.error,
+                        //           isFloating: true,
+                        //           backgroundColor: Styles.IN_ACTIVE,
+                        //           borderColor: Colors.red));
+                        // }
                       },
                       imageName: SvgImages.ring,
                       color: Styles.WHITE_COLOR,

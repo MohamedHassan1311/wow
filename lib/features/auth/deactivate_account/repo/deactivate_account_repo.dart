@@ -16,10 +16,10 @@ class DeactivateAccountRepo extends BaseRepo {
   DeactivateAccountRepo(
       {required super.dioClient, required super.sharedPreferences});
 
-  Future<Either<ServerFailure, Response>> deactivateAccount() async {
+  Future<Either<ServerFailure, Response>> deactivateAccount(v) async {
     try {
       Response response = await dioClient.post(
-        uri: EndPoints.freezeAccount(userId),
+        uri: EndPoints.freezeAccount(v),
       );
       if (response.statusCode == 200) {
         await clearCache();

@@ -28,6 +28,8 @@ import '../../../../app/core/app_state.dart';
 import '../../../../app/core/styles.dart';
 import '../../../../data/error/failures.dart';
 import '../../../data/internet_connection/internet_connection.dart';
+import '../../../main_blocs/user_bloc.dart';
+import '../../profile/bloc/profile_bloc.dart';
 
 class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
   final MarigeRequestRepo repo;
@@ -94,7 +96,7 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
 
         final map = event.arguments as Map;
         Either<ServerFailure, Response> response =
-            await repo.sendMarigeRequest(map['id'], map["message"] );
+            await repo.sendMarigeRequest(map['id'], map["message"]);
         CustomNavigator.pop();
         response.fold((fail) async {
           AppCore.showSnackBar(
@@ -156,6 +158,8 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
                   borderColor: Colors.red));
         }, (success) async {
           sl<MarigeRequestBloc>().add(Get());
+          sl<ProfileBloc>().add(Get());
+          sl<UserBloc>().add(Click());
           AppCore.showSnackBar(
               notification: AppNotification(
                   message: success.data['message'],
@@ -179,9 +183,9 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
     if (await internetConnection.updateConnectivityStatus()) {
       try {
         loadingDialog();
-
+        final map = event.arguments as Map;
         Either<ServerFailure, Response> response =
-            await repo.rejectMarigeRequest(event.arguments as int);
+            await repo.rejectMarigeRequest(map['id'], map['message']);
         CustomNavigator.pop();
         response.fold((fail) async {
           AppCore.showSnackBar(
@@ -191,6 +195,9 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
                   backgroundColor: Styles.IN_ACTIVE,
                   borderColor: Colors.red));
         }, (success) async {
+          sl<ProfileBloc>().add(Get());
+         sl<UserBloc>().add(Click());
+
           sl<MarigeRequestBloc>().add(Get());
 
           AppCore.showSnackBar(
@@ -217,8 +224,10 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
       try {
         loadingDialog();
 
+        final map = event.arguments as Map;
+
         Either<ServerFailure, Response> response =
-            await repo.cancelMarigeRequest(event.arguments as int);
+            await repo.cancelMarigeRequest(map['id'], map['message']);
         CustomNavigator.pop();
         response.fold((fail) async {
           AppCore.showSnackBar(
@@ -229,6 +238,7 @@ class MarigeRequestBloc extends HydratedBloc<AppEvent, AppState> {
                   borderColor: Colors.red));
         }, (success) async {
           sl<MarigeRequestBloc>().add(Get());
+          sl<ProfileBloc>().add(Get());
 
           AppCore.showSnackBar(
               notification: AppNotification(

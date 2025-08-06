@@ -15,50 +15,46 @@ import '../../../../../app/core/styles.dart';
 import '../../../../../data/error/failures.dart';
 import '../../../data/config/di.dart';
 import '../../../data/internet_connection/internet_connection.dart';
+import '../../../navigation/routes.dart';
 import '../../payment/bloc/payment_bloc.dart';
 import '../model/categories_model.dart';
 
 class GuardianRequestBloc extends HydratedBloc<AppEvent, AppState> {
   final ProfileDetailsRepo repo;
 
-  GuardianRequestBloc({ required this.repo})
-      : super(Start()) {
+  GuardianRequestBloc({required this.repo}) : super(Start()) {
     on<Click>(onClick);
   }
 
-
   Future<void> onClick(Click event, Emitter<AppState> emit) async {
+    try {
+      emit(Loading());
+      loadingDialog();
+      Either<ServerFailure, Response> response = await repo
+          .guardianRequest({"target_client_id": event.arguments as int});
 
-      try {
-        emit(Loading());
-loadingDialog();
-        Either<ServerFailure, Response> response =
-            await repo.guardianRequest({
-              "target_client_id":event.arguments as int
-            });
-
-        response.fold((fail) {
-          CustomNavigator.pop();
-          AppCore.showSnackBar(
-              notification: AppNotification(
-                  message: fail.error,
-                  isFloating: true,
-                  backgroundColor: Styles.IN_ACTIVE,
-                  borderColor: Colors.red));
-          emit(Error());
-        }, (success) {
-          sl.get<PaymentBloc>().payRequestNowReadyUI(checkoutId: success.data['data']["checkout_id"]);
-
-        });
-      } catch (e) {
+      response.fold((fail) {
+        CustomNavigator.pop();
         AppCore.showSnackBar(
             notification: AppNotification(
-          message: e.toString(),
-          backgroundColor: Styles.IN_ACTIVE,
-          borderColor: Styles.RED_COLOR,
-        ));
+                message: fail.error,
+                isFloating: true,
+                backgroundColor: Styles.IN_ACTIVE,
+                borderColor: Colors.red));
         emit(Error());
-
+      }, (success) {
+        //
+        sl.get<PaymentBloc>().payRequestNowReadyUI(
+            checkoutlink: success.data['data']["checkout_link"]);
+      });
+    } catch (e) {
+      AppCore.showSnackBar(
+          notification: AppNotification(
+        message: e.toString(),
+        backgroundColor: Styles.IN_ACTIVE,
+        borderColor: Styles.RED_COLOR,
+      ));
+      emit(Error());
     }
   }
 

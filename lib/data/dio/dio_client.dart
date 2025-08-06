@@ -23,9 +23,11 @@ class DioClient extends ApiClient {
   }) {
     dio
       ..options.baseUrl = baseUrl
+
       ..options.connectTimeout = const Duration(seconds: 60)
       ..options.receiveTimeout = const Duration(seconds: 60)
       ..httpClientAdapter
+
       ..options.headers = {
         'Content-Type': 'application/json; charset=UTF-8',
         "Accept": " application/json",
@@ -105,7 +107,11 @@ class DioClient extends ApiClient {
       } else {
         dio.options.baseUrl = baseUrl;
       }
-      var response = await dio.get(uri, queryParameters: queryParameters);
+      // dio.options.validateStatus = (_) => true;
+
+      var response = await dio.get(uri,
+
+          queryParameters: queryParameters);
 
       return response;
     } on SocketException catch (e) {

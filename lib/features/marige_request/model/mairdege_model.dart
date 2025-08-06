@@ -56,7 +56,7 @@ class ProposalData {
       age: json['age'].toString(),
       nickname: json['nickname'],
       isVerified: json['is_verified'],
-      message: json['message'],
+      message: json['message']??"",
       proposalStatus: json['proposal_status'],
       cancelReason: json['cancel_reason'],
       image: json['image'],
