@@ -104,8 +104,8 @@ android {
     }
 
 
-    namespace = "com.com.wow.app.app"
-    testNamespace = "com.com.wow.app.app.test"
+    namespace = "com.softwarecloudapp.wow"
+    testNamespace = "com.softwarecloudapp.wow.test"
     compileSdk = 34
     ndkVersion = "27.0.12077973"
 
@@ -124,7 +124,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.com.wow.app.app"
+        applicationId = "com.softwarecloudapp.wow"
         minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()

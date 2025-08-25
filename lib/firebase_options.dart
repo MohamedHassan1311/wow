@@ -51,9 +51,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAC8sjhPDCR3oPuahSVRtR7sv06NsLYYGk',
-    appId: '1:1073922732520:android:b84b5e374cb63e6bf5b45d',
+    appId: '1:1073922732520:android:38eab76c219401b6f5b45d',
     messagingSenderId: '1073922732520',
     projectId: 'wowo-f635b',
+    databaseURL: 'https://wowo-f635b-default-rtdb.firebaseio.com',
     storageBucket: 'wowo-f635b.firebasestorage.app',
   );
 
@@ -62,7 +63,10 @@ class DefaultFirebaseOptions {
     appId: '1:1073922732520:ios:64906cb7ca44a8fef5b45d',
     messagingSenderId: '1073922732520',
     projectId: 'wowo-f635b',
+    databaseURL: 'https://wowo-f635b-default-rtdb.firebaseio.com',
     storageBucket: 'wowo-f635b.firebasestorage.app',
+    androidClientId: '1073922732520-8cs37b8g5a4pfbjdiletlnsnk7rgbi3d.apps.googleusercontent.com',
+    iosClientId: '1073922732520-2jd0aqlunvd0drqnrltre757741hb4de.apps.googleusercontent.com',
     iosBundleId: 'com.wowww.app',
   );
 

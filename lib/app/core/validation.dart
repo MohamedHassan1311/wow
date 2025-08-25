@@ -9,6 +9,22 @@ class Validations {
     }
   }
 
+  static String? fullName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return getTranslated("please_enter_your_full_name");
+    }
+
+    // Split by spaces and remove empty strings
+    final parts = value.trim().split(RegExp(r'\s+'));
+
+    if (parts.length < 3) {
+      return getTranslated("please_enter_full_name_with_3_parts");
+    }
+
+    return null; // ✅ Passed
+  }
+
+
   static String? mail(String? email) {
     if (email == null ||
         email.length < 8 ||

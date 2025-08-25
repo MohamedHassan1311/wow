@@ -1,18 +1,24 @@
 {
   "project_info": {
     "project_number": "1073922732520",
+    "firebase_url": "https://wowo-f635b-default-rtdb.firebaseio.com",
     "project_id": "wowo-f635b",
     "storage_bucket": "wowo-f635b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1073922732520:android:b84b5e374cb63e6bf5b45d",
+        "mobilesdk_app_id": "1:1073922732520:android:9265cbd3bc8d733df5b45d",
         "android_client_info": {
-          "package_name": "com.com.wow.app.app"
+          "package_name": "com.app.wow"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAC8sjhPDCR3oPuahSVRtR7sv06NsLYYGk"
@@ -20,7 +26,143 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1073922732520-2jd0aqlunvd0drqnrltre757741hb4de.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wowww.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073922732520:android:b84b5e374cb63e6bf5b45d",
+        "android_client_info": {
+          "package_name": "com.com.wow.app.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073922732520-8cs37b8g5a4pfbjdiletlnsnk7rgbi3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.com.wow.app.app",
+            "certificate_hash": "6c0fed33e186e9b996714494daf35fa3cad030c2"
+          }
+        },
+        {
+          "client_id": "1073922732520-s3fh30iadrf8vrp1e987l92par1pi8q5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.com.wow.app.app",
+            "certificate_hash": "edb095a6325570602ac8ac236b4fc612f46614bc"
+          }
+        },
+        {
+          "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC8sjhPDCR3oPuahSVRtR7sv06NsLYYGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1073922732520-2jd0aqlunvd0drqnrltre757741hb4de.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wowww.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073922732520:android:38eab76c219401b6f5b45d",
+        "android_client_info": {
+          "package_name": "com.softwarecloudapp.wow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC8sjhPDCR3oPuahSVRtR7sv06NsLYYGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1073922732520-2jd0aqlunvd0drqnrltre757741hb4de.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wowww.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073922732520:android:36cd6204d4a81ab9f5b45d",
+        "android_client_info": {
+          "package_name": "com.wow.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC8sjhPDCR3oPuahSVRtR7sv06NsLYYGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073922732520-0k0lbne7i5dgum62dte6pgphrme3kd40.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1073922732520-2jd0aqlunvd0drqnrltre757741hb4de.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wowww.app"
+              }
+            }
+          ]
         }
       }
     }

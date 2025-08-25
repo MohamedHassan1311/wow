@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.com.wow.app.app">
+    package="com.softwarecloudapp.wow">
 
     <!-- Connection Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -113,7 +113,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <data android:scheme="com.wow.app.payment" />
+                <data android:scheme="com.softwarecloudapp.wow.payment" />
             </intent-filter>
 
             <!-- App Link -->
@@ -124,7 +124,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="api.blueartworld.com" />
+                <data android:host="wowzawaj.net" />
             </intent-filter>
 
         </activity>

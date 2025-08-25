@@ -877,7 +877,10 @@
     "choose_country": "اختر الدولة",
     "saudi_arabia": "المملكة العربية السعودية",
     "global": "عام",
-    "all_users":"جميع المشتركين"
+    "all_users":"جميع المشتركين",
+    "please_enter_full_name_with_3_parts": "الاسم الثاني والثالث مطلوب",
+    "unlimited": "غير محدود"
+
 
 
 

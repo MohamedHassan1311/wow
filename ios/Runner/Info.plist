@@ -43,7 +43,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.wow.app.payment</string>
+				<string>com.softwarecloudapp.wow.payment</string>
 			</array>
 		</dict>
 	</array>

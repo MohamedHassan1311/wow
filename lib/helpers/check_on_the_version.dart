@@ -15,7 +15,7 @@ import '../app/localization/language_constant.dart';
 
 abstract class CheckOnTheVersion {
   static String appStoreUrl =
-      'https://apps.apple.com/eg/app/blue-art/id6670496496';
+      'https://apps.apple.com/us/app/%D9%88-%D9%84%D9%84%D8%B2%D9%88%D8%A7%D8%AC-wow/id6748146441';
 
   static Future<String> getCurrentVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -24,7 +24,7 @@ abstract class CheckOnTheVersion {
 
   static Future<String> getLiveVersionIOS() async {
     final response = await http.get(Uri.parse(
-        'https://itunes.apple.com/lookup?bundleId=com.com.wow.app.app'));
+        'https://itunes.apple.com/lookup?bundleId=com.softwarecloudapp.wow'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       log("===> IOS data $data");

@@ -57,7 +57,7 @@ class _OnBoardingState extends State<OnBoarding> {
             child: Stack(
               children: [
                 PageView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount:images.length ,
                   controller: pageController,
                   onPageChanged: ((index) => setState(() {
                         currentIndex = index;

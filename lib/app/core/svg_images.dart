@@ -2,6 +2,7 @@ class SvgImages {
 
   static const String saudiRiyalSymbol = 'assets/svgs/saudi_riyal_symbol.svg';
   static const String forwardArrow = 'assets/svgs/forward_arrow.svg';
+  static const String SPC = 'assets/images/SPC.png';
   static const String success = 'assets/svgs/success.svg';
   static const String shieldDone = 'assets/svgs/Shield Done.svg';
   static const String fillCloseCircle = 'assets/svgs/fill-close-circle.svg';

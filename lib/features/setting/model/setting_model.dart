@@ -40,7 +40,7 @@ class SettingModel extends SingleMapper {
     aboutUs = json['about_us'];
     chatTerms = json['chat_terms'];
     termsConditions = json['terms_conditions'];
-    privacyPolicy = json['privacyPolicy'];
+    privacyPolicy = json['privacy'];
     instagram = json['instagram'];
     facebook = json['facebook'];
     tiktok = json['tiktok'];

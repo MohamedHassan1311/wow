@@ -1,4 +1,4 @@
-package com.com.wow.app.app
+package com.softwarecloudapp.wow
 
 import io.flutter.embedding.android.FlutterActivity
 import android.os.Bundle

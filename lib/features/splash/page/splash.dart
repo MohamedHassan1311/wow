@@ -12,6 +12,8 @@ import 'package:wow/features/splash/repo/splash_repo.dart';
 import 'package:wow/main_blocs/user_bloc.dart';
 import '../../../app/core/app_event.dart';
 import '../../../app/core/images.dart';
+import '../../../app/core/styles.dart';
+import '../../../app/core/svg_images.dart';
 import '../../../app/core/text_styles.dart';
 import '../../../data/config/di.dart';
 import '../bloc/splash_bloc.dart';
@@ -108,9 +110,21 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
                         }),
                         Align(
                             alignment: Alignment.bottomCenter,
-                            child: Text(
-                              "By Software Cloud 2 ",
-                              style: AppTextStyles.w600.copyWith(fontSize: 18),
+                            child: Column(
+                              children: [
+                                Center(
+                                    child: customImageIcon(
+                                  imageName: SvgImages.SPC,
+                                  fit: BoxFit.contain,
+                                  width: 180,
+                                      height: 60
+                                ).animate(delay: Duration(seconds: 60))),
+                                Text(
+                                  " ترخيص رقم 0000020446",
+                                  style:
+                                      AppTextStyles.w600.copyWith(fontSize: 18),
+                                ),
+                              ],
                             )),
                         SizedBox(
                           height: 18,

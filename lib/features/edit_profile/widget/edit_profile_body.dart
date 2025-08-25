@@ -145,8 +145,9 @@ class _RegisterBodyState extends State<EditProfileBody> {
                                       color: Styles.PRIMARY_COLOR),
                                 ),
                                 Text(
-                                  UserBloc.instance.user?.number_of_interst
-                                          .toString() ??
+                                  UserBloc.instance.user!.number_of_interst!
+                                          .toString() =="45645872"?getTranslated("unlimited"): UserBloc.instance.user!.number_of_interst!
+                                      .toString() ??
                                       "0",
                                   style: AppTextStyles.w400.copyWith(
                                       fontSize: 18, color: Styles.BLACK),

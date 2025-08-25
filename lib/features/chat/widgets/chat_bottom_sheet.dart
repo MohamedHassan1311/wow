@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wow/app/core/dimensions.dart';
 import 'package:wow/app/core/svg_images.dart';
@@ -64,9 +65,16 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                             stream: context.read<ChatBloc>().typingStream,
                             builder: (context, typingSnapshot) {
                               return CustomTextField(
+                                  formattedType:[
+                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                                  ],
+                                  inputType:TextInputType.text,
+
                                 hint: getTranslated("write_your_message"),
+
                                 controller: context.read<ChatBloc>().controller,
                                 maxLines: 3,
+
                                 sufWidget: customImageIconSVG(
                                   imageName: SvgImages.attach,
                                   color: Styles.PRIMARY_COLOR,

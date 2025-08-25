@@ -62,7 +62,7 @@ class _CompleteProfileNameAndGenderState extends State<CompleteProfileNameAndGen
                       "${getTranslated("enter")} ${getTranslated("Second_name")}",
                       inputType: TextInputType.name,
                       pSvgIcon: SvgImages.user,
-                      validate: Validations.name,
+                      validate: Validations.fullName,
                     ),
                     CustomTextField(
                       controller:

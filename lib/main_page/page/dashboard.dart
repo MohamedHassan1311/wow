@@ -69,7 +69,7 @@ class _DashBoardState extends State<DashBoard> {
 
   initData() {
     if (UserBloc.instance.isLogin &&
-        UserBloc.instance.user?.isVerified == 0 &&
+        UserBloc.instance.user?.isVerified == 0 &&UserBloc.instance.user?.status == 1 &&
         UserBloc.instance.user?.nationalityId?.code?.toLowerCase() == "sa") {
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -92,7 +92,7 @@ class _DashBoardState extends State<DashBoard> {
       });
     } else {
       if (          !AppConfig.isIosFlag&&
-        UserBloc.instance.user?.nationalityId?.code?.toLowerCase() == "sa"&&widget.index==0&&  context.read<SettingBloc>().model?.couponCode!=null ) {
+        UserBloc.instance.user?.nationalityId?.code?.toLowerCase() == "sa"&&widget.index==0&&  context.read<SettingBloc>().model?.couponCode!=null&&context.read<SettingBloc>().model?.couponCode!="" ) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           CustomAlertDialog.show(dailog:
               BlocBuilder<SettingBloc, AppState>(builder: (context, state) {

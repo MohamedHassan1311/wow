@@ -842,7 +842,10 @@
     "choose_country": "Choose Country",
     "saudi_arabia": "Saudi Arabia",
     "global": "Global",
-    "all_users": "All Users"
+    "all_users": "All Users",
+    "please_enter_full_name_with_3_parts": "Second and third names are required",
+    "unlimited": "unlimited"
+
 
 }
 

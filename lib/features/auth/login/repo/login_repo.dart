@@ -61,7 +61,8 @@ class LoginRepo extends BaseRepo {
       Response response =
           await dioClient.post(uri: EndPoints.logIn, data: data);
       if (response.statusCode == 200) {
-        // if (response.data['data']["client"]["is_verified"] ==1)
+
+        if (response.data['data']["client"]["email_verified"] == 1)
         {
           saveUserToken(response.data["data"]["access_token"]);
           saveUserData(response.data["data"]["client"]);
